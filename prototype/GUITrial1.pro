@@ -12,13 +12,22 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         gui.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    updatebeds.cpp \
+    updatewaitinglist.cpp \
+    generatereport.cpp
 
 HEADERS  += gui.h \
-    mainwindow.h
+    mainwindow.h \
+    updatebeds.h \
+    updatewaitinglist.h \
+    generatereport.h
 
 FORMS    += gui.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    updatebeds.ui \
+    updatewaitinglist.ui \
+    generatereport.ui
 
 RESOURCES += \
     Resourcepics.qrc

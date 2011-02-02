@@ -8,10 +8,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     setWindowTitle("LHIN EOBC");
-    QRect j = ui->mapBox->geometry();
 
     loadImage(":/map.png",QRect(-0,-0,800,550),ui->mapBox);
     DrawFacilities();
+    connect(ui->logOffButton,SIGNAL(clicked()),this,SLOT(logOff()));
+    connect(ui->updateBedsButton,SIGNAL(clicked()),this,SLOT(updateBeds()));
+    connect(ui->updateWaitingListButton,SIGNAL(clicked()),this,SLOT(updateWaitingList()));
+    connect(ui->generateReportButton,SIGNAL(clicked()),this,SLOT(generateReport()));
 }
 
 MainWindow::~MainWindow()
@@ -55,7 +58,6 @@ void MainWindow::DrawFacilities()
         p->setGeometry(rand()%750,170+rand()%100,30,30);
         p->setPixmap(QPixmap::fromImage(image));
         l->addWidget(p);
-
     }
     image.load(":/HSelected.png");
     QLabel* p = new QLabel("",this);
@@ -72,6 +74,22 @@ void MainWindow::DrawFacilities()
     p->setGeometry(rand()%700,170+rand()%100,50,50);
     p->setPixmap(QPixmap::fromImage(image));
     l->addWidget(p);
-    Ui::MainWindow::
+
     this->setLayout(l);//Set the new layout
+}
+void MainWindow::logOff()
+{
+    this->close();
+}
+void MainWindow::updateBeds()
+{
+    this->bedWind.show();
+}
+void MainWindow::updateWaitingList()
+{
+    this->waitWind.show();
+}
+void MainWindow::generateReport()
+{
+    this->genWind.show();
 }

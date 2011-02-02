@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue Feb 1 19:05:08 2011
+** Created: Wed Feb 2 00:46:16 2011
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -33,9 +33,9 @@ public:
     QLabel *label_2;
     QLabel *label_3;
     QLabel *label_4;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton_3;
+    QPushButton *updateBedsButton;
+    QPushButton *updateWaitingListButton;
+    QPushButton *generateReportButton;
     QLabel *label_5;
     QLabel *label_6;
     QLabel *label_7;
@@ -44,6 +44,7 @@ public:
     QLabel *label_10;
     QLabel *label_11;
     QLabel *label_12;
+    QPushButton *logOffButton;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -82,15 +83,15 @@ public:
         label_4->setObjectName(QString::fromUtf8("label_4"));
         label_4->setGeometry(QRect(830, 290, 171, 20));
         label_4->setFont(font1);
-        pushButton = new QPushButton(centralwidget);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setGeometry(QRect(70, 560, 151, 27));
-        pushButton_2 = new QPushButton(centralwidget);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setGeometry(QRect(260, 560, 151, 27));
-        pushButton_3 = new QPushButton(centralwidget);
-        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
-        pushButton_3->setGeometry(QRect(450, 560, 151, 27));
+        updateBedsButton = new QPushButton(centralwidget);
+        updateBedsButton->setObjectName(QString::fromUtf8("updateBedsButton"));
+        updateBedsButton->setGeometry(QRect(50, 560, 151, 27));
+        updateWaitingListButton = new QPushButton(centralwidget);
+        updateWaitingListButton->setObjectName(QString::fromUtf8("updateWaitingListButton"));
+        updateWaitingListButton->setGeometry(QRect(240, 560, 151, 27));
+        generateReportButton = new QPushButton(centralwidget);
+        generateReportButton->setObjectName(QString::fromUtf8("generateReportButton"));
+        generateReportButton->setGeometry(QRect(430, 560, 151, 27));
         label_5 = new QLabel(centralwidget);
         label_5->setObjectName(QString::fromUtf8("label_5"));
         label_5->setGeometry(QRect(810, 340, 171, 20));
@@ -105,7 +106,7 @@ public:
         label_7->setFont(font);
         label_8 = new QLabel(centralwidget);
         label_8->setObjectName(QString::fromUtf8("label_8"));
-        label_8->setGeometry(QRect(830, 460, 141, 20));
+        label_8->setGeometry(QRect(830, 450, 141, 20));
         label_8->setFont(font1);
         label_9 = new QLabel(centralwidget);
         label_9->setObjectName(QString::fromUtf8("label_9"));
@@ -123,6 +124,9 @@ public:
         label_12->setObjectName(QString::fromUtf8("label_12"));
         label_12->setGeometry(QRect(830, 160, 161, 20));
         label_12->setFont(font1);
+        logOffButton = new QPushButton(centralwidget);
+        logOffButton->setObjectName(QString::fromUtf8("logOffButton"));
+        logOffButton->setGeometry(QRect(810, 560, 151, 27));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
@@ -145,9 +149,9 @@ public:
         label_2->setText(QApplication::translate("MainWindow", "AC: 600/1200", 0, QApplication::UnicodeUTF8));
         label_3->setText(QApplication::translate("MainWindow", "CCC: 300/1200", 0, QApplication::UnicodeUTF8));
         label_4->setText(QApplication::translate("MainWindow", "Open Beds: 300/1200", 0, QApplication::UnicodeUTF8));
-        pushButton->setText(QApplication::translate("MainWindow", " Update Beds", 0, QApplication::UnicodeUTF8));
-        pushButton_2->setText(QApplication::translate("MainWindow", "Update Waiting List", 0, QApplication::UnicodeUTF8));
-        pushButton_3->setText(QApplication::translate("MainWindow", "Generate Report", 0, QApplication::UnicodeUTF8));
+        updateBedsButton->setText(QApplication::translate("MainWindow", " Update Beds", 0, QApplication::UnicodeUTF8));
+        updateWaitingListButton->setText(QApplication::translate("MainWindow", "Update Waiting List", 0, QApplication::UnicodeUTF8));
+        generateReportButton->setText(QApplication::translate("MainWindow", "Generate Report", 0, QApplication::UnicodeUTF8));
         label_5->setText(QApplication::translate("MainWindow", "Coordinates:", 0, QApplication::UnicodeUTF8));
         label_6->setText(QApplication::translate("MainWindow", "23.5N , 10.7W", 0, QApplication::UnicodeUTF8));
         label_7->setText(QApplication::translate("MainWindow", "Waiting List:", 0, QApplication::UnicodeUTF8));
@@ -156,6 +160,7 @@ public:
         label_10->setText(QApplication::translate("MainWindow", "Franklin Hospital", 0, QApplication::UnicodeUTF8));
         label_11->setText(QApplication::translate("MainWindow", "Facility Location:", 0, QApplication::UnicodeUTF8));
         label_12->setText(QApplication::translate("MainWindow", "Western Ottawa", 0, QApplication::UnicodeUTF8));
+        logOffButton->setText(QApplication::translate("MainWindow", "Log Off", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

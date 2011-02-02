@@ -4,5 +4,9 @@
         <file>LHINLogo.jpg</file>
         <file>LHINLogo2.png</file>
         <file>map.png</file>
+        <file>HSelected.png</file>
+        <file>H2.png</file>
+        <file>N2.png</file>
+        <file>H.png</file>
     </qresource>
 </RCC>

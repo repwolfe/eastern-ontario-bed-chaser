@@ -21,6 +21,7 @@ private:
     Ui::MainWindow *ui;
     void loadImage(const QString &fileName, QRect size,
                                   QLabel *button);
+    void DrawFacilities();
 };
 
 #endif // MAINWINDOW_H

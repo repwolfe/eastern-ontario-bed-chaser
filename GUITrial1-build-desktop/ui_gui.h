@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'gui.ui'
 **
-** Created: Tue Feb 1 14:20:46 2011
+** Created: Wed Feb 2 14:54:35 2011
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -54,10 +54,10 @@ public:
         resultLabel->setAutoFillBackground(false);
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setGeometry(QRect(380, 450, 98, 27));
+        pushButton->setGeometry(QRect(350, 450, 98, 27));
         pushButton_2 = new QPushButton(centralWidget);
         pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setGeometry(QRect(500, 450, 98, 27));
+        pushButton_2->setGeometry(QRect(470, 450, 98, 27));
         lineEdit = new QLineEdit(centralWidget);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
         lineEdit->setGeometry(QRect(440, 350, 113, 27));

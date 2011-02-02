@@ -9,10 +9,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle("LHIN EOBC");
 
-    loadImage(":/map.png",QRect(-0,-0,800,550),ui->mapBox);
+    loadImage(":/Champlain.jpg",QRect(-0,-0,800,525),ui->mapBox);
     DrawFacilities();
     connect(ui->logOffButton,SIGNAL(clicked()),this,SLOT(logOff()));
-    connect(ui->updateBedsButton,SIGNAL(clicked()),this,SLOT(updateBeds()));
+    connect(ui->actionOccupancy_Rates,SIGNAL(triggered()),this,SLOT(updateBeds()));
     connect(ui->updateWaitingListButton,SIGNAL(clicked()),this,SLOT(updateWaitingList()));
     connect(ui->generateReportButton,SIGNAL(clicked()),this,SLOT(generateReport()));
 }
@@ -28,10 +28,11 @@ void MainWindow::loadImage(const QString &fileName,QRect size,
     image.load(fileName);
     QImage fixedImage(1000,1000, QImage::Format_ARGB32_Premultiplied);
     QPainter painter(&fixedImage);
-    int offsetx = 150, offsety = 150;
+    int offsetx = 150, offsety = 175;
     painter.fillRect(QRect(size.x(),size.y(),1000,1000), Qt::white);
-    painter.drawImage(size,image,QRect(offsetx,offsety,image.width()-offsetx,image.height()-offsety));
-    painter.drawLine(QPoint(0,550),QPoint(800,550));
+    painter.drawImage(size,image,QRect(offsetx,offsety+200,image.width()-offsetx,image.height()-offsety-200));
+    painter.drawLine(QPoint(0,525),QPoint(800,525));
+    painter.drawLine(QPoint(800,0),QPoint(800,525));
     painter.end();
 
     box->setPixmap(QPixmap::fromImage(fixedImage));
@@ -40,28 +41,52 @@ void MainWindow::loadImage(const QString &fileName,QRect size,
 void MainWindow::DrawFacilities()
 {
     QImage image;
-    image.load(":/H2.png");
     QLayout* l = layout();
-    for(int i=0;i<9;i++)
+    for(int i=0;i<4;i++)
     {
         QLabel* p = new QLabel("",this);
-        p->setGeometry(rand()%750,170+rand()%100,50,50);
+        int radius;
+        if(i%4 <4)
+        {
+            image.load(":/H3.png");
+            radius = 75;
+        }
+        else
+        {
+            image.load(":/H2.png");
+            radius = 50;
+        }
+        image = image.scaledToHeight(radius);
+        image = image.scaledToWidth(radius);
+        p->setGeometry(rand()%650+80,250+rand()%200,radius,radius);
         p->setPixmap(QPixmap::fromImage(image));
         l->addWidget(p);
     }
-     image.load(":/N2.png");
-    for(int i=0;i<9;i++)
+
+    for(int i=0;i<5;i++)
     {
         QLabel* p = new QLabel("",this);
-        image = image.scaledToHeight(30);
-        image = image.scaledToWidth(30);
-        p->setGeometry(rand()%750,170+rand()%100,30,30);
+        int radius;
+        if(i%4 < 4)
+        {
+            image.load(":/N3.png");
+            radius = 75;
+        }
+        else
+        {
+            image.load(":/N2.png");
+            radius = 50;
+        }
+
+        image = image.scaledToHeight(radius);
+        image = image.scaledToWidth(radius);
+        p->setGeometry(rand()%650+80,250+rand()%200,radius,radius);
         p->setPixmap(QPixmap::fromImage(image));
         l->addWidget(p);
     }
     image.load(":/HSelected.png");
     QLabel* p = new QLabel("",this);
-    p->setGeometry(rand()%700,170+rand()%100,50,50);
+    p->setGeometry(rand()%650 + 80,250+rand()%200,50,50);
     p->setPixmap(QPixmap::fromImage(image));
     l->addWidget(p);
     p = new QLabel("",this);
@@ -71,7 +96,7 @@ void MainWindow::DrawFacilities()
 
     image.load(":/H.png");
     p = new QLabel("",this);
-    p->setGeometry(rand()%700,170+rand()%100,50,50);
+    p->setGeometry(rand()%650+80,250+rand()%200,75,75);
     p->setPixmap(QPixmap::fromImage(image));
     l->addWidget(p);
 

@@ -5,8 +5,10 @@
         <file>LHINLogo2.png</file>
         <file>map.png</file>
         <file>HSelected.png</file>
-        <file>H2.png</file>
         <file>N2.png</file>
+        <file>H3.png</file>
         <file>H.png</file>
+        <file>N3.png</file>
+        <file>Champlain.jpg</file>
     </qresource>
 </RCC>

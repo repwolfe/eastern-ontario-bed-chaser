@@ -6,7 +6,7 @@ UpdateWaitingList::UpdateWaitingList(QWidget *parent) :
     ui(new Ui::UpdateWaitingList)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Update Waiting List");
+    this->setWindowTitle("Add User Accounts");
     connect(ui->closeButton,SIGNAL(clicked()),this,SLOT(closeButtonSlot()));
 }
 

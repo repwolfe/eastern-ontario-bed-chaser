@@ -112,7 +112,7 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>560</y>
+      <y>540</y>
       <width>151</width>
       <height>27</height>
      </rect>
@@ -125,7 +125,7 @@
     <property name="geometry">
      <rect>
       <x>240</x>
-      <y>560</y>
+      <y>540</y>
       <width>151</width>
       <height>27</height>
      </rect>
@@ -138,7 +138,7 @@
     <property name="geometry">
      <rect>
       <x>430</x>
-      <y>560</y>
+      <y>540</y>
       <width>151</width>
       <height>27</height>
      </rect>
@@ -315,7 +315,7 @@
     <property name="geometry">
      <rect>
       <x>810</x>
-      <y>560</y>
+      <y>540</y>
       <width>151</width>
       <height>27</height>
      </rect>
@@ -334,8 +334,110 @@
      <height>25</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionLog_Off"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuAdd">
+    <property name="title">
+     <string>Add</string>
+    </property>
+    <addaction name="actionBeds"/>
+    <addaction name="actionUser_Accounts"/>
+    <addaction name="actionFacilities"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Update</string>
+    </property>
+    <addaction name="actionWaiting_List"/>
+    <addaction name="actionOccupancy_Rates"/>
+    <addaction name="actionMove_Patients"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp_2">
+    <property name="title">
+     <string>Reports</string>
+    </property>
+    <addaction name="actionGenerate_Report"/>
+    <addaction name="actionView_Report"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp_3">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionHelp"/>
+    <addaction name="actionAbout_EOBC"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuAdd"/>
+   <addaction name="menuHelp"/>
+   <addaction name="menuHelp_2"/>
+   <addaction name="menuHelp_3"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionBeds">
+   <property name="text">
+    <string>Beds</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionWaiting_List">
+   <property name="text">
+    <string>Waiting List</string>
+   </property>
+  </action>
+  <action name="actionOccupancy_Rates">
+   <property name="text">
+    <string>Occupancy Rates</string>
+   </property>
+  </action>
+  <action name="actionMove_Patients">
+   <property name="text">
+    <string>Move Patients</string>
+   </property>
+  </action>
+  <action name="actionUser_Accounts">
+   <property name="text">
+    <string>User Accounts</string>
+   </property>
+  </action>
+  <action name="actionFacilities">
+   <property name="text">
+    <string>Facilities</string>
+   </property>
+  </action>
+  <action name="actionGenerate_Report">
+   <property name="text">
+    <string>Generate Report</string>
+   </property>
+  </action>
+  <action name="actionView_Report">
+   <property name="text">
+    <string>View Report</string>
+   </property>
+  </action>
+  <action name="actionAbout_EOBC">
+   <property name="text">
+    <string>About EOBC</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>Help</string>
+   </property>
+  </action>
+  <action name="actionLog_Off">
+   <property name="text">
+    <string>Log Off</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

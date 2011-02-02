@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'updatebeds.ui'
 **
-** Created: Wed Feb 2 00:56:29 2011
+** Created: Wed Feb 2 15:50:57 2011
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -37,7 +37,7 @@ public:
     {
         if (UpdateBeds->objectName().isEmpty())
             UpdateBeds->setObjectName(QString::fromUtf8("UpdateBeds"));
-        UpdateBeds->resize(400, 300);
+        UpdateBeds->resize(618, 435);
         pushButton = new QPushButton(UpdateBeds);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
         pushButton->setGeometry(QRect(210, 40, 98, 27));
@@ -72,7 +72,7 @@ public:
         label->setText(QApplication::translate("UpdateBeds", "Complex Continuing Care", 0, QApplication::UnicodeUTF8));
         pushButton_2->setText(QApplication::translate("UpdateBeds", "Update", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("UpdateBeds", "Acute Care", 0, QApplication::UnicodeUTF8));
-        closeButton->setText(QApplication::translate("UpdateBeds", "Close", 0, QApplication::UnicodeUTF8));
+        closeButton->setText(QApplication::translate("UpdateBeds", "Cancel", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

@@ -1,0 +1,35 @@
+# The recipient for the commit:
+mailinglist: rob.33x@gmail.com, jp.landry.24@gmail.com, wonsleved@gmail.com
+
+# set to true if you want to ignore empty merge messages
+ignore_merge: false
+
+# Optional parameter for the subject-line of the mail
+emailprefix: [GIT]
+
+# Decorate files with link to a webview. Possible values: none or gitweb
+link_files: none
+
+# select the delivery method: smtp or sendmail
+delivery_method: sendmail
+
+# settings for the smtp server
+smtp_server:
+address: smtp.gmail.com
+port: 465
+domain: gmail.com
+user_name: hex3004@gmail.com
+password: Megabyte3004
+authentication: plain
+enable_tls: false
+
+# settings for sendmail
+sendmail_options:
+location: /usr/sbin/sendmail
+arguments: -i -t
+
+# If link_files is set to "gitweb", you need to configure the path to your gitweb
+# instance and the project name.
+gitweb:
+path: http://developerserver/path_to_gitweb
+project: test.git

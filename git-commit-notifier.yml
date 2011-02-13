@@ -11,7 +11,7 @@ emailprefix: [GIT]
 link_files: none
 
 # select the delivery method: smtp or sendmail
-delivery_method: sendmail
+delivery_method: smtp
 
 # settings for the smtp server
 smtp_server:
@@ -20,8 +20,8 @@ port: 587
 domain: gmail.com
 user_name: hex3004@gmail.com
 password: Megabyte3004
-authentication: yes
-enable_tls: yes
+authentication: plain
+enable_tls: true
 
 # settings for sendmail
 sendmail_options:

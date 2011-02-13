@@ -21,7 +21,7 @@ domain: gmail.com
 user_name: hex3004@gmail.com
 password: Megabyte3004
 authentication: plain
-enable_tls: false
+enable_tls: yes
 
 # settings for sendmail
 sendmail_options:

@@ -17,10 +17,10 @@ delivery_method: sendmail
 smtp_server:
 address: smtp.gmail.com
 port: 587
-domain: smtp.gmail.com
+domain: gmail.com
 user_name: hex3004@gmail.com
 password: Megabyte3004
-authentication: plain
+authentication: yes
 enable_tls: yes
 
 # settings for sendmail

@@ -16,8 +16,8 @@ delivery_method: sendmail
 # settings for the smtp server
 smtp_server:
 address: smtp.gmail.com
-port: 465
-domain: gmail.com
+port: 587
+domain: smtp.gmail.com
 user_name: hex3004@gmail.com
 password: Megabyte3004
 authentication: plain

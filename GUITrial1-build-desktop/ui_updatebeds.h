@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'updatebeds.ui'
 **
-** Created: Wed Feb 2 15:50:57 2011
+** Created: Tue Feb 8 20:49:19 2011
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!

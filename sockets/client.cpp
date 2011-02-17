@@ -1,43 +1,41 @@
 #include "client.h"
 #include <iostream>
+#include <sstream>
 
-Client::Client()
+HEX::Client::Client()
+    : _num(1)
 {
     socket = 0;
 }
 
-Client::~Client()
+HEX::Client::~Client()
 {
     delete socket;
 }
 
-void Client::initSocket(int portNumber)
+bool HEX::Client::initSocket(QString& ip, int portNumber)
 {
     delete socket;
     socket = new QUdpSocket(this);
-    socket->bind(QHostAddress::LocalHost, portNumber);
+    std::cout << "Initializing Client with PortId " << portNumber << std::endl;
+    _ip = ip;
+    _portNumber = portNumber;
+//    bool result = socket->connect(->bind((QHostAddress(ip), portNumber);
+//    qDebug() << socket->error();
+ //   qDebug() << socket->errorString();
+ //   if (!result) { qDebug() << "Client connection failed"; }
+    return true;
 }
 
-void Client::readMessage()
+void HEX::Client::sendMessage()
 {
     if (socket) {
-	while (socket->hasPendingDatagrams()) {
-	    QByteArray datagram;
-	    datagram.resize(socket->pendingDatagramSize());
-	    QHostAddress sender;
-	    quint16 senderPort;
-	    socket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-
-	    _processTheDatagram(datagram);
-	}
+	std::string message = "Hello";
+	std::stringstream stream;
+	stream << message << _num;
+	++_num;
+	std::cout << "Sending message " << stream.str() << std::endl;
+	socket->writeDatagram(QByteArray(stream.str().c_str()), QHostAddress(_ip), _portNumber);
+	socket->flush();
     }
-}
-
-void Client::_processTheDatagram(QByteArray& datagram)
-{
-    char output[datagram.size()];
-    for (int i = 0; i < datagram.size(); ++i) {
-	output[i] = datagram.at(i);
-    }
-    std::cout << output << std::endl;
 }

@@ -1,25 +1,47 @@
 #include "server.h"
 
-Server::Server()
+HEX::Server::Server()
 {
     socket = 0;
 }
 
-Server::~Server()
+HEX::Server::~Server()
 {
     delete socket;
 }
 
-void Server::initSocket(int portNumber)
+
+
+bool HEX::Server::initSocket(int portNumber)
 {
     delete socket;
     socket = new QUdpSocket(this);
-    socket->bind(QHostAddress::LocalHost, portNumber);
+    std::cout << "Initializing Server with PortId " << portNumber << std::endl;
+    bool succeed = socket->bind(portNumber);
+    connect(socket, SIGNAL(readyRead()), this, SLOT(readMessage()));
+    if (!succeed) { qDebug() << "Server connection failed"; }
+    return succeed;
 }
 
-void Server::sendMessage()
+void HEX::Server::readMessage()
 {
     if (socket) {
-	socket->write("Hello", 10);
+	while (socket->hasPendingDatagrams()) {
+	    QByteArray datagram;
+	    datagram.resize(socket->pendingDatagramSize());
+	    socket->readDatagram(datagram.data(), datagram.size());
+
+	    _processTheDatagram(datagram);
+	}
     }
+}
+
+void HEX::Server::_processTheDatagram(QByteArray& datagram)
+{
+//    char output[datagram.size()];
+//    for (int i = 0; i < datagram.size(); ++i) {
+//	output[i] = datagram.at(i);
+//    }
+    std::string output(datagram.data());
+    std::cout << "Received message: " << output << std::endl;
 }

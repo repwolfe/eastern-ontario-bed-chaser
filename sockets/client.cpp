@@ -30,7 +30,7 @@ bool HEX::Client::initSocket(QString& ip, int portNumber)
 void HEX::Client::sendMessage()
 {
     if (socket) {
-	std::string message = "Hello";
+        std::string message = "Hello ";
 	std::stringstream stream;
 	stream << message << _num;
 	++_num;

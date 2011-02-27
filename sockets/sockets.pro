@@ -8,6 +8,8 @@ QT       += core
 
 QT       -= gui
 
+QT      += network
+
 TARGET = sockets
 CONFIG   += console
 CONFIG   -= app_bundle

@@ -2,20 +2,26 @@
 #define CLIENT_H
 
 #include <QtNetwork/QUdpSocket>
+#include <QObject>
+#include <iostream>
 
+namespace HEX {
 class Client : QObject
 {
+
 public:
     Client();
     ~Client();
 
-    void initSocket(int portNumber);
-    void readMessage();
+    bool initSocket(QString& ip, int portNumber);
+    void sendMessage();
 
 private:
-    void _processTheDatagram(QByteArray& datagram);
-
+    int _num;
+    QString _ip;
+    int _portNumber;
     QUdpSocket* socket;
 };
+}
 
 #endif // CLIENT_H

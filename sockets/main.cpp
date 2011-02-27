@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     QString port, connectIp;
     if (!myFile.open(QIODevice::ReadOnly))
     {
-	return -1;
+        return -1;
     }
 
     QTextStream t( &myFile );        // use a text stream

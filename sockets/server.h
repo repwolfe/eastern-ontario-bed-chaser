@@ -19,6 +19,7 @@ public slots:
     void readMessage();
 
 private:
+    int _numReceived;
     void _processTheDatagram(QByteArray& datagram);
 
     QUdpSocket* socket;

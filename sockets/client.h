@@ -13,7 +13,7 @@ public:
     Client();
     ~Client();
 
-    bool initSocket(QString& ip, int portNumber);
+    void initSocket(QString& ip, int portNumber);
     void sendMessage();
 
 private:

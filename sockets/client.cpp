@@ -13,18 +13,13 @@ HEX::Client::~Client()
     delete socket;
 }
 
-bool HEX::Client::initSocket(QString& ip, int portNumber)
+void HEX::Client::initSocket(QString& ip, int portNumber)
 {
     delete socket;
     socket = new QUdpSocket(this);
     std::cout << "Initializing Client with PortId " << portNumber << std::endl;
     _ip = ip;
     _portNumber = portNumber;
-//    bool result = socket->connect(->bind((QHostAddress(ip), portNumber);
-//    qDebug() << socket->error();
- //   qDebug() << socket->errorString();
- //   if (!result) { qDebug() << "Client connection failed"; }
-    return true;
 }
 
 void HEX::Client::sendMessage()

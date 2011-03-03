@@ -9,6 +9,7 @@ QT       += core
 QT       -= gui
 
 QT      += network
+QT	+= testlib
 
 TARGET = sockets
 CONFIG   += console

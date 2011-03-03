@@ -2,6 +2,7 @@
 
 HEX::Server::Server()
 {
+    _numReceived = 0;
     socket = 0;
 }
 
@@ -30,7 +31,7 @@ void HEX::Server::readMessage()
 	    QByteArray datagram;
 	    datagram.resize(socket->pendingDatagramSize());
 	    socket->readDatagram(datagram.data(), datagram.size());
-
+	    _numReceived++;
 	    _processTheDatagram(datagram);
 	}
     }
@@ -38,10 +39,6 @@ void HEX::Server::readMessage()
 
 void HEX::Server::_processTheDatagram(QByteArray& datagram)
 {
-//    char output[datagram.size()];
-//    for (int i = 0; i < datagram.size(); ++i) {
-//	output[i] = datagram.at(i);
-//    }
     std::string output(datagram.data());
-    std::cout << "Received message: " << output << std::endl;
+    std::cout << "Received message #" << _numReceived << " : " << output << std::endl;
 }

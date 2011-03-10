@@ -9,9 +9,12 @@ QT       += core gui
 TARGET = EOBC
 TEMPLATE = app
 
+OBJECTS_DIR = bin/
+MOC_DIR = bin/
 
 SOURCES +=\
-    displaymapcontrol.cpp
+    src/DisplayMap/displaymapcontrol.cpp \
+    src/main.cpp
 
 HEADERS  += \
-    displaymapcontrol.h
+    src/DisplayMap/displaymapcontrol.h

@@ -4,7 +4,18 @@
 class Bed
 {
 public:
-    Bed();
+    enum CareType {
+        ACC,
+        CCC,
+        LTC
+    };
+
+    Bed(CareType caretype);
+
+
+
+private:
+    CareType _caretype;
 };
 
 #endif // BED_H

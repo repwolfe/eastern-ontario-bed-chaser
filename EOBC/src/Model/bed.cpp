@@ -1,5 +1,6 @@
 #include "bed.h"
 
-Bed::Bed()
+Bed::Bed(CareType caretype)
+    : _caretype(caretype)
 {
 }

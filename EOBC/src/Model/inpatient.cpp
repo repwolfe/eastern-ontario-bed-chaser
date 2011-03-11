@@ -1,5 +1,6 @@
 #include "inpatient.h"
 
-Inpatient::Inpatient()
+Inpatient::Inpatient(QDate& admissionDate)
+    : _admissionDate(admissionDate)
 {
 }

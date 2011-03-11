@@ -38,7 +38,8 @@ HEADERS  += \
     src/Model/waitinglist.h \
     src/DisplayMap/mapvectors.h \
     src/DisplayMap/maparea.h \
-    src/DisplayMap/map.h
+    src/DisplayMap/map.h \
+    src/Model/modelcommon.h
 
 RESOURCES += \
     Resources.qrc

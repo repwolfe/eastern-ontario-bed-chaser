@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/mapFiles">
+        <file>BlueArea.txt</file>
+        <file>GreenArea.txt</file>
+        <file>LightBlueArea.txt</file>
+        <file>otherGreenArea.txt</file>
+        <file>PurpleArea.txt</file>
+        <file>RedArea.txt</file>
+        <file>YellowArea.txt</file>
+    </qresource>
+</RCC>

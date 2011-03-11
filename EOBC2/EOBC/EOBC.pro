@@ -36,3 +36,6 @@ HEADERS  += \
     src/DisplayMap/mapvectors.h \
     src/DisplayMap/maparea.h \
     src/DisplayMap/map.h
+
+RESOURCES += \
+    Resources.qrc

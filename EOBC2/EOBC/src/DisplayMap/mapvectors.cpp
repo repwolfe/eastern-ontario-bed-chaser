@@ -31,6 +31,8 @@ void MapVectors::paintEvent(QPaintEvent *event)
 
     QPainter painter(this);
    // painter.drawImage(QRect(0,-yoffset,1000,600+yoffset),mapPic,QRect(0,0,4200,2500));
+    painter.setBrush(Qt::white);
+    painter.drawRect(0,0,1000,800);
     painter.setPen(col.darker());
     painter.setBrush(col.lighter());
     for(int i=0;i<mapPoints->count()-1;i++)

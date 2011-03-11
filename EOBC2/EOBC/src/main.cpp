@@ -1,4 +1,4 @@
-#include <QtGui/QApplication>
+ #include <QtGui/QApplication>
 #include "DisplayMap/displaymapcontrol.h"
 
 int main(int argc, char *argv[])

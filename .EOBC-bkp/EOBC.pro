@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2011-03-11T09:22:42
+# Project created by QtCreator 2011-03-06T15:53:41
 #
 #-------------------------------------------------
 
@@ -11,7 +11,6 @@ TEMPLATE = app
 
 OBJECTS_DIR = bin/
 MOC_DIR = bin/
-
 
 SOURCES +=\
     src/DisplayMap/displaymapcontrol.cpp \

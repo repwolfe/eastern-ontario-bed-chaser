@@ -20,17 +20,20 @@ public:
 signals:
 
 public slots:
-
-
+    void clickSave();
+    void clickOpen();
 
 private:
     QVector<QPoint>* loadFile(QString fname);
-    void loadAreas();
 
 private:
 
+        QPushButton* butt;
+        QPushButton* buttOpen;
         QLabel* mapLayout;
         QVector<MapArea*> areas;
+
+       //void mouseMoveEvent(QMouseEvent *event);
 
 
 };

@@ -4,26 +4,25 @@ Map::Map(QWidget *parent) :
     QMainWindow(parent)
 {
 
-    setWindowTitle(tr("EOBC"));
+    setWindowTitle(tr("Heather likes french pirates"));
     //this->vec = new MapVectors();
 
-    //this->butt = new QPushButton("Save");
-    //this->buttOpen = new QPushButton("Open");
+    this->butt = new QPushButton("Save");
+    this->buttOpen = new QPushButton("Open");
     this->mapLayout = new QLabel();
 
     mapLayout->setGeometry(0,0,1000,800);
     resize(500,500);
-    //QLayout* q = layout();
+    QLayout* q = layout();
     setCentralWidget(mapLayout);
     mapLayout->setLayout(new QFormLayout());
-    loadAreas();
-    /*layout()->addWidget(butt);
+    layout()->addWidget(butt);
     layout()->addWidget(buttOpen);
     butt->setGeometry(500,500,100,30);
     buttOpen->setGeometry(500,550,100,30);
     //this->setCentralWidget(mapLayout);
     connect(butt,SIGNAL(clicked()),this,SLOT(clickSave()));
-    connect(buttOpen,SIGNAL(clicked()),this,SLOT(clickOpen()));*/
+    connect(buttOpen,SIGNAL(clicked()),this,SLOT(clickOpen()));
 
 }
 Map::~Map()
@@ -36,11 +35,31 @@ Map::~Map()
     }
 
     //delete vec;
-    delete mapLayout;
+    delete butt;
+    delete buttOpen;
 
 }
 
-void Map::loadAreas()
+void Map::clickSave()
+{
+    /*QFile file("out.txt");
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream out(&file);
+    QVector<QPoint>& points = vec->getVectors();
+    for(int i=0;i<points.count();i++)
+    {
+        out<<"("<<points[i].x()<<" , "<<points[i].y()<<")\n";
+    }
+    this->setCentralWidget(butt);
+    this->setCentralWidget(buttOpen);
+    // optional, as QFile destructor will already do it:
+    file.close();*/
+    for(int i=0;i< areas.count();i++)
+    {
+        areas.at(i)->resize();
+    }
+}
+void Map::clickOpen()
 {
     QLayout* q = layout();
 

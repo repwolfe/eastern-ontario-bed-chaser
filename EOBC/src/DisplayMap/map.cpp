@@ -44,34 +44,34 @@ void Map::loadAreas()
 {
     QLayout* q = layout();
 
-    areas.push_back(new MapArea(loadFile(":/mapFiles/PurpleArea.txt"), QColor::fromRgb(255,0,255)));
+    areas.push_back(new MapArea(loadFile(":/mapFiles/bin/PurpleArea.txt"), QColor::fromRgb(255,0,255)));
     q->addWidget(areas.last()->getVec());
     //q->addRow();
    //connect(butt,SIGNAL(clicked()),this,SLOT(clickSave()));
     //connect(buttOpen,SIGNAL(clicked()),this,SLOT(clickOpen()));
 
 
-    areas.push_back(new MapArea(loadFile(":/mapFiles/GreenArea.txt"), Qt::green));
+    areas.push_back(new MapArea(loadFile(":/mapFiles/bin/GreenArea.txt"), Qt::green));
      q->addWidget(areas.last()->getVec());
 
      //qDebug()<<QTime::currentTime().toString("s:z");
-     areas.push_back(new MapArea(loadFile(":/mapFiles/BlueArea.txt"),Qt::blue));
+     areas.push_back(new MapArea(loadFile(":/mapFiles/bin/BlueArea.txt"),Qt::blue));
      q->addWidget(areas.last()->getVec());
 
      //qDebug()<<QTime::currentTime().toString("s:z");
-     areas.push_back(new MapArea(loadFile(":/mapFiles/RedArea.txt"),Qt::red));
+     areas.push_back(new MapArea(loadFile(":/mapFiles/bin/RedArea.txt"),Qt::red));
      q->addWidget(areas.last()->getVec());
 
      //qDebug()<<QTime::currentTime().toString("s:z");
-     areas.push_back(new MapArea(loadFile(":/mapFiles/otherGreenArea.txt"),Qt::green));
+     areas.push_back(new MapArea(loadFile(":/mapFiles/bin/otherGreenArea.txt"),Qt::green));
      q->addWidget(areas.last()->getVec());
 
      //qDebug()<<QTime::currentTime().toString("s:z");
-     areas.push_back(new MapArea(loadFile(":/mapFiles/YellowArea.txt"),Qt::yellow));
+     areas.push_back(new MapArea(loadFile(":/mapFiles/bin/YellowArea.txt"),Qt::yellow));
      q->addWidget(areas.last()->getVec());
 
      //qDebug()<<QTime::currentTime().toString("s:z");
-     areas.push_back(new MapArea(loadFile(":/mapFiles/LightBlueArea.txt"),QColor::fromRgb(100,100,255)));
+     areas.push_back(new MapArea(loadFile(":/mapFiles/bin/LightBlueArea.txt"),QColor::fromRgb(100,100,255)));
      q->addWidget(areas.last()->getVec());
 
      //qDebug()<<QTime::currentTime().toString("s:z");

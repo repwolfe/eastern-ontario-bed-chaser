@@ -1,11 +1,11 @@
 <RCC>
     <qresource prefix="/mapFiles">
-        <file>BlueArea.txt</file>
-        <file>GreenArea.txt</file>
-        <file>LightBlueArea.txt</file>
-        <file>otherGreenArea.txt</file>
-        <file>PurpleArea.txt</file>
-        <file>RedArea.txt</file>
-        <file>YellowArea.txt</file>
+        <file>bin/BlueArea.txt</file>
+        <file>bin/GreenArea.txt</file>
+        <file>bin/LightBlueArea.txt</file>
+        <file>bin/otherGreenArea.txt</file>
+        <file>bin/PurpleArea.txt</file>
+        <file>bin/RedArea.txt</file>
+        <file>bin/YellowArea.txt</file>
     </qresource>
 </RCC>

@@ -25,7 +25,13 @@ SOURCES +=\
     src/Model/waitinglist.cpp \
     src/DisplayMap/mapvectors.cpp \
     src/DisplayMap/maparea.cpp \
-    src/DisplayMap/map.cpp
+    src/DisplayMap/map.cpp \
+    src/GetData/getdatacontrol.cpp \
+    src/ChangeData/changedatacontrol.cpp \
+    src/ChangeData/facilityinformationform.cpp \
+    src/ChangeData/createuserform.cpp \
+    src/ChangeData/updatewaitinglistform.cpp \
+    src/ChangeData/redirectpatientform.cpp
 
 HEADERS  += \
     src/DisplayMap/displaymapcontrol.h \
@@ -39,7 +45,13 @@ HEADERS  += \
     src/DisplayMap/mapvectors.h \
     src/DisplayMap/maparea.h \
     src/DisplayMap/map.h \
-    src/Model/modelcommon.h
+    src/Model/modelcommon.h \
+    src/GetData/getdatacontrol.h \
+    src/ChangeData/changedatacontrol.h \
+    src/ChangeData/facilityinformationform.h \
+    src/ChangeData/createuserform.h \
+    src/ChangeData/updatewaitinglistform.h \
+    src/ChangeData/redirectpatientform.h
 
 RESOURCES += \
     Resources.qrc

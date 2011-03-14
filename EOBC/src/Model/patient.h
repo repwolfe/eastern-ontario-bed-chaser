@@ -6,10 +6,11 @@
 class Patient
 {
 public:
-    Patient(QString& healthCardNumber, QDate& placedOnWaitingList);
+    Patient(QString& healthCardNumber, QString& name, QDate& placedOnWaitingList);
 
 private:
     QString _healthCardNumber;
+    QString _name;
     QDate _placedOnWL;
 };
 

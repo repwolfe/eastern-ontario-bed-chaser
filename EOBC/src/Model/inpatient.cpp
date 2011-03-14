@@ -1,7 +1,8 @@
 #include "inpatient.h"
 
-Inpatient::Inpatient(QString& healthCardNumber, QDate& placedOnWaitingList, QDate& admissionDate)
-    : Patient(healthCardNumber, placedOnWaitingList), _admissionDate(admissionDate)
+Inpatient::Inpatient(QString& healthCardNumber, QString& name, QDate& placedOnWaitingList, QDate& admissionDate)
+    : Patient(healthCardNumber, name, placedOnWaitingList)
+    , _admissionDate(admissionDate)
 {
 }
 

@@ -4,7 +4,7 @@
 #include "modelcontainer.h"
 #include "patient.h"
 
-class WaitingList : public ModelContainer<Patient*>
+class WaitingList : public ModelContainer<QString,Patient*>
 {
 public:
 

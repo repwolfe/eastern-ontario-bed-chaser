@@ -5,7 +5,7 @@
 #include "facility.h"
 #include "waitinglist.h"
 
-class Area : public ModelContainer<Facility*>
+class Area : public ModelContainer<QString,Facility*>
 {
 public:
     Area(WaitingList* inList);

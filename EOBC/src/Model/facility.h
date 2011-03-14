@@ -4,7 +4,7 @@
 #include "modelcontainer.h"
 #include "bed.h"
 
-class Facility : public ModelContainer<Bed*>
+class Facility : public ModelContainer<int,Bed*>
 {
 public:
 

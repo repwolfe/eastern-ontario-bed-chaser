@@ -5,16 +5,16 @@
 #include <QMouseEvent>
 #include <QList>
 #include <QPainter>
-class MapVectors : public QWidget
+class MapVectors
 {
-    Q_OBJECT
+
 public:
-    MapVectors(QColor col, QWidget *parent = 0);
+    MapVectors(QColor col);
     QVector<QPoint>& getVectors();
     void setVectors(QVector<QPoint>* ve);
     void update();
     void resizePoints();
-
+    QColor getCol();
 signals:
 
 public slots:
@@ -23,7 +23,7 @@ protected:
    /* void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);*/
-    void paintEvent(QPaintEvent *event);
+
 private:
     QVector<QPoint>* mapPoints;
     QImage* image;

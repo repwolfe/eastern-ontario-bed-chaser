@@ -5,25 +5,21 @@ Map::Map(QWidget *parent) :
 {
 
     setWindowTitle(tr("EOBC"));
-    //this->vec = new MapVectors();
-
-    //this->butt = new QPushButton("Save");
-    //this->buttOpen = new QPushButton("Open");
     this->mapLayout = new QLabel();
-
     mapLayout->setGeometry(0,0,1000,800);
-    resize(500,500);
+
+
+
+    fileMenu = menuBar()->addMenu("&File");
+
+    editAct = new QAction(tr("&Edit"),this);
+    fileMenu->addAction(editAct);
+    //resize(500,500);
     //QLayout* q = layout();
     setCentralWidget(mapLayout);
-    mapLayout->setLayout(new QFormLayout());
+    //mapLayout->setLayout(new QFormLayout());
     loadAreas();
-    /*layout()->addWidget(butt);
-    layout()->addWidget(buttOpen);
-    butt->setGeometry(500,500,100,30);
-    buttOpen->setGeometry(500,550,100,30);
-    //this->setCentralWidget(mapLayout);
-    connect(butt,SIGNAL(clicked()),this,SLOT(clickSave()));
-    connect(buttOpen,SIGNAL(clicked()),this,SLOT(clickOpen()));*/
+
 
 }
 Map::~Map()
@@ -42,40 +38,29 @@ Map::~Map()
 
 void Map::loadAreas()
 {
-    QLayout* q = layout();
+    //mapLayout->setLayout(new QBoxLayout(QBoxLayout::LeftToRight));
+    mapLayout->setLayout(new QGridLayout());
+    QGridLayout* q = dynamic_cast<QGridLayout*>(mapLayout->layout());
 
-    areas.push_back(new MapArea(loadFile(":/mapFiles/bin/PurpleArea.txt"), QColor::fromRgb(255,0,255)));
-    q->addWidget(areas.last()->getVec());
-    //q->addRow();
-   //connect(butt,SIGNAL(clicked()),this,SLOT(clickSave()));
-    //connect(buttOpen,SIGNAL(clicked()),this,SLOT(clickOpen()));
+    MapArea* tempArea = new MapArea(QColor::fromRgb(255,0,255));
+    tempArea->addVecs(loadFile(":/mapFiles/bin/PurpleArea.txt"),QColor::fromRgb(255,0,255));
+    tempArea->addVecs(loadFile(":/mapFiles/bin/GreenArea.txt"), Qt::green);
+    tempArea->addVecs(loadFile(":/mapFiles/bin/BlueArea.txt"),Qt::blue);
+    tempArea->addVecs(loadFile(":/mapFiles/bin/RedArea.txt"),Qt::red);
+    tempArea->addVecs(loadFile(":/mapFiles/bin/otherGreenArea.txt"),Qt::green);
+    tempArea->addVecs(loadFile(":/mapFiles/bin/YellowArea.txt"),Qt::yellow);
+    tempArea->addVecs(loadFile(":/mapFiles/bin/LightBlueArea.txt"),QColor::fromRgb(100,100,255));
+    areas.push_back(tempArea);
+
+    q->addWidget(tempArea,0,0);
+    q->setColumnStretch(0,720);
+    q->setRowMinimumHeight(0,800);
+    QPushButton* bstuff = new QPushButton("ok");
+    bstuff->setContentsMargins(0,0,100,100);
+    q->addWidget(bstuff,0,1);
+    q->setMargin(0);
 
 
-    areas.push_back(new MapArea(loadFile(":/mapFiles/bin/GreenArea.txt"), Qt::green));
-     q->addWidget(areas.last()->getVec());
-
-     //qDebug()<<QTime::currentTime().toString("s:z");
-     areas.push_back(new MapArea(loadFile(":/mapFiles/bin/BlueArea.txt"),Qt::blue));
-     q->addWidget(areas.last()->getVec());
-
-     //qDebug()<<QTime::currentTime().toString("s:z");
-     areas.push_back(new MapArea(loadFile(":/mapFiles/bin/RedArea.txt"),Qt::red));
-     q->addWidget(areas.last()->getVec());
-
-     //qDebug()<<QTime::currentTime().toString("s:z");
-     areas.push_back(new MapArea(loadFile(":/mapFiles/bin/otherGreenArea.txt"),Qt::green));
-     q->addWidget(areas.last()->getVec());
-
-     //qDebug()<<QTime::currentTime().toString("s:z");
-     areas.push_back(new MapArea(loadFile(":/mapFiles/bin/YellowArea.txt"),Qt::yellow));
-     q->addWidget(areas.last()->getVec());
-
-     //qDebug()<<QTime::currentTime().toString("s:z");
-     areas.push_back(new MapArea(loadFile(":/mapFiles/bin/LightBlueArea.txt"),QColor::fromRgb(100,100,255)));
-     q->addWidget(areas.last()->getVec());
-
-     //qDebug()<<QTime::currentTime().toString("s:z");
-    //vec->setVectors(points);
 }
 QVector<QPoint>* Map::loadFile(QString fname)
 {

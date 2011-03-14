@@ -8,20 +8,25 @@
 #include <QPainter>
 #include <QWidget>
 #include "mapvectors.h"
-class MapArea : public QObject
+class MapArea : public QWidget
 {
     Q_OBJECT
 public:
-    MapArea(QVector<QPoint>* points,QColor col,QObject *parent = 0);
+    MapArea(QColor col,QObject *parent = 0);
+
     ~MapArea();
-    MapVectors* getVec();
+    QVector<MapVectors*>& getVecs();
+    void addVecs(QVector<QPoint>* points, QColor col);
     void resize();
 
 signals:
 
 public slots:
+
 private:
-   MapVectors* vec;
+    void paintEvent(QPaintEvent *event);
+private:
+   QVector<MapVectors*> vecs;
    QColor col;
 
 };

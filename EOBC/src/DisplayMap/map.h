@@ -28,7 +28,8 @@ private:
     void loadAreas();
 
 private:
-
+        QMenu* fileMenu;
+         QAction* editAct;
         QLabel* mapLayout;
         QVector<MapArea*> areas;
 

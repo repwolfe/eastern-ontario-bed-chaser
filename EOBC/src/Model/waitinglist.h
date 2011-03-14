@@ -1,10 +1,15 @@
 #ifndef WAITINGLIST_H
 #define WAITINGLIST_H
 
-class WaitingList
+#include "modelcontainer.h"
+#include "patient.h"
+
+class WaitingList : public ModelContainer<Patient*>
 {
 public:
-    WaitingList();
+
+private:
+
 };
 
 #endif // WAITINGLIST_H

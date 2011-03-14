@@ -51,7 +51,8 @@ HEADERS  += \
     src/ChangeData/facilityinformationform.h \
     src/ChangeData/createuserform.h \
     src/ChangeData/updatewaitinglistform.h \
-    src/ChangeData/redirectpatientform.h
+    src/ChangeData/redirectpatientform.h \
+    src/Model/modelcontainer.h
 
 RESOURCES += \
     Resources.qrc

@@ -1,5 +1,13 @@
 #include "area.h"
 
-Area::Area()
+Area::Area(WaitingList* inList)
+    : _list(inList)
 {
+
 }
+
+Area::~Area()
+{
+    delete _list;
+}
+

@@ -21,7 +21,7 @@ public:
 private:
     CareType _careType;
     Inpatient* _patient;
-    // Number???
+    /// @todo Number???
 };
 
 #endif // BED_H

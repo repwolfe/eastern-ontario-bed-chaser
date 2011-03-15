@@ -1,16 +1,31 @@
 #ifndef FACILITY_H
 #define FACILITY_H
 
-#include "modelcontainer.h"
-#include "bed.h"
+#include "modelcommon.h"
+#include "inpatient.h"
 
-class Facility : public ModelContainer<int,Bed*>
+#include <QHash>
+
+/**
+ * Facilities have a collection of Inpatients, each in a different list
+ * depending on their level of care required.
+ * Each facility also has a certain number of beds, each of a different type
+ */
+class Facility
 {
 public:
-
+    Facility();
+    ~Facility();
 
 private:
+    /// @todo Think about LTC facilities (which only have one hash) (maybe remove it)
+    QHash<Inpatient*> _patientsAC;
+    QHash<Inpatient*> _patientsCCC;
+    QHash<Inpatient*> _patientsLTC;
 
+    int _numACBeds;
+    int _numCCCBeds;
+    int _numLTCBeds;
 };
 
 #endif // FACILITY_H

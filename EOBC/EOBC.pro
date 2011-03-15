@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-TARGET = EOBC
+TARGET = EOBCapplication
 TEMPLATE = app
 
 OBJECTS_DIR = bin/

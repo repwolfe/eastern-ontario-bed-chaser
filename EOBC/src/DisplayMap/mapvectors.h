@@ -13,7 +13,8 @@ public:
     QVector<QPoint>& getVectors();
     void setVectors(QVector<QPoint>* ve);
     void update();
-    void resizePoints();
+    void resizePoints(QPoint mouse);
+    QPolygon& getPoly();
     QColor getCol();
 signals:
 
@@ -27,8 +28,11 @@ protected:
 private:
     QVector<QPoint>* mapPoints;
     QImage* image;
-   // QImage mapPic;
+    QPolygon poly;
+    QPoint position;
+    bool clicked;
     QColor col;
+    float ratio;
 };
 
 #endif // MAPVECTORS_H

@@ -12,7 +12,7 @@ class MapArea : public QWidget
 {
     Q_OBJECT
 public:
-    MapArea(QColor col,QObject *parent = 0);
+    MapArea(QObject *parent = 0);
 
     ~MapArea();
     QVector<MapVectors*>& getVecs();
@@ -25,9 +25,12 @@ public slots:
 
 private:
     void paintEvent(QPaintEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseClickEvent(QMouseEvent *event);
+
 private:
    QVector<MapVectors*> vecs;
-   QColor col;
 
 };
 

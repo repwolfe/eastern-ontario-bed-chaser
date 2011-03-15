@@ -42,7 +42,7 @@ void Map::loadAreas()
     mapLayout->setLayout(new QGridLayout());
     QGridLayout* q = dynamic_cast<QGridLayout*>(mapLayout->layout());
 
-    MapArea* tempArea = new MapArea(QColor::fromRgb(255,0,255));
+    MapArea* tempArea = new MapArea();
     tempArea->addVecs(loadFile(":/mapFiles/bin/PurpleArea.txt"),QColor::fromRgb(255,0,255));
     tempArea->addVecs(loadFile(":/mapFiles/bin/GreenArea.txt"), Qt::green);
     tempArea->addVecs(loadFile(":/mapFiles/bin/BlueArea.txt"),Qt::blue);
@@ -56,7 +56,7 @@ void Map::loadAreas()
     q->setColumnStretch(0,720);
     q->setRowMinimumHeight(0,800);
     QPushButton* bstuff = new QPushButton("ok");
-    bstuff->setContentsMargins(0,0,100,100);
+    //bstuff->setContentsMargins(0,0,100,100);
     q->addWidget(bstuff,0,1);
     q->setMargin(0);
 

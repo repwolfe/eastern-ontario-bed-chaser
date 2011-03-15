@@ -1,11 +1,11 @@
 #include "maparea.h"
 
-MapArea::MapArea(QColor color,QObject *parent) :
+MapArea::MapArea(QObject *parent) :
     QWidget() , vecs()
 {
     //vecs = new QVector<MapVectors*>();
     //vec->setVectors(points);
-    col = color;
+   // col = color;
 }
 MapArea::~MapArea()
 {
@@ -24,17 +24,17 @@ QVector<MapVectors*>& MapArea::getVecs()
 void MapArea::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
-   // painter.drawImage(QRect(0,-yoffset,1000,600+yoffset),mapPic,QRect(0,0,4200,2500));
+    //Draw Background
     painter.setPen(Qt::white);
     painter.setBrush(Qt::white);
     painter.drawRect(QRect(0,0,1000,800));
+
+    //Draw Polygons (areas)
     for(int i=0;i<this->vecs.count();i++)
     {
-        //painter.drawLine(mapPoints->at(i),mapPoints->at(i+1));
-        //painter.drawEllipse(mapPoints->at(i+1),5,5);
         painter.setPen(vecs.at(i)->getCol().darker());
         painter.setBrush(vecs.at(i)->getCol().lighter());
-        painter.drawPolygon(QPolygon(vecs.at(i)->getVectors()));
+        painter.drawPolygon(vecs.at(i)->getPoly());
 
     }
 }
@@ -56,4 +56,24 @@ void MapArea::addVecs(QVector<QPoint>* points, QColor col)
 void MapArea::resize()
 {
     //vec->resizePoints();
+}
+void MapArea::mousePressEvent(QMouseEvent *event)
+{
+    QVector<MapVectors*>::iterator iter = vecs.begin();
+    while(iter != vecs.end())
+    {
+        (*iter)->resizePoints(QPoint(event->x(),event->y()));
+        iter++;
+    }
+    repaint();
+}
+
+void MapArea::mouseReleaseEvent(QMouseEvent *event)
+{
+
+}
+
+void MapArea::mouseClickEvent(QMouseEvent *event)
+{
+
 }

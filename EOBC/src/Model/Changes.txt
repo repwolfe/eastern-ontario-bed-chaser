@@ -1,2 +1,6 @@
+ADD:
 ModelCommon.h
 ModelContainer.h
+
+REMOVE:
+Bed.h/Bed.cpp

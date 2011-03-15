@@ -4,3 +4,6 @@ ModelContainer.h
 
 REMOVE:
 Bed.h/Bed.cpp
+
+FIX:
+Facility now points directly inpatient

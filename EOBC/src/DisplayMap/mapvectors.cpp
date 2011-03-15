@@ -5,7 +5,8 @@ MapVectors::MapVectors(QColor color)
 
     col = color;
     clicked = false;
-    ratio = 1;
+    scale = 1;
+    idealScale = 1;
 }
 
 
@@ -36,47 +37,33 @@ void MapVectors::setVectors(QVector<QPoint>* ve)
         iter++;
     }
 }
-void MapVectors::update()
+void MapVectors::update(QPoint mouse)
 {
+    if(scale != idealScale)
+    {
+        float scalediff = (idealScale - scale)/7 + 1;
+        scale *= scalediff;
 
+        QPoint tempPos(position.x(),position.y());
+        tempPos.setX(tempPos.x()-mouse.x());
+        tempPos.setY(tempPos.y()-mouse.y());
+        tempPos *= scale;
+        tempPos.setX(tempPos.x()+mouse.x());
+        tempPos.setY(tempPos.y()+mouse.y());
+        float xdiff = (tempPos.x() - position.x())/1.01 + position.x();
+        float ydiff = (tempPos.y() - position.y())/1.01 + position.y();
+        poly = QPolygon(*mapPoints);
+        for(int i=0;i<poly.count();i++)
+        {
+            poly.setPoint(i,poly.point(i)*scale);
+        }
+
+        poly.translate(QPoint(xdiff,ydiff));
+     }
 }
-void MapVectors::resizePoints(QPoint mouse)
+void MapVectors::resizePoints(QPoint mouse, float scale)
 {
-    //QVector<QPoint>::iterator iter = mapPoints->begin();
-    ratio *= 1.1;
-    QPoint tempPos(position.x(),position.y());
-    tempPos.setX(tempPos.x()-mouse.x());
-    tempPos.setY(tempPos.y()-mouse.y());
-    tempPos *= ratio;
-    tempPos.setX(tempPos.x()+mouse.x());
-    tempPos.setY(tempPos.y()+mouse.y());
-
-    poly = QPolygon(*mapPoints);
-    for(int i=0;i<poly.count();i++)
-    {
-        poly.setPoint(i,poly.point(i)*ratio);
-    }
-//    poly.resize();
-    poly.translate(tempPos);
-    /*while(iter != mapPoints->end())
-    {
-       iter->setX(iter->x() * ratio);
-       iter->setY(iter->y() * ratio);
-       iter->setX(iter->x()+position.x());
-       iter->setY(iter->y()+position.y());
-       iter++;
-    }
-
-
-    iter = mapPoints->begin();
-    while(iter != mapPoints->end())
-    {
-       iter->setX(iter->x()-position.x());
-       iter->setY(iter->y()-position.y());
-       iter++;
-    }
-*/
-   // poly = QPolygon(*mapPoints);
+    idealScale *= scale;
 }
 QColor MapVectors::getCol()
 {

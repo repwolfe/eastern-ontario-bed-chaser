@@ -17,20 +17,24 @@ public:
     ~MapArea();
     QVector<MapVectors*>& getVecs();
     void addVecs(QVector<QPoint>* points, QColor col);
-    void resize();
+    void resize(QPoint p);
 
 signals:
 
 public slots:
-
+    void timerEvent();
 private:
     void paintEvent(QPaintEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseClickEvent(QMouseEvent *event);
 
+
 private:
    QVector<MapVectors*> vecs;
+   QTimer resizeTimer;
+   QPoint lastMousePos;
+   bool zoomed;
 
 };
 

@@ -1,11 +1,14 @@
 #include "maparea.h"
 
 MapArea::MapArea(QObject *parent) :
-    QWidget() , vecs()
+    QWidget() , vecs(), resizeTimer()
 {
     //vecs = new QVector<MapVectors*>();
     //vec->setVectors(points);
-   // col = color;
+   // col = color;;
+    zoomed = false;
+   resizeTimer.start(100);
+   connect(&resizeTimer,SIGNAL(timeout()),this,SLOT(timerEvent()));
 }
 MapArea::~MapArea()
 {
@@ -40,7 +43,6 @@ void MapArea::paintEvent(QPaintEvent *event)
 }
 void MapArea::addVecs(QVector<QPoint>* points, QColor col)
 {
-
     QVector<QPoint>::iterator iter = points->begin();
     while(iter != points->end())
     {
@@ -52,20 +54,43 @@ void MapArea::addVecs(QVector<QPoint>* points, QColor col)
     temp->setVectors(points);
     vecs.push_back(temp);
 }
-
-void MapArea::resize()
-{
-    //vec->resizePoints();
-}
-void MapArea::mousePressEvent(QMouseEvent *event)
+void MapArea::timerEvent()
 {
     QVector<MapVectors*>::iterator iter = vecs.begin();
     while(iter != vecs.end())
     {
-        (*iter)->resizePoints(QPoint(event->x(),event->y()));
+        (*iter)->update(lastMousePos);
         iter++;
     }
     repaint();
+}
+
+void MapArea::resize(QPoint p)
+{
+    QVector<MapVectors*>::iterator iter = vecs.begin();
+    float scale = 1;
+    if(zoomed){
+        scale = 0.66;
+        zoomed = false;
+    }
+    else
+    {
+        scale = 1.5;
+        zoomed = true;
+    }
+
+    while(iter != vecs.end())
+    {
+
+         (*iter)->resizePoints(p,scale);
+         iter++;
+    }
+    repaint();
+}
+void MapArea::mousePressEvent(QMouseEvent *event)
+{
+    lastMousePos = QPoint(event->x(),event->y());
+    resize(lastMousePos);
 }
 
 void MapArea::mouseReleaseEvent(QMouseEvent *event)

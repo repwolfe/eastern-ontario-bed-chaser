@@ -12,8 +12,8 @@ public:
     MapVectors(QColor col);
     QVector<QPoint>& getVectors();
     void setVectors(QVector<QPoint>* ve);
-    void update();
-    void resizePoints(QPoint mouse);
+    void update(QPoint mouse);
+    void resizePoints(QPoint mouse, float scale);
     QPolygon& getPoly();
     QColor getCol();
 signals:
@@ -32,7 +32,9 @@ private:
     QPoint position;
     bool clicked;
     QColor col;
-    float ratio;
+    float scale;
+    float idealScale;
+    QPoint idealPosition;
 };
 
 #endif // MAPVECTORS_H

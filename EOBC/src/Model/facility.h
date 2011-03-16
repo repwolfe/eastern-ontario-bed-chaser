@@ -19,9 +19,9 @@ public:
 
 private:
     /// @todo Think about LTC facilities (which only have one hash) (maybe remove it)
-    QHash<Inpatient*> _patientsAC;
-    QHash<Inpatient*> _patientsCCC;
-    QHash<Inpatient*> _patientsLTC;
+    QHash<int, Inpatient*> _patientsAC;
+    QHash<int, Inpatient*> _patientsCCC;
+    QHash<int, Inpatient*> _patientsLTC;
 
     int _numACBeds;
     int _numCCCBeds;

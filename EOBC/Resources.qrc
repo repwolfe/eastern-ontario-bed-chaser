@@ -8,4 +8,7 @@
         <file>bin/RedArea.txt</file>
         <file>bin/YellowArea.txt</file>
     </qresource>
+    <qresource prefix="/pics">
+        <file>LHINLogo2.png</file>
+    </qresource>
 </RCC>

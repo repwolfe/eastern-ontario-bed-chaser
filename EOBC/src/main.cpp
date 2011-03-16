@@ -8,6 +8,6 @@ int main(int argc, char *argv[])
     DisplayMapControl mapControl;
     mapControl.run();
     LogOnControl logControl;
-   // logControl.run();
+    logControl.run();
     return a.exec();
 }

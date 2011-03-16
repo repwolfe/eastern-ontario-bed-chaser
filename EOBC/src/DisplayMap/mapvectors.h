@@ -14,7 +14,7 @@ public:
     void setVectors(QVector<QPoint>* ve);
     void update(QPoint mouse);
     void resizePoints(QPoint mouse, float scale);
-    QPolygon& getPoly();
+    QPolygonF& getPoly();
     QColor getCol();
 signals:
 
@@ -28,7 +28,7 @@ protected:
 private:
     QVector<QPoint>* mapPoints;
     QImage* image;
-    QPolygon poly;
+    QPolygonF poly;
     QPoint position;
     bool clicked;
     QColor col;

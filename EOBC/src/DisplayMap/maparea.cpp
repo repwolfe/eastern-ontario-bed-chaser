@@ -33,6 +33,8 @@ void MapArea::paintEvent(QPaintEvent *event)
     painter.drawRect(QRect(0,0,1000,800));
 
     //Draw Polygons (areas)
+
+
     for(int i=0;i<this->vecs.count();i++)
     {
         painter.setPen(vecs.at(i)->getCol().darker());

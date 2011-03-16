@@ -17,7 +17,7 @@ QVector<QPoint>& MapVectors::getVectors()
 void MapVectors::setVectors(QVector<QPoint>* ve)
 {
     mapPoints = ve;
-    poly= QPolygon(*ve);
+    poly= QPolygonF(*ve);
     int x=0,y=0;
     QVector<QPoint>::iterator iter = mapPoints->begin();
     while(iter != mapPoints->end())
@@ -44,7 +44,7 @@ void MapVectors::update(QPoint mouse)
         float scalediff = (idealScale - scale)/7 + 1;
         scale *= scalediff;
 
-        QPoint tempPos(position.x(),position.y());
+        QPointF tempPos(position.x(),position.y());
         tempPos.setX(tempPos.x()-mouse.x());
         tempPos.setY(tempPos.y()-mouse.y());
         tempPos *= scale;
@@ -52,13 +52,16 @@ void MapVectors::update(QPoint mouse)
         tempPos.setY(tempPos.y()+mouse.y());
         float xdiff = (tempPos.x() - position.x())/1.01 + position.x();
         float ydiff = (tempPos.y() - position.y())/1.01 + position.y();
-        poly = QPolygon(*mapPoints);
+        poly = QPolygonF(*mapPoints);
         for(int i=0;i<poly.count();i++)
         {
-            poly.setPoint(i,poly.point(i)*scale);
+            //poly.setPoint(i,poly.point(i)*scale);
+            poly[i].setX(poly[i].x()*scale);
+            poly[i].setY(poly[i].y()*scale);
+            //QPointF::s
         }
 
-        poly.translate(QPoint(xdiff,ydiff));
+        poly.translate(QPointF(xdiff,ydiff));
      }
 }
 void MapVectors::resizePoints(QPoint mouse, float scale)
@@ -69,7 +72,7 @@ QColor MapVectors::getCol()
 {
     return col;
 }
-QPolygon& MapVectors::getPoly()
+QPolygonF& MapVectors::getPoly()
 {
     return poly;
 }

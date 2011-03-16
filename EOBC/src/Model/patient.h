@@ -8,6 +8,8 @@ class Patient
 public:
     Patient(QString& healthCardNumber, QString& name, QDate& placedOnWaitingList);
 
+    QString& getHealthCardNumber();
+
 private:
     QString _healthCardNumber;
     QString _name;

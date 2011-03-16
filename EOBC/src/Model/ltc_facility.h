@@ -6,7 +6,10 @@
 class LTC_Facility : public Facility
 {
 public:
-    LTC_Facility();
+    LTC_Facility(int numLTCBeds);
+
+private:
+    /// @todo "waitingListHome"???
 };
 
 #endif // LTC_FACILITY_H

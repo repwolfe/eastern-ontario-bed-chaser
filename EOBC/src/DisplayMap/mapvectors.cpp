@@ -18,24 +18,26 @@ void MapVectors::setVectors(QVector<QPoint>* ve)
 {
     mapPoints = ve;
     poly= QPolygonF(*ve);
-    int x=0,y=0;
-    QVector<QPoint>::iterator iter = mapPoints->begin();
-    while(iter != mapPoints->end())
+    //int x=0,y=0;
+    //QVector<QPoint>::iterator iter = mapPoints->begin();
+   /* while(iter != mapPoints->end())
     {
         x+=iter->x();
         y+=iter->y();
         iter++;
     }
     x/= mapPoints->count();
-    y/= mapPoints->count();
-    position = QPoint(x,y);
-    iter = mapPoints->begin();
+    y/= mapPoints->count();*/
+   // position = QPoint(x-1050,y);
+   /* iter = mapPoints->begin();
     while(iter != mapPoints->end())
     {
         iter->setX(iter->x()-position.x());
         iter->setY(iter->y()-position.y());
         iter++;
-    }
+    }*/
+    idealScale = 0.99;
+    update(QPoint(500,400));
 }
 void MapVectors::update(QPoint mouse)
 {
@@ -44,7 +46,7 @@ void MapVectors::update(QPoint mouse)
         float scalediff = (idealScale - scale)/7 + 1;
         scale *= scalediff;
 
-        QPointF tempPos(position.x(),position.y());
+        QPointF tempPos(position.x()-70,position.y());
         tempPos.setX(tempPos.x()-mouse.x());
         tempPos.setY(tempPos.y()-mouse.y());
         tempPos *= scale;

@@ -6,6 +6,8 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QTextEdit>
 #include <QtGui/QPainter>
+#include <QtGui/QGridLayout>
+#include <QtGui/qlineedit.h>
 class LogOnWindow : public QMainWindow
 {
     Q_OBJECT
@@ -17,7 +19,12 @@ signals:
 public slots:
 private:
     QLabel* backgroundPic;
-
+    QPushButton* logInButton;
+    QPushButton* cancelButton;
+    QLineEdit* usrBox;
+    QLineEdit* passBox;
+    void loadBackground();
+    void loadLayout();
 };
 
 #endif // LOGONWINDOW_H

@@ -9,6 +9,7 @@ MapArea::MapArea(QObject *parent) :
     zoomed = false;
    resizeTimer.start(100);
    connect(&resizeTimer,SIGNAL(timeout()),this,SLOT(timerEvent()));
+  // resize(QPoint(500,400));
 }
 MapArea::~MapArea()
 {

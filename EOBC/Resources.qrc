@@ -7,6 +7,20 @@
         <file>bin/PurpleArea.txt</file>
         <file>bin/RedArea.txt</file>
         <file>bin/YellowArea.txt</file>
+        <file>bin/area1.txt</file>
+        <file>bin/area2.txt</file>
+        <file>bin/area3.txt</file>
+        <file>bin/area4.txt</file>
+        <file>bin/area5.txt</file>
+        <file>bin/area6.txt</file>
+        <file>bin/area7.txt</file>
+        <file>bin/area8.txt</file>
+        <file>bin/area9.txt</file>
+        <file>bin/area10.txt</file>
+        <file>bin/area11.txt</file>
+        <file>bin/area12.txt</file>
+        <file>bin/area13.txt</file>
+        <file>bin/area14.txt</file>
     </qresource>
     <qresource prefix="/pics">
         <file>LHINLogo2.png</file>

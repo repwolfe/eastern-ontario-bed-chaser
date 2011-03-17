@@ -2,6 +2,12 @@
 #define GETDATACONTROL_H
 
 #include <QString>
+
+/// @todo remove these
+class StorageRead;
+class SendRequestForData;
+class SendDataResponse;
+
 class GetDataControl
 {
 public:
@@ -12,6 +18,11 @@ public:
     QString sendRequestForData(QString& args);
     QString requestData(QString& args);
     bool checkLogOn(QString& usr, QString& pass);
+
+private:
+    StorageRead* _storage;
+    SendRequestForData* _sendRequest;
+    SendDataResponse* _sendResponse;
 };
 
 #endif // GETDATACONTROL_H

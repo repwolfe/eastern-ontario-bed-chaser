@@ -6,7 +6,7 @@
 class Inpatient : public Patient
 {
 public:
-    Inpatient(QString& healthCardNumber, QString& name, QDate& placedOnWaitingLsit, QDate& admissionDate);
+    Inpatient(QString& healthCardNumber, QString& name, QDate& placedOnWaitingList, QDate& admissionDate);
     Inpatient(Patient& patient, QDate& admissionDate);
 
 

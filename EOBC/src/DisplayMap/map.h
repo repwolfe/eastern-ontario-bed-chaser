@@ -29,7 +29,7 @@ private:
 
 private:
         QMenu* fileMenu;
-         QAction* editAct;
+        QAction* editAct;
         QLabel* mapLayout;
         QVector<MapArea*> areas;
 

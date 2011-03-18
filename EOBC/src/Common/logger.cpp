@@ -9,7 +9,7 @@ const char* Logger::errorString = "!!!! ERROR MESSAGE called";
 const char* Logger::debugString = "~~~~ DEBUG MESSAGE called";
 const char* Logger::infoString = "@@@@ INFO MESSAGE called";
 
-Logger::Logger(char* callingFunction, char *errorMessage, LogType type)
+Logger::Logger(std::string className, std::string callingFunction, std::string errorMessage, LogType type)
 {
     QFile file(OUTPUT_FILE);
     if (file.open(QIODevice::Append))
@@ -17,7 +17,7 @@ Logger::Logger(char* callingFunction, char *errorMessage, LogType type)
         QTextStream stream(&file);
 
         stream << "\n---------------------------------------------------------------\n";
-        stream << "On" << QDate::currentDate().toString("ddd MMMM d yy") << ": " << QTime::currentTime().toString("h:m:ss ap");
+        stream << "On " << QDate::currentDate().toString("ddd MMMM d yyyy") << ": " << QTime::currentTime().toString("h:m:ss ap") << "\n";
 
         switch (type)
         {
@@ -31,9 +31,9 @@ Logger::Logger(char* callingFunction, char *errorMessage, LogType type)
             stream << infoString;
             break;
         }
-        stream << "from function: " << callingFunction << "\n";
+        stream << " from function: " << className.c_str() << "::" << callingFunction.c_str() << "\n";
         stream << "Message:\n";
-        stream << errorMessage;
+        stream << errorMessage.c_str();
         stream << "\n---------------------------------------------------------------\n";
     }
 }

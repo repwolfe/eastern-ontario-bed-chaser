@@ -20,7 +20,7 @@ public:
         INFO
     };
 
-    Logger(char* callingFunction, char* errorMessage, LogType type);
+    Logger(std::string className, std::string callingFunction, std::string errorMessage, LogType type);
 
     static const QString OUTPUT_FILE;
     static const char* errorString;

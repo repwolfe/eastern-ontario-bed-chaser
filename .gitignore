@@ -5,3 +5,4 @@ moc_*
 qrc_*
 EOBCapplication
 Makefile
+logfile.log

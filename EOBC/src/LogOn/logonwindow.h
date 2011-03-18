@@ -6,8 +6,11 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QTextEdit>
 #include <QtGui/QPainter>
+#include <QtGui/QLineEdit>
 #include <QtGui/QGridLayout>
-#include <QtGui/qlineedit.h>
+#include <QKeyEvent>
+#include <QFile>
+#include <QTextStream>
 class LogOnWindow : public QMainWindow
 {
     Q_OBJECT
@@ -16,7 +19,10 @@ public:
 
 signals:
 
+protected:
+    void keyPressEvent(QKeyEvent *event);
 public slots:
+    void logIn();
 private:
     QLabel* backgroundPic;
     QPushButton* logInButton;

@@ -25,4 +25,7 @@
     <qresource prefix="/pics">
         <file>LHINLogo2.png</file>
     </qresource>
+    <qresource prefix="/logon">
+        <file>bin/accounts.txt</file>
+    </qresource>
 </RCC>

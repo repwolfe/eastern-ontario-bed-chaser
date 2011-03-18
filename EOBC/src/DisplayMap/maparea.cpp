@@ -3,13 +3,10 @@
 MapArea::MapArea(QObject *parent) :
     QWidget() , vecs(), resizeTimer()
 {
-    //vecs = new QVector<MapVectors*>();
-    //vec->setVectors(points);
-   // col = color;;
     zoomed = false;
    resizeTimer.start(100);
    connect(&resizeTimer,SIGNAL(timeout()),this,SLOT(timerEvent()));
-  // resize(QPoint(500,400));
+
 }
 MapArea::~MapArea()
 {

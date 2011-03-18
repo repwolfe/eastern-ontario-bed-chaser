@@ -5,8 +5,8 @@ MapVectors::MapVectors(QColor color)
 
     col = color;
     clicked = false;
-    scale = 1;
-    idealScale = 1;
+    scale = 0.99;
+    idealScale = 0.9;
 }
 
 
@@ -36,7 +36,7 @@ void MapVectors::setVectors(QVector<QPoint>* ve)
         iter->setY(iter->y()-position.y());
         iter++;
     }*/
-    idealScale = 0.99;
+    //idealScale = 0.99;
     update(QPoint(500,400));
 }
 void MapVectors::update(QPoint mouse)

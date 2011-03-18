@@ -9,7 +9,6 @@ Inpatient::Inpatient(QString& healthCardNumber, QString& name, QDate& placedOnWa
 Inpatient::Inpatient(Patient& patient, QDate& admissionDate)
     : Patient(patient), _admissionDate(admissionDate)
 {
-
 }
 
 
@@ -23,6 +22,7 @@ Inpatient::Inpatient(Patient& patient, QDate& admissionDate)
 Inpatient* Inpatient::convertToInpatient(Patient*& patient, QDate& admissionDate)
 {
     Inpatient* inpatient = new Inpatient(*patient, admissionDate);
+    delete patient;
     patient = 0;
     return inpatient;
 }

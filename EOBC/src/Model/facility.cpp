@@ -1,22 +1,47 @@
 #include "facility.h"
 
-Facility::Facility(int numACBeds, int numCCCBeds)
-    : _numACBeds(numACBeds), _numCCCBeds(numCCCBeds)
+Facility::Facility(int facilityId, int numACBeds, int numCCCBeds)
+    : _facilityId(facilityId), _numACBeds(numACBeds), _numCCCBeds(numCCCBeds)
 {
     _patients.push_back(&_patientsAC);
     _patients.push_back(&_patientsCCC);
-    //_patients.push_back(_patientsLTC);
 }
+
+/**
+ * Deletes all the patients in this facility
+ */
 Facility::~Facility()
 {
-
+    foreach (PatientContainer* container, _patients)
+    {
+        foreach(Inpatient* patient, *container)
+        {
+            delete patient;
+        }
+    }
 }
 
+/**
+ * Adds a patient to this facility, and to a specific type of bed.
+ * The facility then takes ownsership of the patient, deleting it
+ * in the destructor, unless the patient is manually removed from
+ * the facility.
+ *
+ * @param Inpatient the patient to add
+ * @param Caretype which bed to add to
+ *
+ * @return True if it worked, False otherwise
+ */
 bool Facility::addPatientToBed(Inpatient* patient, CareType type)
 {
     PatientContainer* container;
     int* numBeds;
-    _getPointersForType(type, container, numBeds);
+
+    // If they chose an incorrect CareType
+    if (!_getPointersForType(type, container, numBeds))
+    {
+        return false;
+    }
 
     // If there aren't any more available beds
     if (!(container->size() < *numBeds))
@@ -29,17 +54,47 @@ bool Facility::addPatientToBed(Inpatient* patient, CareType type)
     return true;
 }
 
+/**
+ * Adds a patient to this facility, and to a specific type of bed.
+ * The facility then takes ownsership of the patient, deleting it
+ * in the destructor, unless the patient is manually removed from
+ * the facility.
+ *
+ * @param QString the patient's healthCardNumber
+ * @param QString the patient's name
+ * @param QDate the date the patient was placed on waiting list
+ * @param QDate the date the patient was admitted to this facility
+ * @param Caretype which bed to add to
+ *
+ * @return True if it worked, False otherwise
+ */
 bool Facility::addPatientToBed(QString& healthCardNumber, QString& name, QDate &placedOnWaitingList, QDate& admissionDate, CareType type)
 {
     return addPatientToBed(new Inpatient(healthCardNumber, name, placedOnWaitingList, admissionDate), type);
 }
 
+
+/**
+ * Moves a patient with a particular health card number to
+ * a different bed
+ *
+ * @param QString healthCardNum of the patient
+ * @param CareType new bed type to place the patient in
+ *
+ * @return True if it worked, False otherwise
+ */
 bool Facility::movePatientToBed(QString& healthCardNum, CareType type)
 {
     PatientContainer* newContainer;
     PatientContainer* containedIn = 0;
     int* temp;
-    _getPointersForType(type, newContainer, temp);
+
+    // If the wrong care type was passed in
+    if (!_getPointersForType(type, newContainer, temp))
+    {
+        return false;
+    }
+
     Inpatient* patient = _getInpatient(healthCardNum, containedIn);
 
     if (!patient)
@@ -107,7 +162,7 @@ bool Facility::removePatient(QString& healthCardNumber)
  * @param QString health card number of patient being request
  * @return Inpatient* with given healthCardNum or NULL if it's not in the facility
  */
-Inpatient* Facility::getInpatient(QString& healthCardNum)
+Inpatient* Facility::getInpatient(QString& healthCardNum) const
 {
     PatientContainer* temp;
     return _getInpatient(healthCardNum, temp);
@@ -120,7 +175,7 @@ Inpatient* Facility::getInpatient(QString& healthCardNum)
  * @param PatientContainer the container the patient is in (aka which bed their in)
  * @return Inpatient* with given healthCardNum or NULL if it's not in the facility
  */
-Inpatient* Facility::_getInpatient(QString& healthCardNum, PatientContainer*& outContainedIn)
+Inpatient* Facility::_getInpatient(QString& healthCardNum, PatientContainer*& outContainedIn) const
 {
     Inpatient* patient = 0;
 
@@ -128,7 +183,7 @@ Inpatient* Facility::_getInpatient(QString& healthCardNum, PatientContainer*& ou
     // O(1) since its O(1) per find * n (n = num of bed types)
     foreach(PatientContainer* container, _patients)
     {
-        PatientContainer::iterator iter = container->find(healthCardNum);
+        PatientContainer::const_iterator iter = container->find(healthCardNum);
         if (iter != container->end())
         {
             patient = *iter;
@@ -139,28 +194,53 @@ Inpatient* Facility::_getInpatient(QString& healthCardNum, PatientContainer*& ou
     return patient;
 }
 
+/**
+ * Increases the number of beds this facility has
+ * of a particular type
+ *
+ * @param unsigned the num to increase by
+ * @param CareType which bed to increase in number
+ */
 void Facility::addBeds(unsigned num, CareType type)
 {
     PatientContainer* patients;
     int *numBeds;
-    _getPointersForType(type, patients, numBeds);
 
-    *numBeds += num;
+    // Only if the correct caretype was passed in
+    if (_getPointersForType(type, patients, numBeds))
+    {
+        *numBeds += num;
+    }
+    /// @todo What should happen if addBeds fails
+    else
+    {
+
+    }
 }
 
+/**
+ * Decreases the number of beds this facility has
+ * of a particular type
+ *
+ * @param unsigned the num to decrease by
+ * @param CareType which bed to decrease in number
+ */
 void Facility::decreaseBeds(unsigned num, CareType type)
 {
     PatientContainer* patients;
     int *numBeds;
-    _getPointersForType(type, patients, numBeds);
+    if (!_getPointersForType(type, patients, numBeds))
+    {
+        /// @todo What to do if wrong care type was passed
+    }
 
     if (*numBeds - (int)num < patients->size())
     {
-        /// @todo Figure out what to do here...
+        /// @todo What to do if decreaseBeds fails
     }
     else if ((*numBeds - (int)num) < 0)
     {
-        /// @todo Decide if this is right
+        /// @todo If too many beds decreased, go to 0?
         *numBeds = 0;
     }
     else
@@ -169,16 +249,49 @@ void Facility::decreaseBeds(unsigned num, CareType type)
     }
 }
 
+/**
+ * Return the number of beds of a particular type
+ *
+ * @param CareType which bed type to check
+ *
+ * @return number of beds of a particular type
+ */
 int Facility::getNumBeds(CareType type)
 {
     PatientContainer* temp;
     int* numBeds;
-    _getPointersForType(type, temp, numBeds);
+
+    // If they passed in the wrong bed type
+    if (!_getPointersForType(type, temp, numBeds))
+    {
+        /// @todo make sure this is the right thing to do...maybe log error?
+        return 0;
+    }
 
     return *numBeds;
 }
 
-inline void Facility::_getPointersForType(CareType type, PatientContainer* &container, int* &numBeds)
+/**
+ * Returns this facility's id
+ *
+ * @return the facility's id number
+ */
+int Facility::getFacilityId() const
+{
+    return _facilityId;
+}
+
+/**
+ * Internal function used to get pointers of the
+ * containers and bed numbers for a particular caretype
+ *
+ * @param CareType which type to get pointers for
+ * @param PatientContainer out pointer to the container of this caretype
+ * @param int out pointer to the number of beds of this caretype
+ *
+ * @return True if acceptable type passed in, False otherwise
+ */
+inline bool Facility::_getPointersForType(CareType type, PatientContainer* &container, int* &numBeds)
 {
     container = 0;
     numBeds = 0;
@@ -195,6 +308,8 @@ inline void Facility::_getPointersForType(CareType type, PatientContainer* &cont
         break;
 
     default:
-        break;
+        return false;
     }
+
+    return true;
 }

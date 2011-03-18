@@ -7,24 +7,25 @@
 #include <QHash>
 #include <QLinkedList>
 
+typedef QHash<QString, Inpatient*> PatientContainer;
+
 /**
  * Facilities have a collection of Inpatients, each in a different list
  * depending on their level of care required.
  * Each facility also has a certain number of beds, each of a different type
+ *
+ * This class is part of the Model subsystem described in D2.
  */
-
-typedef QHash<QString, Inpatient*> PatientContainer;
-
 class Facility
 {
 public:
-    Facility(int numACBeds, int numCCCBeds);
-    ~Facility();
+    Facility(int facilityId, int numACBeds, int numCCCBeds);
+    virtual ~Facility();
 
     bool addPatientToBed(Inpatient* patient, CareType type);
     bool addPatientToBed(QString& healthCardNumber, QString& name, QDate &placedOnWaitingList, QDate& admissionDate, CareType type);
     bool movePatientToBed(QString& healthCardNum, CareType type);
-    Inpatient* getInpatient(QString& healthCardNum);
+    Inpatient* getInpatient(QString& healthCardNum) const;
 
     bool removePatient(Inpatient* patient);
     bool removePatient(QString& healthCardNumber);
@@ -33,20 +34,21 @@ public:
     void decreaseBeds(unsigned num, CareType type);
     int getNumBeds(CareType type);
 
-private:
-    inline void _getPointersForType(CareType type, PatientContainer*& container, int*& numBeds);
-    Inpatient* _getInpatient(QString& healthCardNum, PatientContainer*& outContainedIn);
+    int getFacilityId() const;
 
-    /// @todo Think about LTC facilities (which only have one hash) (maybe remove it)
+protected:
+    virtual inline bool _getPointersForType(CareType type, PatientContainer*& container, int*& numBeds);
+    Inpatient* _getInpatient(QString& healthCardNum, PatientContainer*& outContainedIn) const;
+
     PatientContainer _patientsAC;
     PatientContainer _patientsCCC;
- //   PatientContainer _patientsLTC;
 
     QLinkedList<PatientContainer*> _patients;
 
+    int _facilityId;
+
     int _numACBeds;
     int _numCCCBeds;
- //   int _numLTCBeds;
 };
 
 #endif // FACILITY_H

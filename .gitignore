@@ -4,4 +4,4 @@
 moc_*
 qrc_*
 EOBCapplication
-MakeFile
+Makefile

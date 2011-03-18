@@ -3,6 +3,13 @@
 
 #include "patient.h"
 
+/**
+ * Inpatient's are Patient's that have been placed in a facility.
+ *
+ * @todo consider just making Patient's have a state instead of this class.
+ *
+ * This class is part of the Model subsystem described in D2.
+ */
 class Inpatient : public Patient
 {
 public:

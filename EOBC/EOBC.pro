@@ -32,7 +32,8 @@ SOURCES +=\
     src/ChangeData/updatewaitinglistform.cpp \
     src/ChangeData/redirectpatientform.cpp \
     src/LogOn/logoncontrol.cpp \
-    src/LogOn/logonwindow.cpp
+    src/LogOn/logonwindow.cpp \
+    src/Common/logger.cpp
 
 
 HEADERS  += \
@@ -55,7 +56,8 @@ HEADERS  += \
     src/ChangeData/redirectpatientform.h \
     src/Model/modelcontainer.h \
     src/LogOn/logoncontrol.h \
-    src/LogOn/logonwindow.h
+    src/LogOn/logonwindow.h \
+    src/Common/logger.h
 
 RESOURCES += \
     Resources.qrc

@@ -1,12 +1,13 @@
 #include "mapvectors.h"
-
-MapVectors::MapVectors(QColor color)
+QPoint MapVectors::middle;
+MapVectors::MapVectors( QColor color)
 {
 
     col = color;
-    clicked = false;
+    //clicked = false;
     scale = 0.99;
     idealScale = 0.9;
+    selected = false;
 }
 
 
@@ -37,24 +38,31 @@ void MapVectors::setVectors(QVector<QPoint>* ve)
         iter++;
     }*/
     //idealScale = 0.99;
-    update(QPoint(500,400));
+    update(middle);
 }
 void MapVectors::update(QPoint mouse)
 {
+    selected = false;
+    if(idealScale > scale)
+    {
+        if(poly.containsPoint(mouse, Qt::OddEvenFill))
+        {
+            selected = true;
+        }
+    }
     if(scale != idealScale)
     {
         float scalediff = (idealScale - scale)/7 + 1;
         scale *= scalediff;
 
-        QPointF tempPos(position.x()-70,position.y());
-        tempPos.setX(tempPos.x()-mouse.x());
-        tempPos.setY(tempPos.y()-mouse.y());
+        QPointF tempPos(position.x()-30,position.y()-30);
+        tempPos.setX(tempPos.x()-middle.x());
+        tempPos.setY(tempPos.y()-middle.y());
         tempPos *= scale;
-        tempPos.setX(tempPos.x()+mouse.x());
-        tempPos.setY(tempPos.y()+mouse.y());
-        float xdiff = (tempPos.x() - position.x())/1.01 + position.x();
-        float ydiff = (tempPos.y() - position.y())/1.01 + position.y();
-        poly = QPolygonF(*mapPoints);
+        tempPos.setX(tempPos.x()+middle.x());
+        tempPos.setY(tempPos.y()+middle.y());
+
+        poly = QPolygon(*mapPoints);
         for(int i=0;i<poly.count();i++)
         {
             //poly.setPoint(i,poly.point(i)*scale);
@@ -62,8 +70,9 @@ void MapVectors::update(QPoint mouse)
             poly[i].setY(poly[i].y()*scale);
             //QPointF::s
         }
-
-        poly.translate(QPointF(xdiff,ydiff));
+        if(idealScale < scale)
+            mouse = QPoint(middle.x()-90,middle.y()-30);
+        poly.translate(QPointF(tempPos.x()-mouse.x()+middle.y(),tempPos.y()-mouse.y()+middle.y()));
      }
 }
 void MapVectors::resizePoints(QPoint mouse, float scale)
@@ -77,4 +86,9 @@ QColor MapVectors::getCol()
 QPolygonF& MapVectors::getPoly()
 {
     return poly;
+}
+void MapVectors::setMiddle(QPoint middle)
+
+{
+    MapVectors::middle = middle;
 }

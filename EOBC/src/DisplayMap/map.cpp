@@ -43,7 +43,16 @@ void Map::loadAreas()
     QGridLayout* q = dynamic_cast<QGridLayout*>(mapLayout->layout());
 
     MapArea* tempArea = new MapArea();
-    tempArea->addVecs(loadFile(":/mapFiles/bin/area1.txt"),QColor::fromRgb(255,0,255));
+    tempArea->setMiddle(QPoint(500,400));
+    tempArea->addVecs(loadFile(":/mapFiles/bin/PurpleArea.txt"),QColor::fromRgb(255,0,255));
+    tempArea->addVecs(loadFile(":/mapFiles/bin/GreenArea.txt"), Qt::green);
+    tempArea->addVecs(loadFile(":/mapFiles/bin/BlueArea.txt"),Qt::blue);
+    tempArea->addVecs(loadFile(":/mapFiles/bin/RedArea.txt"),Qt::red);
+    tempArea->addVecs(loadFile(":/mapFiles/bin/otherGreenArea.txt"),Qt::green);
+    tempArea->addVecs(loadFile(":/mapFiles/bin/YellowArea.txt"),Qt::yellow);
+    tempArea->addVecs(loadFile(":/mapFiles/bin/LightBlueArea.txt"),QColor::fromRgb(100,100,255));
+
+    /*
     tempArea->addVecs(loadFile(":/mapFiles/bin/area2.txt"), Qt::green);
     tempArea->addVecs(loadFile(":/mapFiles/bin/area3.txt"),Qt::blue);
     tempArea->addVecs(loadFile(":/mapFiles/bin/area4.txt"),Qt::red);
@@ -56,7 +65,7 @@ void Map::loadAreas()
     tempArea->addVecs(loadFile(":/mapFiles/bin/area11.txt"),Qt::yellow);
     tempArea->addVecs(loadFile(":/mapFiles/bin/area12.txt"),QColor::fromRgb(100,100,255));
     tempArea->addVecs(loadFile(":/mapFiles/bin/area13.txt"),QColor::fromRgb(100,100,255));
-    tempArea->addVecs(loadFile(":/mapFiles/bin/area14.txt"),QColor::fromRgb(255,0,255));
+    tempArea->addVecs(loadFile(":/mapFiles/bin/area14.txt"),QColor::fromRgb(255,0,255));*/
     areas.push_back(tempArea);
 
     q->addWidget(tempArea,0,0);

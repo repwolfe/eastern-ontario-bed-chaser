@@ -93,5 +93,6 @@ void LogOnWindow::keyPressEvent(QKeyEvent *event)
     if(event->key() == ENTER)
     {
         logIn();
+        close();
     }
 }

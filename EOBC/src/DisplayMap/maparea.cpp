@@ -1,5 +1,5 @@
 #include "maparea.h"
-
+QPoint MapArea::middle;
 MapArea::MapArea(QObject *parent) :
     QWidget() , vecs(), resizeTimer()
 {
@@ -52,6 +52,7 @@ void MapArea::addVecs(QVector<QPoint>* points, QColor col)
 
     MapVectors* temp = new MapVectors(col);
     temp->setVectors(points);
+    temp->setMiddle(middle);
     vecs.push_back(temp);
 }
 void MapArea::timerEvent()
@@ -101,4 +102,8 @@ void MapArea::mouseReleaseEvent(QMouseEvent *event)
 void MapArea::mouseClickEvent(QMouseEvent *event)
 {
 
+}
+void MapArea::setMiddle(QPoint middle)
+{
+    MapArea::middle = middle;
 }

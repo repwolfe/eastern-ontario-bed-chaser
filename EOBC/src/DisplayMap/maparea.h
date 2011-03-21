@@ -18,6 +18,7 @@ public:
     QVector<MapVectors*>& getVecs();
     void addVecs(QVector<QPoint>* points, QColor col);
     void resize(QPoint p);
+    static void setMiddle(QPoint middle);
 
 signals:
 
@@ -35,7 +36,7 @@ private:
    QTimer resizeTimer;
    QPoint lastMousePos;
    bool zoomed;
-
+   static QPoint middle;
 };
 
 #endif // MAPAREA_H

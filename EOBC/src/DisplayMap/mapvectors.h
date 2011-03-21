@@ -16,6 +16,7 @@ public:
     void resizePoints(QPoint mouse, float scale);
     QPolygonF& getPoly();
     QColor getCol();
+    static void setMiddle(QPoint);
 signals:
 
 public slots:
@@ -30,11 +31,13 @@ private:
     QImage* image;
     QPolygonF poly;
     QPoint position;
-    bool clicked;
+    //bool clicked;
     QColor col;
     float scale;
     float idealScale;
     QPoint idealPosition;
+    bool selected;
+    static QPoint middle;
 };
 
 #endif // MAPVECTORS_H

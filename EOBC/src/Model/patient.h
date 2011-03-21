@@ -14,6 +14,7 @@ class Patient
 {
 public:
     Patient(QString& healthCardNumber, QString& name, QDate& placedOnWaitingList);
+    virtual ~Patient();
 
     QString& getHealthCardNumber();
 

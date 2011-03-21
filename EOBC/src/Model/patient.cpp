@@ -5,6 +5,10 @@ Patient::Patient(QString &healthCardNumber, QString& name, QDate &placedOnWaitin
 {
 }
 
+Patient::~Patient()
+{
+}
+
 QString& Patient::getHealthCardNumber()
 {
     return _healthCardNumber;

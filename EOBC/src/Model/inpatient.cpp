@@ -21,7 +21,14 @@ Inpatient::Inpatient(Patient& patient, QDate& admissionDate)
  */
 Inpatient* Inpatient::convertToInpatient(Patient*& patient, QDate& admissionDate)
 {
-    Inpatient* inpatient = new Inpatient(*patient, admissionDate);
+    // If it's already an inpatient
+    Inpatient* inpatient = dynamic_cast<Inpatient*>(patient);
+    if (inpatient)
+    {
+        return inpatient;
+    }
+
+    inpatient = new Inpatient(*patient, admissionDate);
     delete patient;
     patient = 0;
     return inpatient;

@@ -33,7 +33,8 @@ SOURCES +=\
     src/ChangeData/redirectpatientform.cpp \
     src/LogOn/logoncontrol.cpp \
     src/LogOn/logonwindow.cpp \
-    src/Common/logger.cpp
+    src/Common/logger.cpp \
+    src/Common/convenience.cpp
 
 
 HEADERS  += \
@@ -57,7 +58,8 @@ HEADERS  += \
     src/Model/modelcontainer.h \
     src/LogOn/logoncontrol.h \
     src/LogOn/logonwindow.h \
-    src/Common/logger.h
+    src/Common/logger.h \
+    src/Common/convenience.h
 
 RESOURCES += \
     Resources.qrc

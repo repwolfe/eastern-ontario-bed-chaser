@@ -9,7 +9,51 @@ const char* Logger::errorString = "!!!! ERROR MESSAGE called";
 const char* Logger::debugString = "~~~~ DEBUG MESSAGE called";
 const char* Logger::infoString = "@@@@ INFO MESSAGE called";
 
-Logger::Logger(std::string className, std::string callingFunction, std::string errorMessage, LogType type)
+/**
+ * Generate an Error message to the log file
+ *
+ * @param string the class that called this function
+ * @param string the function that called this
+ * @param string the error message
+ */
+void Logger::errorMessage(std::string className, std::string callingFunction, std::string message)
+{
+    Logger::_log(className, callingFunction, message, Logger::ERROR);
+}
+
+/**
+ * Generate a Debug message to the log file
+ *
+ * @param string the class that called this function
+ * @param string the function that called this
+ * @param string the debug message
+ */
+void Logger::debugMessage(std::string className, std::string callingFunction, std::string message)
+{
+    Logger::_log(className, callingFunction, message, Logger::DEBUG);
+}
+
+/**
+ * Generate an Info message to the log file
+ *
+ * @param string the class that called this function
+ * @param string the function that called this
+ * @param string the info message
+ */
+void Logger::infoMessage(std::string className, std::string callingFunction, std::string message)
+{
+    Logger::_log(className, callingFunction, message, Logger::INFO);
+}
+
+/**
+ * Generate different types of messages to the log file
+ *
+ * @param string the class that called this function
+ * @param string the function that called this
+ * @param string the message
+ * @param LogType the type of message to generate
+ */
+void Logger::_log(std::string className, std::string callingFunction, std::string errorMessage, LogType type)
 {
     QFile file(OUTPUT_FILE);
     if (file.open(QIODevice::Append))

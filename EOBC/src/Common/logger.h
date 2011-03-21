@@ -20,15 +20,18 @@ public:
         INFO
     };
 
-    Logger(std::string className, std::string callingFunction, std::string errorMessage, LogType type);
+    static void errorMessage(std::string className, std::string callingFunction, std::string message);
+    static void debugMessage(std::string className, std::string callingFunction, std::string message);
+    static void infoMessage(std::string className, std::string callingFunction, std::string message);
+
+private:
+    Logger();   // No instantiation of this class
+    static void _log(std::string className, std::string callingFunction, std::string errorMessage, LogType type);
 
     static const QString OUTPUT_FILE;
     static const char* errorString;
     static const char* debugString;
     static const char* infoString;
-
-private:
-
 };
 
 #endif // LOGGER_H

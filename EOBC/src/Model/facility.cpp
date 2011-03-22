@@ -1,8 +1,8 @@
 #include "facility.h"
 #include "../Common/logger.h"
 
-Facility::Facility(ID facilityId, int numACBeds, int numCCCBeds, QPoint& location)
-    : _facilityId(facilityId)
+Facility::Facility(ID facilityId, QString facilityName, int numACBeds, int numCCCBeds, QPoint& location)
+    : _facilityId(facilityId), _facilityName(facilityName)
     , _numACBeds(numACBeds), _numCCCBeds(numCCCBeds), _numLTCBeds(0)
     , _location(location)
 {
@@ -22,20 +22,6 @@ Facility::~Facility()
             delete patient;
         }
     }
-}
-
-/**
- * Explicit creation of a copy of this Facility object, with new pointers to new Patient objects with the
- * same attributes as the originals.
- *
- * Prevents double deletion of Patient objects.
- *
- * @return new Facility pointer that is a copy of this one
- */
-Facility* Facility::clone()
-{
-    /// @todo implement this with LTC_Facility in mind
-    return 0;
 }
 
 /**
@@ -77,36 +63,56 @@ bool Facility::addPatientToBed(Patient* patient, CareType type)
  * Moves a patient with a particular health card number to
  * a different bed
  *
- * @param healthCardNum of the patient
- * @param type new bed type to place the patient in
+ * @param healthCardNum of the Patient
+ * @param type new bed type to place the Patient in
  *
  * @return True if it worked, False otherwise
  */
 bool Facility::movePatientToBed(QString& healthCardNum, CareType type)
 {
-    PatientContainer* newContainer;
-    PatientContainer* containedIn = 0;
-    int* temp;
-
-    // If the wrong care type was passed in
-    if (!_getPointersForType(type, newContainer, temp))
-    {
-        return false;
-    }
-
-    Patient* patient = _getPatient(healthCardNum, containedIn);
+    Patient* patient = getPatient(healthCardNum);
 
     if (!patient)
     {
+	Logger::errorMessage2("Facility", "movePatientToBed()", "No patient with health card number " + healthCardNum);
         return false;
     }
 
-    if (!removePatient(patient))
+    if (!removePatient(patient))    // Doesn't delete the pointer
     {
         return false;
     }
 
     return addPatientToBed(patient, type);
+}
+
+/**
+ * Moves a patient with a particular health card number from this Facility
+ * to another with a particular CareType
+ *
+ * @param healthCardNum of the Patient
+ * @param otherFacility Facility to move the Patient to
+ * @param type new bed type to place the Patient in
+ *
+ * @return True if it worked, False otherwise
+ */
+bool Facility::movePatientToFacility(QString& healthCardNum, Facility* otherFacility, CareType type)
+{
+    Patient* patient = getPatient(healthCardNum);
+
+    if (!patient)
+    {
+	Logger::errorMessage2("Facility", "movePatientToFacility()", "No patient with health card number " + healthCardNum);
+	return false;
+    }
+
+    if (!removePatient(patient))    // Doesn't delete the pointer
+    {
+	return false;
+    }
+
+    // Add it to the other facility
+    return otherFacility->addPatientToBed(patient, type);
 }
 
 /**
@@ -126,10 +132,12 @@ bool Facility::removePatient(Patient* patient)
     // If this patient isn't in any bed, can't remove them from the facility
     if (!containedIn)
     {
+	Logger::errorMessage2("Facility", "removePatient(Patient)", "This patient isn't in any bed: " + healthCardNum);
         return false;
     }
 
     containedIn->remove(healthCardNum);
+    // Don't delete the patient
 
     return true;
 }
@@ -145,8 +153,10 @@ bool Facility::removePatient(QString& healthCardNumber)
     PatientContainer* containedIn = 0;
     Patient* patient = _getPatient(healthCardNumber, containedIn);
 
+    // If this patient isn't in any bed, can't remove them from the facility
     if (!patient)
     {
+	Logger::errorMessage2("Facility", "removePatient(QString)", "This patient isn't in any bed: " + healthCardNumber);
         return false;
     }
 
@@ -160,12 +170,28 @@ bool Facility::removePatient(QString& healthCardNumber)
  * Gets the Patient pointer with the given health card num.
  *
  * @param healthCardNumber of patient being request
+ *
  * @return Patient* with given healthCardNum or NULL if it's not in the facility
  */
 Patient* Facility::getPatient(QString& healthCardNumber) const
 {
     PatientContainer* temp;
     return _getPatient(healthCardNumber, temp);
+}
+
+/**
+ * Gets all the Patients in a particular bed
+ *
+ * @param type of bed to get the patients of
+ *
+ * @return PatientContainer* with given care type or NULL if incorrect care type
+ */
+PatientContainer* Facility::getPatientsForType(CareType type)
+{
+    PatientContainer* container = 0;
+    int* temp;
+    _getPointersForType(type, container, temp);
+    return container;
 }
 
 /**
@@ -213,7 +239,8 @@ bool Facility::addBeds(unsigned num, CareType type)
         *numBeds += num;
 	return true;
     }
-    /// @todo What should happen if addBeds fails
+
+    Logger::errorMessage("Facility", "addBeds()", "Incorrect bed type passed in: " + type);
     return false;
 }
 
@@ -230,19 +257,19 @@ bool Facility::decreaseBeds(unsigned num, CareType type)
     int *numBeds;
     if (!_getPointersForType(type, patients, numBeds))
     {
-        /// @todo What to do if wrong care type was passed
+	Logger::errorMessage("Facility", "decreaseBeds()", "Incorrect bed type passed in: " + type);
 	return false;
     }
 
     if (*numBeds - (int)num < patients->size())
     {
-        /// @todo What to do if decreaseBeds fails
+	Logger::errorMessage("Facility", "decreaseBeds()", "Trying to remove beds containing patients");
 	return false;
     }
     else if ((*numBeds - (int)num) < 0)
     {
-        /// @todo If too many beds decreased, go to 0?
-        *numBeds = 0;
+	Logger::errorMessage("Facility", "decreaseBeds()", "Trying to remove more beds than this facility has");
+	return false;
     }
     else
     {
@@ -266,7 +293,7 @@ int Facility::getNumBeds(CareType type)
     // If they passed in the wrong bed type
     if (!_getPointersForType(type, temp, numBeds))
     {
-        /// @todo make sure this is the right thing to do...maybe log error?
+	/// @todo make sure this is the right thing to do...maybe log error?
         return 0;
     }
 
@@ -281,6 +308,17 @@ ID Facility::getFacilityId() const
 void Facility::setFacilityId(ID theId)
 {
     _facilityId = theId;
+}
+
+
+const QString& Facility::getFacilityName() const
+{
+    return _facilityName;
+}
+
+void Facility::setFacilityName(QString& inFacilityName)
+{
+    _facilityName = inFacilityName;
 }
 
 const QPoint& Facility::getLocation() const

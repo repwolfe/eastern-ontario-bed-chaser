@@ -21,14 +21,14 @@ typedef int ID;
 class Facility
 {
 public:
-    Facility(ID facilityId, int numACBeds, int numCCCBeds, QPoint& location);
+    Facility(ID facilityId, QString facilityName, int numACBeds, int numCCCBeds, QPoint& location);
     virtual ~Facility();
-
-    virtual Facility* clone();
 
     bool addPatientToBed(Patient* patient, CareType type);
     bool movePatientToBed(QString& healthCardNum, CareType type);
+    bool movePatientToFacility(QString& healthCardNum, Facility* otherFacility, CareType type);
     Patient* getPatient(QString& healthCardNum) const;
+    PatientContainer* getPatientsForType(CareType type);
 
     bool removePatient(Patient* patient);
     bool removePatient(QString& healthCardNumber);
@@ -39,6 +39,9 @@ public:
 
     ID getFacilityId() const;
     void setFacilityId(ID theId);
+
+    const QString& getFacilityName() const;
+    void setFacilityName(QString& inFacilityName);
 
     const QPoint& getLocation() const;
     void setLocation(QPoint& location);
@@ -53,6 +56,7 @@ protected:
     QLinkedList<PatientContainer*> _patients;
 
     ID _facilityId;
+    QString _facilityName;
 
     int _numACBeds;
     int _numCCCBeds;

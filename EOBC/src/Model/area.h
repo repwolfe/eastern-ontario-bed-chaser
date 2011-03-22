@@ -27,8 +27,6 @@ public:
     Area(ID areaId, FacilityList& facilities, WaitingList& waitingList);
     ~Area();
 
-    Area* clone();
-
     bool addFacility(Facility* inFacility);
     bool removeFacility(ID& key);
     void setFacilities(FacilityList& inFacilities);

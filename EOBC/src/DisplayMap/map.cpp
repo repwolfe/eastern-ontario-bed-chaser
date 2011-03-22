@@ -9,30 +9,20 @@ Map::Map(QWidget *parent) :
     mapLayout->setGeometry(0,0,1000,800);
 
 
-
     fileMenu = menuBar()->addMenu("&File");
 
     editAct = new QAction(tr("&Edit"),this);
     fileMenu->addAction(editAct);
-    //resize(500,500);
+    //
     //QLayout* q = layout();
     setCentralWidget(mapLayout);
     //mapLayout->setLayout(new QFormLayout());
     loadAreas();
 
-
 }
 Map::~Map()
 {
-    QVector<MapArea*>::iterator iter = areas.begin();
-    while(iter != areas.end())
-    {
-        delete *iter;
-        iter++;
-    }
-
-    //delete vec;
-    delete mapLayout;
+    delete area;
 
 }
 
@@ -41,9 +31,16 @@ void Map::loadAreas()
     //mapLayout->setLayout(new QBoxLayout(QBoxLayout::LeftToRight));
     mapLayout->setLayout(new QGridLayout());
     QGridLayout* q = dynamic_cast<QGridLayout*>(mapLayout->layout());
-    QPoint middle(470,300);
-    MapArea::setMiddle(middle);
+
     MapArea* tempArea = new MapArea();
+    q->addWidget(tempArea,0,0);
+    q->setColumnStretch(0,720);
+    q->setRowMinimumHeight(0,800);
+    QPushButton* bstuff = new QPushButton("ok");
+    q->addWidget(bstuff,0,1);
+    q->setMargin(0);
+    QPoint middle(tempArea->width()/2,tempArea->height()/2);
+    MapArea::setMiddle(middle);
     tempArea->addVecs(loadFile(":/mapFiles/bin/PurpleArea.txt"),QColor::fromRgb(255,0,255));
     tempArea->addVecs(loadFile(":/mapFiles/bin/GreenArea.txt"), Qt::green);
     tempArea->addVecs(loadFile(":/mapFiles/bin/BlueArea.txt"),Qt::blue);
@@ -66,15 +63,12 @@ void Map::loadAreas()
     tempArea->addVecs(loadFile(":/mapFiles/bin/area12.txt"),QColor::fromRgb(100,100,255));
     tempArea->addVecs(loadFile(":/mapFiles/bin/area13.txt"),QColor::fromRgb(100,100,255));
     tempArea->addVecs(loadFile(":/mapFiles/bin/area14.txt"),QColor::fromRgb(255,0,255));*/
-    areas.push_back(tempArea);
+    area = tempArea;
+    middle = QPoint(tempArea->geometry().width()/2,tempArea->geometry().height()/2);
+    MapArea::setMiddle(middle);
 
-    q->addWidget(tempArea,0,0);
-    q->setColumnStretch(0,720);
-    q->setRowMinimumHeight(0,800);
-    QPushButton* bstuff = new QPushButton("ok");
-    //bstuff->setContentsMargins(0,0,100,100);
-    q->addWidget(bstuff,0,1);
-    q->setMargin(0);
+
+
 
 
 }
@@ -123,5 +117,12 @@ QVector<QPoint>* Map::loadFile(QString fname)
     file.close();
     return points;
 
+}
+void Map::resizeEvent(QResizeEvent *event)
+{
+    int x =area->geometry().width()/2;
+    int y =area->geometry().height()/2;
+    QPoint middle(x, y);
+    area->setMiddle(middle);
 }
 

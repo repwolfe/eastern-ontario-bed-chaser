@@ -22,7 +22,8 @@ signals:
 public slots:
 
 
-
+protected:
+    void resizeEvent(QResizeEvent *);
 private:
     QVector<QPoint>* loadFile(QString fname);
     void loadAreas();
@@ -31,7 +32,7 @@ private:
         QMenu* fileMenu;
         QAction* editAct;
         QLabel* mapLayout;
-        QVector<MapArea*> areas;
+        MapArea* area;
 
 
 };

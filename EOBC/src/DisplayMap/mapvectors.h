@@ -10,19 +10,24 @@ class MapVectors
 {
 
 public:
-
     MapVectors(QColor col);
-    QVector<QPoint>& getVectors();
-    void setVectors(QVector<QPoint>* ve);
+    ~MapVectors();
     void update(QPoint mouse);
     void resizePoints(QPoint mouse, float scale);
-    QPolygonF& getPoly();
-    QColor getCol();
+
     static void setMiddle(QPoint&);
     QPoint getRealPosition();
     bool isSelected();
     QPoint getPosition();
     float getScale();
+    QPolygonF& getPoly();
+    QColor getCol();
+    QVector<QPoint>& getVectors();
+    void setHovered(bool);
+    void setVectors(QVector<QPoint>* ve);
+private:
+    MapVectors(const MapVectors&);
+
 signals:
 
 public slots:
@@ -32,7 +37,6 @@ protected:
 
 private:
     QVector<QPoint>* mapPoints;
-    QImage* image;
     QPolygonF poly;
     QPoint position;
     QPoint realPosition;
@@ -41,6 +45,7 @@ private:
     float idealScale;
     QPoint idealPosition;
     bool selected;
+    bool hovered;
     static QPoint middle;
 };
 

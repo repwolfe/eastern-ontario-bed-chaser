@@ -1,16 +1,24 @@
 #include "mapvectors.h"
+#define MAPMIDDLEX 500
+#define MAPMIDDLEY 400
 QPoint MapVectors::middle;
 MapVectors::MapVectors( QColor color)
 {
-
     col = color;
     //clicked = false;
     scale = 0.99;
     idealScale = 0.9;
     selected = false;
-
+    hovered = false;
 }
-
+MapVectors::~MapVectors()
+{
+    delete mapPoints;
+}
+MapVectors::MapVectors(const MapVectors& map)
+{
+   // col = Qt::white;
+}
 
 QVector<QPoint>& MapVectors::getVectors()
 {
@@ -20,22 +28,29 @@ void MapVectors::setVectors(QVector<QPoint>* ve)
 {
     mapPoints = ve;
     poly= QPolygonF(*ve);
-    int x=0,y=0;
+    int x = 0,y=0;
+    int right=0,left=1000, top = 1000, bottom = 0;
     QVector<QPoint>::iterator iter = mapPoints->begin();
     while(iter != mapPoints->end())
     {
-        x+=iter->x();
-        y+=iter->y();
+        if(iter->x()> right)
+            right = iter->x();
+        if(iter->x()< left)
+            left = iter->x();
+        if(iter->y()< top)
+            top = iter->y();
+        if(iter->y()> bottom)
+            bottom = iter->y();
         iter++;
     }
-    x/= mapPoints->count();
-    y/= mapPoints->count();
-    position = QPoint(x - middle.x(),y- middle.y());
+    x=(right+left)/2;
+    y=(bottom+top)/2;
+    position = QPoint(x - MAPMIDDLEX,y- MAPMIDDLEY);
    iter = mapPoints->begin();
     while(iter != mapPoints->end())
     {
-        iter->setX(iter->x()-middle.x());
-        iter->setY(iter->y()-middle.y());
+        iter->setX(iter->x()-MAPMIDDLEX);
+        iter->setY(iter->y()-MAPMIDDLEY);
         iter++;
     }
     idealPosition.setX(position.x());
@@ -78,7 +93,7 @@ void MapVectors::update(QPoint mouse)
            float scalediff = (idealScale - scale)/7 + 1;
            scale *= scalediff;
 
-           QPointF tempPos(position.x()-30,position.y()-30);
+           QPointF tempPos(position.x(),position.y());
            tempPos *= scale;
 
            poly = QPolygon(*mapPoints);
@@ -107,8 +122,10 @@ void MapVectors::resizePoints(QPoint mouse, float scale)
 }
 QColor MapVectors::getCol()
 {
-    if(!selected)
-    return col;
+    if(!selected && !hovered)
+        return col;
+    else if(hovered)
+        return col.lighter(75);
     else
         return col.lighter(50);
 }
@@ -136,4 +153,8 @@ float MapVectors::getScale()
 QPoint MapVectors::getRealPosition()
 {
     return realPosition;
+}
+void MapVectors::setHovered(bool h)
+{
+    hovered = h;
 }

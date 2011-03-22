@@ -29,6 +29,7 @@ private:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseClickEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *);
 
 
 private:
@@ -37,6 +38,7 @@ private:
    QPoint lastMousePos;
    QPoint mapPos;
    bool zoomed;
+   float zoomSpeed;
    static QPoint middle;
    void moveMap();
 };

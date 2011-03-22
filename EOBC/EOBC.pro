@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += xml
 
 TARGET = EOBCapplication
 TEMPLATE = app
@@ -32,7 +33,8 @@ SOURCES +=\
     src/LogOn/logoncontrol.cpp \
     src/LogOn/logonwindow.cpp \
     src/Common/logger.cpp \
-    src/Common/convenience.cpp
+    src/Common/convenience.cpp \
+    src/Storage/storageHandler.cpp
 
 
 HEADERS  += \
@@ -54,7 +56,8 @@ HEADERS  += \
     src/LogOn/logoncontrol.h \
     src/LogOn/logonwindow.h \
     src/Common/logger.h \
-    src/Common/convenience.h
+    src/Common/convenience.h \
+    src/Storage/storageHandler.h
 
 RESOURCES += \
     Resources.qrc

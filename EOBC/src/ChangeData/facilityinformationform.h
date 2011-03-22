@@ -3,6 +3,13 @@
 
 #include <QWidget>
 
+/**
+ * This class is a form which allows a system administrator
+ * to create a new Facility.
+ *
+ * @todo check if only admin can do this
+ * This class is part of the ChangeData subsystem described in D2.
+ */
 class FacilityInformationForm : public QWidget
 {
     Q_OBJECT
@@ -12,6 +19,9 @@ public:
 signals:
 
 public slots:
+
+private:
+
 
 };
 

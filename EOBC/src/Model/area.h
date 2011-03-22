@@ -3,7 +3,6 @@
 
 #include "modelcontainer.h"
 #include "facility.h"
-#include "waitinglist.h"
 
 /**
  * Areas have a collection of Facility pointers, as well
@@ -15,12 +14,12 @@
 class Area : public ModelContainer<QString,Facility*>
 {
 public:
-    Area(WaitingList* inList);
+    Area();//WaitingList* inList);
     virtual ~Area();
 
 private:
     /// @todo figure out what to do with waiting list....?
-    WaitingList* _list;
+    //WaitingList* _list;
 
 };
 

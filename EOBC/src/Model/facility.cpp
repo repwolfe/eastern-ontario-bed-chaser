@@ -14,7 +14,7 @@ Facility::~Facility()
 {
     foreach (PatientContainer* container, _patients)
     {
-        foreach(Inpatient* patient, *container)
+        foreach(Patient* patient, *container)
         {
             delete patient;
         }
@@ -27,12 +27,12 @@ Facility::~Facility()
  * in the destructor, unless the patient is manually removed from
  * the facility.
  *
- * @param Inpatient the patient to add
+ * @param Patient the patient to add
  * @param Caretype which bed to add to
  *
  * @return True if it worked, False otherwise
  */
-bool Facility::addPatientToBed(Inpatient* patient, CareType type)
+bool Facility::addPatientToBed(Patient* patient, CareType type)
 {
     PatientContainer* container;
     int* numBeds;
@@ -70,7 +70,7 @@ bool Facility::addPatientToBed(Inpatient* patient, CareType type)
  */
 bool Facility::addPatientToBed(QString& healthCardNumber, QString& name, QDate &placedOnWaitingList, QDate& admissionDate, CareType type)
 {
-    return addPatientToBed(new Inpatient(healthCardNumber, name, placedOnWaitingList, admissionDate), type);
+    return addPatientToBed(new Patient(healthCardNumber, name, placedOnWaitingList), type);
 }
 
 
@@ -95,7 +95,7 @@ bool Facility::movePatientToBed(QString& healthCardNum, CareType type)
         return false;
     }
 
-    Inpatient* patient = _getInpatient(healthCardNum, containedIn);
+    Patient* patient = _getPatient(healthCardNum, containedIn);
 
     if (!patient)
     {
@@ -111,17 +111,17 @@ bool Facility::movePatientToBed(QString& healthCardNum, CareType type)
 }
 
 /**
- * Removes an Inpatient from this facility, does NOT delete the object.
+ * Removes an Patient from this facility, does NOT delete the object.
  * Since the client is passing in the pointer, it's their job to delete it.
  *
- * @param Inpatient* the patient to remove from this facility, not deleted
+ * @param Patient* the patient to remove from this facility, not deleted
  * @return bool True if the patient was removed, false otherwise
  */
-bool Facility::removePatient(Inpatient* patient)
+bool Facility::removePatient(Patient* patient)
 {
     PatientContainer* containedIn = 0;
     QString& healthCardNum = patient->getHealthCardNumber();
-    _getInpatient(healthCardNum, containedIn);
+    _getPatient(healthCardNum, containedIn);
 
     // If this patient isn't in any bed, can't remove them from the facility
     if (!containedIn)
@@ -135,15 +135,15 @@ bool Facility::removePatient(Inpatient* patient)
 }
 
 /**
- * Removes an Inpatient from this facility, deletes the object.
+ * Removes an Patient from this facility, deletes the object.
  *
- * @param QString the healthCardNumber of the Inpatient to remove
+ * @param QString the healthCardNumber of the Patient to remove
  * @return bool True if the patient was removed, false otherwise
  */
 bool Facility::removePatient(QString& healthCardNumber)
 {
     PatientContainer* containedIn = 0;
-    Inpatient* patient = _getInpatient(healthCardNumber, containedIn);
+    Patient* patient = _getPatient(healthCardNumber, containedIn);
 
     if (!patient)
     {
@@ -157,27 +157,27 @@ bool Facility::removePatient(QString& healthCardNumber)
 }
 
 /**
- * Gets the Inpatient pointer with the given health card num.
+ * Gets the Patient pointer with the given health card num.
  *
  * @param QString health card number of patient being request
- * @return Inpatient* with given healthCardNum or NULL if it's not in the facility
+ * @return Patient* with given healthCardNum or NULL if it's not in the facility
  */
-Inpatient* Facility::getInpatient(QString& healthCardNum) const
+Patient* Facility::getPatient(QString& healthCardNum) const
 {
     PatientContainer* temp;
-    return _getInpatient(healthCardNum, temp);
+    return _getPatient(healthCardNum, temp);
 }
 
 /**
- * Gets the Inpatient pointer with the given health card num, as well as which bed their in.
+ * Gets the Patient pointer with the given health card num, as well as which bed their in.
  *
  * @param QString health card number of patient being request
  * @param PatientContainer the container the patient is in (aka which bed their in)
- * @return Inpatient* with given healthCardNum or NULL if it's not in the facility
+ * @return Patient* with given healthCardNum or NULL if it's not in the facility
  */
-Inpatient* Facility::_getInpatient(QString& healthCardNum, PatientContainer*& outContainedIn) const
+Patient* Facility::_getPatient(QString& healthCardNum, PatientContainer*& outContainedIn) const
 {
-    Inpatient* patient = 0;
+    Patient* patient = 0;
 
     // Goes through each container of patients to find them.
     // O(1) since its O(1) per find * n (n = num of bed types)

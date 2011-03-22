@@ -6,6 +6,13 @@
 #include <QComboBox>
 #include <QPushButton>
 
+/**
+ * CreateUserForm is a form that appears and allows
+ * the system administrator to create a new user at the
+ * current Facility.
+ *
+ * This class is part of the ChangeData subsystem described in D2.
+ */
 class CreateUserForm : public QWidget
 {
     Q_OBJECT

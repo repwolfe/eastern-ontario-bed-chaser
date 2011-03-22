@@ -2,15 +2,15 @@
 #define FACILITY_H
 
 #include "modelcommon.h"
-#include "inpatient.h"
+#include "patient.h"
 
 #include <QHash>
 #include <QLinkedList>
 
-typedef QHash<QString, Inpatient*> PatientContainer;
+typedef QHash<QString, Patient*> PatientContainer;
 
 /**
- * Facilities have a collection of Inpatients, each in a different list
+ * Facilities have a collection of Patients, each in a different list
  * depending on their level of care required.
  * Each facility also has a certain number of beds, each of a different type
  *
@@ -22,12 +22,12 @@ public:
     Facility(int facilityId, int numACBeds, int numCCCBeds);
     virtual ~Facility();
 
-    bool addPatientToBed(Inpatient* patient, CareType type);
+    bool addPatientToBed(Patient* patient, CareType type);
     bool addPatientToBed(QString& healthCardNumber, QString& name, QDate &placedOnWaitingList, QDate& admissionDate, CareType type);
     bool movePatientToBed(QString& healthCardNum, CareType type);
-    Inpatient* getInpatient(QString& healthCardNum) const;
+    Patient* getPatient(QString& healthCardNum) const;
 
-    bool removePatient(Inpatient* patient);
+    bool removePatient(Patient* patient);
     bool removePatient(QString& healthCardNumber);
 
     void addBeds(unsigned num, CareType type);
@@ -38,7 +38,7 @@ public:
 
 protected:
     virtual inline bool _getPointersForType(CareType type, PatientContainer*& container, int*& numBeds);
-    Inpatient* _getInpatient(QString& healthCardNum, PatientContainer*& outContainedIn) const;
+    Patient* _getPatient(QString& healthCardNum, PatientContainer*& outContainedIn) const;
 
     PatientContainer _patientsAC;
     PatientContainer _patientsCCC;

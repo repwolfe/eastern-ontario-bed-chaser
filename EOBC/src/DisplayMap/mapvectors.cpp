@@ -107,7 +107,10 @@ void MapVectors::resizePoints(QPoint mouse, float scale)
 }
 QColor MapVectors::getCol()
 {
+    if(!selected)
     return col;
+    else
+        return col.lighter(50);
 }
 QPolygonF& MapVectors::getPoly()
 {

@@ -1,6 +1,6 @@
 #include "maparea.h"
 #define MIDDLEX 470
-#define MIDDLEY 400
+#define MIDDLEY 300
 QPoint MapArea::middle;
 MapArea::MapArea(QObject *parent) :
     QWidget() , vecs(), resizeTimer()
@@ -32,11 +32,15 @@ void MapArea::paintEvent(QPaintEvent *event)
     painter.setPen(Qt::white);
     painter.setBrush(Qt::white);
     painter.drawRect(QRect(0,0,1000,800));
+
     for(int i=0;i<this->vecs.count();i++)
     {
         painter.setPen(vecs.at(i)->getCol().darker());
         painter.setBrush(vecs.at(i)->getCol().lighter());
         painter.drawPolygon(vecs.at(i)->getPoly());
+        QString x = QString::number(lastMousePos.x());
+        QString y= QString::number(lastMousePos.y());
+        painter.drawText(10,10,""+x + ","+ y);
     }
 }
 void MapArea::addVecs(QVector<QPoint>* points, QColor col)
@@ -71,13 +75,15 @@ void MapArea::resize(QPoint p)
     QVector<MapVectors*>::iterator iter = vecs.begin();
     float scale = 1;
     if(zoomed){
-        scale = 0.66;
+       // scale = 0.66;
+        scale = 0.5;
         zoomed = false;
         lastMousePos = QPoint(MIDDLEX,MIDDLEY);
     }
     else
     {
-        scale = 1.5;
+        //scale = 1.5;
+        scale = 2;
         zoomed = true;
     }
 
@@ -121,11 +127,11 @@ void MapArea::moveMap()
     }
     if(selectedArea == 0)
     {
-        if((lastMousePos-mapPos).manhattanLength() > 3)
+        if((lastMousePos-mapPos).manhattanLength() > 30)
         {
             float angle = atan2(lastMousePos.y()-mapPos.y(),lastMousePos.x() - mapPos.x());
-            mapPos.setX(mapPos.x()+cos(angle)*2);
-            mapPos.setY(mapPos.y()+sin(angle)*2);
+            mapPos.setX(mapPos.x()+cos(angle)*20);
+            mapPos.setY(mapPos.y()+sin(angle)*20);
         }
     }
     else

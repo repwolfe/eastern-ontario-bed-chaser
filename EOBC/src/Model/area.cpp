@@ -1,23 +1,24 @@
 #include "area.h"
 
-Area::Area()
+Area::Area(ID areaId)
+    : _id(areaId)
 {
 }
 
-Area::Area(FacilityList& facilities)
-    : _facilities(facilities)
-{
-
-}
-
-Area::Area(WaitingList& waitingList)
-    : _waitingList(waitingList)
+Area::Area(ID areaId, FacilityList& facilities)
+    : _id(areaId), _facilities(facilities)
 {
 
 }
 
-Area::Area(FacilityList& facilities, WaitingList& waitingList)
-    : _facilities(facilities), _waitingList(waitingList)
+Area::Area(ID areaId, WaitingList& waitingList)
+    : _id(areaId), _waitingList(waitingList)
+{
+
+}
+
+Area::Area(ID areaId, FacilityList& facilities, WaitingList& waitingList)
+    : _id(areaId), _facilities(facilities), _waitingList(waitingList)
 {
 
 }
@@ -136,4 +137,14 @@ void Area::_deleteWaitingList()
         delete patient;
     }
     _waitingList.clear();
+}
+
+ID Area::getAreaId() const
+{
+    return _id;
+}
+
+void Area::setAreaId(ID inId)
+{
+    _id = inId;
 }

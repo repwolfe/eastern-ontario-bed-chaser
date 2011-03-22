@@ -1,8 +1,9 @@
 #include "ltc_facility.h"
 
-LTC_Facility::LTC_Facility(int facilityId, int numLTCBeds)
-    : Facility(facilityId, 0,0), _numLTCBeds(numLTCBeds)
+LTC_Facility::LTC_Facility(int facilityId, int numLTCBeds, QPoint& location)
+    : Facility(facilityId, 0,0, location)
 {
+    _numLTCBeds = numLTCBeds;
     _patients.clear();  // remove AC and CCC containers from _patients
     _patients.push_back(&_patientsLTC);
 }

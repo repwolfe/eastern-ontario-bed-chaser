@@ -19,10 +19,10 @@ typedef QMap<QString, Patient*> WaitingList;
 class Area
 {
 public:
-    Area();
-    Area(FacilityList& facilities);
-    Area(WaitingList& waitingList);
-    Area(FacilityList& facilities, WaitingList& waitingList);
+    Area(ID areaId);
+    Area(ID areaId, FacilityList& facilities);
+    Area(ID areaId, WaitingList& waitingList);
+    Area(ID areaId, FacilityList& facilities, WaitingList& waitingList);
     ~Area();
 
     bool addFacility(Facility* inFacility);
@@ -35,10 +35,14 @@ public:
     void setWaitingList(WaitingList& inWaitingList);
     WaitingList& getWaitingList();
 
+    ID getAreaId() const;
+    void setAreaId(ID inId);
+
 protected:
     void _deleteFacilities();
     void _deleteWaitingList();
 
+    ID _id;
     FacilityList _facilities;
     WaitingList _waitingList;
 };

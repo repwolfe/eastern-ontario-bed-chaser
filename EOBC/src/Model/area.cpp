@@ -78,6 +78,26 @@ bool Area::addFacility(Facility* inFacility)
 }
 
 /**
+ * Remove a Facility from the Area, does NOT delete it
+ * Since you are passing in a pointer, its assumed you will delete it
+ *
+ * @param facility to remove
+ *
+ * @return True if it worked, False if this Facility doesn't exist
+ */
+bool Area::removeFacility(Facility* facility)
+{
+    FacilityList::iterator iter = _facilities.find(facility->getFacilityId());
+
+    if (iter != _facilities.end())
+    {
+        _facilities.erase(iter);
+        return true;
+    }
+    return false;
+}
+
+/**
  * Remove a Facility from the Area, deleting it
  *
  * @param key of the Facility to remove
@@ -130,7 +150,6 @@ Facility* Area::getFacility(ID key)
     }
     else
     {
-	/// @todo Key isn't appended properly
         Logger::errorMessage("Area", "getFacility()", "No Facility with ID: ", QString::number(key));
         return 0;
     }
@@ -146,7 +165,7 @@ Facility* Area::getFacility(ID key)
  *
  * @return True if it worked, False if this Patient is already in the WaitingList
  */
-bool Area::addPatientToWaitingList(QString& hcn, QString& first, QString& last, QDate& placedOnWL)
+bool Area::addPatientToWaitingList(QString hcn, QString first, QString last, QDate placedOnWL)
 {
     WaitingList::const_iterator iter = _waitingList.find(hcn);
 
@@ -168,7 +187,7 @@ bool Area::addPatientToWaitingList(QString& hcn, QString& first, QString& last, 
  *
  * @return True if it worked, False if the patient doesn't exist
  */
-bool Area::removePatientFromWaitingList(QString& healthCardNum)
+bool Area::removePatientFromWaitingList(QString healthCardNum)
 {
     WaitingList::iterator iter = _waitingList.find(healthCardNum);
 

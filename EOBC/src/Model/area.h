@@ -28,12 +28,13 @@ public:
     ~Area();
 
     bool addFacility(Facility* inFacility);
+    bool removeFacility(Facility* facility);
     bool removeFacility(ID key);
     void setFacilities(FacilityList& inFacilities);
     Facility* getFacility(ID key);
 
-    bool addPatientToWaitingList(QString& hcn, QString& first, QString& last, QDate& placedOnWL);
-    bool removePatientFromWaitingList(QString& healthCardNum);
+    bool addPatientToWaitingList(QString hcn, QString first, QString last, QDate placedOnWL);
+    bool removePatientFromWaitingList(QString healthCardNum);
     void setWaitingList(WaitingList& inWaitingList);
     WaitingList& getWaitingList();
 

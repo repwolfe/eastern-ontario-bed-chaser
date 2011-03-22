@@ -67,7 +67,7 @@ bool Facility::addPatientToBed(Patient* patient, CareType type)
  *
  * @return True if it worked, False otherwise
  */
-bool Facility::movePatientToBed(QString& healthCardNum, CareType type)
+bool Facility::movePatientToBed(QString healthCardNum, CareType type)
 {
     Patient* patient = getPatient(healthCardNum);
 
@@ -95,7 +95,7 @@ bool Facility::movePatientToBed(QString& healthCardNum, CareType type)
  *
  * @return True if it worked, False otherwise
  */
-bool Facility::movePatientToFacility(QString& healthCardNum, Facility* otherFacility, CareType type)
+bool Facility::movePatientToFacility(QString healthCardNum, Facility* otherFacility, CareType type)
 {
     Patient* patient = getPatient(healthCardNum);
 
@@ -147,7 +147,7 @@ bool Facility::removePatient(Patient* patient)
  * @param healthCardNumber of the Patient to remove
  * @return bool True if the patient was removed, false otherwise
  */
-bool Facility::removePatient(QString& healthCardNumber)
+bool Facility::removePatient(QString healthCardNumber)
 {
     PatientContainer* containedIn = 0;
     Patient* patient = _getPatient(healthCardNumber, containedIn);
@@ -172,7 +172,7 @@ bool Facility::removePatient(QString& healthCardNumber)
  *
  * @return Patient* with given healthCardNum or NULL if it's not in the facility
  */
-Patient* Facility::getPatient(QString& healthCardNumber) const
+Patient* Facility::getPatient(QString healthCardNumber) const
 {
     PatientContainer* temp;
     return _getPatient(healthCardNumber, temp);

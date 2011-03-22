@@ -25,13 +25,13 @@ public:
     virtual ~Facility();
 
     bool addPatientToBed(Patient* patient, CareType type);
-    bool movePatientToBed(QString& healthCardNum, CareType type);
-    bool movePatientToFacility(QString& healthCardNum, Facility* otherFacility, CareType type);
-    Patient* getPatient(QString& healthCardNum) const;
+    bool movePatientToBed(QString healthCardNum, CareType type);
+    bool movePatientToFacility(QString healthCardNum, Facility* otherFacility, CareType type);
+    Patient* getPatient(QString healthCardNum) const;
     PatientContainer* getPatientsForType(CareType type);
 
     bool removePatient(Patient* patient);
-    bool removePatient(QString& healthCardNumber);
+    bool removePatient(QString healthCardNumber);
 
     bool addBeds(unsigned num, CareType type);
     bool decreaseBeds(unsigned num, CareType type);

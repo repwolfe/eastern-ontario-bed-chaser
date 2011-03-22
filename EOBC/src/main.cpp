@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     logControl.run();
 
     /***************** Testing Model ****************/
- /* TEMPORARY: REMOVING IT SOON -Robbie
+ // TEMPORARY: REMOVING IT SOON -Robbie
     QMap<ID,Area*> areas;
     for (int i = 0; i < 5; ++i)
     {
@@ -38,6 +38,6 @@ int main(int argc, char *argv[])
     {
 	delete area;
     }
-*/
+
     return a.exec();
 }

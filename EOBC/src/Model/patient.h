@@ -16,6 +16,7 @@ class Patient
 public:
     Patient(QString& hcn, QString& first, QString& last, CareType requiredCare);
     Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, QDate& placedOnWL);
+    Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, CareType occuringCare, QDate& admitted);
     Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, CareType occuringCare, QDate& placedOnWL, QDate& admitted);
     ~Patient();
 
@@ -36,6 +37,9 @@ public:
     void setDatePlacedonWaitingList(QDate& date);
     void setAdmissionDate(QDate& date);
 
+    void makeInpatient(QDate& admissionDate, CareType occuringCare);	/// @todo make sure this function is right
+    bool isInpatient() const;
+
 private:
     QString _healthCardNumber;
     QString _firstName;
@@ -46,6 +50,8 @@ private:
 
     QDate _placedOnWL;
     QDate _admitted;
+
+    bool _inpatient;
 };
 
 #endif // PATIENT_H

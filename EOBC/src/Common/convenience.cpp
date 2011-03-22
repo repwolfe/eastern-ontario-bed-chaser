@@ -5,8 +5,8 @@
 /**
  * Static convenience function that returns a QRect with size width and height at center of screen.
  *
- * @param int the width of the QRect
- * @param int the height of the QRect
+ * @param width of the desired QRect
+ * @param height of the desired QRect
  */
 QRect Convenience::getCenterForSize(int width, int height)
 {

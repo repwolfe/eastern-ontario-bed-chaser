@@ -5,6 +5,12 @@
 
 #include <QMap>
 
+/// A list of Facilities
+typedef QMap<ID,Facility*> FacilityList;
+
+/// A list of Patients
+typedef QMap<QString, Patient*> WaitingList;
+
 /**
  * Areas have a collection of Facility pointers, as well
  * as a waiting list of patients trying to get admitted
@@ -12,10 +18,6 @@
  *
  * This class is part of the Model subsystem described in D2.
  */
-typedef int ID;
-typedef QMap<ID,Facility*> FacilityList;
-typedef QMap<QString, Patient*> WaitingList;
-
 class Area
 {
 public:

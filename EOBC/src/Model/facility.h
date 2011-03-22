@@ -31,8 +31,8 @@ public:
     bool removePatient(Patient* patient);
     bool removePatient(QString& healthCardNumber);
 
-    void addBeds(unsigned num, CareType type);
-    void decreaseBeds(unsigned num, CareType type);
+    bool addBeds(unsigned num, CareType type);
+    bool decreaseBeds(unsigned num, CareType type);
     int getNumBeds(CareType type);
 
     ID getFacilityId() const;

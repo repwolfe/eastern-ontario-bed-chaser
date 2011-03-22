@@ -12,9 +12,9 @@ LTC_Facility::LTC_Facility(int facilityId, int numLTCBeds, QPoint& location)
  * Internal function used to get pointers of the
  * containers and bed numbers for a particular caretype
  *
- * @param CareType which type to get pointers for
- * @param PatientContainer out pointer to the container of this caretype
- * @param int out pointer to the number of beds of this caretype
+ * @param type which CareType to get pointers for
+ * @param container out PatientContainer pointer to the container of this caretype
+ * @param numBeds out pointer to the number of beds of this caretype
  *
  * @return True if acceptable type passed in, False otherwise
  */

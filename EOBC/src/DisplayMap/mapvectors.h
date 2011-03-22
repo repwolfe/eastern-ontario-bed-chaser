@@ -5,10 +5,12 @@
 #include <QMouseEvent>
 #include <QList>
 #include <QPainter>
+#include <qmath.h>
 class MapVectors
 {
 
 public:
+
     MapVectors(QColor col);
     QVector<QPoint>& getVectors();
     void setVectors(QVector<QPoint>* ve);
@@ -16,22 +18,24 @@ public:
     void resizePoints(QPoint mouse, float scale);
     QPolygonF& getPoly();
     QColor getCol();
-    static void setMiddle(QPoint);
+    static void setMiddle(QPoint&);
+    QPoint getRealPosition();
+    bool isSelected();
+    QPoint getPosition();
+    float getScale();
 signals:
 
 public slots:
 
 protected:
-   /* void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);*/
+
 
 private:
     QVector<QPoint>* mapPoints;
     QImage* image;
     QPolygonF poly;
     QPoint position;
-    //bool clicked;
+    QPoint realPosition;
     QColor col;
     float scale;
     float idealScale;

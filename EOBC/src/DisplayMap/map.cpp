@@ -41,9 +41,9 @@ void Map::loadAreas()
     //mapLayout->setLayout(new QBoxLayout(QBoxLayout::LeftToRight));
     mapLayout->setLayout(new QGridLayout());
     QGridLayout* q = dynamic_cast<QGridLayout*>(mapLayout->layout());
-
+    QPoint middle(500,400);
+    MapArea::setMiddle(middle);
     MapArea* tempArea = new MapArea();
-    tempArea->setMiddle(QPoint(500,400));
     tempArea->addVecs(loadFile(":/mapFiles/bin/PurpleArea.txt"),QColor::fromRgb(255,0,255));
     tempArea->addVecs(loadFile(":/mapFiles/bin/GreenArea.txt"), Qt::green);
     tempArea->addVecs(loadFile(":/mapFiles/bin/BlueArea.txt"),Qt::blue);

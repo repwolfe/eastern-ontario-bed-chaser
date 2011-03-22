@@ -12,9 +12,9 @@ const char* Logger::infoString = "@@@@ INFO MESSAGE called";
 /**
  * Generate an Error message to the log file
  *
- * @param string the class that called this function
- * @param string the function that called this
- * @param string the error message
+ * @param className the class that called this function
+ * @param callingFunction the function that called this
+ * @param message the error message
  */
 void Logger::errorMessage(std::string className, std::string callingFunction, std::string message)
 {
@@ -24,9 +24,9 @@ void Logger::errorMessage(std::string className, std::string callingFunction, st
 /**
  * Generate a Debug message to the log file
  *
- * @param string the class that called this function
- * @param string the function that called this
- * @param string the debug message
+ * @param className the class that called this function
+ * @param callingFunction the function that called this
+ * @param message the debug message
  */
 void Logger::debugMessage(std::string className, std::string callingFunction, std::string message)
 {
@@ -36,9 +36,9 @@ void Logger::debugMessage(std::string className, std::string callingFunction, st
 /**
  * Generate an Info message to the log file
  *
- * @param string the class that called this function
- * @param string the function that called this
- * @param string the info message
+ * @param className the class that called this function
+ * @param callingFunction the function that called this
+ * @param message the info message
  */
 void Logger::infoMessage(std::string className, std::string callingFunction, std::string message)
 {
@@ -48,10 +48,10 @@ void Logger::infoMessage(std::string className, std::string callingFunction, std
 /**
  * Generate different types of messages to the log file
  *
- * @param string the class that called this function
- * @param string the function that called this
- * @param string the message
- * @param LogType the type of message to generate
+ * @param className the class that called this function
+ * @param callingFunction the function that called this
+ * @param errorMessage the message
+ * @param type the type of message to generate
  */
 void Logger::_log(std::string className, std::string callingFunction, std::string errorMessage, LogType type)
 {

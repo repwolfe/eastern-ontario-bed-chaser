@@ -7,10 +7,12 @@
  * Continuing Complex Care
  * Long Term Care
  */
-enum CareType {
-    AC,
-    CCC,
-    LTC
-};
+namespace EOBC {
+    enum CareType {
+	AC,
+	CCC,
+	LTC
+    };
+}
 
 #endif // MODELCOMMON_H

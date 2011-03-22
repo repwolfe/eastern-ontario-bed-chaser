@@ -27,12 +27,14 @@ public:
     Area(ID areaId, FacilityList& facilities, WaitingList& waitingList);
     ~Area();
 
+    Area* clone();
+
     bool addFacility(Facility* inFacility);
-    bool deleteFacility(ID& key);
+    bool removeFacility(ID& key);
     void setFacilities(FacilityList& inFacilities);
     Facility* getFacility(ID& key);
 
-    bool addPatientToWaitingList(Patient* patient);
+    bool addPatientToWaitingList(QString& hcn, QString& first, QString& last, QDate& placedOnWL);
     bool removePatientFromWaitingList(QString& healthCardNum);
     void setWaitingList(WaitingList& inWaitingList);
     WaitingList& getWaitingList();
@@ -40,7 +42,8 @@ public:
     ID getAreaId() const;
     void setAreaId(ID inId);
 
-protected:
+private:
+    Area(const Area&);	// no implicit copy constructing
     void _deleteFacilities();
     void _deleteWaitingList();
 

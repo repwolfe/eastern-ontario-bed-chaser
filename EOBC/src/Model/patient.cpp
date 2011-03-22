@@ -37,11 +37,11 @@ Patient::Patient(QString& hcn, QString& first, QString& last, CareType requiredC
  * @param first the Patient's first name
  * @param last the Patient's last name
  * @param requiredCare the type of care required by the patient
- * @param occuringCare the type of care the patient is actually getting
+ * @param occupiedCare the type of care the patient is actually getting
  * @param admitted date admitted in a Facility
  */
-Patient::Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, CareType occuringCare, QDate& admitted)
-    : _healthCardNumber(hcn), _firstName(first), _lastName(last), _requiredCare(requiredCare), _occuringCare(occuringCare)
+Patient::Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, CareType occupiedCare, QDate& admitted)
+    : _healthCardNumber(hcn), _firstName(first), _lastName(last), _requiredCare(requiredCare), _occupiedCare(occupiedCare)
     , _admitted(admitted), _inpatient(true)
 {
 
@@ -54,12 +54,12 @@ Patient::Patient(QString& hcn, QString& first, QString& last, CareType requiredC
  * @param first the Patient's first name
  * @param last the Patient's last name
  * @param requiredCare the type of care required by the patient
- * @param occuringCare the type of care the patient is actually getting
+ * @param occupiedCare the type of care the patient is actually getting
  * @param placedOnWL date placed on a waiting list
  * @param admitted date admitted in a Facility
  */
-Patient::Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, CareType occuringCare, QDate& placedOnWL, QDate& admitted)
-    : _healthCardNumber(hcn), _firstName(first), _lastName(last), _requiredCare(requiredCare), _occuringCare(occuringCare)
+Patient::Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, CareType occupiedCare, QDate& placedOnWL, QDate& admitted)
+    : _healthCardNumber(hcn), _firstName(first), _lastName(last), _requiredCare(requiredCare), _occupiedCare(occupiedCare)
     , _placedOnWL(placedOnWL), _admitted(admitted), _inpatient(true)
 {
 
@@ -94,9 +94,9 @@ CareType Patient::getRequiredCare() const
     return _requiredCare;
 }
 
-CareType Patient::getOccuringCare() const
+CareType Patient::getOccupiedCare() const
 {
-    return _occuringCare;
+    return _occupiedCare;
 }
 
 /**
@@ -120,9 +120,9 @@ void Patient::setRequiredCare(CareType care)
     _requiredCare = care;
 }
 
-void Patient::setOccuringCare(CareType care)
+void Patient::setOccupiedCare(CareType care)
 {
-    _occuringCare = care;
+    _occupiedCare = care;
 }
 
 void Patient::setDatePlacedonWaitingList(QDate& date)
@@ -139,11 +139,11 @@ void Patient::setAdmissionDate(QDate& date)
  * Makes a Patient into an Inpatient
  *
  * @param admissionDate the date they were admitted to a Facility
- * @param occuringCare the type of care they are getting
+ * @param occupiedCare the type of care they are getting
  *
  * @todo make sure this function is right
  */
-void Patient::makeInpatient(QDate& admissionDate, CareType occuringCare)
+void Patient::makeInpatient(QDate& admissionDate, CareType occupiedCare)
 {
     if (!_inpatient)
     {
@@ -152,7 +152,7 @@ void Patient::makeInpatient(QDate& admissionDate, CareType occuringCare)
     }
     _inpatient = true;
     setAdmissionDate(admissionDate);
-    setOccuringCare(occuringCare);
+    setOccupiedCare(occupiedCare);
 }
 
 /**

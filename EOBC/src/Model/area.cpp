@@ -57,6 +57,31 @@ Area::~Area()
 }
 
 /**
+ * Explicit creation of a copy of this Area object, with new pointers to new Facility/Patient objects with the
+ * same attributes as the originals.
+ *
+ * Prevents double deletion of Facility/Patient objects.
+ *
+ * @return new Area pointer that is a copy of this one
+ */
+Area* Area::clone()
+{
+    FacilityList facilities;
+    foreach(Facility* facility, _facilities)
+    {
+	facilities.insert(facility->getFacilityId(), facility->clone());
+    }
+
+    WaitingList waitingList;
+    foreach(Patient* patient, _waitingList)
+    {
+	waitingList.insert(patient->getHealthCardNumber(), new Patient(*patient));
+    }
+
+    return new Area(_id, facilities, waitingList);
+}
+
+/**
  * Add a Facility to this Area
  *
  * @param inFacility the Facility to add
@@ -78,13 +103,13 @@ bool Area::addFacility(Facility* inFacility)
 }
 
 /**
- * Delete a Facility from the Area
+ * Remove a Facility from the Area, deleting it
  *
- * @param key of the Facility to delete
+ * @param key of the Facility to remove
  *
  * @return True if it worked, False if this Facility doesn't exist
  */
-bool Area::deleteFacility(ID& key)
+bool Area::removeFacility(ID& key)
 {
     FacilityList::iterator iter = _facilities.find(key);
 
@@ -137,19 +162,22 @@ Facility* Area::getFacility(ID& key)
 /**
  * Add a patient to the waiting list
  *
- * @param patient the Patient to add
+ * @param hcn the Health Card Number of the Patient
+ * @param first the Patient's first name
+ * @param last the Patient's last name
+ * @param placedOnWL date placed on a waiting list
  *
  * @return True if it worked, False if this Patient is already in the WaitingList
  */
-bool Area::addPatientToWaitingList(Patient* patient)
+bool Area::addPatientToWaitingList(QString& hcn, QString& first, QString& last, QDate& placedOnWL)
 {
-    QString healthCardNum = patient->getHealthCardNumber();
-
-    WaitingList::const_iterator iter = _waitingList.find(healthCardNum);
+    WaitingList::const_iterator iter = _waitingList.find(hcn);
 
     if (iter != _waitingList.end())
     {
-        _waitingList.insert(healthCardNum, patient);
+	// Only Patients requiring Long Term Care can be added to a waiting list
+	// Requirement FR.PATIENTS.04
+	_waitingList.insert(hcn, new Patient(hcn, first, last, EOBC::LTC, placedOnWL));
         return true;
     }
 

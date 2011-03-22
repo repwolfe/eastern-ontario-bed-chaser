@@ -1,4 +1,5 @@
 #include "facility.h"
+#include "../Common/logger.h"
 
 Facility::Facility(ID facilityId, int numACBeds, int numCCCBeds, QPoint& location)
     : _facilityId(facilityId)
@@ -24,6 +25,20 @@ Facility::~Facility()
 }
 
 /**
+ * Explicit creation of a copy of this Facility object, with new pointers to new Patient objects with the
+ * same attributes as the originals.
+ *
+ * Prevents double deletion of Patient objects.
+ *
+ * @return new Facility pointer that is a copy of this one
+ */
+Facility* Facility::clone()
+{
+    /// @todo implement this with LTC_Facility in mind
+    return 0;
+}
+
+/**
  * Adds a patient to this facility, and to a specific type of bed.
  * The facility then takes ownsership of the patient, deleting it
  * in the destructor, unless the patient is manually removed from
@@ -42,12 +57,14 @@ bool Facility::addPatientToBed(Patient* patient, CareType type)
     // If they chose an incorrect CareType
     if (!_getPointersForType(type, container, numBeds))
     {
+	Logger::errorMessage("Facility", "addPatientToBed()", "Incorrect Care Type passed");
         return false;
     }
 
     // If there aren't any more available beds
     if (!(container->size() < *numBeds))
     {
+	Logger::errorMessage("Facility", "addPatientToBed()", "No more beds of type " + type);
         return false;
     }
 
@@ -292,12 +309,12 @@ inline bool Facility::_getPointersForType(CareType type, PatientContainer* &cont
     numBeds = 0;
     switch (type)
     {
-    case AC:
+    case EOBC::AC:
         container = &_patientsAC;
         numBeds = &_numACBeds;
         break;
 
-    case CCC:
+    case EOBC::CCC:
         container = &_patientsCCC;
         numBeds = &_numCCCBeds;
         break;

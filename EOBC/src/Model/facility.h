@@ -24,6 +24,8 @@ public:
     Facility(ID facilityId, int numACBeds, int numCCCBeds, QPoint& location);
     virtual ~Facility();
 
+    virtual Facility* clone();
+
     bool addPatientToBed(Patient* patient, CareType type);
     bool movePatientToBed(QString& healthCardNum, CareType type);
     Patient* getPatient(QString& healthCardNum) const;
@@ -57,6 +59,9 @@ protected:
     int _numLTCBeds;
 
     QPoint _location;
+
+private:
+    Facility(const Facility&);	// no implicit copy constructors
 };
 
 #endif // FACILITY_H

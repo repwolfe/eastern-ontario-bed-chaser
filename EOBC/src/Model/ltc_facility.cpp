@@ -26,7 +26,7 @@ inline bool LTC_Facility::_getPointersForType(CareType type, PatientContainer* &
     // Using switch in case LTC's get more bed types
     switch (type)
     {
-    case LTC:
+    case EOBC::LTC:
         container = &_patientsLTC;
         numBeds = &_numLTCBeds;
         break;

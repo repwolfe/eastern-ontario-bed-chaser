@@ -4,6 +4,8 @@
 #include <QDate>
 #include "modelcommon.h"
 
+using EOBC::CareType;
+
 /**
  * Patients have a health card number and a name.
  * They are people requiring care and are trying to
@@ -16,8 +18,8 @@ class Patient
 public:
     Patient(QString& hcn, QString& first, QString& last, CareType requiredCare);
     Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, QDate& placedOnWL);
-    Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, CareType occuringCare, QDate& admitted);
-    Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, CareType occuringCare, QDate& placedOnWL, QDate& admitted);
+    Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, CareType occupiedCare, QDate& admitted);
+    Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, CareType occupiedCare, QDate& placedOnWL, QDate& admitted);
     ~Patient();
 
     const QString& getHealthCardNumber() const;
@@ -26,18 +28,18 @@ public:
     const QString getName() const;
 
     CareType getRequiredCare() const;
-    CareType getOccuringCare() const;
+    CareType getOccupiedCare() const;
 
     const QDate& getDatePlacedOnWaitingList() const;
     const QDate& getAdmissionDate() const;
 
     void setRequiredCare(CareType care);
-    void setOccuringCare(CareType care);
+    void setOccupiedCare(CareType care);
 
     void setDatePlacedonWaitingList(QDate& date);
     void setAdmissionDate(QDate& date);
 
-    void makeInpatient(QDate& admissionDate, CareType occuringCare);	/// @todo make sure this function is right
+    void makeInpatient(QDate& admissionDate, CareType occupiedCare);	/// @todo make sure this function is right
     bool isInpatient() const;
 
 private:
@@ -46,7 +48,7 @@ private:
     QString _lastName;
 
     CareType _requiredCare;
-    CareType _occuringCare; /// @todo occCare == occuringCare?
+    CareType _occupiedCare;
 
     QDate _placedOnWL;
     QDate _admitted;

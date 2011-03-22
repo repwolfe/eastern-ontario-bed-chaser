@@ -1,6 +1,6 @@
 #include "facility.h"
 
-Facility::Facility(int facilityId, int numACBeds, int numCCCBeds)
+Facility::Facility(ID facilityId, int numACBeds, int numCCCBeds)
     : _facilityId(facilityId), _numACBeds(numACBeds), _numCCCBeds(numCCCBeds)
 {
     _patients.push_back(&_patientsAC);
@@ -276,7 +276,7 @@ int Facility::getNumBeds(CareType type)
  *
  * @return the facility's id number
  */
-int Facility::getFacilityId() const
+ID Facility::getFacilityId() const
 {
     return _facilityId;
 }

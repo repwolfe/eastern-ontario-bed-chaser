@@ -8,6 +8,7 @@
 #include <QLinkedList>
 
 typedef QHash<QString, Patient*> PatientContainer;
+typedef int ID;
 
 /**
  * Facilities have a collection of Patients, each in a different list
@@ -19,7 +20,7 @@ typedef QHash<QString, Patient*> PatientContainer;
 class Facility
 {
 public:
-    Facility(int facilityId, int numACBeds, int numCCCBeds);
+    Facility(ID facilityId, int numACBeds, int numCCCBeds);
     virtual ~Facility();
 
     bool addPatientToBed(Patient* patient, CareType type);
@@ -34,7 +35,7 @@ public:
     void decreaseBeds(unsigned num, CareType type);
     int getNumBeds(CareType type);
 
-    int getFacilityId() const;
+    ID getFacilityId() const;
 
 protected:
     virtual inline bool _getPointersForType(CareType type, PatientContainer*& container, int*& numBeds);
@@ -45,7 +46,7 @@ protected:
 
     QLinkedList<PatientContainer*> _patients;
 
-    int _facilityId;
+    ID _facilityId;
 
     int _numACBeds;
     int _numCCCBeds;

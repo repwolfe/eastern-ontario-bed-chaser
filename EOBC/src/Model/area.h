@@ -1,8 +1,9 @@
 #ifndef AREA_H
 #define AREA_H
 
-#include "modelcontainer.h"
 #include "facility.h"
+
+#include <QMap>
 
 /**
  * Areas have a collection of Facility pointers, as well
@@ -11,16 +12,36 @@
  *
  * This class is part of the Model subsystem described in D2.
  */
-class Area : public ModelContainer<QString,Facility*>
+typedef int ID;
+typedef QMap<ID,Facility*> FacilityList;
+typedef QMap<QString, Patient*> WaitingList;
+
+class Area
 {
 public:
-    Area();//WaitingList* inList);
-    virtual ~Area();
+    Area();
+    Area(FacilityList& facilities);
+    Area(WaitingList& waitingList);
+    Area(FacilityList& facilities, WaitingList& waitingList);
+    ~Area();
 
-private:
-    /// @todo figure out what to do with waiting list....?
-    //WaitingList* _list;
+    bool addFacility(Facility* inFacility);
+    bool deleteFacility(ID& key);
+    void setFacilities(FacilityList& inFacilities);
+    Facility* getFacility(ID& key);
 
+    bool addPatientToWaitingList(Patient* patient);
+    bool removePatientFromWaitingList(QString& healthCardNum);
+    void setWaitingList(WaitingList& inWaitingList);
+    WaitingList& getWaitingList();
+
+protected:
+    void _deleteFacilities();
+    void _deleteWaitingList();
+
+    FacilityList _facilities;
+    WaitingList _waitingList;
 };
 
 #endif // AREA_H
+

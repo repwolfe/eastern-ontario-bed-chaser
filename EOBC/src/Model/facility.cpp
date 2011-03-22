@@ -49,7 +49,7 @@ bool Facility::addPatientToBed(Patient* patient, CareType type)
     // If there aren't any more available beds
     if (!(container->size() < *numBeds))
     {
-	Logger::errorMessage("Facility", "addPatientToBed()", "No more beds of type " + type);
+        Logger::errorMessage("Facility", "addPatientToBed()", "No more beds of type ", QString::number(type));
         return false;
     }
 
@@ -244,7 +244,7 @@ bool Facility::addBeds(unsigned num, CareType type)
 	return true;
     }
 
-    Logger::errorMessage("Facility", "addBeds()", "Incorrect bed type passed in: " + type);
+    Logger::errorMessage("Facility", "addBeds()", "Incorrect bed type passed in: ", QString::number(type));
     return false;
 }
 
@@ -261,7 +261,7 @@ bool Facility::decreaseBeds(unsigned num, CareType type)
     int *numBeds;
     if (!_getPointersForType(type, patients, numBeds))
     {
-	Logger::errorMessage("Facility", "decreaseBeds()", "Incorrect bed type passed in: " + type);
+        Logger::errorMessage("Facility", "decreaseBeds()", "Incorrect bed type passed in: ", QString::number(type));
 	return false;
     }
 
@@ -297,7 +297,7 @@ int Facility::getNumBeds(CareType type)
     // If they passed in the wrong bed type
     if (!_getPointersForType(type, temp, numBeds))
     {
-	/// @todo make sure this is the right thing to do...maybe log error?
+        Logger::errorMessage("Facility", "getNumBeds()", "Incorrect bed type passed in: ", QString::number(type));
         return 0;
     }
 

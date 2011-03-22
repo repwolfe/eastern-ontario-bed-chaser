@@ -68,7 +68,7 @@ bool Area::addFacility(Facility* inFacility)
     ID key = inFacility->getFacilityId();
     FacilityList::iterator iter = _facilities.find(key);
 
-    if (iter != _facilities.end())
+    if (iter == _facilities.end())
     {
         _facilities.insert(key, inFacility);
         return true;
@@ -84,7 +84,7 @@ bool Area::addFacility(Facility* inFacility)
  *
  * @return True if it worked, False if this Facility doesn't exist
  */
-bool Area::removeFacility(ID& key)
+bool Area::removeFacility(ID key)
 {
     FacilityList::iterator iter = _facilities.find(key);
 
@@ -120,7 +120,7 @@ void Area::setFacilities(FacilityList& inFacilities)
  *
  * @return Facility requested, NULL if it doesn't exist
  */
-Facility* Area::getFacility(ID& key)
+Facility* Area::getFacility(ID key)
 {
     FacilityList::iterator iter = _facilities.find(key);
 
@@ -130,6 +130,8 @@ Facility* Area::getFacility(ID& key)
     }
     else
     {
+	/// @todo Key isn't appended properly
+	Logger::errorMessage2("Area", "getFacility()", "No Facility with ID: " + QString(key));
         return 0;
     }
 }

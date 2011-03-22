@@ -21,7 +21,7 @@ typedef int ID;
 class Facility
 {
 public:
-    Facility(ID facilityId, QString facilityName, int numACBeds, int numCCCBeds, QPoint& location);
+    Facility(ID facilityId, QString facilityName, int numACBeds, int numCCCBeds, QPoint location);
     virtual ~Facility();
 
     bool addPatientToBed(Patient* patient, CareType type);

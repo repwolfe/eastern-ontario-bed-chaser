@@ -1,6 +1,6 @@
 #include "ltc_facility.h"
 
-LTC_Facility::LTC_Facility(ID facilityId, QString& facilityName, int numLTCBeds, QPoint& location)
+LTC_Facility::LTC_Facility(ID facilityId, QString& facilityName, int numLTCBeds, QPoint location)
     : Facility(facilityId, facilityName, 0,0, location)
 {
     _numLTCBeds = numLTCBeds;

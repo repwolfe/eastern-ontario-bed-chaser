@@ -3,6 +3,7 @@
 
 #include <QDate>
 #include "modelcommon.h"
+#include "../Common/logger.h"
 
 using EOBC::CareType;
 
@@ -16,10 +17,10 @@ using EOBC::CareType;
 class Patient
 {
 public:
-    Patient(QString& hcn, QString& first, QString& last, CareType requiredCare);
-    Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, QDate& placedOnWL);
-    Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, CareType occupiedCare, QDate& admitted);
-    Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, CareType occupiedCare, QDate& placedOnWL, QDate& admitted);
+    Patient(QString hcn, QString first, QString last, CareType requiredCare);
+    Patient(QString hcn, QString first, QString last, CareType requiredCare, QDate placedOnWL);
+    Patient(QString hcn, QString first, QString last, CareType requiredCare, CareType occupiedCare, QDate admitted);
+    Patient(QString hcn, QString first, QString last, CareType requiredCare, CareType occupiedCare, QDate placedOnWL, QDate admitted);
     ~Patient();
 
     const QString& getHealthCardNumber() const;

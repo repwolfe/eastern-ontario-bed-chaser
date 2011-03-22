@@ -28,9 +28,9 @@ public:
     ~Area();
 
     bool addFacility(Facility* inFacility);
-    bool removeFacility(ID& key);
+    bool removeFacility(ID key);
     void setFacilities(FacilityList& inFacilities);
-    Facility* getFacility(ID& key);
+    Facility* getFacility(ID key);
 
     bool addPatientToWaitingList(QString& hcn, QString& first, QString& last, QDate& placedOnWL);
     bool removePatientFromWaitingList(QString& healthCardNum);

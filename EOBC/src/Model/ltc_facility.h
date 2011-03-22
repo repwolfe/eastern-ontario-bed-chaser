@@ -6,7 +6,7 @@
 class LTC_Facility : public Facility
 {
 public:
-    LTC_Facility(ID facilityId, QString& facilityName, int numLTCBeds, QPoint& location);
+    LTC_Facility(ID facilityId, QString& facilityName, int numLTCBeds, QPoint location);
 
 protected:
     virtual inline bool _getPointersForType(CareType type, PatientContainer* &container, int* &numBeds);

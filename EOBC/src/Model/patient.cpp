@@ -1,5 +1,4 @@
 #include "patient.h"
-#include "../Common/logger.h"
 
 /**
  * Constructor for Patient, not on a Waiting List or in a Facility
@@ -9,7 +8,7 @@
  * @param last the Patient's last name
  * @param requiredCare the type of care required by the patient
  */
-Patient::Patient(QString& hcn, QString& first, QString& last, CareType requiredCare)
+Patient::Patient(QString hcn, QString first, QString last, CareType requiredCare)
     : _healthCardNumber(hcn), _firstName(first), _lastName(last), _requiredCare(requiredCare), _inpatient(false)
 {
 
@@ -24,7 +23,7 @@ Patient::Patient(QString& hcn, QString& first, QString& last, CareType requiredC
  * @param requiredCare the type of care required by the patient
  * @param placedOnWL date placed on a waiting list
  */
-Patient::Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, QDate& placedOnWL)
+Patient::Patient(QString hcn, QString first, QString last, CareType requiredCare, QDate placedOnWL)
     : _healthCardNumber(hcn), _firstName(first), _lastName(last), _requiredCare(requiredCare), _placedOnWL(placedOnWL), _inpatient(false)
 {
 
@@ -40,7 +39,7 @@ Patient::Patient(QString& hcn, QString& first, QString& last, CareType requiredC
  * @param occupiedCare the type of care the patient is actually getting
  * @param admitted date admitted in a Facility
  */
-Patient::Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, CareType occupiedCare, QDate& admitted)
+Patient::Patient(QString hcn, QString first, QString last, CareType requiredCare, CareType occupiedCare, QDate admitted)
     : _healthCardNumber(hcn), _firstName(first), _lastName(last), _requiredCare(requiredCare), _occupiedCare(occupiedCare)
     , _admitted(admitted), _inpatient(true)
 {
@@ -58,7 +57,7 @@ Patient::Patient(QString& hcn, QString& first, QString& last, CareType requiredC
  * @param placedOnWL date placed on a waiting list
  * @param admitted date admitted in a Facility
  */
-Patient::Patient(QString& hcn, QString& first, QString& last, CareType requiredCare, CareType occupiedCare, QDate& placedOnWL, QDate& admitted)
+Patient::Patient(QString hcn, QString first, QString last, CareType requiredCare, CareType occupiedCare, QDate placedOnWL, QDate admitted)
     : _healthCardNumber(hcn), _firstName(first), _lastName(last), _requiredCare(requiredCare), _occupiedCare(occupiedCare)
     , _placedOnWL(placedOnWL), _admitted(admitted), _inpatient(true)
 {

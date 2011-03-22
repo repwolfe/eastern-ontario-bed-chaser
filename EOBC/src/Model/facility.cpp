@@ -1,7 +1,6 @@
 #include "facility.h"
-#include "../Common/logger.h"
 
-Facility::Facility(ID facilityId, QString facilityName, int numACBeds, int numCCCBeds, QPoint& location)
+Facility::Facility(ID facilityId, QString facilityName, int numACBeds, int numCCCBeds, QPoint location)
     : _facilityId(facilityId), _facilityName(facilityName)
     , _numACBeds(numACBeds), _numCCCBeds(numCCCBeds), _numLTCBeds(0)
     , _location(location)
@@ -216,6 +215,11 @@ Patient* Facility::_getPatient(const QString& healthCardNum, PatientContainer*& 
             patient = *iter;
             outContainedIn = container;
         }
+    }
+
+    if (!patient)
+    {
+	Logger::errorMessage2("Facility", "_getPatient()", "No patient found with healthCardNum: " + healthCardNum);
     }
 
     return patient;

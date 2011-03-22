@@ -1,7 +1,9 @@
 #include "facility.h"
 
-Facility::Facility(int facilityId, int numACBeds, int numCCCBeds)
-    : _facilityId(facilityId), _numACBeds(numACBeds), _numCCCBeds(numCCCBeds)
+Facility::Facility(ID facilityId, int numACBeds, int numCCCBeds, QPoint& location)
+    : _facilityId(facilityId)
+    , _numACBeds(numACBeds), _numCCCBeds(numCCCBeds), _numLTCBeds(0)
+    , _location(location)
 {
     _patients.push_back(&_patientsAC);
     _patients.push_back(&_patientsCCC);
@@ -55,26 +57,6 @@ bool Facility::addPatientToBed(Patient* patient, CareType type)
 }
 
 /**
- * Adds a patient to this facility, and to a specific type of bed.
- * The facility then takes ownsership of the patient, deleting it
- * in the destructor, unless the patient is manually removed from
- * the facility.
- *
- * @param QString the patient's healthCardNumber
- * @param QString the patient's name
- * @param QDate the date the patient was placed on waiting list
- * @param QDate the date the patient was admitted to this facility
- * @param Caretype which bed to add to
- *
- * @return True if it worked, False otherwise
- */
-bool Facility::addPatientToBed(QString& healthCardNumber, QString& name, QDate &placedOnWaitingList, QDate& admissionDate, CareType type)
-{
-    return addPatientToBed(new Patient(healthCardNumber, name, placedOnWaitingList), type);
-}
-
-
-/**
  * Moves a patient with a particular health card number to
  * a different bed
  *
@@ -120,7 +102,7 @@ bool Facility::movePatientToBed(QString& healthCardNum, CareType type)
 bool Facility::removePatient(Patient* patient)
 {
     PatientContainer* containedIn = 0;
-    QString& healthCardNum = patient->getHealthCardNumber();
+    const QString& healthCardNum = patient->getHealthCardNumber();
     _getPatient(healthCardNum, containedIn);
 
     // If this patient isn't in any bed, can't remove them from the facility
@@ -175,7 +157,7 @@ Patient* Facility::getPatient(QString& healthCardNum) const
  * @param PatientContainer the container the patient is in (aka which bed their in)
  * @return Patient* with given healthCardNum or NULL if it's not in the facility
  */
-Patient* Facility::_getPatient(QString& healthCardNum, PatientContainer*& outContainedIn) const
+Patient* Facility::_getPatient(const QString& healthCardNum, PatientContainer*& outContainedIn) const
 {
     Patient* patient = 0;
 
@@ -276,9 +258,24 @@ int Facility::getNumBeds(CareType type)
  *
  * @return the facility's id number
  */
-int Facility::getFacilityId() const
+ID Facility::getFacilityId() const
 {
     return _facilityId;
+}
+
+void Facility::setFacilityId(ID theId)
+{
+    _facilityId = theId;
+}
+
+const QPoint& Facility::getLocation() const
+{
+    return _location;
+}
+
+void Facility::setLocation(QPoint& location)
+{
+    _location = location;
 }
 
 /**

@@ -51,7 +51,6 @@ HEADERS  += \
     src/ChangeData/createuserform.h \
     src/ChangeData/updatewaitinglistform.h \
     src/ChangeData/redirectpatientform.h \
-    src/Model/modelcontainer.h \
     src/LogOn/logoncontrol.h \
     src/LogOn/logonwindow.h \
     src/Common/logger.h \

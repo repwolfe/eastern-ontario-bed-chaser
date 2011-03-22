@@ -6,8 +6,10 @@
 
 #include <QHash>
 #include <QLinkedList>
+#include <QPoint>
 
 typedef QHash<QString, Patient*> PatientContainer;
+typedef int ID;
 
 /**
  * Facilities have a collection of Patients, each in a different list
@@ -19,11 +21,10 @@ typedef QHash<QString, Patient*> PatientContainer;
 class Facility
 {
 public:
-    Facility(int facilityId, int numACBeds, int numCCCBeds);
+    Facility(ID facilityId, int numACBeds, int numCCCBeds, QPoint& location);
     virtual ~Facility();
 
     bool addPatientToBed(Patient* patient, CareType type);
-    bool addPatientToBed(QString& healthCardNumber, QString& name, QDate &placedOnWaitingList, QDate& admissionDate, CareType type);
     bool movePatientToBed(QString& healthCardNum, CareType type);
     Patient* getPatient(QString& healthCardNum) const;
 
@@ -34,21 +35,28 @@ public:
     void decreaseBeds(unsigned num, CareType type);
     int getNumBeds(CareType type);
 
-    int getFacilityId() const;
+    ID getFacilityId() const;
+    void setFacilityId(ID theId);
+
+    const QPoint& getLocation() const;
+    void setLocation(QPoint& location);
 
 protected:
     virtual inline bool _getPointersForType(CareType type, PatientContainer*& container, int*& numBeds);
-    Patient* _getPatient(QString& healthCardNum, PatientContainer*& outContainedIn) const;
+    Patient* _getPatient(const QString& healthCardNum, PatientContainer*& outContainedIn) const;
 
     PatientContainer _patientsAC;
     PatientContainer _patientsCCC;
 
     QLinkedList<PatientContainer*> _patients;
 
-    int _facilityId;
+    ID _facilityId;
 
     int _numACBeds;
     int _numCCCBeds;
+    int _numLTCBeds;
+
+    QPoint _location;
 };
 
 #endif // FACILITY_H

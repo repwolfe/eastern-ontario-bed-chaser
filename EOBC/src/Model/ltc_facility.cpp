@@ -1,7 +1,7 @@
 #include "ltc_facility.h"
 
-LTC_Facility::LTC_Facility(int facilityId, int numLTCBeds, QPoint& location)
-    : Facility(facilityId, 0,0, location)
+LTC_Facility::LTC_Facility(ID facilityId, QString& facilityName, int numLTCBeds, QPoint& location)
+    : Facility(facilityId, facilityName, 0,0, location)
 {
     _numLTCBeds = numLTCBeds;
     _patients.clear();  // remove AC and CCC containers from _patients

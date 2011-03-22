@@ -4,6 +4,8 @@
 #include <QFile>
 #include <QTextStream>
 
+const bool Logger::LOGGING_ON = true;
+
 const QString Logger::OUTPUT_FILE = "logfile.log";
 const char* Logger::errorString = "!!!! ERROR MESSAGE called";
 const char* Logger::debugString = "~~~~ DEBUG MESSAGE called";
@@ -22,6 +24,21 @@ void Logger::errorMessage(std::string className, std::string callingFunction, st
 }
 
 /**
+ * Generate an Error message to the log file.
+ * Used when you want the error message to include a variable.
+ *
+ * Example call: errorMessage2("Area", "addFacility()", "Failed to add Facility with ID: " + facilityId);
+ *
+ * @param className the class that called this function
+ * @param callingFunction the function that called this
+ * @param message the error message
+ */
+void Logger::errorMessage2(std::string className, std::string callingFunction, const QString message)
+{
+    Logger::_log(className, callingFunction, message.toStdString(), Logger::ERROR);
+}
+
+/**
  * Generate a Debug message to the log file
  *
  * @param className the class that called this function
@@ -31,6 +48,20 @@ void Logger::errorMessage(std::string className, std::string callingFunction, st
 void Logger::debugMessage(std::string className, std::string callingFunction, std::string message)
 {
     Logger::_log(className, callingFunction, message, Logger::DEBUG);
+}
+
+/**
+ * Generate a Debug message to the log file
+ * Used when you want the debug message to include a variable.
+ *
+ * Example call: debugMessage2("Area", "addFacility()", "Tried to add Facility with ID: " + facilityId);
+ * @param className the class that called this function
+ * @param callingFunction the function that called this
+ * @param message the debug message
+ */
+void Logger::debugMessage2(std::string className, std::string callingFunction, const QString message)
+{
+    Logger::_log(className, callingFunction, message.toStdString(), Logger::DEBUG);
 }
 
 /**
@@ -46,6 +77,20 @@ void Logger::infoMessage(std::string className, std::string callingFunction, std
 }
 
 /**
+ * Generate an Info message to the log file
+ * Used when you want the info message to include a variable.
+ *
+ * Example call: infoMessage2("Area", "addFacility()", "Adding Facility with ID: " + facilityId);
+ * @param className the class that called this function
+ * @param callingFunction the function that called this
+ * @param message the info message
+ */
+void Logger::infoMessage2(std::string className, std::string callingFunction, const QString message)
+{
+    Logger::_log(className, callingFunction, message.toStdString(), Logger::INFO);
+}
+
+/**
  * Generate different types of messages to the log file
  *
  * @param className the class that called this function
@@ -55,29 +100,33 @@ void Logger::infoMessage(std::string className, std::string callingFunction, std
  */
 void Logger::_log(std::string className, std::string callingFunction, std::string errorMessage, LogType type)
 {
-    QFile file(OUTPUT_FILE);
-    if (file.open(QIODevice::Append))
+    // Only Log if Logging is enabled
+    if (LOGGING_ON)
     {
-        QTextStream stream(&file);
+	QFile file(OUTPUT_FILE);
+	if (file.open(QIODevice::Append))
+	{
+	    QTextStream stream(&file);
 
-        stream << "\n---------------------------------------------------------------\n";
-        stream << "On " << QDate::currentDate().toString("ddd MMMM d yyyy") << ": " << QTime::currentTime().toString("h:m:ss ap") << "\n";
+	    stream << "\n---------------------------------------------------------------\n";
+	    stream << "On " << QDate::currentDate().toString("ddd MMMM d yyyy") << ": " << QTime::currentTime().toString("h:m:ss ap") << "\n";
 
-        switch (type)
-        {
-        case Logger::DEBUG:
-            stream << debugString;
-            break;
-        case Logger::ERROR:
-            stream << errorString;
-            break;
-        case Logger::INFO:
-            stream << infoString;
-            break;
-        }
-        stream << " from function: " << className.c_str() << "::" << callingFunction.c_str() << "\n";
-        stream << "Message:\n";
-        stream << errorMessage.c_str();
-        stream << "\n---------------------------------------------------------------\n";
+	    switch (type)
+	    {
+	    case Logger::DEBUG:
+		stream << debugString;
+		break;
+	    case Logger::ERROR:
+		stream << errorString;
+		break;
+	    case Logger::INFO:
+		stream << infoString;
+		break;
+	    }
+	    stream << " from function: " << className.c_str() << "::" << callingFunction.c_str() << "\n";
+	    stream << "Message:\n";
+	    stream << errorMessage.c_str();
+	    stream << "\n---------------------------------------------------------------\n";
+	}
     }
 }

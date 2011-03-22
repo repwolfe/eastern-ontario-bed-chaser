@@ -57,31 +57,6 @@ Area::~Area()
 }
 
 /**
- * Explicit creation of a copy of this Area object, with new pointers to new Facility/Patient objects with the
- * same attributes as the originals.
- *
- * Prevents double deletion of Facility/Patient objects.
- *
- * @return new Area pointer that is a copy of this one
- */
-Area* Area::clone()
-{
-    FacilityList facilities;
-    foreach(Facility* facility, _facilities)
-    {
-	facilities.insert(facility->getFacilityId(), facility->clone());
-    }
-
-    WaitingList waitingList;
-    foreach(Patient* patient, _waitingList)
-    {
-	waitingList.insert(patient->getHealthCardNumber(), new Patient(*patient));
-    }
-
-    return new Area(_id, facilities, waitingList);
-}
-
-/**
  * Add a Facility to this Area
  *
  * @param inFacility the Facility to add

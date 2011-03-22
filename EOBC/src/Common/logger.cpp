@@ -27,15 +27,14 @@ void Logger::errorMessage(std::string className, std::string callingFunction, st
  * Generate an Error message to the log file.
  * Used when you want the error message to include a variable.
  *
- * Example call: errorMessage2("Area", "addFacility()", "Failed to add Facility with ID: " + facilityId);
- *
  * @param className the class that called this function
  * @param callingFunction the function that called this
  * @param message the error message
+ * @param var the variable to append to the message
  */
-void Logger::errorMessage2(std::string className, std::string callingFunction, const QString message)
+void Logger::errorMessage(std::string className, std::string callingFunction, std::string message, QString var)
 {
-    Logger::_log(className, callingFunction, message.toStdString(), Logger::ERROR);
+    Logger::_log(className, callingFunction, message + var.toStdString(), Logger::ERROR);
 }
 
 /**
@@ -54,14 +53,14 @@ void Logger::debugMessage(std::string className, std::string callingFunction, st
  * Generate a Debug message to the log file
  * Used when you want the debug message to include a variable.
  *
- * Example call: debugMessage2("Area", "addFacility()", "Tried to add Facility with ID: " + facilityId);
  * @param className the class that called this function
  * @param callingFunction the function that called this
  * @param message the debug message
+ * @param var the variable to append to the message
  */
-void Logger::debugMessage2(std::string className, std::string callingFunction, const QString message)
+void Logger::debugMessage(std::string className, std::string callingFunction, std::string message, QString var)
 {
-    Logger::_log(className, callingFunction, message.toStdString(), Logger::DEBUG);
+    Logger::_log(className, callingFunction, message + var.toStdString(), Logger::DEBUG);
 }
 
 /**
@@ -80,14 +79,14 @@ void Logger::infoMessage(std::string className, std::string callingFunction, std
  * Generate an Info message to the log file
  * Used when you want the info message to include a variable.
  *
- * Example call: infoMessage2("Area", "addFacility()", "Adding Facility with ID: " + facilityId);
  * @param className the class that called this function
  * @param callingFunction the function that called this
  * @param message the info message
+ * @param var the variable to append to the message
  */
-void Logger::infoMessage2(std::string className, std::string callingFunction, const QString message)
+void Logger::infoMessage(std::string className, std::string callingFunction, std::string message, QString var)
 {
-    Logger::_log(className, callingFunction, message.toStdString(), Logger::INFO);
+    Logger::_log(className, callingFunction, message + var.toStdString(), Logger::INFO);
 }
 
 /**

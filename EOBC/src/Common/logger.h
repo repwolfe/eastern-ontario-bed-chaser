@@ -21,11 +21,11 @@ public:
     };
 
     static void errorMessage(std::string className, std::string callingFunction, std::string message);
-    static void errorMessage2(std::string className, std::string callingFunction, const QString message);
+    static void errorMessage(std::string className, std::string callingFunction, std::string message, QString var);
     static void debugMessage(std::string className, std::string callingFunction, std::string message);
-    static void debugMessage2(std::string className, std::string callingFunction, const QString message);
+    static void debugMessage(std::string className, std::string callingFunction, std::string message, QString var);
     static void infoMessage(std::string className, std::string callingFunction, std::string message);
-    static void infoMessage2(std::string className, std::string callingFunction, const QString message);
+    static void infoMessage(std::string className, std::string callingFunction, std::string message, QString var);
 
 private:
     Logger();   // No instantiation of this class

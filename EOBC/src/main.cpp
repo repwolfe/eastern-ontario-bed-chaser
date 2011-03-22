@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     Facility* fac = area4->getFacility(508);
     fac->addPatientToBed(new Patient("2341245", "John", "Doe", EOBC::AC), EOBC::CCC);
 
-    // Move Patient John to Area 4, Facilit 2
+    // Move Patient John to Area 4, Facility 2
     // Remove Patient John
 
     foreach(Area* area, areas)

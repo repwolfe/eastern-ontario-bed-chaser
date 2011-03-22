@@ -131,7 +131,7 @@ Facility* Area::getFacility(ID key)
     else
     {
 	/// @todo Key isn't appended properly
-	Logger::errorMessage2("Area", "getFacility()", "No Facility with ID: " + QString(key));
+        Logger::errorMessage("Area", "getFacility()", "No Facility with ID: ", QString::number(key));
         return 0;
     }
 }

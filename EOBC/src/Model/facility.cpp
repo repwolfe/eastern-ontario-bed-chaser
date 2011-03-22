@@ -73,7 +73,7 @@ bool Facility::movePatientToBed(QString& healthCardNum, CareType type)
 
     if (!patient)
     {
-	Logger::errorMessage2("Facility", "movePatientToBed()", "No patient with health card number " + healthCardNum);
+        Logger::errorMessage("Facility", "movePatientToBed()", "No patient with health card number ", healthCardNum);
         return false;
     }
 
@@ -101,7 +101,7 @@ bool Facility::movePatientToFacility(QString& healthCardNum, Facility* otherFaci
 
     if (!patient)
     {
-	Logger::errorMessage2("Facility", "movePatientToFacility()", "No patient with health card number " + healthCardNum);
+        Logger::errorMessage("Facility", "movePatientToFacility()", "No patient with health card number ", healthCardNum);
 	return false;
     }
 
@@ -131,7 +131,7 @@ bool Facility::removePatient(Patient* patient)
     // If this patient isn't in any bed, can't remove them from the facility
     if (!containedIn)
     {
-	Logger::errorMessage2("Facility", "removePatient(Patient)", "This patient isn't in any bed: " + healthCardNum);
+        Logger::errorMessage("Facility", "removePatient(Patient)", "This patient isn't in any bed: ", healthCardNum);
         return false;
     }
 
@@ -155,7 +155,7 @@ bool Facility::removePatient(QString& healthCardNumber)
     // If this patient isn't in any bed, can't remove them from the facility
     if (!patient)
     {
-	Logger::errorMessage2("Facility", "removePatient(QString)", "This patient isn't in any bed: " + healthCardNumber);
+        Logger::errorMessage("Facility", "removePatient(QString)", "This patient isn't in any bed: ", healthCardNumber);
         return false;
     }
 
@@ -219,7 +219,7 @@ Patient* Facility::_getPatient(const QString& healthCardNum, PatientContainer*& 
 
     if (!patient)
     {
-	Logger::errorMessage2("Facility", "_getPatient()", "No patient found with healthCardNum: " + healthCardNum);
+        Logger::errorMessage("Facility", "_getPatient()", "No patient found with healthCardNum: ", healthCardNum);
     }
 
     return patient;

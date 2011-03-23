@@ -28,4 +28,7 @@
     <qresource prefix="/logon">
         <file>bin/accounts.txt</file>
     </qresource>
+    <qresource prefix="/storage">
+        <file>bin/storage.txt</file>
+    </qresource>
 </RCC>

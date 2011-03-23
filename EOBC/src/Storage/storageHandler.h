@@ -14,11 +14,12 @@
 class StorageHandler
 {
 public:
-    StorageHandler(std::string fileName);
+    StorageHandler(QString fileName);
     virtual ~StorageHandler();
     int loadModel(QString fileName);
     int saveModel(QString filename, Area* anArea, int facilityID);
 private:
+   StorageHandler _StorageHandler();
    QLinkedList<Area*> _model;
 
 };

@@ -34,7 +34,9 @@ SOURCES +=\
     src/LogOn/logonwindow.cpp \
     src/Common/logger.cpp \
     src/Common/convenience.cpp \
-    src/Storage/storageHandler.cpp
+    src/Storage/storageHandler.cpp \
+    src/DisplayMap/facilityicon.cpp \
+    src/DisplayMap/mapitem.cpp
 
 
 HEADERS  += \
@@ -57,7 +59,9 @@ HEADERS  += \
     src/LogOn/logonwindow.h \
     src/Common/logger.h \
     src/Common/convenience.h \
-    src/Storage/storageHandler.h
+    src/Storage/storageHandler.h \
+    src/DisplayMap/facilityicon.h \
+    src/DisplayMap/mapitem.h
 
 RESOURCES += \
     Resources.qrc

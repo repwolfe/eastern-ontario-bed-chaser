@@ -9,10 +9,11 @@ MapArea::MapArea(QObject *parent) :
     zoomed = false;
    resizeTimer.start(10);
    connect(&resizeTimer,SIGNAL(timeout()),this,SLOT(timerEvent()));
-   mapPos = QPoint(0,0);
+   mapPos = QPoint(400,300);
    this->setMouseTracking(true);
    lastMousePos = middle;
    zoomSpeed = BASEZOOMSPEED;
+   icons.push_back(new FacilityIcon(QPoint(200,100)));
 }
 MapArea::~MapArea()
 {
@@ -35,7 +36,9 @@ void MapArea::paintEvent(QPaintEvent *event)
     painter.setPen(Qt::white);
     painter.setBrush(Qt::white);
     painter.drawRect(QRect(0,0,middle.x()*2,middle.y()*2));
-
+    painter.setBrush(Qt::transparent);
+    painter.setPen(Qt::black);
+    painter.drawRect(QRect(10,10, middle.x()*2-20, middle.y()*2-20));
     for(int i=0;i<this->vecs.count();i++)
     {
         painter.setPen(vecs.at(i)->getCol().darker());
@@ -43,33 +46,19 @@ void MapArea::paintEvent(QPaintEvent *event)
         painter.drawPolygon(vecs.at(i)->getPoly());
         //painter.drawEllipse(vecs.at(i)->getRealPosition() + mapPos,10,10);
     }
+    for(int i=0;i<icons.count();i++)
+    {
+        icons.at(i)->draw(painter);
+    }
     //painter.drawEllipse(mapPos,15,15);
     //painter.drawEllipse(middle,10,10);
 }
 void MapArea::addVecs(QVector<QPoint>* points, QColor col)
 {
-    QVector<QPoint>::iterator iter = points->begin();
-    while(iter != points->end())
-    {
-        iter->setY(iter->y() - 10);
-        iter++;
-    }
-
     MapVectors* temp = new MapVectors(col);
     temp->setVectors(points);
     temp->setMiddle(middle);
     vecs.push_back(temp);
-    /*int x=0,y=0;
-    iter = points->begin();
-    while(iter != points->end())
-    {
-        x += iter->x();
-        y += iter->y();
-        iter++;
-    }
-    x /= points->size();
-    y /= points->size();
-    mapPos += QPoint(0,0)/vecs.size();*/
 }
 void MapArea::timerEvent()
 {
@@ -77,8 +66,13 @@ void MapArea::timerEvent()
     while(iter != vecs.end())
     {
         (*iter)->update(lastMousePos);
-
         iter++;
+    }
+    QVector<FacilityIcon*>::iterator fiter = icons.begin();
+    while(fiter != icons.end())
+    {
+        (*fiter)->update(lastMousePos);
+        fiter++;
     }
     moveMap();
     repaint();
@@ -86,7 +80,8 @@ void MapArea::timerEvent()
 
 void MapArea::resize(QPoint p)
 {
-    QVector<MapVectors*>::iterator iter = vecs.begin();
+    QVector<MapVectors*>::iterator viter = vecs.begin();
+    QVector<FacilityIcon*>::iterator fiter = icons.begin();
     float scale = 1;
     if(zoomed){
        // scale = 0.66;
@@ -101,11 +96,16 @@ void MapArea::resize(QPoint p)
         zoomed = true;
     }
 
-    while(iter != vecs.end())
+    while(viter != vecs.end())
+    {
+         (*viter)->resizePoints(p,scale);
+         viter++;
+    }
+    while(fiter != icons.end())
     {
 
-         (*iter)->resizePoints(p,scale);
-         iter++;
+         (*fiter)->resizePoints(p,scale);
+         fiter++;
     }
     repaint();
 }
@@ -113,7 +113,6 @@ void MapArea::mousePressEvent(QMouseEvent *event)
 {
     lastMousePos = QPoint(event->x(),event->y());
     resize(lastMousePos);
-
 }
 
 void MapArea::mouseReleaseEvent(QMouseEvent *event)
@@ -130,6 +129,7 @@ void MapArea::setMiddle(QPoint& middle)
     MapArea::middle = middle;
 
     MapVectors::setMiddle(middle);
+    FacilityIcon::setMiddle(middle);
 }
 void MapArea::moveMap()
 {
@@ -171,6 +171,12 @@ void MapArea::moveMap()
         QPolygonF& p = (*iter)->getPoly();
         p.translate(mapPos);
         iter++;
+    }
+    QVector<FacilityIcon*>::iterator fiter = icons.begin();
+    while(fiter != icons.end())
+    {
+        (*fiter)->move(mapPos);
+        fiter++;
     }
 }
 void MapArea::mouseMoveEvent(QMouseEvent *event)

@@ -8,6 +8,7 @@
 #include <QPainter>
 #include <QWidget>
 #include "mapvectors.h"
+#include "facilityicon.h"
 class MapArea : public QWidget
 {
     Q_OBJECT
@@ -34,6 +35,7 @@ private:
 
 private:
    QVector<MapVectors*> vecs;
+   QVector<FacilityIcon*> icons;
    QTimer resizeTimer;
    QPoint lastMousePos;
    QPoint mapPos;

@@ -1,12 +1,13 @@
 #include "map.h"
-
+#define RIGHTCOLUMNWIDTH 60
+#define TOPMENUHEIGHT 10
 Map::Map(QWidget *parent) :
     QMainWindow(parent)
 {
 
     setWindowTitle(tr("EOBC"));
     this->mapLayout = new QLabel();
-    mapLayout->setGeometry(0,0,1000,800);
+
 
 
     fileMenu = menuBar()->addMenu("&File");
@@ -18,6 +19,7 @@ Map::Map(QWidget *parent) :
     setCentralWidget(mapLayout);
     //mapLayout->setLayout(new QFormLayout());
     loadAreas();
+    mapLayout->setGeometry(0,0,1000,800);
 
 }
 Map::~Map()
@@ -34,7 +36,7 @@ void Map::loadAreas()
 
     MapArea* tempArea = new MapArea();
     q->addWidget(tempArea,0,0);
-    q->setColumnStretch(0,720);
+    q->setColumnStretch(0,790);
     q->setRowMinimumHeight(0,800);
     QPushButton* bstuff = new QPushButton("ok");
     q->addWidget(bstuff,0,1);
@@ -120,8 +122,8 @@ QVector<QPoint>* Map::loadFile(QString fname)
 }
 void Map::resizeEvent(QResizeEvent *event)
 {
-    int x =area->geometry().width()/2;
-    int y =area->geometry().height()/2;
+    int x =geometry().width()/2 - RIGHTCOLUMNWIDTH;
+    int y =geometry().height()/2 - TOPMENUHEIGHT;
     QPoint middle(x, y);
     area->setMiddle(middle);
 }

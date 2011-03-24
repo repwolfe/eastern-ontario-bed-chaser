@@ -1,15 +1,12 @@
 #include "mapvectors.h"
 #define MAPMIDDLEX 500
 #define MAPMIDDLEY 400
-QPoint MapVectors::middle;
-MapVectors::MapVectors( QColor color)
+
+MapVectors::MapVectors(QColor color,QObject* parent) : MapItem(parent)
 {
     col = color;
     //clicked = false;
-    scale = 0.99;
-    idealScale = 0.9;
-    selected = false;
-    hovered = false;
+
 }
 MapVectors::~MapVectors()
 {
@@ -55,7 +52,10 @@ void MapVectors::setVectors(QVector<QPoint>* ve)
     }
     idealPosition.setX(position.x());
     idealPosition.setY(position.y());
+    if(col == Qt::blue)
+            position.setY(position.y()+50);
     update(middle);
+
 }
 void MapVectors::update(QPoint mouse)
 {
@@ -88,30 +88,25 @@ void MapVectors::update(QPoint mouse)
             mouse = QPoint(middle.x()-90,middle.y()-30);
         poly.translate(QPointF(idealPosition.x(),idealPosition.y()));
      }*/
+    MapItem::update(mouse);
     if(scale != idealScale)
        {
-           float scalediff = (idealScale - scale)/7 + 1;
-           scale *= scalediff;
-
-           QPointF tempPos(position.x(),position.y());
-           tempPos *= scale;
 
            poly = QPolygon(*mapPoints);
            for(int i=0;i<poly.count();i++)
            {
                //poly.setPoint(i,poly.point(i)*scale);
-               poly[i].setX(poly[i].x()*scale - tempPos.x());
-               poly[i].setY(poly[i].y()*scale - tempPos.y());
+               poly[i].setX(poly[i].x()*scale - realPosition.x());
+               poly[i].setY(poly[i].y()*scale - realPosition.y());
                //QPointF::s
            }
-           realPosition = QPoint(tempPos.x(),tempPos.y());
+
            poly.translate(realPosition);
         }
 }
 void MapVectors::resizePoints(QPoint mouse, float scale)
 {
-    idealScale *= scale;
-    selected = false;
+    MapItem::resizePoints(mouse,scale);
     if(idealScale < scale)
     {
         if(poly.containsPoint(mouse, Qt::OddEvenFill))
@@ -133,28 +128,5 @@ QPolygonF& MapVectors::getPoly()
 {
     return poly;
 }
-void MapVectors::setMiddle(QPoint& middle)
 
-{
-    MapVectors::middle = middle;
-}
-bool MapVectors::isSelected()
-{
-    return selected;
-}
-QPoint MapVectors::getPosition()
-{
-    return position;
-}
-float MapVectors::getScale()
-{
-    return this->scale;
-}
-QPoint MapVectors::getRealPosition()
-{
-    return realPosition;
-}
-void MapVectors::setHovered(bool h)
-{
-    hovered = h;
-}
+

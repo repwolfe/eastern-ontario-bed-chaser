@@ -29,14 +29,15 @@ SOURCES +=\
     src/ChangeData/facilityinformationform.cpp \
     src/ChangeData/createuserform.cpp \
     src/ChangeData/updatewaitinglistform.cpp \
-    src/ChangeData/redirectpatientform.cpp \
     src/LogOn/logoncontrol.cpp \
     src/LogOn/logonwindow.cpp \
     src/Common/logger.cpp \
     src/Common/convenience.cpp \
     src/Storage/storageHandler.cpp \
     src/DisplayMap/facilityicon.cpp \
-    src/DisplayMap/mapitem.cpp
+    src/DisplayMap/mapitem.cpp \
+    src/ChangeData/movepatientform.cpp
+
 
 
 HEADERS  += \
@@ -54,14 +55,15 @@ HEADERS  += \
     src/ChangeData/facilityinformationform.h \
     src/ChangeData/createuserform.h \
     src/ChangeData/updatewaitinglistform.h \
-    src/ChangeData/redirectpatientform.h \
     src/LogOn/logoncontrol.h \
     src/LogOn/logonwindow.h \
     src/Common/logger.h \
     src/Common/convenience.h \
     src/Storage/storageHandler.h \
     src/DisplayMap/facilityicon.h \
-    src/DisplayMap/mapitem.h
+    src/DisplayMap/mapitem.h \
+    src/ChangeData/movepatientform.h
+
 
 RESOURCES += \
     Resources.qrc

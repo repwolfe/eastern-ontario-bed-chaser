@@ -2,12 +2,13 @@
 #define FACILITYINFORMATIONFORM_H
 
 #include <QWidget>
+#include <QLineEdit>
+#include <QPushButton>
 
 /**
  * This class is a form which allows a system administrator
  * to create a new Facility.
  *
- * @todo check if only admin can do this
  * This class is part of the ChangeData subsystem described in D2.
  */
 class FacilityInformationForm : public QWidget
@@ -21,6 +22,14 @@ signals:
 public slots:
 
 private:
+    void _setupLayout();
+
+    /// @todo What about Facility type? (Hospital/LTC)
+    QLineEdit* _xAxisBox;
+    QLineEdit* _yAxisBox;
+    QLineEdit* _facilityNameBox;
+    QPushButton* _submitButton;
+    QPushButton* _cancelButton;
 
 
 };

@@ -24,12 +24,12 @@ void CreateUserForm::_setupLayout()
     _lastNameBox    = new QLineEdit();
 
     _priveledgeMenu = new QComboBox();
-    _priveledgeMenu->addItem(tr("System Administrator"));
-    _priveledgeMenu->addItem(tr("LHIN Administrator"));
-    _priveledgeMenu->addItem(tr("Facility Staff"));
+    _priveledgeMenu->addItem("System Administrator");
+    _priveledgeMenu->addItem("LHIN Administrator");
+    _priveledgeMenu->addItem("Facility Staff");
 
-    _submitButton   = new QPushButton(tr("Submit"));
-    _cancelButton   = new QPushButton(tr("Cancel"));
+    _submitButton   = new QPushButton("Submit");
+    _cancelButton   = new QPushButton("Cancel");
 
     _submitButton->setFixedWidth(125);
     _cancelButton->setFixedWidth(125);
@@ -37,12 +37,12 @@ void CreateUserForm::_setupLayout()
     QFormLayout* q = new QFormLayout();
     q->setContentsMargins(15, 10, 15, 10);
     q->setVerticalSpacing(20);
-    q->addRow(tr("User Name"), _usernameBox);
-    q->addRow(tr("Password"), _passwordBox);
-    q->addRow(tr("First Name"), _firstNameBox);
-    q->addRow(tr("Last Name"), _lastNameBox);
-    q->addRow(tr("&Priveledge"), _priveledgeMenu);
-    q->addRow(tr(""), _submitButton);
-    q->addRow(tr(""), _cancelButton);
+    q->addRow("User Name", _usernameBox);
+    q->addRow("Password", _passwordBox);
+    q->addRow("First Name", _firstNameBox);
+    q->addRow("Last Name", _lastNameBox);
+    q->addRow("Priveledge", _priveledgeMenu);
+    q->addRow("", _submitButton);
+    q->addRow("", _cancelButton);
     setLayout(q);
 }

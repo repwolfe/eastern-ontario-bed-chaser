@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QListWidget>
 #include <QComboBox>
+#include <QPushButton>
 
 /**
  * A form that Moves a patient.
@@ -18,20 +19,24 @@ class MovePatientForm : public QWidget
 {
     Q_OBJECT
 public:
-   MovePatientForm(bool displayBedType, QString moveTo, QWidget *parent = 0);
+   MovePatientForm(QString title, bool displayBedType, QString moveTo, QWidget *parent = 0);
 
 signals:
 
 public slots:
 
-protected:
+private:
+   void _setupLayout();
+
    bool _displayBedType;
    QString _moveToLabel;
 
    QListWidget* _patientList;
    QComboBox* _facilityList;
-   QComboBox* _moveToOptions;
+   QComboBox* _moveToList;
 
+   QPushButton* _submitButton;
+   QPushButton* _cancelButton;
 };
 
 #endif // MOVEPATIENTFORM_H

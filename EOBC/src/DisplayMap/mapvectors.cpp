@@ -122,7 +122,7 @@ QColor MapVectors::getCol()
     else if(hovered)
         return col.lighter(75);
     else
-        return col.lighter(50);
+        return col.lighter(70);
 }
 QPolygonF& MapVectors::getPoly()
 {

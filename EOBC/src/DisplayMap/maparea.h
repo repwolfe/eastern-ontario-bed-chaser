@@ -20,6 +20,7 @@ public:
     void addVecs(QVector<QPoint>* points, QColor col);
     void resize(QPoint p);
     static void setMiddle(QPoint& middle);
+    void loadLabels(QVector<QLabel*> labels);
 
 signals:
 
@@ -31,6 +32,7 @@ private:
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseClickEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *);
+    void updateLabels();
 
 
 private:
@@ -43,6 +45,7 @@ private:
    float zoomSpeed;
    static QPoint middle;
    void moveMap();
+   QVector<QLabel*> labels;
 };
 
 #endif // MAPAREA_H

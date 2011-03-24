@@ -13,7 +13,9 @@ MapArea::MapArea(QObject *parent) :
    this->setMouseTracking(true);
    lastMousePos = middle;
    zoomSpeed = BASEZOOMSPEED;
-   icons.push_back(new FacilityIcon(QPoint(200,100)));
+   icons.push_back(new FacilityIcon(QPoint(200,100),"Franklin Hospital","Eastern Counties"));
+   icons.push_back(new FacilityIcon(QPoint(-200,-100),"General Hospital","Renfrew County"));
+    setGeometry(0,0,400,300);
 }
 MapArea::~MapArea()
 {
@@ -31,8 +33,11 @@ QVector<MapVectors*>& MapArea::getVecs()
 }
 void MapArea::paintEvent(QPaintEvent *event)
 {
+    setGeometry(0,0,middle.x()*2,middle.y()*2);
     QPainter painter(this);
     //Draw Background
+    //painter.setViewport(0,0,middle.x()*2,middle.y()*2);
+
     painter.setPen(Qt::white);
     painter.setBrush(Qt::white);
     painter.drawRect(QRect(0,0,middle.x()*2,middle.y()*2));
@@ -42,7 +47,7 @@ void MapArea::paintEvent(QPaintEvent *event)
     for(int i=0;i<this->vecs.count();i++)
     {
         painter.setPen(vecs.at(i)->getCol().darker());
-        painter.setBrush(vecs.at(i)->getCol().lighter());
+        painter.setBrush(vecs.at(i)->getCol().lighter(130));
         painter.drawPolygon(vecs.at(i)->getPoly());
         //painter.drawEllipse(vecs.at(i)->getRealPosition() + mapPos,10,10);
     }
@@ -50,6 +55,7 @@ void MapArea::paintEvent(QPaintEvent *event)
     {
         icons.at(i)->draw(painter);
     }
+
     //painter.drawEllipse(mapPos,15,15);
     //painter.drawEllipse(middle,10,10);
 }
@@ -113,6 +119,7 @@ void MapArea::mousePressEvent(QMouseEvent *event)
 {
     lastMousePos = QPoint(event->x(),event->y());
     resize(lastMousePos);
+    updateLabels();
 }
 
 void MapArea::mouseReleaseEvent(QMouseEvent *event)
@@ -194,5 +201,34 @@ void MapArea::mouseMoveEvent(QMouseEvent *event)
             (*iter)->setHovered(false);
         }
         iter++;
+    }
+}
+void MapArea::loadLabels(QVector<QLabel*> labels)
+{
+    this->labels = labels;
+
+    for(int i=0;i<labels.size();i++)
+    {
+        labels.at(i)->setFont(QFont("Arial",10,3));
+        labels.at(i)->setText("");
+    }
+}
+void MapArea::updateLabels()
+{
+    for(int i=0;i<labels.size();i++)
+    {
+        labels.at(i)->setText("");
+    }
+    for(int i=0;i<icons.count();i++)
+    {
+        if(icons.at(i)->isSelected())
+        {
+            labels.at(0)->setText(icons.at(i)->getName());
+            labels.at(1)->setText(icons.at(i)->getArea());
+            labels.at(2)->setText("LTC: " + QString::number(icons.at(i)->getLTC())+"%");
+            labels.at(3)->setText("CCC: " + QString::number(icons.at(i)->getCCC())+"%");
+            labels.at(4)->setText("AC: " + QString::number(icons.at(i)->getAC())+"%");
+            labels.at(5)->setText("X: "+QString::number(icons.at(i)->getPosition().x()) + " Y: "+QString::number(icons.at(i)->getPosition().y()));
+        }
     }
 }

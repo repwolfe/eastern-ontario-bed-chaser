@@ -4,6 +4,14 @@
 #include <QGridLayout>
 #include <QLabel>
 
+/**
+ * Constructor for MovePatientForm
+ *
+ * @param title The Window Title
+ * @param displayBedType True if it should have the Patient's bed type, False otherwise
+ * @param moveTo String of where the patient is moved to (Bed or Facility)
+ * @param parent the parent widget (optional)
+ */
 MovePatientForm::MovePatientForm(QString title, bool displayBedType, QString moveTo, QWidget *parent) :
     QWidget(parent), _displayBedType(displayBedType), _moveToLabel(moveTo)
 {
@@ -16,6 +24,45 @@ MovePatientForm::MovePatientForm(QString title, bool displayBedType, QString mov
     setFixedSize(width, height);
 
     _setupLayout();
+}
+
+/**
+ * Set the items of the Facility combo box, removes the old ones
+ *
+ * @param items a list of values to insert into it
+ */
+void MovePatientForm::setFacilityItems(QStringList& items)
+{
+    _setComboboxItems(items, _facilityList);
+}
+
+/**
+ * Set the items of the Move To combo box, removes the old ones
+ *
+ * @param items a list of values to insert into it
+ */
+void MovePatientForm::setMoveToItems(QStringList& items)
+{
+    _setComboboxItems(items, _moveToList);
+}
+
+/**
+ * Private function to set the items of any combo box, removes the old ones
+ *
+ * @param items a list of values to insert into it
+ */
+void MovePatientForm::_setComboboxItems(QStringList &items, QComboBox *box)
+{
+    int num = box->count();
+    if (num != 0)
+    {
+        // Remove all the items from the combo box
+        for (int i = 0; i < num; ++i)
+        {
+            box->removeItem(0);
+        }
+    }
+    box->insertItems(0, items);
 }
 
 void MovePatientForm::_setupLayout()

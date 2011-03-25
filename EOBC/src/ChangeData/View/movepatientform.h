@@ -21,12 +21,20 @@ class MovePatientForm : public QWidget
 public:
    MovePatientForm(QString title, bool displayBedType, QString moveTo, QWidget *parent = 0);
 
+   void setFacilityItems(QStringList& items);
+   void setMoveToItems(QStringList& items);
+
+ //  const QString& getCurrentFacilitySelection() const;
+ //  const QString& getCurrentMoveToSelection() const;
+
+
 signals:
 
 public slots:
 
 private:
    void _setupLayout();
+   void _setComboboxItems(QStringList& items, QComboBox* box);
 
    bool _displayBedType;
    QString _moveToLabel;

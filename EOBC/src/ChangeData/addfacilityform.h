@@ -1,5 +1,5 @@
-#ifndef FACILITYINFORMATIONFORM_H
-#define FACILITYINFORMATIONFORM_H
+#ifndef ADDFACILITYFORM_H
+#define ADDFACILITYFORM_H
 
 #include <QWidget>
 #include <QLineEdit>
@@ -9,13 +9,14 @@
  * This class is a form which allows a system administrator
  * to create a new Facility.
  *
- * This class is part of the ChangeData subsystem described in D2.
+ * @todo Rename this in D2 from FacilityInformationForm
+ * //This class is part of the ChangeData subsystem described in D2.
  */
-class FacilityInformationForm : public QWidget
+class AddFacilityForm : public QWidget
 {
     Q_OBJECT
 public:
-    explicit FacilityInformationForm(QWidget *parent = 0);
+    explicit AddFacilityForm(QWidget *parent = 0);
 
 signals:
 
@@ -34,4 +35,4 @@ private:
 
 };
 
-#endif // FACILITYINFORMATIONFORM_H
+#endif // ADDFACILITYFORM_H

@@ -5,6 +5,7 @@
 #include <QListWidget>
 #include <QComboBox>
 #include <QPushButton>
+#include <QMap>
 
 /**
  * A form that Moves a patient.
@@ -22,18 +23,25 @@ public:
    MovePatientForm(QString title, bool displayBedType, QString moveTo, QWidget *parent = 0);
 
    void setFacilityItems(QStringList& items);
+   void setPatientItems(QStringList& items);
    void setMoveToItems(QStringList& items);
 
+   void removeFacilityItem(QString& item);
  //  const QString& getCurrentFacilitySelection() const;
  //  const QString& getCurrentMoveToSelection() const;
 
 
 signals:
 
+
 public slots:
+   void patientMoved(QString moveTo);
+   void patientSelected();
 
 private:
    void _setupLayout();
+   void _setupConnections();
+
    void _setComboboxItems(QStringList& items, QComboBox* box);
 
    bool _displayBedType;
@@ -45,6 +53,9 @@ private:
 
    QPushButton* _submitButton;
    QPushButton* _cancelButton;
+
+   /// A Map of all the changes done to each Patient
+   QMap<QString,QString> _moveToChanges;
 };
 
 #endif // MOVEPATIENTFORM_H

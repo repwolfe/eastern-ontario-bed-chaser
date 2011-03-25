@@ -24,6 +24,7 @@ MovePatientForm::MovePatientForm(QString title, bool displayBedType, QString mov
     setFixedSize(width, height);
 
     _setupLayout();
+    _setupConnections();
 }
 
 /**
@@ -34,6 +35,14 @@ MovePatientForm::MovePatientForm(QString title, bool displayBedType, QString mov
 void MovePatientForm::setFacilityItems(QStringList& items)
 {
     _setComboboxItems(items, _facilityList);
+}
+
+/**
+ * @todo fix this to include columns
+ */
+void MovePatientForm::setPatientItems(QStringList& items)
+{
+    _patientList->addItems(items);
 }
 
 /**
@@ -65,6 +74,16 @@ void MovePatientForm::_setComboboxItems(QStringList &items, QComboBox *box)
     box->insertItems(0, items);
 }
 
+/**
+ * Let's you remove an item with a specific string from the facility list
+ *
+ * @param item to remove
+ */
+void MovePatientForm::removeFacilityItem(QString& item)
+{
+    _facilityList->removeItem(_facilityList->findText(item));
+}
+
 void MovePatientForm::_setupLayout()
 {
     _patientList    = new QListWidget();
@@ -92,4 +111,39 @@ void MovePatientForm::_setupLayout()
     q->addWidget(_submitButton, 4, 1);
     q->addWidget(_cancelButton, 5, 1);
     setLayout(q);
+}
+
+void MovePatientForm::_setupConnections()
+{
+    connect(_moveToList, SIGNAL(currentIndexChanged(QString)), SLOT(patientMoved(QString)));
+    connect(_patientList, SIGNAL(itemSelectionChanged()), SLOT(patientSelected()));
+}
+
+/****************************************
+ *               SIGNALS                *
+ ****************************************/
+
+/**
+ * Everytime a patient with a specific health card number is moved
+ * anywhere, the change stored in the map
+ *
+ * @param moveTo where they were moved
+ */
+void MovePatientForm::patientMoved(QString moveTo)
+{
+    // Find out who was moved
+    if (_patientList->currentRow() != -1)
+    {
+        /// @todo try and avoid redundant changes (bed == AC, bed --> CCC, bed --> AC)
+        const QString& patientHCN = _patientList->currentItem()->text();
+        _moveToChanges[patientHCN] = moveTo;
+    }
+}
+
+/**
+ * @todo find better use for this
+ */
+void MovePatientForm::patientSelected()
+{
+    _moveToList->setEnabled(true);
 }

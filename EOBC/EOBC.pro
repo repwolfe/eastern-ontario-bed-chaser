@@ -15,6 +15,8 @@ MOC_DIR = bin/
 
 INCLUDEPATH +=\
     src/ChangeData \
+    src/ChangeData/View \
+    src/ChangeData/Control \
     src/Common \
     src/DisplayMap \
     src/GetData \
@@ -35,9 +37,9 @@ SOURCES +=\
     src/DisplayMap/map.cpp \
     src/GetData/getdatacontrol.cpp \
     src/ChangeData/changedatacontrol.cpp \
-    src/ChangeData/addfacilityform.cpp \
-    src/ChangeData/createuserform.cpp \
-    src/ChangeData/updatewaitinglistform.cpp \
+    src/ChangeData/View/addfacilityform.cpp \
+    src/ChangeData/View/createuserform.cpp \
+    src/ChangeData/View/updatewaitinglistform.cpp \
     src/LogOn/logoncontrol.cpp \
     src/LogOn/logonwindow.cpp \
     src/Common/logger.cpp \
@@ -45,9 +47,10 @@ SOURCES +=\
     src/Storage/storageHandler.cpp \
     src/DisplayMap/facilityicon.cpp \
     src/DisplayMap/mapitem.cpp \
-    src/ChangeData/movepatientform.cpp \
-    src/ChangeData/addpatientform.cpp \
-    src/ChangeData/updatebedsform.cpp
+    src/ChangeData/View/movepatientform.cpp \
+    src/ChangeData/View/addpatientform.cpp \
+    src/ChangeData/View/updatebedsform.cpp \
+    src/ChangeData/Control/movepatientcontrol.cpp
 
 
 
@@ -63,9 +66,9 @@ HEADERS  += \
     src/Model/modelcommon.h \
     src/GetData/getdatacontrol.h \
     src/ChangeData/changedatacontrol.h \
-    src/ChangeData/addfacilityform.h \
-    src/ChangeData/createuserform.h \
-    src/ChangeData/updatewaitinglistform.h \
+    src/ChangeData/View/addfacilityform.h \
+    src/ChangeData/View/createuserform.h \
+    src/ChangeData/View/updatewaitinglistform.h \
     src/LogOn/logoncontrol.h \
     src/LogOn/logonwindow.h \
     src/Common/logger.h \
@@ -73,9 +76,10 @@ HEADERS  += \
     src/Storage/storageHandler.h \
     src/DisplayMap/facilityicon.h \
     src/DisplayMap/mapitem.h \
-    src/ChangeData/movepatientform.h \
-    src/ChangeData/addpatientform.h \
-    src/ChangeData/updatebedsform.h
+    src/ChangeData/View/movepatientform.h \
+    src/ChangeData/View/addpatientform.h \
+    src/ChangeData/View/updatebedsform.h \
+    src/ChangeData/Control/movepatientcontrol.h
 
 
 RESOURCES += \

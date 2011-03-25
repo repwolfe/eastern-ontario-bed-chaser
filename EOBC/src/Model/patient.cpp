@@ -163,3 +163,8 @@ bool Patient::isInpatient() const
 {
     return _inpatient;
 }
+
+const QString Patient::toString() const
+{
+    return getName() + ": " + getHealthCardNumber();
+}

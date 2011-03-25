@@ -43,6 +43,8 @@ public:
     void makeInpatient(QDate& admissionDate, CareType occupiedCare);	/// @todo make sure this function is right
     bool isInpatient() const;
 
+    const QString toString() const;
+
 private:
     QString _healthCardNumber;
     QString _firstName;

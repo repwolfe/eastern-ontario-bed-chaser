@@ -26,7 +26,7 @@ void UpdateWaitingListForm::_setupLayout()
 
     _addPatientButton       = new QPushButton("Add Patient");
     _removePatientButton    = new QPushButton("Remove Patient");
-    _submitButton           = new QPushButton("Submit");
+    _submitButton           = new QPushButton("Update");
     _cancelButton           = new QPushButton("Cancel");
 
     const int minWidth = 125;

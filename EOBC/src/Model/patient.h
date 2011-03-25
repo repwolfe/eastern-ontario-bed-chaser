@@ -3,7 +3,7 @@
 
 #include <QDate>
 #include "modelcommon.h"
-#include "../Common/logger.h"
+#include "logger.h"
 
 using EOBC::CareType;
 

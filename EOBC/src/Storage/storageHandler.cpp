@@ -1,6 +1,6 @@
 #include "storageHandler.h"
 #include <QtXml/qdom.h>
-#include "../Common/logger.h"
+#include "logger.h"
 #include "qmessagebox.h"
 
 /**

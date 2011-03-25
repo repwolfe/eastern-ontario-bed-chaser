@@ -1,5 +1,5 @@
 #include "addfacilityform.h"
-#include "../Common/convenience.h"
+#include "convenience.h"
 #include <QFormLayout>
 
 AddFacilityForm::AddFacilityForm(QWidget *parent) :

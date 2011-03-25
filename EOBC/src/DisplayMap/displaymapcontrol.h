@@ -1,5 +1,5 @@
 #ifndef DISPLAYMAPCONTROL_H
-#define DISPLAYMAPCONTR
+#define DISPLAYMAPCONTROL_H
 
 #include "map.h"
 

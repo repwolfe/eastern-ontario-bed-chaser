@@ -191,7 +191,7 @@ QVector<QPoint>* Map::loadFile(QString fname)
     return points;
 
 }
-void Map::resizeEvent(QResizeEvent *event)
+void Map::resizeEvent(QResizeEvent *)
 {
     int x =geometry().width()/2 - RIGHTCOLUMNWIDTH;
     int y =geometry().height()/2 - TOPMENUHEIGHT;

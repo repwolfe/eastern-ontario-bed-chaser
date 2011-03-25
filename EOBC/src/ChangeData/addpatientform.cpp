@@ -1,5 +1,5 @@
 #include "addpatientform.h"
-#include "../Common/convenience.h"
+#include "convenience.h"
 #include <QFormLayout>
 
 AddPatientForm::AddPatientForm(QWidget *parent) :

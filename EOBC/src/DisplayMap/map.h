@@ -10,7 +10,7 @@
 #include "mapvectors.h"
 #include <QtGui/QPushButton>
 #include "maparea.h"
-#include "../Common/convenience.h"
+#include "convenience.h"
 class Map : public QMainWindow
 {
     Q_OBJECT

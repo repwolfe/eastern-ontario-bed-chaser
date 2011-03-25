@@ -1,6 +1,6 @@
 #include "updatewaitinglistform.h"
 
-#include "../Common/convenience.h"
+#include "convenience.h"
 
 #include <QGridLayout>
 #include <QLabel>

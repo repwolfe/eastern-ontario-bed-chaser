@@ -13,6 +13,15 @@ TEMPLATE = app
 OBJECTS_DIR = bin/
 MOC_DIR = bin/
 
+INCLUDEPATH +=\
+    src/ChangeData \
+    src/Common \
+    src/DisplayMap \
+    src/GetData \
+    src/LogOn \
+    src/Model \
+    src/Storage
+
 
 SOURCES +=\
     src/DisplayMap/displaymapcontrol.cpp \
@@ -26,7 +35,7 @@ SOURCES +=\
     src/DisplayMap/map.cpp \
     src/GetData/getdatacontrol.cpp \
     src/ChangeData/changedatacontrol.cpp \
-    src/ChangeData/facilityinformationform.cpp \
+    src/ChangeData/addfacilityform.cpp \
     src/ChangeData/createuserform.cpp \
     src/ChangeData/updatewaitinglistform.cpp \
     src/LogOn/logoncontrol.cpp \
@@ -36,7 +45,9 @@ SOURCES +=\
     src/Storage/storageHandler.cpp \
     src/DisplayMap/facilityicon.cpp \
     src/DisplayMap/mapitem.cpp \
-    src/ChangeData/movepatientform.cpp
+    src/ChangeData/movepatientform.cpp \
+    src/ChangeData/addpatientform.cpp \
+    src/ChangeData/updatebedsform.cpp
 
 
 
@@ -52,7 +63,7 @@ HEADERS  += \
     src/Model/modelcommon.h \
     src/GetData/getdatacontrol.h \
     src/ChangeData/changedatacontrol.h \
-    src/ChangeData/facilityinformationform.h \
+    src/ChangeData/addfacilityform.h \
     src/ChangeData/createuserform.h \
     src/ChangeData/updatewaitinglistform.h \
     src/LogOn/logoncontrol.h \
@@ -62,7 +73,9 @@ HEADERS  += \
     src/Storage/storageHandler.h \
     src/DisplayMap/facilityicon.h \
     src/DisplayMap/mapitem.h \
-    src/ChangeData/movepatientform.h
+    src/ChangeData/movepatientform.h \
+    src/ChangeData/addpatientform.h \
+    src/ChangeData/updatebedsform.h
 
 
 RESOURCES += \

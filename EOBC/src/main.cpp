@@ -1,7 +1,8 @@
 #include <QtGui/QApplication>
-#include "DisplayMap/displaymapcontrol.h"
-#include "LogOn/logoncontrol.h"
-#include "Storage/storageHandler.h"
+#include "displaymapcontrol.h"
+#include "logoncontrol.h"
+#include "storageHandler.h"
+
 
 int main(int argc, char *argv[])
 {

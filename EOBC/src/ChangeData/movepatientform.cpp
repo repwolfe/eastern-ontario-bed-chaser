@@ -10,9 +10,10 @@ MovePatientForm::MovePatientForm(QString title, bool displayBedType, QString mov
     setWindowTitle(title);
 
     int width = 520;
-    int height = 325;
+    int height = 300;
 
     setGeometry(Convenience::getCenterForSize(width, height));
+    setFixedSize(width, height);
 
     _setupLayout();
 }
@@ -33,8 +34,8 @@ void MovePatientForm::_setupLayout()
 
     QGridLayout* q = new QGridLayout();
     q->setColumnMinimumWidth(1, 150);
-    q->setRowStretch(0, 0);
-    for (int i = 1; i < 6; ++i) {q->setRowStretch(i,100);}
+    for (int i = 0; i < 3; ++i) { q->setRowStretch(i, 0); }
+    for (int i = 3; i < 6; ++i) { q->setRowStretch(i,100); }
     q->addWidget(new QLabel("Patients"), 0, 0);
     q->addWidget(new QLabel("From Facility"), 0, 1);
     q->addWidget(_patientList, 1, 0, 5, 1);

@@ -1,10 +1,7 @@
 #include "storageHandler.h"
-<<<<<<< HEAD
-=======
 #include <QtXml/qdom.h>
 #include "logger.h"
 #include "qmessagebox.h"
->>>>>>> 52d15a77ada1e4db0e9f139210bc5fc665929f9d
 
 /**
   * This constructor takes the name of a file to load the model

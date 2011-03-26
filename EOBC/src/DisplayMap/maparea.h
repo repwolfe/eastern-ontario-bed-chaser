@@ -8,6 +8,7 @@
 #include <QPainter>
 #include <QWidget>
 #include "mapvectors.h"
+#include "facilityicon.h"
 class MapArea : public QWidget
 {
     Q_OBJECT
@@ -19,6 +20,7 @@ public:
     void addVecs(QVector<QPoint>* points, QColor col);
     void resize(QPoint p);
     static void setMiddle(QPoint& middle);
+    void loadLabels(QVector<QLabel*> labels);
 
 signals:
 
@@ -30,10 +32,12 @@ private:
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseClickEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *);
+    void updateLabels();
 
 
 private:
    QVector<MapVectors*> vecs;
+   QVector<FacilityIcon*> icons;
    QTimer resizeTimer;
    QPoint lastMousePos;
    QPoint mapPos;
@@ -41,6 +45,7 @@ private:
    float zoomSpeed;
    static QPoint middle;
    void moveMap();
+   QVector<QLabel*> labels;
 };
 
 #endif // MAPAREA_H

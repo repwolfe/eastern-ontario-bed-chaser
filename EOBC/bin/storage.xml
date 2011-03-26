@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Area [
+
+<!ELEMENT Area (WaitingList?, Facility+)>
+<!ELEMENT WaitingList (Patient*)>
+<!ELEMENT Facility (Patient*)>
+<!ELEMENT Patient (#PCDATA)>
+
+<!ATTLIST Area ID CDATA #REQUIRED>
+<!ATTLIST Area name CDATA #REQUIRED>
+<!ATTLIST Facility name CDATA #REQUIRED>
+<!ATTLIST Facility ID CDATA #REQUIRED>
+<!ATTLIST Facility LTC CDATA #REQUIRED>
+<!ATTLIST Facility CCC CDATA #REQUIRED>
+<!ATTLIST Facility AC CDATA #REQUIRED>
+<!ATTLIST Facility coordinateX CDATA #REQUIRED>
+<!ATTLIST Facility coordinateY CDATA #REQUIRED>
+<!ATTLIST Patient firstName CDATA #REQUIRED>
+<!ATTLIST Patient lastName CDATA #REQUIRED>
+<!ATTLIST Patient healthCardNumber CDATA #REQUIRED>
+<!ATTLIST Patient dateAdded CDATA #IMPLIED>
+<!ATTLIST Patient dateAdmitted CDATA #IMPLIED>
+<!ATTLIST Patient careReq CDATA #REQUIRED>
+<!ATTLIST Patient careOcc CDATA #REQUIRED>
+
+]>
+<Area name="Lanark" ID="5" >
+<WaitingList>
+<Patient firstName="Jon1" lastName="Doe" healthCardNumber="4444333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="2" careOcc="1"/>
+<Patient firstName="Jon2" lastName="Doe" healthCardNumber="4444333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="2" careOcc="1"/>
+<Patient firstName="Jon3" lastName="Doe" healthCardNumber="4444333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="2" careOcc="1"/>
+<Patient firstName="Jon4" lastName="Doe" healthCardNumber="4444333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="2" careOcc="1"/>
+<Patient firstName="Jon5" lastName="Doe" healthCardNumber="4444333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="2" careOcc="1"/>
+</WaitingList>
+<Facility ID="6" LTC="5" CCC="4" AC="4" name="Almonte" coordinateX="123" coordinateY="321">
+<Patient firstName="Jon11" lastName="Doe" healthCardNumber="4444333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="2" careOcc="1"/>
+<Patient firstName="Jon12" lastName="Doe" healthCardNumber="4444333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="2" careOcc="1"/>
+</Facility>
+</Area>

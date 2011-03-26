@@ -3,7 +3,7 @@
 DisplayMapControl::DisplayMapControl()
 {
     map = new Map();
-    map->setGeometry(QRect(90,0,1000,600));
+    //map->setGeometry(QRect(90,0,1000,600));
 }
 DisplayMapControl::~DisplayMapControl()
 {

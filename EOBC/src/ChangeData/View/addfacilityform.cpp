@@ -1,8 +1,8 @@
-#include "facilityinformationform.h"
-#include "../Common/convenience.h"
+#include "addfacilityform.h"
+#include "convenience.h"
 #include <QFormLayout>
 
-FacilityInformationForm::FacilityInformationForm(QWidget *parent) :
+AddFacilityForm::AddFacilityForm(QWidget *parent) :
     QWidget(parent)
 {
     setWindowTitle("Add Facility");
@@ -16,7 +16,7 @@ FacilityInformationForm::FacilityInformationForm(QWidget *parent) :
     _setupLayout();
 }
 
-void FacilityInformationForm::_setupLayout()
+void AddFacilityForm::_setupLayout()
 {
     _xAxisBox           = new QLineEdit();
     _yAxisBox           = new QLineEdit();

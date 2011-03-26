@@ -1,5 +1,5 @@
 #include "createuserform.h"
-#include "../Common/convenience.h"
+#include "convenience.h"
 #include <QFormLayout>
 
 CreateUserForm::CreateUserForm(QWidget *parent) :

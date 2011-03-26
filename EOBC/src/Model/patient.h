@@ -3,7 +3,7 @@
 
 #include <QDate>
 #include "modelcommon.h"
-#include "../Common/logger.h"
+#include "logger.h"
 
 using EOBC::CareType;
 
@@ -42,6 +42,8 @@ public:
 
     void makeInpatient(QDate& admissionDate, CareType occupiedCare);	/// @todo make sure this function is right
     bool isInpatient() const;
+
+    const QString toString() const;
 
 private:
     QString _healthCardNumber;

@@ -1,12 +1,13 @@
 #include "map.h"
-
+#define RIGHTCOLUMNWIDTH 80
+#define TOPMENUHEIGHT 10
 Map::Map(QWidget *parent) :
     QMainWindow(parent)
 {
 
     setWindowTitle(tr("EOBC"));
     this->mapLayout = new QLabel();
-    mapLayout->setGeometry(0,0,1000,800);
+
 
 
     fileMenu = menuBar()->addMenu("&File");
@@ -18,6 +19,7 @@ Map::Map(QWidget *parent) :
     setCentralWidget(mapLayout);
     //mapLayout->setLayout(new QFormLayout());
     loadAreas();
+    setGeometry(Convenience::getCenterForSize(1000,650));
 
 }
 Map::~Map()
@@ -33,12 +35,87 @@ void Map::loadAreas()
     QGridLayout* q = dynamic_cast<QGridLayout*>(mapLayout->layout());
 
     MapArea* tempArea = new MapArea();
-    q->addWidget(tempArea,0,0);
-    q->setColumnStretch(0,720);
-    q->setRowMinimumHeight(0,800);
-    QPushButton* bstuff = new QPushButton("ok");
-    q->addWidget(bstuff,0,1);
+    q->addWidget(tempArea,0,0,6,0);
+
+    q->setColumnStretch(0,8010);
+    q->setColumnMinimumWidth(0,10000);
+    q->setColumnStretch(1,0);
+    q->setColumnMinimumWidth(1,150);
     q->setMargin(0);
+    //q->setRowMinimumHeight(0,20);
+    //q->setRowMinimumHeight(1,0);
+
+    //q->setRowMinimumHeight(4,100);
+
+    //q->setRowMinimumHeight(0,800);
+    //q->setColumnStretch(1,100);
+
+    //
+    //
+    //
+    QLabel* fTemp = new QLabel("Facility Name");
+    fTemp->setFont(QFont("Arial",14,3));
+    q->addWidget(fTemp,0,1);
+    fName = new QLabel();
+    q->addWidget(fName,1,1);
+    fTemp = new QLabel("Facility Area");
+    fTemp->setFont(QFont("Arial",14,3));
+    q->addWidget(fTemp,2,1);
+    fArea = new QLabel();
+    q->addWidget(fArea,3,1);
+    fTemp = new QLabel();
+    q->addWidget(fTemp,4,1);
+    fTemp = new QLabel("Occupancy Rates");
+    fTemp->setFont(QFont("Arial",14,3));
+    q->addWidget(fTemp,5,1);
+    fLTCRates = new QLabel();
+    q->addWidget(fLTCRates,6,1);
+    fCCCRates = new QLabel();
+    q->addWidget(fCCCRates,7,1);
+    fACRates = new QLabel();
+    q->addWidget(fACRates,8,1);
+    fTemp = new QLabel();
+    q->addWidget(fTemp,9,1);
+    fTemp = new QLabel("Coordinates");
+    fTemp->setFont(QFont("Arial",14,3));
+    q->addWidget(fTemp,10,1);
+    fCoord = new QLabel();
+    q->addWidget(fCoord,11,1);
+    fTemp = new QLabel("Waiting List");
+    fTemp->setFont(QFont("Arial",14,3));
+    q->addWidget(fTemp,12,1);
+    fWList = new QLabel();
+    q->addWidget(fWList,13,1);
+    for(int i=1;i<14;i++)
+    {
+        q->setRowMinimumHeight(i,20);
+        q->setRowStretch(i,100);
+    }
+    q->setRowMinimumHeight(4,100);
+    //q->setRowMinimumHeight(10,100);
+    q->setRowStretch(0,50);
+     q->setRowStretch(1,10);
+     q->setRowStretch(5,0);
+     q->setRowStretch(4,0);
+    q->setRowStretch(6,0);
+    q->setRowStretch(7,0);
+    q->setRowStretch(8,0);
+    q->setRowStretch(9,1);
+    q->setRowMinimumHeight(9,100);
+    q->setRowStretch(10,0);
+    //
+    //
+    QVector<QLabel*> labels;
+    labels.push_back(fName);
+    labels.push_back(fArea);
+    labels.push_back(fLTCRates);
+    labels.push_back(fCCCRates);
+    labels.push_back(fACRates);
+    labels.push_back(fCoord);
+    labels.push_back(fWList);
+    tempArea->loadLabels(labels);
+    //
+    //
     QPoint middle(tempArea->width()/2,tempArea->height()/2);
     MapArea::setMiddle(middle);
     tempArea->addVecs(loadFile(":/mapFiles/bin/PurpleArea.txt"),QColor::fromRgb(255,0,255));
@@ -66,10 +143,6 @@ void Map::loadAreas()
     area = tempArea;
     middle = QPoint(tempArea->geometry().width()/2,tempArea->geometry().height()/2);
     MapArea::setMiddle(middle);
-
-
-
-
 
 }
 QVector<QPoint>* Map::loadFile(QString fname)
@@ -118,10 +191,10 @@ QVector<QPoint>* Map::loadFile(QString fname)
     return points;
 
 }
-void Map::resizeEvent(QResizeEvent *event)
+void Map::resizeEvent(QResizeEvent *)
 {
-    int x =area->geometry().width()/2;
-    int y =area->geometry().height()/2;
+    int x =geometry().width()/2 - RIGHTCOLUMNWIDTH;
+    int y =geometry().height()/2 - TOPMENUHEIGHT;
     QPoint middle(x, y);
     area->setMiddle(middle);
 }

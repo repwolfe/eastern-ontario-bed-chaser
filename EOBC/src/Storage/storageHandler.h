@@ -1,7 +1,7 @@
 #ifndef STORAGEHANDLER_H
 #define STORAGEHANDLER_H
 
-#include "../Model/area.h"
+#include "area.h"
 #include "QFile"
 #include "QLinkedList"
 #include <QtXml/qdom.h>

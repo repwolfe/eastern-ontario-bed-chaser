@@ -29,6 +29,7 @@
         <file>bin/accounts.txt</file>
     </qresource>
     <qresource prefix="/storage">
-        <file>bin/storage.txt</file>
+        <file>bin/storage.dtd</file>
+        <file>bin/storage.xml</file>
     </qresource>
 </RCC>

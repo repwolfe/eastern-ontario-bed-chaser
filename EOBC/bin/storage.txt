@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Area ID="5">
+<WaitingList>
+<patient healthCardNumber="4444333222" firstName="JonBBB" lastName="Doe"/>
+</WaitingList>
+<Area>

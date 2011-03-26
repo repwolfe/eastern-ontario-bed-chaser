@@ -4,6 +4,9 @@
 #include "../Model/area.h"
 #include "QFile"
 #include "QLinkedList"
+#include <QtXml/qdom.h>
+#include "../Common/logger.h"
+#include "qmessagebox.h"
 
 /**
  * StorageHandler has a collection of Areas and uses an xml file
@@ -21,6 +24,8 @@ public:
 private:
    StorageHandler _StorageHandler();
    QLinkedList<Area*> _model;
+   void parseWaitingList(Area* anArea,QDomNode* n);
+   void parseFacility(Facility* aFacility,QDomNode* n);
 
 };
 

@@ -11,7 +11,7 @@ TARGET = EOBCapplication
 TEMPLATE = app
 
 OBJECTS_DIR = bin/
-MOC_DIR = bin/
+MOC_DIR = bin/moc/
 
 INCLUDEPATH +=\
     src/ChangeData \

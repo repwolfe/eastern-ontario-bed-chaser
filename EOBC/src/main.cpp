@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[])
 {
-    StorageHandler handler (QString(":/storage/bin/storage.xml"));
+    StorageHandler handler (QString(":/storage/resources/storage.xml"));
     int i = 4;
     i++;
     //handler;

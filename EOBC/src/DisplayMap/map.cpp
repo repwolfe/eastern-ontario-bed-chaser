@@ -118,28 +118,28 @@ void Map::loadAreas()
     //
     QPoint middle(tempArea->width()/2,tempArea->height()/2);
     MapArea::setMiddle(middle);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/PurpleArea.txt"),QColor::fromRgb(255,0,255));
-    tempArea->addVecs(loadFile(":/mapFiles/bin/GreenArea.txt"), Qt::green);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/BlueArea.txt"),Qt::blue);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/RedArea.txt"),Qt::red);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/otherGreenArea.txt"),Qt::green);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/YellowArea.txt"),Qt::yellow);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/LightBlueArea.txt"),QColor::fromRgb(100,100,255));
+    tempArea->addVecs(loadFile(":/mapFiles/resources/PurpleArea.txt"),QColor::fromRgb(255,0,255));
+    tempArea->addVecs(loadFile(":/mapFiles/resources/GreenArea.txt"), Qt::green);
+    tempArea->addVecs(loadFile(":/mapFiles/resources/BlueArea.txt"),Qt::blue);
+    tempArea->addVecs(loadFile(":/mapFiles/resources/RedArea.txt"),Qt::red);
+    tempArea->addVecs(loadFile(":/mapFiles/resources/otherGreenArea.txt"),Qt::green);
+    tempArea->addVecs(loadFile(":/mapFiles/resources/YellowArea.txt"),Qt::yellow);
+    tempArea->addVecs(loadFile(":/mapFiles/resources/LightBlueArea.txt"),QColor::fromRgb(100,100,255));
 
     /*
-    tempArea->addVecs(loadFile(":/mapFiles/bin/area2.txt"), Qt::green);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/area3.txt"),Qt::blue);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/area4.txt"),Qt::red);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/area5.txt"),Qt::green);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/area6.txt"),Qt::yellow);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/area7.txt"), Qt::green);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/area8.txt"),Qt::blue);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/area9.txt"),Qt::red);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/area10.txt"),Qt::green);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/area11.txt"),Qt::yellow);
-    tempArea->addVecs(loadFile(":/mapFiles/bin/area12.txt"),QColor::fromRgb(100,100,255));
-    tempArea->addVecs(loadFile(":/mapFiles/bin/area13.txt"),QColor::fromRgb(100,100,255));
-    tempArea->addVecs(loadFile(":/mapFiles/bin/area14.txt"),QColor::fromRgb(255,0,255));*/
+    tempArea->addVecs(loadFile(":/mapFiles/resources/area2.txt"), Qt::green);
+    tempArea->addVecs(loadFile(":/mapFiles/resources/area3.txt"),Qt::blue);
+    tempArea->addVecs(loadFile(":/mapFiles/resources/area4.txt"),Qt::red);
+    tempArea->addVecs(loadFile(":/mapFiles/resources/area5.txt"),Qt::green);
+    tempArea->addVecs(loadFile(":/mapFiles/resources/area6.txt"),Qt::yellow);
+    tempArea->addVecs(loadFile(":/mapFiles/resources/area7.txt"), Qt::green);
+    tempArea->addVecs(loadFile(":/mapFiles/resources/area8.txt"),Qt::blue);
+    tempArea->addVecs(loadFile(":/mapFiles/resources/area9.txt"),Qt::red);
+    tempArea->addVecs(loadFile(":/mapFiles/resources/area10.txt"),Qt::green);
+    tempArea->addVecs(loadFile(":/mapFiles/resources/area11.txt"),Qt::yellow);
+    tempArea->addVecs(loadFile(":/mapFiles/resources/area12.txt"),QColor::fromRgb(100,100,255));
+    tempArea->addVecs(loadFile(":/mapFiles/resources/area13.txt"),QColor::fromRgb(100,100,255));
+    tempArea->addVecs(loadFile(":/mapFiles/resources/area14.txt"),QColor::fromRgb(255,0,255));*/
     area = tempArea;
     middle = QPoint(tempArea->geometry().width()/2,tempArea->geometry().height()/2);
     MapArea::setMiddle(middle);

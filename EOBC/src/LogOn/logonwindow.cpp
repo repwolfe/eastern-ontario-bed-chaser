@@ -13,7 +13,7 @@ LogOnWindow::LogOnWindow(QWidget *parent) :
 void LogOnWindow::loadBackground()
 {
     backgroundPic = new QLabel();
-    QImage img(":/pics/LHINLogo2.png");
+    QImage img(":/pics/resources/LHINLogo2.png");
     QImage fixedImage(1000,800, QImage::Format_ARGB32_Premultiplied);
     QPainter painter(&fixedImage);
     painter.fillRect(QRect(0,0,1000,800), Qt::white);
@@ -55,7 +55,7 @@ void LogOnWindow::loadLayout()
 }
 void LogOnWindow::logIn()
 {
-    QFile file(":/logon/bin/accounts.txt");
+    QFile file(":/logon/resources/accounts.txt");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QTextStream in(&file);
     QString curLine = in.readLine();

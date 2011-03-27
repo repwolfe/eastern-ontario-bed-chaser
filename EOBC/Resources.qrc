@@ -1,34 +1,34 @@
 <RCC>
     <qresource prefix="/mapFiles">
-        <file>bin/BlueArea.txt</file>
-        <file>bin/GreenArea.txt</file>
-        <file>bin/LightBlueArea.txt</file>
-        <file>bin/otherGreenArea.txt</file>
-        <file>bin/PurpleArea.txt</file>
-        <file>bin/RedArea.txt</file>
-        <file>bin/YellowArea.txt</file>
-        <file>bin/area1.txt</file>
-        <file>bin/area2.txt</file>
-        <file>bin/area3.txt</file>
-        <file>bin/area4.txt</file>
-        <file>bin/area5.txt</file>
-        <file>bin/area6.txt</file>
-        <file>bin/area7.txt</file>
-        <file>bin/area8.txt</file>
-        <file>bin/area9.txt</file>
-        <file>bin/area10.txt</file>
-        <file>bin/area11.txt</file>
-        <file>bin/area12.txt</file>
-        <file>bin/area13.txt</file>
-        <file>bin/area14.txt</file>
+        <file>resources/BlueArea.txt</file>
+        <file>resources/GreenArea.txt</file>
+        <file>resources/LightBlueArea.txt</file>
+        <file>resources/otherGreenArea.txt</file>
+        <file>resources/PurpleArea.txt</file>
+        <file>resources/RedArea.txt</file>
+        <file>resources/YellowArea.txt</file>
+        <file>resources/area1.txt</file>
+        <file>resources/area2.txt</file>
+        <file>resources/area3.txt</file>
+        <file>resources/area4.txt</file>
+        <file>resources/area5.txt</file>
+        <file>resources/area6.txt</file>
+        <file>resources/area7.txt</file>
+        <file>resources/area8.txt</file>
+        <file>resources/area9.txt</file>
+        <file>resources/area10.txt</file>
+        <file>resources/area11.txt</file>
+        <file>resources/area12.txt</file>
+        <file>resources/area13.txt</file>
+        <file>resources/area14.txt</file>
     </qresource>
     <qresource prefix="/pics">
-        <file>LHINLogo2.png</file>
+        <file>resources/LHINLogo2.png</file>
     </qresource>
     <qresource prefix="/logon">
-        <file>bin/accounts.txt</file>
+        <file>resources/accounts.txt</file>
     </qresource>
     <qresource prefix="/storage">
-        <file>bin/storage.xml</file>
+        <file>resources/storage.xml</file>
     </qresource>
 </RCC>

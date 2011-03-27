@@ -18,9 +18,18 @@ class AddFacilityForm : public QWidget
 public:
     explicit AddFacilityForm(QWidget *parent = 0);
 
-signals:
+    void clearContents();
 
-public slots:
+    const QString getXAxis() const;
+    const QString getYAxis() const;
+    const QString getFacilityName() const;
+
+signals:
+    void submitClicked();
+
+private slots:
+    void _submitClicked();
+    void _cancelClicked();
 
 private:
     void _setupLayout();

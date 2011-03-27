@@ -50,7 +50,9 @@ SOURCES +=\
     src/ChangeData/View/movepatientform.cpp \
     src/ChangeData/View/addpatientform.cpp \
     src/ChangeData/View/updatebedsform.cpp \
-    src/ChangeData/Control/movepatientcontrol.cpp
+    src/ChangeData/Control/movepatientcontrol.cpp \
+    src/ChangeData/Control/addfacilitycontrol.cpp \
+    src/ChangeData/Control/addpatientcontrol.cpp
 
 
 
@@ -79,7 +81,9 @@ HEADERS  += \
     src/ChangeData/View/movepatientform.h \
     src/ChangeData/View/addpatientform.h \
     src/ChangeData/View/updatebedsform.h \
-    src/ChangeData/Control/movepatientcontrol.h
+    src/ChangeData/Control/movepatientcontrol.h \
+    src/ChangeData/Control/addfacilitycontrol.h \
+    src/ChangeData/Control/addpatientcontrol.h
 
 
 RESOURCES += \

@@ -5,6 +5,13 @@
 #include <QObject>
 #include <QMap>
 
+/**
+ * Controller for the Move Patients to Bed and to Facility forms.
+ * handles changes and submissions, and populates the forms with data.
+ *
+ * @todo Handle changing facility
+ * @todo Traceability
+ */
 class MovePatientControl : public QObject
 {
     Q_OBJECT
@@ -17,7 +24,12 @@ public:
 
     void setPatientToBedMap(QMap<QString,QString>& inMap);
 
+    const QMap<QString, QString>& getBedChanges() const;
+    const QMap<QString, QString>& getFacilityChanges() const;
+
 signals:
+    void toBedFormSubmitClicked();
+    void toFacilityFormSubmitClicked();
 
 public slots:
     void toFacilityFormPatientMoved(QString moveTo);

@@ -16,6 +16,39 @@ AddFacilityForm::AddFacilityForm(QWidget *parent) :
     _setupLayout();
 }
 
+void AddFacilityForm::clearContents()
+{
+    _xAxisBox->clear();
+    _yAxisBox->clear();
+    _facilityNameBox->clear();
+}
+
+const QString AddFacilityForm::getXAxis() const
+{
+    return _xAxisBox->text();
+}
+
+const QString AddFacilityForm::getYAxis() const
+{
+    return _yAxisBox->text();
+}
+
+const QString AddFacilityForm::getFacilityName() const
+{
+    return _facilityNameBox->text();
+}
+
+void AddFacilityForm::_submitClicked()
+{
+    emit submitClicked();
+}
+
+void AddFacilityForm::_cancelClicked()
+{
+    close();
+    clearContents();
+}
+
 void AddFacilityForm::_setupLayout()
 {
     _xAxisBox           = new QLineEdit();
@@ -27,6 +60,9 @@ void AddFacilityForm::_setupLayout()
 
     _submitButton->setFixedWidth(125);
     _cancelButton->setFixedWidth(125);
+
+    connect(_submitButton, SIGNAL(clicked()), SLOT(_submitClicked()));
+    connect(_cancelButton, SIGNAL(clicked()), SLOT(_cancelClicked()));
 
     QFormLayout* q = new QFormLayout();
     q->setContentsMargins(15, 10, 15, 10);

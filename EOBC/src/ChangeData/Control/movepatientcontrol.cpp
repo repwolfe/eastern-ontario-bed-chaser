@@ -44,13 +44,24 @@ void MovePatientControl::setPatientToBedMap(QMap<QString,QString>& inMap)
     _patientToBed = inMap;
 }
 
+const QMap<QString, QString>& MovePatientControl::getBedChanges() const
+{
+    return _bedMoveToChanges;
+}
+const QMap<QString, QString>& MovePatientControl::getFacilityChanges() const
+{
+    return _facilityMoveToChanges;
+}
+
 void MovePatientControl::showToFacilityForm()
 {
+    _facilityMoveToChanges.clear();
     _toFacilityForm->show();
 }
 
 void MovePatientControl::showToBedForm()
 {
+    _bedMoveToChanges.clear();
     _toBedForm->show();
 }
 
@@ -135,6 +146,7 @@ void MovePatientControl::toBedFormPatientSelected(QString item)
 void MovePatientControl::toBedFormSubmit()
 {
     _toBedForm->close();
+    emit toBedFormSubmitClicked();
 }
 
 void MovePatientControl::toBedFormCancel()
@@ -146,6 +158,7 @@ void MovePatientControl::toBedFormCancel()
 void MovePatientControl::toFacilityFormSubmit()
 {
     _toFacilityForm->close();
+    emit toFacilityFormSubmitClicked();
 }
 
 void MovePatientControl::toFacilityFormCancel()

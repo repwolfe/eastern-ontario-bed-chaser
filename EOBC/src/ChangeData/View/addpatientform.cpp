@@ -16,16 +16,59 @@ AddPatientForm::AddPatientForm(QWidget *parent) :
     _setupLayout();
 }
 
+const QString AddPatientForm::getFirstName() const
+{
+    return _firstNameBox->text();
+}
+
+const QString AddPatientForm::getLastName() const
+{
+    return _lastNameBox->text();
+}
+
+const QString AddPatientForm::getHealthCardNumber() const
+{
+    return _healthCardNumber->text();
+}
+
+const QString AddPatientForm::getRequiredCare() const
+{
+    return _requiredCareBox->currentText();
+}
+
+void AddPatientForm::_submitClicked()
+{
+    emit submitClicked();
+}
+
+void AddPatientForm::_cancelClicked()
+{
+    close();
+    clearContents();
+}
+
+void AddPatientForm::clearContents()
+{
+    _firstNameBox->clear();
+    _lastNameBox->clear();
+    _healthCardNumber->clear();
+    _requiredCareBox->setCurrentIndex(0);
+}
+
 void AddPatientForm::_setupLayout()
 {
     _firstNameBox       = new QLineEdit();
     _lastNameBox        = new QLineEdit();
     _healthCardNumber   = new QLineEdit();
+
     _submitButton       = new QPushButton("Add Patient");
     _cancelButton       = new QPushButton("Cancel");
 
     _submitButton->setMaximumWidth(125);
     _cancelButton->setMaximumWidth(125);
+
+    connect(_submitButton, SIGNAL(clicked()), SLOT(_submitClicked()));
+    connect(_cancelButton, SIGNAL(clicked()), SLOT(_cancelClicked()));
 
     _requiredCareBox    = new QComboBox();
     _requiredCareBox->addItem("");

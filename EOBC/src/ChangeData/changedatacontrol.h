@@ -5,6 +5,8 @@
 #include <QObject>
 
 #include "movepatientcontrol.h"
+#include "addpatientcontrol.h"
+#include "addfacilitycontrol.h"
 
 /// @todo remove these and include the classes when they're written
 class StorageWrite;
@@ -24,6 +26,13 @@ public:
 public slots:
     void displayMovePatientsToBedForm();
     void displayMovePatientsToFacilityForm();
+    void displayAddFacilityForm();
+    void displayAddPatientForm();
+
+    void movePatientsToBedSubmitted();
+    void movePatientsToFacilitySubmitted();
+    void addFacilitySubmitted(QString, QString, QString);
+    void addPatientSubmitted(QString, QString, QString, QString);
 
 private:
     void _changeLocal(QString& args, QString& data);
@@ -34,6 +43,8 @@ private:
 
     // Child Control objects
     MovePatientControl* _movePatientControl;
+    AddFacilityControl* _addFacilityControl;
+    AddPatientControl* _addPatientControl;
 };
 
 #endif // CHANGEDATACONTROL_H

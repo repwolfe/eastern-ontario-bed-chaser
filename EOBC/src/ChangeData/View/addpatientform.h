@@ -17,9 +17,19 @@ class AddPatientForm : public QWidget
 public:
     explicit AddPatientForm(QWidget *parent = 0);
 
-signals:
+    void clearContents();
 
-public slots:
+    const QString getFirstName() const;
+    const QString getLastName() const;
+    const QString getHealthCardNumber() const;
+    const QString getRequiredCare() const;
+
+signals:
+    void submitClicked();
+
+private slots:
+    void _submitClicked();
+    void _cancelClicked();
 
 private:
     void _setupLayout();

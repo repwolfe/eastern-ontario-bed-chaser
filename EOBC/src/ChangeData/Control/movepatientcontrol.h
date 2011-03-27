@@ -15,16 +15,21 @@ public:
     void showToFacilityForm();
     void showToBedForm();
 
+    void setPatientToBedMap(QMap<QString,QString>& inMap);
+
 signals:
 
 public slots:
     void toFacilityFormPatientMoved(QString moveTo);
     void toBedFormPatientMoved(QString moveTo);
-    void toBedFormPatientSelected();
+    void toBedFormPatientSelected(QString item);
+    void toBedFormSubmit();
+    void toBedFormCancel();
+    void toFacilityFormSubmit();
+    void toFacilityFormCancel();
 
 private:
     void _setupConnections();
-    void _patientMoved(QString moveTo, QMap<QString, QString>* moveToMap, MovePatientForm* form);
 
     MovePatientForm* _toFacilityForm;
     MovePatientForm* _toBedForm;

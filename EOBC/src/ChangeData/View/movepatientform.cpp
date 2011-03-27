@@ -24,6 +24,7 @@ MovePatientForm::MovePatientForm(QString title, bool displayBedType, QString mov
     setFixedSize(width, height);
 
     _setupLayout();
+    _setupConnections();
 }
 
 /**
@@ -77,14 +78,19 @@ void MovePatientForm::removeFacilityItem(QString& item)
     _facilityList->removeItem(_facilityList->findText(item));
 }
 
-const QComboBox* MovePatientForm::getMoveToList()
+int MovePatientForm::getCurrentPatientRow()
 {
-    return _moveToList;
+   return _patientList->currentRow();
 }
 
-const QListWidget* MovePatientForm::getPatientList()
+QString MovePatientForm::getCurrentPatient()
 {
-    return _patientList;
+    return _patientList->currentItem()->text();
+}
+
+void MovePatientForm::setCurrentMoveToItem(int index)
+{
+    _moveToList->setCurrentIndex(index);
 }
 
 void MovePatientForm::_setupLayout()
@@ -116,4 +122,33 @@ void MovePatientForm::_setupLayout()
     q->addWidget(_submitButton, 4, 1);
     q->addWidget(_cancelButton, 5, 1);
     setLayout(q);
+}
+
+void MovePatientForm::_setupConnections()
+{
+    connect(_patientList, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), SLOT(_patientItemSelected(QListWidgetItem*)));
+    connect(_moveToList, SIGNAL(currentIndexChanged(QString)), SLOT(_moveToChanged(QString)));
+    connect(_submitButton, SIGNAL(clicked()), SLOT(_submitButtonClicked()));
+    connect(_cancelButton, SIGNAL(clicked()), SLOT(_cancelButtonClicked()));
+}
+
+/************** PRIVATE SLOTS ***************/
+void MovePatientForm::_moveToChanged(QString moveTo)
+{
+    emit patientMoved(moveTo);
+}
+
+void MovePatientForm::_patientItemSelected(QListWidgetItem* item)
+{
+    emit patientSelected(item->text());
+}
+
+void MovePatientForm::_submitButtonClicked()
+{
+    emit submitButtonClicked();
+}
+
+void MovePatientForm::_cancelButtonClicked()
+{
+    emit cancelButtonClicked();
 }

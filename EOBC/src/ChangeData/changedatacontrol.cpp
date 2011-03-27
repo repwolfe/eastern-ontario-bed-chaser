@@ -26,8 +26,8 @@ void ChangeDataControl::run()
 {
   //  displayMovePatientsToBedForm();
   //  displayMovePatientsToFacilityForm();
-    displayAddFacilityForm();
-    displayAddPatientForm();
+  //  displayAddFacilityForm();
+  //  displayAddPatientForm();
 }
 
 /// @todo implement this

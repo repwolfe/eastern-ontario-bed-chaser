@@ -4,7 +4,7 @@ MapItem::MapItem(QObject *parent) :
     QObject(parent)
 {
     scale = 0.99;
-    idealScale = 0.9;
+    idealScale = 0.8;
     selected = false;
     hovered = false;
 }
@@ -12,14 +12,18 @@ MapItem::~MapItem()
 {
 
 }
-void MapItem::draw(QPainter& g)
+MapItem::MapItem(const MapItem& ) : QObject()
 {
-    g;
+
 }
 
-void MapItem::update(QPoint mouse)
+void MapItem::draw(QPainter& )
 {
-    mouse;
+
+}
+
+void MapItem::update(QPoint )
+{
 
     if(scale != idealScale)
        {
@@ -31,11 +35,10 @@ void MapItem::update(QPoint mouse)
            realPosition = QPoint(tempPos.x(),tempPos.y());
         }
 }
-void MapItem::resizePoints(QPoint mouse, float scale)
+void MapItem::resizePoints(QPoint , float scale)
 {
     idealScale *= scale;
     selected = false;
-    mouse;
     if(idealScale < scale)
     {
        /* if(poly.containsPoint(mouse, Qt::OddEvenFill))

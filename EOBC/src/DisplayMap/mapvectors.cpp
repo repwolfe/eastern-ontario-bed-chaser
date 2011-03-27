@@ -2,25 +2,36 @@
 #define MAPMIDDLEX 500
 #define MAPMIDDLEY 400
 
+/**
+ * the constructor for MapVectors. Sets the color of the region and initializes the polygon with no points
+ *
+ * @param color The color of the region
+ * @param parent Sent to constructor of MapItem
+ */
+
 MapVectors::MapVectors(QColor color,QObject* parent) : MapItem(parent)
 {
     col = color;
     //clicked = false;
 
 }
+/**
+  * Deconstructor for MapVectors. Deletes the list of points for the polygon
+  *
+  */
 MapVectors::~MapVectors()
 {
     delete mapPoints;
-}
-MapVectors::MapVectors(const MapVectors& map)
-{
-   // col = Qt::white;
 }
 
 QVector<QPoint>& MapVectors::getVectors()
 {
     return *mapPoints;
 }
+/**
+  * Not just a regular setter function. Takes points centered around the middle (500,400)
+  * and brings them to the origin for scaling. Also creates the polygon.
+  */
 void MapVectors::setVectors(QVector<QPoint>* ve)
 {
     mapPoints = ve;
@@ -57,6 +68,10 @@ void MapVectors::setVectors(QVector<QPoint>* ve)
     update(middle);
 
 }
+ /**
+   * updates the mapvector by : scaling the polygon to the correct scale, move the center point, and translate the polygon
+   *
+   */
 void MapVectors::update(QPoint mouse)
 {
 
@@ -104,6 +119,9 @@ void MapVectors::update(QPoint mouse)
            poly.translate(realPosition);
         }
 }
+/** this method is a public method called by maparea,
+  * it changes the idealscale of the area, and checks to see if the mouseposition is inside of the area
+  */
 void MapVectors::resizePoints(QPoint mouse, float scale)
 {
     MapItem::resizePoints(mouse,scale);
@@ -115,6 +133,9 @@ void MapVectors::resizePoints(QPoint mouse, float scale)
         }
     }
 }
+/** this method returns the areas color based on whether it is selected, idle, or hovered
+  *
+  */
 QColor MapVectors::getCol()
 {
     if(!selected && !hovered)

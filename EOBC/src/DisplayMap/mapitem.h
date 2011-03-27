@@ -25,6 +25,9 @@ signals:
 
 public slots:
 
+private:
+    MapItem(const MapItem&);
+
 protected:
     float scale;
     float idealScale;

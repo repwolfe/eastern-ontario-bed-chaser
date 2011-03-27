@@ -8,12 +8,24 @@ Map::Map(QWidget *parent) :
     setWindowTitle(tr("EOBC"));
     this->mapLayout = new QLabel();
 
-
-
     fileMenu = menuBar()->addMenu("&File");
+    addMenu = menuBar()->addMenu("&Add");
+    updateMenu = menuBar()->addMenu("&Update");
+    reportsMenu = menuBar()->addMenu("&Reports");
+    menuBar()->addMenu("&Help");
 
     editAct = new QAction(tr("&Edit"),this);
     fileMenu->addAction(editAct);
+    addMenu->addAction("&Beds");
+    addMenu->addAction("&Facilities");
+    addMenu->addAction("&User Accounts");
+
+    updateMenu->addAction("&Move Patients");
+    updateMenu->addAction("&Update Waiting List");
+
+    reportsMenu->addAction("&Generate Report");
+    reportsMenu->addAction("&View Report");
+
     //
     //QLayout* q = layout();
     setCentralWidget(mapLayout);

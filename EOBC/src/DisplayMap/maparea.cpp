@@ -3,7 +3,13 @@
 #define BASEZOOMSPEED 1.3
 #define MOVESPEED 5
 QPoint MapArea::middle;
-MapArea::MapArea(QObject *parent) :
+
+/**
+ * Constructor for MapArea. Generates the timer event for the map.
+ *
+ * @param parent not used
+ */
+MapArea::MapArea(QObject *) :
     QWidget() , vecs(), resizeTimer()
 {
     zoomed = false;
@@ -17,6 +23,10 @@ MapArea::MapArea(QObject *parent) :
    icons.push_back(new FacilityIcon(QPoint(-200,-100),"General Hospital","Renfrew County"));
     setGeometry(0,0,400,300);
 }
+/**
+ * Destructor for MapArea. Deletes any mapvectors that the area may have
+ *
+ */
 MapArea::~MapArea()
 {
     QVector<MapVectors*>::iterator iter = vecs.begin();
@@ -27,11 +37,16 @@ MapArea::~MapArea()
     }
     vecs.clear();
 }
+
 QVector<MapVectors*>& MapArea::getVecs()
 {
     return vecs;
 }
-void MapArea::paintEvent(QPaintEvent *event)
+/**
+ * Draws all mapvectors the map area contains along with the facility icons.
+ *
+ */
+void MapArea::paintEvent(QPaintEvent *)
 {
     setGeometry(0,0,middle.x()*2,middle.y()*2);
     QPainter painter(this);
@@ -59,6 +74,12 @@ void MapArea::paintEvent(QPaintEvent *event)
     //painter.drawEllipse(mapPos,15,15);
     //painter.drawEllipse(middle,10,10);
 }
+/**
+ * Adds a mapvector to the map. A mapvector is a specific series of points that resembles a reigon on the map
+ *
+ * @param points the points of the polygon of the reigon
+ * @param col the color that the reigon will show
+ */
 void MapArea::addVecs(QVector<QPoint>* points, QColor col)
 {
     MapVectors* temp = new MapVectors(col);
@@ -66,6 +87,10 @@ void MapArea::addVecs(QVector<QPoint>* points, QColor col)
     temp->setMiddle(middle);
     vecs.push_back(temp);
 }
+/**
+ * the timer which will move the map into the center of the screen, and resize all areas and icons
+ *
+ */
 void MapArea::timerEvent()
 {
     QVector<MapVectors*>::iterator iter = vecs.begin();
@@ -83,11 +108,16 @@ void MapArea::timerEvent()
     moveMap();
     repaint();
 }
-
+/**
+ * resizes all areas and icons about a point p
+ *
+ * @param p the point about which the icons and areas will resize
+ */
 void MapArea::resize(QPoint p)
 {
     QVector<MapVectors*>::iterator viter = vecs.begin();
     QVector<FacilityIcon*>::iterator fiter = icons.begin();
+   // zoomSpeed = middle.manhattanLength() *BASEZOOMSPEED / QPoint(500,400).manhattanLength();
     float scale = 1;
     if(zoomed){
        // scale = 0.66;
@@ -115,6 +145,11 @@ void MapArea::resize(QPoint p)
     }
     repaint();
 }
+/**
+ * Event triggered when mouse is down, position saved, and the resize method is called to zoom in
+ *
+ * @param event used to find x and y coordinates of mouse when pressed
+ */
 void MapArea::mousePressEvent(QMouseEvent *event)
 {
     lastMousePos = QPoint(event->x(),event->y());
@@ -122,22 +157,29 @@ void MapArea::mousePressEvent(QMouseEvent *event)
     updateLabels();
 }
 
-void MapArea::mouseReleaseEvent(QMouseEvent *event)
+void MapArea::mouseReleaseEvent(QMouseEvent *)
 {
 
 }
 
-void MapArea::mouseClickEvent(QMouseEvent *event)
+void MapArea::mouseClickEvent(QMouseEvent *)
 {
 
 }
+
 void MapArea::setMiddle(QPoint& middle)
 {
     MapArea::middle = middle;
 
     MapVectors::setMiddle(middle);
     FacilityIcon::setMiddle(middle);
+
 }
+/**
+ * Finds the ideal position for the map to be in and moves it towards that location
+ *
+ *
+ */
 void MapArea::moveMap()
 {
     //mapPos = middle;
@@ -186,6 +228,11 @@ void MapArea::moveMap()
         fiter++;
     }
 }
+/**
+ * Used to determine if the mouse is hovering over an area
+ *
+ * @param event used to find x and y coordinates of mouse when pressed
+ */
 void MapArea::mouseMoveEvent(QMouseEvent *event)
 {
     QPoint mousePos(event->x(),event->y());
@@ -203,6 +250,11 @@ void MapArea::mouseMoveEvent(QMouseEvent *event)
         iter++;
     }
 }
+/**
+ * Loads in all the labels on the right hand side so that their values can be changed.
+ *
+ * @param labels the labels in which maparea takes control
+ */
 void MapArea::loadLabels(QVector<QLabel*> labels)
 {
     this->labels = labels;
@@ -213,6 +265,11 @@ void MapArea::loadLabels(QVector<QLabel*> labels)
         labels.at(i)->setText("");
     }
 }
+/**
+ * Resets the labels based on the current facility selected
+ *
+ *
+ */
 void MapArea::updateLabels()
 {
     for(int i=0;i<labels.size();i++)

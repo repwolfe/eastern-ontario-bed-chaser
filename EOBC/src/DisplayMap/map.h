@@ -31,6 +31,9 @@ private:
 
 private:
         QMenu* fileMenu;
+        QMenu* addMenu;
+        QMenu* updateMenu;
+        QMenu* reportsMenu;
         QAction* editAct;
         QLabel* mapLayout;
         QLabel* fName;

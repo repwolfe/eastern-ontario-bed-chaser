@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     DisplayMapControl mapControl;
     mapControl.run();
-    //LogOnControl logControl;
-    //logControl.run();
+    LogOnControl logControl;
+    logControl.run();
     ChangeDataControl changeDataControl;
     changeDataControl.run();
     return a.exec();

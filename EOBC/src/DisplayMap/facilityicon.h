@@ -5,6 +5,14 @@
 #include <QtGui/QPainter>
 #include "mapitem.h"
 #include <qmath.h>
+
+/** The facilityicon class is the graphical representation of the facilities on the map.
+  * It has the functionality to move itself around the map based on the scale and center of the map.
+  * It also shows graphically the state of the facility based on the number of beds available.
+  *
+  * This class fufills the requirement of showing graphically to the users the occupancy rate of the facilities.
+  */
+
 class FacilityIcon : public MapItem
 {
 public:

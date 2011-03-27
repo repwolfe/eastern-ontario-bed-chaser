@@ -7,6 +7,15 @@
 #include <QPainter>
 #include <qmath.h>
 #include "mapitem.h"
+
+/**
+  * This class is designed to hold variables about each individual reigon of the map.
+  * It has a polygon that is drawn on the screen, and a list of all the points in the polygon.
+  * It has the functionality to scale each reigon, and reposition it based on the origin.
+  *
+  * This class fills the requirements listed by users being able to select reigons
+  */
+
 class MapVectors : public MapItem
 {
 
@@ -26,7 +35,7 @@ public:
     //void setHovered(bool);
     void setVectors(QVector<QPoint>* ve);
 private:
-    MapVectors(const MapVectors&);
+
 
 signals:
 

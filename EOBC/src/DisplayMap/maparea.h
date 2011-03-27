@@ -9,6 +9,15 @@
 #include <QWidget>
 #include "mapvectors.h"
 #include "facilityicon.h"
+
+/**
+ * This class holds the widget in which the map is contained.
+ * It also contains mapvectors which are a vector of areas put together,
+ * and a vector of icons that represent facilities
+ *
+ * This class is part of the map requirements (i.e. FR.MAP.01)
+ */
+
 class MapArea : public QWidget
 {
     Q_OBJECT

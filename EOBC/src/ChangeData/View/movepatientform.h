@@ -27,22 +27,22 @@ public:
    void setMoveToItems(QStringList& items);
 
    void removeFacilityItem(QString& item);
+
  //  const QString& getCurrentFacilitySelection() const;
  //  const QString& getCurrentMoveToSelection() const;
+
+   const QComboBox* getMoveToList();
+   const QListWidget* getPatientList();
 
 
 signals:
 
 
 public slots:
-   void patientMoved(QString moveTo);
-   void patientSelected();
+
 
 private:
    void _setupLayout();
-   void _setupConnections();
-
-   void _setComboboxItems(QStringList& items, QComboBox* box);
 
    bool _displayBedType;
    QString _moveToLabel;
@@ -53,9 +53,6 @@ private:
 
    QPushButton* _submitButton;
    QPushButton* _cancelButton;
-
-   /// A Map of all the changes done to each Patient
-   QMap<QString,QString> _moveToChanges;
 };
 
 #endif // MOVEPATIENTFORM_H

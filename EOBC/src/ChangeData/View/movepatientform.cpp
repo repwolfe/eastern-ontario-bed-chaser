@@ -24,7 +24,6 @@ MovePatientForm::MovePatientForm(QString title, bool displayBedType, QString mov
     setFixedSize(width, height);
 
     _setupLayout();
-    _setupConnections();
 }
 
 /**
@@ -34,15 +33,8 @@ MovePatientForm::MovePatientForm(QString title, bool displayBedType, QString mov
  */
 void MovePatientForm::setFacilityItems(QStringList& items)
 {
-    _setComboboxItems(items, _facilityList);
-}
-
-/**
- * @todo fix this to include columns
- */
-void MovePatientForm::setPatientItems(QStringList& items)
-{
-    _patientList->addItems(items);
+    _facilityList->clear();
+    _facilityList->insertItems(0, items);
 }
 
 /**
@@ -52,26 +44,27 @@ void MovePatientForm::setPatientItems(QStringList& items)
  */
 void MovePatientForm::setMoveToItems(QStringList& items)
 {
-    _setComboboxItems(items, _moveToList);
+    _moveToList->clear();
+    _moveToList->insertItems(0, items);
 }
 
 /**
- * Private function to set the items of any combo box, removes the old ones
- *
- * @param items a list of values to insert into it
+ * Set the items of the Patient list, removes the old ones
+ * @todo fix this to include columns
  */
-void MovePatientForm::_setComboboxItems(QStringList &items, QComboBox *box)
+void MovePatientForm::setPatientItems(QStringList& items)
 {
-    int num = box->count();
-    if (num != 0)
+    _patientList->clear();
+    if (items.size() > 0)
     {
-        // Remove all the items from the combo box
-        for (int i = 0; i < num; ++i)
-        {
-            box->removeItem(0);
-        }
+        _patientList->addItems(items);
+        _patientList->item(0)->setSelected(true);
+        _moveToList->setEnabled(true);
     }
-    box->insertItems(0, items);
+    else
+    {
+        _moveToList->setEnabled(false);
+    }
 }
 
 /**
@@ -84,11 +77,23 @@ void MovePatientForm::removeFacilityItem(QString& item)
     _facilityList->removeItem(_facilityList->findText(item));
 }
 
+const QComboBox* MovePatientForm::getMoveToList()
+{
+    return _moveToList;
+}
+
+const QListWidget* MovePatientForm::getPatientList()
+{
+    return _patientList;
+}
+
 void MovePatientForm::_setupLayout()
 {
     _patientList    = new QListWidget();
     _facilityList   = new QComboBox();
     _moveToList     = new QComboBox();
+
+    _patientList->setSelectionMode(QAbstractItemView::SingleSelection);
 
     _moveToList->setEnabled(false);
 
@@ -111,39 +116,4 @@ void MovePatientForm::_setupLayout()
     q->addWidget(_submitButton, 4, 1);
     q->addWidget(_cancelButton, 5, 1);
     setLayout(q);
-}
-
-void MovePatientForm::_setupConnections()
-{
-    connect(_moveToList, SIGNAL(currentIndexChanged(QString)), SLOT(patientMoved(QString)));
-    connect(_patientList, SIGNAL(itemSelectionChanged()), SLOT(patientSelected()));
-}
-
-/****************************************
- *               SIGNALS                *
- ****************************************/
-
-/**
- * Everytime a patient with a specific health card number is moved
- * anywhere, the change stored in the map
- *
- * @param moveTo where they were moved
- */
-void MovePatientForm::patientMoved(QString moveTo)
-{
-    // Find out who was moved
-    if (_patientList->currentRow() != -1)
-    {
-        /// @todo try and avoid redundant changes (bed == AC, bed --> CCC, bed --> AC)
-        const QString& patientHCN = _patientList->currentItem()->text();
-        _moveToChanges[patientHCN] = moveTo;
-    }
-}
-
-/**
- * @todo find better use for this
- */
-void MovePatientForm::patientSelected()
-{
-    _moveToList->setEnabled(true);
 }

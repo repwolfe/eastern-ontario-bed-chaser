@@ -13,7 +13,7 @@ ChangeDataControl::~ChangeDataControl()
 /// @todo remove this
 void ChangeDataControl::run()
 {
-    displayMovePatientsToBedForm();
+  //  displayMovePatientsToBedForm();
   //  displayMovePatientsToFacilityForm();
 }
 

@@ -8,6 +8,7 @@
 #include "addpatientcontrol.h"
 #include "addfacilitycontrol.h"
 #include "createusercontrol.h"
+#include "updatebedscontrol.h"
 
 /// @todo remove these and include the classes when they're written
 class StorageWrite;
@@ -28,12 +29,14 @@ public slots:
     void displayAddFacilityForm();
     void displayAddPatientForm();
     void displayCreateUserForm();
+    void displayUpdateBedsForm();
 
     void movePatientsToBedSubmitted();
     void movePatientsToFacilitySubmitted();
     void addFacilitySubmitted(QString, QString, QString);
     void addPatientSubmitted(QString, QString, QString, QString);
     void createUserSubmitted(QString, QString, QString, QString, QString);
+    void updateBedsSubmitted(QString, int, int, int);
 
 private:
     void _changeLocal(QString& args, QString& data);
@@ -47,6 +50,7 @@ private:
     AddFacilityControl* _addFacilityControl;
     AddPatientControl* _addPatientControl;
     CreateUserControl* _createUserControl;
+    UpdateBedsControl* _updateBedsControl;
 };
 
 #endif // CHANGEDATACONTROL_H

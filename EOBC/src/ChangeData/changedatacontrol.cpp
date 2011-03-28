@@ -6,6 +6,7 @@ ChangeDataControl::ChangeDataControl()
     _addFacilityControl = new AddFacilityControl();
     _addPatientControl  = new AddPatientControl();
     _createUserControl	= new CreateUserControl();
+    _updateBedsControl	= new UpdateBedsControl();
 
     connect(_movePatientControl, SIGNAL(toBedFormSubmitClicked()), SLOT(movePatientsToBedSubmitted()));
     connect(_movePatientControl, SIGNAL(toFacilityFormSubmitClicked()), SLOT(movePatientsToFacilitySubmitted()));
@@ -22,6 +23,8 @@ ChangeDataControl::~ChangeDataControl()
     delete _movePatientControl;
     delete _addFacilityControl;
     delete _addPatientControl;
+    delete _createUserControl;
+    delete _updateBedsControl;
 }
 
 /// @todo implement this
@@ -59,6 +62,11 @@ void ChangeDataControl::displayCreateUserForm()
     _createUserControl->showForm();
 }
 
+void ChangeDataControl::displayUpdateBedsForm()
+{
+    _updateBedsControl->showForm();
+}
+
 void ChangeDataControl::movePatientsToBedSubmitted()
 {
     const QMap<QString, QString>& changes = _movePatientControl->getBedChanges();
@@ -87,4 +95,9 @@ void ChangeDataControl::createUserSubmitted(QString, QString, QString, QString, 
 {
     /// @todo send the username, password, firstname, lastname and priveledge to StorageWrite
     /// or log on control???
+}
+
+void ChangeDataControl::updateBedsSubmitted(QString, int, int, int)
+{
+    /// @todo send the facility, num ac beds, num ccc beds, num ltc beds
 }

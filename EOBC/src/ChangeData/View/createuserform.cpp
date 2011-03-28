@@ -76,6 +76,9 @@ void CreateUserForm::_setupLayout()
     _submitButton   = new QPushButton("Submit");
     _cancelButton   = new QPushButton("Cancel");
 
+    connect(_submitButton, SIGNAL(clicked()), SLOT(_submitClicked()));
+    connect(_cancelButton, SIGNAL(clicked()), SLOT(_cancelClicked()));
+
     _submitButton->setFixedWidth(125);
     _cancelButton->setFixedWidth(125);
 

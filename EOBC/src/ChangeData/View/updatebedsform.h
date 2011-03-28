@@ -2,7 +2,7 @@
 #define UPDATEBEDSFORM_H
 
 #include <QWidget>
-#include <QAbstractSpinBox>
+#include <QSpinBox>
 #include <QComboBox>
 #include <QPushButton>
 
@@ -18,17 +18,33 @@ class UpdateBedsForm : public QWidget
 public:
     explicit UpdateBedsForm(QWidget *parent = 0);
 
-signals:
+    void setNumAC(int num);
+    void setNumCCC(int num);
+    void setNumLTC(int num);
 
-public slots:
+    void setMinimumAC(int num);
+    void setMinimumCCC(int num);
+    void setMinimumLTC(int num);
+
+    int getNumAC() const;
+    int getNumCCC() const;
+    int getNumLTC() const;
+    QString getCurrentFacility() const;
+
+signals:
+    void submitClicked();
+
+private slots:
+    void _submitClicked();
+    void _cancelClicked();
 
 private:
     void _setupLayout();
 
-    QAbstractSpinBox* _ACBeds;
-    QAbstractSpinBox* _CCCBeds;
+    QSpinBox* _ACBeds;
+    QSpinBox* _CCCBeds;
     /// @todo What to do about this
-    QAbstractSpinBox* _LTCBeds;
+    QSpinBox* _LTCBeds;
 
     QComboBox* _facilities;
 

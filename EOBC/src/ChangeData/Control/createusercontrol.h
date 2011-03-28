@@ -5,6 +5,10 @@
 
 #include "createuserform.h"
 
+/**
+ * @todo description
+ * @todo traceability
+ */
 class CreateUserControl : public QObject
 {
     Q_OBJECT

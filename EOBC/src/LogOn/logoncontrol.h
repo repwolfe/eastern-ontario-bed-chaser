@@ -3,12 +3,17 @@
 
 #include "logonwindow.h"
 
-class LogOnControl
+class LogOnControl : public QObject
 {
+    Q_OBJECT
+signals:
+    void pressedEnter(int);
+public slots:
+    void getEnter(int);
 private:
 
 public:
-    LogOnControl();
+    LogOnControl(QObject* parent = 0);
     ~LogOnControl();
     void run();
 private:

@@ -129,10 +129,18 @@ void MapVectors::resizePoints(QPoint mouse, float scale)
     {
         if(poly.containsPoint(mouse, Qt::OddEvenFill))
         {
-            selected = true;
+           // selected = true;
         }
     }
 }
+void MapVectors::checkSetSelected(QPoint mouse)
+{
+    if(poly.containsPoint(mouse, Qt::OddEvenFill))
+    {
+        selected = true;
+    }
+}
+
 /** this method returns the areas color based on whether it is selected, idle, or hovered
   *
   */
@@ -149,5 +157,18 @@ QPolygonF& MapVectors::getPoly()
 {
     return poly;
 }
-
+bool MapVectors::checkZoomOut(QVector<MapVectors*> vecs, QPoint mouse)
+{
+    for (int i=0;i<vecs.count();i++)
+    {
+        if(vecs.at(i)->isSelected())
+        {
+            if(vecs.at(i)->getPoly().containsPoint(mouse,Qt::OddEvenFill))
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 

@@ -9,6 +9,7 @@ LogOnWindow::LogOnWindow(QWidget *parent) :
     setGeometry (100,0,1000,800);
     loadBackground();
     loadLayout();
+    permissions = -1;
 }
 void LogOnWindow::loadBackground()
 {
@@ -72,16 +73,22 @@ void LogOnWindow::logIn()
         }
         index++;
         curChar = curLine[index].toAscii();
-        while(curLine[index] != '\0')
+        int curInt = -1;
+        while(curInt != 32)
         {
             pass += curChar;
             index++;
             curChar = curLine[index].toAscii();
-        }
+            curInt = curLine[index].toAscii();
+        }  
         if(usr == usrBox->text() )
         {
             if(pass == passBox->text())
+            {
+                permissions = curLine[index+1].toAscii() -48;
+                emit pressedEnter(permissions);
                 close();
+            }
         }
         curLine = in.readLine();
     }

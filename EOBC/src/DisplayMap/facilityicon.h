@@ -21,6 +21,7 @@ public:
     void update(QPoint mouse);
     void move(QPoint mPos);
     void resizePoints(QPoint mouse, float scale);
+    void checkSetSelected(QPoint);
     QString getName();
     QString getArea();
     float getLTC();

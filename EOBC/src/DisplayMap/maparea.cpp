@@ -119,30 +119,47 @@ void MapArea::resize(QPoint p)
     QVector<FacilityIcon*>::iterator fiter = icons.begin();
    // zoomSpeed = middle.manhattanLength() *BASEZOOMSPEED / QPoint(500,400).manhattanLength();
     float scale = 1;
-    if(zoomed){
-       // scale = 0.66;
-        scale = 1/zoomSpeed;
-        zoomed = false;
-        lastMousePos = middle;
-    }
-    else
+    if(MapVectors::checkZoomOut(vecs, p))
     {
-        //scale = 1.5;
-        scale = zoomSpeed;
-        zoomed = true;
-    }
+        if(zoomed)
+        {
+           // scale = 0.66;
+            scale = 1/zoomSpeed;
+            zoomed = false;
+            lastMousePos = middle;
+        }
+        else
+        {
+            //scale = 1.5;
+            scale = zoomSpeed;
+            zoomed = true;
+        }
+        while(viter != vecs.end())
+        {
+             (*viter)->resizePoints(p,scale);
+             viter++;
+        }
+        while(fiter != icons.end())
+        {
 
+             (*fiter)->resizePoints(p,scale);
+             fiter++;
+        }
+    }
+    viter = vecs.begin();
+    fiter = icons.begin();
     while(viter != vecs.end())
     {
-         (*viter)->resizePoints(p,scale);
-         viter++;
+        (*viter)->checkSetSelected(p);
+        viter++;
     }
     while(fiter != icons.end())
     {
-
-         (*fiter)->resizePoints(p,scale);
+         (*fiter)->checkSetSelected(p);
          fiter++;
     }
+
+
     repaint();
 }
 /**

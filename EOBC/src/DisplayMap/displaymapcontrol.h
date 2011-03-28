@@ -3,14 +3,18 @@
 
 #include "map.h"
 
-class DisplayMapControl
+class DisplayMapControl : public QObject
 {
+Q_OBJECT
+public slots:
+    void getLoggedOn(int);
 private:
 
 public:
-    DisplayMapControl();
+    DisplayMapControl(QObject* parent = 0);
     ~DisplayMapControl();
     void run();
+
 private:
     Map* map;
 };

@@ -16,6 +16,7 @@ class Map : public QMainWindow
     Q_OBJECT
 public:
     Map(QWidget *parent = 0);
+    void setPermissions(int permissions);
     ~Map();
 
 signals:
@@ -43,6 +44,7 @@ private:
         QLabel* fCCCRates;
         QLabel* fWList;
         QLabel* fCoord;
+        QVector<QAction*> actions;
         MapArea* area;
 
 

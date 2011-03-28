@@ -59,7 +59,7 @@ void FacilityIcon::resizePoints(QPoint mouse, float scale)
         double trueLength = sqrt(pow(distance.x(), 2) + pow(distance.y(), 2));
         if(trueLength < ICONRADIUS)
         {
-            selected = true;
+            //selected = true;
         }
     }
 }
@@ -83,4 +83,14 @@ float FacilityIcon::getCCC()
 float FacilityIcon::getAC()
 {
    return piePercent[2];
+}
+void FacilityIcon::checkSetSelected(QPoint mouse)
+{
+    QPoint distance = ((realPosition+mapPos) - mouse);
+
+    double trueLength = sqrt(pow(distance.x(), 2) + pow(distance.y(), 2));
+    if(trueLength < ICONRADIUS)
+    {
+        selected = true;
+    }
 }

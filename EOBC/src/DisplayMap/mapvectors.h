@@ -34,6 +34,8 @@ public:
     QVector<QPoint>& getVectors();
     //void setHovered(bool);
     void setVectors(QVector<QPoint>* ve);
+    static bool checkZoomOut(QVector<MapVectors*> vecs, QPoint mouse);
+    void checkSetSelected(QPoint);
 private:
 
 

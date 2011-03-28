@@ -24,29 +24,26 @@ void MapItem::draw(QPainter& )
 
 void MapItem::update(QPoint )
 {
+   if(scale != idealScale)
+   {
+       float scalediff = (idealScale - scale)/7 + 1;
+       scale *= scalediff;
 
-    if(scale != idealScale)
-       {
-           float scalediff = (idealScale - scale)/7 + 1;
-           scale *= scalediff;
-
-           QPointF tempPos(position.x(),position.y());
-           tempPos *= scale;
-           realPosition = QPoint(tempPos.x(),tempPos.y());
-        }
+       QPointF tempPos(position.x(),position.y());
+       tempPos *= scale;
+       realPosition = QPoint(tempPos.x(),tempPos.y());
+    }
 }
 void MapItem::resizePoints(QPoint , float scale)
 {
     idealScale *= scale;
     selected = false;
-    if(idealScale < scale)
-    {
-       /* if(poly.containsPoint(mouse, Qt::OddEvenFill))
-        {
-            selected = true;
-        }*/
-    }
 }
+void MapItem::checkSetSelected(QPoint )
+{
+
+}
+
 void MapItem::setMiddle(QPoint& middle)
 {
     MapItem::middle = middle;

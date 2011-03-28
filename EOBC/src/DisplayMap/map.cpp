@@ -1,6 +1,11 @@
 #include "map.h"
 #define RIGHTCOLUMNWIDTH 80
 #define TOPMENUHEIGHT 10
+enum {FACILITYSTAFF,LHINSTAFF,ADMINISTRATOR};
+/** The constructor for Map, sets up the menu bar and calls multiple helper functions
+  * to set up more functionality
+  * @param parent just passed to the QMainWindow constructor
+  */
 Map::Map(QWidget *parent) :
     QMainWindow(parent)
 {
@@ -16,16 +21,26 @@ Map::Map(QWidget *parent) :
 
     editAct = new QAction(tr("&Edit"),this);
     fileMenu->addAction(editAct);
-    addMenu->addAction("&Beds");
-    addMenu->addAction("&Facilities");
-    addMenu->addAction("&User Accounts");
+    actions.push_back(new QAction("&Beds",this));
+    addMenu->addAction(actions.at(actions.count()-1));
+    actions.push_back(new QAction("&Facilities",this));
+    addMenu->addAction(actions.at(actions.count()-1));
+    actions.push_back(new QAction("&User Accounts",this));
+    addMenu->addAction(actions.at(actions.count()-1));
 
-    updateMenu->addAction("&Move Patients");
-    updateMenu->addAction("&Update Waiting List");
+    actions.push_back(new QAction("&Move Patients",this));
+    updateMenu->addAction(actions.at(actions.count()-1));
+    actions.push_back(new QAction("&Update Waiting List",this));
+    updateMenu->addAction(actions.at(actions.count()-1));
 
-    reportsMenu->addAction("&Generate Report");
-    reportsMenu->addAction("&View Report");
-
+    actions.push_back(new QAction("&Submit Report",this));
+    reportsMenu->addAction(actions.at(actions.count()-1));
+    actions.push_back(new QAction("&View Report",this));
+    reportsMenu->addAction(actions.at(actions.count()-1));
+    for(int i=0;i<actions.size();i++)
+    {
+        actions.at(i)->setEnabled(false);
+    }
     //
     //QLayout* q = layout();
     setCentralWidget(mapLayout);
@@ -34,12 +49,19 @@ Map::Map(QWidget *parent) :
     setGeometry(Convenience::getCenterForSize(1000,650));
 
 }
+
+ /** Destructor for map, does nothing since the layout manager deletes all memory
+   *
+   */
 Map::~Map()
 {
-    delete area;
+    //delete area;
 
 }
-
+ /** loadAreas sets up the layout for the form.
+   * Loads in the text on the right column, and the map polygons for the right column
+   *
+   */
 void Map::loadAreas()
 {
     //mapLayout->setLayout(new QBoxLayout(QBoxLayout::LeftToRight));
@@ -49,22 +71,16 @@ void Map::loadAreas()
     MapArea* tempArea = new MapArea();
     q->addWidget(tempArea,0,0,6,0);
 
+
+    // LOAD SIDE BAR //
+    // LOAD SIDE BAR //
+    // LOAD SIDE BAR //
     q->setColumnStretch(0,8010);
     q->setColumnMinimumWidth(0,10000);
     q->setColumnStretch(1,0);
     q->setColumnMinimumWidth(1,150);
     q->setMargin(0);
-    //q->setRowMinimumHeight(0,20);
-    //q->setRowMinimumHeight(1,0);
 
-    //q->setRowMinimumHeight(4,100);
-
-    //q->setRowMinimumHeight(0,800);
-    //q->setColumnStretch(1,100);
-
-    //
-    //
-    //
     QLabel* fTemp = new QLabel("Facility Name");
     fTemp->setFont(QFont("Arial",14,3));
     q->addWidget(fTemp,0,1);
@@ -128,6 +144,9 @@ void Map::loadAreas()
     tempArea->loadLabels(labels);
     //
     //
+    // LOAD AREAS //
+    // LOAD AREAS //
+    // LOAD AREAS //
     QPoint middle(tempArea->width()/2,tempArea->height()/2);
     MapArea::setMiddle(middle);
     tempArea->addVecs(loadFile(":/mapFiles/resources/PurpleArea.txt"),QColor::fromRgb(255,0,255));
@@ -157,6 +176,11 @@ void Map::loadAreas()
     MapArea::setMiddle(middle);
 
 }
+ /** loadFile uses QTextStream to read data files for the map
+   * each file contains points that are loaded into polygons to make up the map
+   * @param fname contains the name of the file to read
+   * @return a vector of all the points that make up the polygon
+    */
 QVector<QPoint>* Map::loadFile(QString fname)
 {
     QVector<QPoint>* points = new QVector<QPoint>();
@@ -192,10 +216,7 @@ QVector<QPoint>* Map::loadFile(QString fname)
             index ++;
         }
         points->push_back(QPoint(x,y));
-        //data = data.chop();
         data= in.readLine(20);
-
-         // qDebug()<< "yay!";
     }
 
     // optional, as QFile destructor will already do it:
@@ -203,11 +224,49 @@ QVector<QPoint>* Map::loadFile(QString fname)
     return points;
 
 }
+ /** resizeEvent is a slot that is called when the window is resized
+   * The areas resize even is also called when the window is resized
+   * along with the middle recalculated
+   */
 void Map::resizeEvent(QResizeEvent *)
 {
     int x =geometry().width()/2 - RIGHTCOLUMNWIDTH;
     int y =geometry().height()/2 - TOPMENUHEIGHT;
     QPoint middle(x, y);
     area->setMiddle(middle);
+}
+/**
+  * @todo fix permissions so that not everything is enabled all the time.
+  * delete highlited code below
+  */
+void Map::setPermissions(int permissions)
+{
+    this->editAct->setEnabled(true);
+    if(permissions >= FACILITYSTAFF)
+    {
+        actions.at(0)->setEnabled(true);
+        actions.at(3)->setEnabled(true);
+        actions.at(4)->setEnabled(true);
+    }
+    if(permissions >= LHINSTAFF)
+    {
+        actions.at(5)->setEnabled(true);
+        actions.at(6)->setEnabled(true);
+    }
+    if(permissions == ADMINISTRATOR)
+    {
+        actions.at(1)->setEnabled(true);
+        actions.at(2)->setEnabled(true);
+    }
+
+
+    /* FOR TESTING ONLY, DELETE FOR FINAL RELEASE */
+    /* FOR TESTING ONLY, DELETE FOR FINAL RELEASE */
+    for(int i=0;i<actions.size();i++)
+    {
+        actions.at(i)->setEnabled(true);
+    }
+    /* FOR TESTING ONLY, DELETE FOR FINAL RELEASE */
+    /* FOR TESTING ONLY, DELETE FOR FINAL RELEASE */
 }
 

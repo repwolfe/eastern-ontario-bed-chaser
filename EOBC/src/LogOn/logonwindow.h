@@ -18,7 +18,7 @@ public:
     explicit LogOnWindow(QWidget *parent = 0);
 
 signals:
-
+    void pressedEnter(int);
 protected:
     void keyPressEvent(QKeyEvent *event);
 public slots:
@@ -29,6 +29,7 @@ private:
     QPushButton* cancelButton;
     QLineEdit* usrBox;
     QLineEdit* passBox;
+    int permissions;
     void loadBackground();
     void loadLayout();
 };

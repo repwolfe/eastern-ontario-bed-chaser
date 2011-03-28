@@ -39,9 +39,9 @@ void MapItem::resizePoints(QPoint , float scale)
     idealScale *= scale;
     selected = false;
 }
-void MapItem::checkSetSelected(QPoint )
+bool MapItem::checkSetSelected(QPoint )
 {
-
+    return false;
 }
 
 void MapItem::setMiddle(QPoint& middle)

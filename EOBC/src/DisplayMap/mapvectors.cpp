@@ -9,10 +9,10 @@
  * @param parent Sent to constructor of MapItem
  */
 
-MapVectors::MapVectors(QColor color,QObject* parent) : MapItem(parent)
+MapVectors::MapVectors(QString region,QColor color,QObject* parent) : MapItem(parent)
 {
     col = color;
-    //clicked = false;
+    this->region = region;
 
 }
 /**
@@ -133,12 +133,14 @@ void MapVectors::resizePoints(QPoint mouse, float scale)
         }
     }
 }
-void MapVectors::checkSetSelected(QPoint mouse)
+bool MapVectors::checkSetSelected(QPoint mouse)
 {
     if(poly.containsPoint(mouse, Qt::OddEvenFill))
     {
         selected = true;
+        return true;
     }
+    return false;
 }
 
 /** this method returns the areas color based on whether it is selected, idle, or hovered
@@ -157,17 +159,22 @@ QPolygonF& MapVectors::getPoly()
 {
     return poly;
 }
+QString MapVectors::getRegion()
+{
+    return region;
+}
+
 bool MapVectors::checkZoomOut(QVector<MapVectors*> vecs, QPoint mouse)
 {
     for (int i=0;i<vecs.count();i++)
     {
-        if(vecs.at(i)->isSelected())
-        {
+        //if(vecs.at(i)->isSelected())
+        //{
             if(vecs.at(i)->getPoly().containsPoint(mouse,Qt::OddEvenFill))
             {
                 return false;
             }
-        }
+        //}
     }
     return true;
 }

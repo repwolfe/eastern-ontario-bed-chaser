@@ -14,6 +14,17 @@ int main(int argc, char *argv[])
     logControl.run();
     ChangeDataControl changeDataControl;
     changeDataControl.run();
+
+    //
+    //CONNECT SUBSYSTEMS
+    //
     QObject::connect(&logControl,SIGNAL(pressedEnter(int)),&mapControl,SLOT(getLoggedOn(int)));
+    //QObject::connect(&mapControl,SIGNAL(pressedAddBeds()),&changeDataControl,SLOT(displayAddBedsForm()));
+    QObject::connect(&mapControl,SIGNAL(pressedAddFacilities()),&changeDataControl,SLOT(displayAddFacilityForm()));
+    QObject::connect(&mapControl,SIGNAL(pressedAddPatients()),&changeDataControl,SLOT(displayMovePatientsToBedForm()));
+    //QObject::connect(&mapControl,SIGNAL(pressedAddUserAccts()),&changeDataControl,SLOT(displayAddUserAccountsForm()));
+    QObject::connect(&mapControl,SIGNAL(pressedMovePatients()),&changeDataControl,SLOT(displayMovePatientsToFacilityForm()));
+
     return a.exec();
 }
+

@@ -19,7 +19,7 @@ public:
     virtual QPoint getPosition();
     virtual float getScale();
     virtual void setHovered(bool);
-    virtual void checkSetSelected(QPoint);
+    virtual bool checkSetSelected(QPoint);
 
 
 signals:

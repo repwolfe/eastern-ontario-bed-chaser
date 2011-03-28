@@ -20,7 +20,7 @@ class MapVectors : public MapItem
 {
 
 public:
-    MapVectors(QColor col, QObject* parent = 0);
+    MapVectors(QString reg,QColor col, QObject* parent = 0);
     ~MapVectors();
     void update(QPoint mouse);
     void resizePoints(QPoint mouse, float scale);
@@ -35,7 +35,8 @@ public:
     //void setHovered(bool);
     void setVectors(QVector<QPoint>* ve);
     static bool checkZoomOut(QVector<MapVectors*> vecs, QPoint mouse);
-    void checkSetSelected(QPoint);
+    bool checkSetSelected(QPoint);
+    QString getRegion();
 private:
 
 
@@ -49,15 +50,8 @@ protected:
 private:
     QVector<QPoint>* mapPoints;
     QPolygonF poly;
-    //QPoint position;
-    //QPoint realPosition;
     QColor col;
-    //float scale;
-    //float idealScale;
-    //QPoint idealPosition;
-    //bool selected;
-    //bool hovered;
-    //static QPoint middle;
+    QString region;
 };
 
 #endif // MAPVECTORS_H

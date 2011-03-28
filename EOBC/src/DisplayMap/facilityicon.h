@@ -21,9 +21,10 @@ public:
     void update(QPoint mouse);
     void move(QPoint mPos);
     void resizePoints(QPoint mouse, float scale);
-    void checkSetSelected(QPoint);
+    bool checkSetSelected(QPoint);
     QString getName();
     QString getArea();
+    QPoint getPosition();
     float getLTC();
     float getCCC();
     float getAC();
@@ -37,6 +38,7 @@ private:
     QColor *pieColor;
     QString name;
     QString area;
+    static int iconNum;
 
 
 };

@@ -9,6 +9,7 @@
 #include <QWidget>
 #include "mapvectors.h"
 #include "facilityicon.h"
+#include "mapmarker.h"
 
 /**
  * This class holds the widget in which the map is contained.
@@ -26,7 +27,7 @@ public:
 
     ~MapArea();
     QVector<MapVectors*>& getVecs();
-    void addVecs(QVector<QPoint>* points, QColor col);
+    void addVecs(QString reg,QVector<QPoint>* points, QColor col);
     void resize(QPoint p);
     static void setMiddle(QPoint& middle);
     void loadLabels(QVector<QLabel*> labels);
@@ -47,6 +48,7 @@ private:
 private:
    QVector<MapVectors*> vecs;
    QVector<FacilityIcon*> icons;
+   MapMarker* mapX;
    QTimer resizeTimer;
    QPoint lastMousePos;
    QPoint mapPos;

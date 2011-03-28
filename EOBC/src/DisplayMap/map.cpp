@@ -46,6 +46,7 @@ Map::Map(QWidget *parent) :
     setCentralWidget(mapLayout);
     //mapLayout->setLayout(new QFormLayout());
     loadAreas();
+    connectActions();
     setGeometry(Convenience::getCenterForSize(1000,650));
 
 }
@@ -149,13 +150,13 @@ void Map::loadAreas()
     // LOAD AREAS //
     QPoint middle(tempArea->width()/2,tempArea->height()/2);
     MapArea::setMiddle(middle);
-    tempArea->addVecs(loadFile(":/mapFiles/resources/PurpleArea.txt"),QColor::fromRgb(255,0,255));
-    tempArea->addVecs(loadFile(":/mapFiles/resources/GreenArea.txt"), Qt::green);
-    tempArea->addVecs(loadFile(":/mapFiles/resources/BlueArea.txt"),Qt::blue);
-    tempArea->addVecs(loadFile(":/mapFiles/resources/RedArea.txt"),Qt::red);
-    tempArea->addVecs(loadFile(":/mapFiles/resources/otherGreenArea.txt"),Qt::green);
-    tempArea->addVecs(loadFile(":/mapFiles/resources/YellowArea.txt"),Qt::yellow);
-    tempArea->addVecs(loadFile(":/mapFiles/resources/LightBlueArea.txt"),QColor::fromRgb(100,100,255));
+    tempArea->addVecs("Eastern Counties",loadFile(":/mapFiles/resources/PurpleArea.txt"),QColor::fromRgb(255,0,255));
+    tempArea->addVecs("North Lanark",loadFile(":/mapFiles/resources/GreenArea.txt"), Qt::green);
+    tempArea->addVecs("Renfrew County",loadFile(":/mapFiles/resources/BlueArea.txt"),Qt::blue);
+    tempArea->addVecs("Ottawa East",loadFile(":/mapFiles/resources/RedArea.txt"),Qt::red);
+    tempArea->addVecs("North Grenville",loadFile(":/mapFiles/resources/otherGreenArea.txt"),Qt::green);
+    tempArea->addVecs("Ottawa West",loadFile(":/mapFiles/resources/YellowArea.txt"),Qt::yellow);
+    tempArea->addVecs("Ottawa Central",loadFile(":/mapFiles/resources/LightBlueArea.txt"),QColor::fromRgb(100,100,255));
 
     /*
     tempArea->addVecs(loadFile(":/mapFiles/resources/area2.txt"), Qt::green);
@@ -268,5 +269,18 @@ void Map::setPermissions(int permissions)
     }
     /* FOR TESTING ONLY, DELETE FOR FINAL RELEASE */
     /* FOR TESTING ONLY, DELETE FOR FINAL RELEASE */
+}
+void Map::pressedAddBedsSlot(){emit pressedAddBeds();}
+void Map::pressedAddFacilitiesSlot(){emit pressedAddFacilities();}
+void Map::pressedAddUserAcctsSlot(){emit pressedAddUserAccts();}
+void Map::pressedMovePatientsSlot(){emit pressedMovePatients();}
+void Map::pressedAddPatientsSlot(){emit pressedAddPatients();}
+void Map::connectActions()
+{
+    connect(actions.at(0),SIGNAL(triggered()),this,SLOT(pressedAddBedsSlot()));
+    connect(actions.at(1),SIGNAL(triggered()),this,SLOT(pressedAddFacilitiesSlot()));
+    connect(actions.at(2),SIGNAL(triggered()),this,SLOT(pressedAddUserAcctsSlot()));
+    connect(actions.at(3),SIGNAL(triggered()),this,SLOT(pressedAddPatientsSlot()));
+    connect(actions.at(4),SIGNAL(triggered()),this,SLOT(pressedMovePatientsSlot()));
 }
 

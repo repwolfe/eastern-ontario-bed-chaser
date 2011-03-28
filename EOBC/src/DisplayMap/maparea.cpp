@@ -3,13 +3,15 @@
 #define BASEZOOMSPEED 1.3
 #define MOVESPEED 5
 QPoint MapArea::middle;
+#define MAPMIDDLEX 500
+#define MAPMIDDLEY 400
 
 /**
  * Constructor for MapArea. Generates the timer event for the map.
  *
  * @param parent not used
  */
-MapArea::MapArea(QObject *) :
+MapArea::MapArea(QObject *parent) :
     QWidget() , vecs(), resizeTimer()
 {
     zoomed = false;
@@ -19,8 +21,17 @@ MapArea::MapArea(QObject *) :
    this->setMouseTracking(true);
    lastMousePos = middle;
    zoomSpeed = BASEZOOMSPEED;
+   //
+   // FOR TESTING, PLEASE REMOVE
+   //
    icons.push_back(new FacilityIcon(QPoint(200,100),"Franklin Hospital","Eastern Counties"));
-   icons.push_back(new FacilityIcon(QPoint(-200,-100),"General Hospital","Renfrew County"));
+   icons.push_back(new FacilityIcon(QPoint(-MAPMIDDLEX,-MAPMIDDLEY),"General Hospital","Renfrew County"));
+   for(int i=0;i<17;i++)
+    icons.push_back(new FacilityIcon(QPoint(rand()%500 - 250,rand()%100 - 50),"General Hospital","Renfrew County"));
+   //
+   //
+   //
+   mapX = new MapMarker(QPoint(-10,-10),parent);
     setGeometry(0,0,400,300);
 }
 /**
@@ -36,6 +47,14 @@ MapArea::~MapArea()
         iter++;
     }
     vecs.clear();
+    QVector<FacilityIcon*>::iterator fiter = icons.begin();
+    while(fiter != icons.end())
+    {
+        delete *fiter;
+        fiter++;
+    }
+    icons.clear();
+    delete mapX;
 }
 
 QVector<MapVectors*>& MapArea::getVecs()
@@ -70,7 +89,11 @@ void MapArea::paintEvent(QPaintEvent *)
     {
         icons.at(i)->draw(painter);
     }
-
+    mapX->draw(painter);
+    QPoint lastMousePos = this->lastMousePos;
+    lastMousePos += QPoint(MAPMIDDLEX,MAPMIDDLEY);
+    lastMousePos -= mapPos;
+    painter.drawText(10,middle.y()*2 - 40,"X: " + QString::number(lastMousePos.x()) + " Y: " + QString::number(lastMousePos.y()));
     //painter.drawEllipse(mapPos,15,15);
     //painter.drawEllipse(middle,10,10);
 }
@@ -80,9 +103,9 @@ void MapArea::paintEvent(QPaintEvent *)
  * @param points the points of the polygon of the reigon
  * @param col the color that the reigon will show
  */
-void MapArea::addVecs(QVector<QPoint>* points, QColor col)
+void MapArea::addVecs(QString reg,QVector<QPoint>* points, QColor col)
 {
-    MapVectors* temp = new MapVectors(col);
+    MapVectors* temp = new MapVectors(reg,col);
     temp->setVectors(points);
     temp->setMiddle(middle);
     vecs.push_back(temp);
@@ -105,6 +128,7 @@ void MapArea::timerEvent()
         (*fiter)->update(lastMousePos);
         fiter++;
     }
+    mapX->update(lastMousePos);
     moveMap();
     repaint();
 }
@@ -119,14 +143,16 @@ void MapArea::resize(QPoint p)
     QVector<FacilityIcon*>::iterator fiter = icons.begin();
    // zoomSpeed = middle.manhattanLength() *BASEZOOMSPEED / QPoint(500,400).manhattanLength();
     float scale = 1;
-    if(MapVectors::checkZoomOut(vecs, p))
-    {
+
         if(zoomed)
         {
-           // scale = 0.66;
-            scale = 1/zoomSpeed;
-            zoomed = false;
-            lastMousePos = middle;
+            if(MapVectors::checkZoomOut(vecs, p))
+            {
+               // scale = 0.66;
+                scale = 1/zoomSpeed;
+                zoomed = false;
+                lastMousePos = middle;
+            }
         }
         else
         {
@@ -134,18 +160,26 @@ void MapArea::resize(QPoint p)
             scale = zoomSpeed;
             zoomed = true;
         }
-        while(viter != vecs.end())
-        {
-             (*viter)->resizePoints(p,scale);
-             viter++;
-        }
-        while(fiter != icons.end())
-        {
 
-             (*fiter)->resizePoints(p,scale);
-             fiter++;
+        if((!MapVectors::checkZoomOut(vecs, p)&& zoomed)||
+           (MapVectors::checkZoomOut(vecs, p)&& !zoomed)||
+           (MapVectors::checkZoomOut(vecs, p)&& zoomed))
+        {
+            while(viter != vecs.end())
+            {
+                 (*viter)->resizePoints(p,scale);
+                 viter++;
+            }
+            while(fiter != icons.end())
+            {
+                 (*fiter)->resizePoints(p,scale);
+                 fiter++;
+            }
+
         }
-    }
+        mapX->resizePoints(p,scale);
+
+
     viter = vecs.begin();
     fiter = icons.begin();
     while(viter != vecs.end())
@@ -155,9 +189,13 @@ void MapArea::resize(QPoint p)
     }
     while(fiter != icons.end())
     {
-         (*fiter)->checkSetSelected(p);
+         if((*fiter)->checkSetSelected(p))
+         {
+             break;
+         }
          fiter++;
     }
+    mapX->setPosition(p);
 
 
     repaint();
@@ -190,6 +228,7 @@ void MapArea::setMiddle(QPoint& middle)
 
     MapVectors::setMiddle(middle);
     FacilityIcon::setMiddle(middle);
+    MapMarker::setMiddle(middle);
 
 }
 /**
@@ -216,6 +255,8 @@ void MapArea::moveMap()
             float angle = atan2(middle.y()-mapPos.y(),middle.x() - mapPos.x());
             mapPos.setX(mapPos.x()+cos(angle)*MOVESPEED);
             mapPos.setY(mapPos.y()+sin(angle)*MOVESPEED);
+            lastMousePos.rx() += cos(angle)*MOVESPEED;
+            lastMousePos.ry() += sin(angle)*MOVESPEED;
         }
     }
     else
@@ -229,6 +270,8 @@ void MapArea::moveMap()
             float angle = atan2(tempPos.y()-middle.y(),tempPos.x() - middle.x());
             mapPos.setX(mapPos.x()-cos(angle)*MOVESPEED);
             mapPos.setY(mapPos.y()-sin(angle)*MOVESPEED);
+            lastMousePos.rx() -= cos(angle)*MOVESPEED;
+            lastMousePos.ry() -= sin(angle)*MOVESPEED;
         }
     }
     QVector<MapVectors*>::iterator iter = vecs.begin();
@@ -244,6 +287,7 @@ void MapArea::moveMap()
         (*fiter)->move(mapPos);
         fiter++;
     }
+    mapX->move(mapPos);
 }
 /**
  * Used to determine if the mouse is hovering over an area
@@ -298,11 +342,18 @@ void MapArea::updateLabels()
         if(icons.at(i)->isSelected())
         {
             labels.at(0)->setText(icons.at(i)->getName());
-            labels.at(1)->setText(icons.at(i)->getArea());
+            //labels.at(1)->setText(icons.at(i)->getArea());
             labels.at(2)->setText("LTC: " + QString::number(icons.at(i)->getLTC())+"%");
             labels.at(3)->setText("CCC: " + QString::number(icons.at(i)->getCCC())+"%");
             labels.at(4)->setText("AC: " + QString::number(icons.at(i)->getAC())+"%");
             labels.at(5)->setText("X: "+QString::number(icons.at(i)->getPosition().x()) + " Y: "+QString::number(icons.at(i)->getPosition().y()));
+        }
+    }
+    for(int i=0;i<vecs.count();i++)
+    {
+        if(vecs[i]->isSelected())
+        {
+            labels.at(1)->setText(vecs[i]->getRegion());
         }
     }
 }

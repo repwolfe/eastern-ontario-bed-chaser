@@ -20,15 +20,24 @@ public:
     ~Map();
 
 signals:
-
+    void pressedAddBeds();
+    void pressedAddFacilities();
+    void pressedAddUserAccts();
+    void pressedMovePatients();
+    void pressedAddPatients();
 public slots:
-
+    void pressedAddBedsSlot();
+    void pressedAddFacilitiesSlot();
+    void pressedAddUserAcctsSlot();
+    void pressedMovePatientsSlot();
+    void pressedAddPatientsSlot();
 
 protected:
     void resizeEvent(QResizeEvent *);
 private:
     QVector<QPoint>* loadFile(QString fname);
     void loadAreas();
+    void connectActions();
 
 private:
         QMenu* fileMenu;

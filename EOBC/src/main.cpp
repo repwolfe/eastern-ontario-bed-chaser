@@ -13,7 +13,6 @@ int main(int argc, char *argv[])
     LogOnControl logControl;
     logControl.run();
     ChangeDataControl changeDataControl;
-    changeDataControl.run();
     QObject::connect(&logControl,SIGNAL(pressedEnter(int)),&mapControl,SLOT(getLoggedOn(int)));
     return a.exec();
 }

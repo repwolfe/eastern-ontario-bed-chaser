@@ -52,7 +52,8 @@ SOURCES +=\
     src/ChangeData/View/updatebedsform.cpp \
     src/ChangeData/Control/movepatientcontrol.cpp \
     src/ChangeData/Control/addfacilitycontrol.cpp \
-    src/ChangeData/Control/addpatientcontrol.cpp
+    src/ChangeData/Control/addpatientcontrol.cpp \
+    src/ChangeData/Control/createusercontrol.cpp
 
 
 
@@ -83,7 +84,8 @@ HEADERS  += \
     src/ChangeData/View/updatebedsform.h \
     src/ChangeData/Control/movepatientcontrol.h \
     src/ChangeData/Control/addfacilitycontrol.h \
-    src/ChangeData/Control/addpatientcontrol.h
+    src/ChangeData/Control/addpatientcontrol.h \
+    src/ChangeData/Control/createusercontrol.h
 
 
 RESOURCES += \

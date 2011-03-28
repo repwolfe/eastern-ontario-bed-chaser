@@ -19,9 +19,20 @@ class CreateUserForm : public QWidget
 public:
     explicit CreateUserForm(QWidget *parent = 0);
 
+    void clearContents();
+
+    const QString getUserName() const;
+    const QString getPassword() const;
+    const QString getFirstName() const;
+    const QString getLastName() const;
+    const QString getPriveledge() const;
+
 signals:
+    void submitClicked();
 
 public slots:
+    void _submitClicked();
+    void _cancelClicked();
 
 private:
     void _setupLayout();

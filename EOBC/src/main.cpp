@@ -7,9 +7,6 @@
 int main(int argc, char *argv[])
 {
     StorageHandler handler (QString(":/storage/resources/storage.xml"));
-    int i = 4;
-    i++;
-    //handler;
     QApplication a(argc, argv);
     DisplayMapControl mapControl;
     mapControl.run();

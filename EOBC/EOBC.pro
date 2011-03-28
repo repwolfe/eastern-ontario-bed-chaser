@@ -53,7 +53,8 @@ SOURCES +=\
     src/ChangeData/Control/movepatientcontrol.cpp \
     src/ChangeData/Control/addfacilitycontrol.cpp \
     src/ChangeData/Control/addpatientcontrol.cpp \
-    src/DisplayMap/mapmarker.cpp
+    src/DisplayMap/mapmarker.cpp \
+    src/Reporting/reportingcontrol.cpp
 
 
 
@@ -85,7 +86,8 @@ HEADERS  += \
     src/ChangeData/Control/movepatientcontrol.h \
     src/ChangeData/Control/addfacilitycontrol.h \
     src/ChangeData/Control/addpatientcontrol.h \
-    src/DisplayMap/mapmarker.h
+    src/DisplayMap/mapmarker.h \
+    src/Reporting/reportingcontrol.h
 
 
 RESOURCES += \

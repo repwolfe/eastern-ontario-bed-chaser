@@ -2,6 +2,7 @@
 #include <QtXml/qdom.h>
 #include "logger.h"
 #include "qmessagebox.h"
+#include "convenience.h"
 
 /**
   * This constructor takes the name of a file to load the model
@@ -80,16 +81,20 @@ int StorageHandler::loadModel(QString fileName){
 
             if(rootChild.nodeName() =="Facility"){
                 e = &(rootChild.toElement());
+
+                //set up facility
                 QString ID = e->attribute("ID", "0");
                 QString name = e->attribute("name", "noName");
-                QString LTC = e->attribute("LTC", "0");
-                QString CCC = e->attribute("CCC", "0");
-                QString AC = e->attribute("AC", "0");
+                int LTC = e->attribute("LTC", "0").toInt();
+                int CCC = e->attribute("CCC", "0").toInt();
+                int AC = e->attribute("AC", "0").toInt();
                 QPoint coordinates(e->attribute("coordinateX", "0").toInt(), e->attribute("coordinateY", "0").toInt());
-                Facility* aFacility = new Facility(ID.toInt(),name,AC.toInt(),CCC.toInt(),coordinates);
-                aFacility->addBeds(LTC.toInt(),EOBC::LTC);
-                anArea->addFacility(aFacility);
+                Facility* aFacility = new Facility(ID.toInt(),name,AC,CCC,coordinates);
+                aFacility->addBeds(LTC,EOBC::LTC);
+                //set up facility
+
                 this->parseFacility(aFacility, &n);
+                anArea->addFacility(aFacility);
             }
 
             rootChild = rootChild.nextSibling();
@@ -141,8 +146,11 @@ void StorageHandler::parseFacility(Facility* aFacility, QDomNode* n){
         QDate dateAdded(12,12,12);
         QDate dateAdmitted(1984,11,11);
         Logger::infoMessage("storageHandler","parseWaitingList", "Patient added to a facility pName= ", firstName);
-        Patient* p = new Patient(healthCardNumber, firstName, lastName, static_cast<EOBC::CareType>(reqCare));
-        aFacility->addPatientToBed(p,static_cast<EOBC::CareType>(occCare));
+
+        Patient* p = new Patient(healthCardNumber, firstName, lastName,  Convenience::intToCareType(reqCare));
+        p->setAdmissionDate(dateAdmitted);
+        p->setDatePlacedonWaitingList(dateAdded);
+        aFacility->addPatientToBed(p, Convenience::intToCareType(occCare));
         n = &(e->nextSibling());
 
     }

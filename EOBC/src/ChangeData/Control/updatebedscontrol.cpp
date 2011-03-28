@@ -2,24 +2,24 @@
 
 UpdateBedsControl::UpdateBedsControl()
 {
-    form = new UpdateBedsForm();
-    connect(form, SIGNAL(submitClicked()), SLOT(_submitClicked()));
+    _form = new UpdateBedsForm();
+    connect(_form, SIGNAL(submitClicked()), SLOT(_submitClicked()));
 }
 
 UpdateBedsControl::~UpdateBedsControl()
 {
-    delete form;
+    delete _form;
 }
 
 void UpdateBedsControl::showForm()
 {
     /// @todo populate with real data! :)
-    form->show();
+    _form->show();
 }
 
 void UpdateBedsControl::_submitClicked()
 {
-    emit submitClicked(form->getCurrentFacility(), form->getNumAC(),
-		       form->getNumCCC(), form->getNumLTC());
-    form->close();
+    emit submitClicked(_form->getCurrentFacility(), _form->getNumAC(),
+		       _form->getNumCCC(), _form->getNumLTC());
+    _form->close();
 }

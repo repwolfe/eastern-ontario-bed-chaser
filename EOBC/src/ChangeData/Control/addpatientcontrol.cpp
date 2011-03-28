@@ -2,24 +2,24 @@
 
 AddPatientControl::AddPatientControl()
 {
-    form = new AddPatientForm();
-    connect(form, SIGNAL(submitClicked()), SLOT(_submitClicked()));
+    _form = new AddPatientForm();
+    connect(_form, SIGNAL(submitClicked()), SLOT(_submitClicked()));
 }
 
 AddPatientControl::~AddPatientControl()
 {
-    delete form;
+    delete _form;
 }
 
 void AddPatientControl::showForm()
 {
-    form->clearContents();
-    form->show();
+    _form->clearContents();
+    _form->show();
 }
 
 void AddPatientControl::_submitClicked()
 {
-    emit submitClicked(form->getFirstName(), form->getLastName(),
-                       form->getHealthCardNumber(), form->getRequiredCare());
-    form->close();
+    emit submitClicked(_form->getFirstName(), _form->getLastName(),
+		       _form->getHealthCardNumber(), _form->getRequiredCare());
+    _form->close();
 }

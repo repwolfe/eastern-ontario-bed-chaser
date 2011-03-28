@@ -17,12 +17,28 @@ UpdateWaitingListForm::UpdateWaitingListForm(QWidget *parent) :
     setFixedSize(width, height);
 
     _setupLayout();
+    _setupConnections();
+}
+
+const QString UpdateWaitingListForm::getCurrentPatient() const
+{
+    return _patientList->currentItem()->text();
+}
+
+void UpdateWaitingListForm::_setupConnections()
+{
+    connect(_addPatientButton, SIGNAL(clicked()), SLOT(_addPatientClicked()));
+    connect(_removePatientButton, SIGNAL(clicked()), SLOT(_removePatientClicked()));
+    connect(_submitButton, SIGNAL(clicked()), SLOT(_submitClicked()));
+    connect(_cancelButton, SIGNAL(clicked()), SLOT(_cancelClicked()));
 }
 
 void UpdateWaitingListForm::_setupLayout()
 {
     _patientList            = new QListWidget();
     _facilityList           = new QComboBox();
+
+    _patientList->setSelectionMode(QAbstractItemView::SingleSelection);
 
     _addPatientButton       = new QPushButton("Add Patient");
     _removePatientButton    = new QPushButton("Remove Patient");
@@ -48,4 +64,25 @@ void UpdateWaitingListForm::_setupLayout()
     q->addWidget(_submitButton, 4, 1);
     q->addWidget(_cancelButton, 5, 1);
     setLayout(q);
+}
+
+/************** PRIVATE SLOTS ***************/
+void UpdateWaitingListForm::_submitClicked()
+{
+    emit submitClicked();
+}
+
+void UpdateWaitingListForm::_cancelClicked()
+{
+    close();
+}
+
+void UpdateWaitingListForm::_addPatientClicked()
+{
+    emit addPatientClicked();
+}
+
+void UpdateWaitingListForm::_removePatientClicked()
+{
+    emit removePatientClicked();
 }

@@ -55,7 +55,8 @@ SOURCES +=\
     src/ChangeData/Control/addpatientcontrol.cpp \
     src/ChangeData/Control/createusercontrol.cpp \
     src/DisplayMap/mapmarker.cpp \
-    src/ChangeData/Control/updatebedscontrol.cpp
+    src/ChangeData/Control/updatebedscontrol.cpp \
+    src/ChangeData/Control/updatewaitinglistcontrol.cpp
 
 
 
@@ -89,7 +90,8 @@ HEADERS  += \
     src/ChangeData/Control/addpatientcontrol.h \
     src/ChangeData/Control/createusercontrol.h \
     src/DisplayMap/mapmarker.h \
-    src/ChangeData/Control/updatebedscontrol.h
+    src/ChangeData/Control/updatebedscontrol.h \
+    src/ChangeData/Control/updatewaitinglistcontrol.h
 
 
 RESOURCES += \

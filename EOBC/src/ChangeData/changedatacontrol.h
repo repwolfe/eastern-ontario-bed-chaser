@@ -9,6 +9,7 @@
 #include "addfacilitycontrol.h"
 #include "createusercontrol.h"
 #include "updatebedscontrol.h"
+#include "updatewaitinglistcontrol.h"
 
 /// @todo remove these and include the classes when they're written
 class StorageWrite;
@@ -27,7 +28,7 @@ public slots:
     void displayMovePatientsToBedForm();
     void displayMovePatientsToFacilityForm();
     void displayAddFacilityForm();
-    void displayAddPatientForm();
+    //void displayAddPatientForm();
     void displayCreateUserForm();
     void displayUpdateBedsForm();
 
@@ -46,11 +47,12 @@ private:
     SendChangeDataRequest* _sendData;
 
     // Child Control objects
-    MovePatientControl* _movePatientControl;
-    AddFacilityControl* _addFacilityControl;
-    AddPatientControl* _addPatientControl;
-    CreateUserControl* _createUserControl;
-    UpdateBedsControl* _updateBedsControl;
+    MovePatientControl*		_movePatientControl;
+    AddFacilityControl*		_addFacilityControl;
+    AddPatientControl*		_addPatientControl;
+    CreateUserControl*		_createUserControl;
+    UpdateBedsControl*		_updateBedsControl;
+    UpdateWaitingListControl*	_updateWaitingListControl;
 };
 
 #endif // CHANGEDATACONTROL_H

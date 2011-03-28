@@ -26,7 +26,7 @@ private slots:
     void _submitClicked();
 
 private:
-    UpdateBedsForm* form;
+    UpdateBedsForm* _form;
 
 
 };

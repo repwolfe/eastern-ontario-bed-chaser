@@ -37,10 +37,10 @@ public:
     void setRequiredCare(CareType care);
     void setOccupiedCare(CareType care);
 
-    void setDatePlacedonWaitingList(QDate& date);
-    void setAdmissionDate(QDate& date);
+    void setDatePlacedOnWaitingList(QDate date);
+    void setAdmissionDate(QDate date);
 
-    void makeInpatient(QDate& admissionDate, CareType occupiedCare);	/// @todo make sure this function is right
+    void makeInpatient(QDate admissionDate, CareType occupiedCare);	/// @todo make sure this function is right
     bool isInpatient() const;
 
     const QString toString() const;

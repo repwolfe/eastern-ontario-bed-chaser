@@ -2,11 +2,15 @@
 
 ChangeDataControl::ChangeDataControl()
 {
-    _movePatientControl = new MovePatientControl();
-    _addFacilityControl = new AddFacilityControl();
-    _addPatientControl  = new AddPatientControl();
-    _createUserControl	= new CreateUserControl();
-    _updateBedsControl	= new UpdateBedsControl();
+    _movePatientControl		= new MovePatientControl();
+    _addFacilityControl		= new AddFacilityControl();
+    _addPatientControl		= new AddPatientControl();
+    _createUserControl		= new CreateUserControl();
+    _updateBedsControl		= new UpdateBedsControl();
+    _updateWaitingListControl	= new UpdateWaitingListControl();
+
+    /// @todo remove
+    //_updateWaitingListControl->showForm();
 
     connect(_movePatientControl, SIGNAL(toBedFormSubmitClicked()), SLOT(movePatientsToBedSubmitted()));
     connect(_movePatientControl, SIGNAL(toFacilityFormSubmitClicked()), SLOT(movePatientsToFacilitySubmitted()));
@@ -25,6 +29,7 @@ ChangeDataControl::~ChangeDataControl()
     delete _addPatientControl;
     delete _createUserControl;
     delete _updateBedsControl;
+    delete _updateWaitingListControl;
 }
 
 /// @todo implement this
@@ -52,10 +57,13 @@ void ChangeDataControl::displayAddFacilityForm()
     _addFacilityControl->showForm();
 }
 
+/**
+ * @todo Figure out if this can exist...I don't think it can
 void ChangeDataControl::displayAddPatientForm()
 {
     _addPatientControl->showForm();
 }
+*/
 
 void ChangeDataControl::displayCreateUserForm()
 {

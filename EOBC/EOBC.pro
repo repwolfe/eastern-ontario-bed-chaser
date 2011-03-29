@@ -60,7 +60,10 @@ SOURCES +=\
     src/ChangeData/Control/updatebedscontrol.cpp \
     src/ChangeData/Control/updatewaitinglistcontrol.cpp \
     src/Reporting/generatereportwindow.cpp \
-    src/Reporting/viewallreportswindow.cpp
+    src/Reporting/viewallreportswindow.cpp \
+    src/Reporting/viewreportwindow.cpp \
+    src/Reporting/report.cpp \
+    src/Reporting/reportbars.cpp
 
 
 
@@ -99,7 +102,10 @@ HEADERS  += \
     src/ChangeData/Control/updatebedscontrol.h \
     src/ChangeData/Control/updatewaitinglistcontrol.h \
     src/Reporting/generatereportwindow.h \
-    src/Reporting/viewallreportswindow.h
+    src/Reporting/viewallreportswindow.h \
+    src/Reporting/viewreportwindow.h \
+    src/Reporting/report.h \
+    src/Reporting/reportbars.h
 
 
 RESOURCES += \

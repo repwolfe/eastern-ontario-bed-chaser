@@ -5,6 +5,16 @@ ReportingControl::ReportingControl(QObject *parent) :
 {
 
 }
+ReportingControl::~ReportingControl()
+{
+    QVector<Report*>::iterator iter = reports.begin();
+    while(iter != reports.end())
+    {
+        delete *iter;
+        iter++;
+    }
+}
+
 void ReportingControl::run()
 {
 
@@ -19,4 +29,10 @@ void ReportingControl::showGenerateReportWindow()
 void ReportingControl::showViewAllReportsWindow()
 {
     vWind.show();
+}
+void ReportingControl::receiveReport(QString )
+{
+    QVector<int> bars;
+    Report* r = new Report(bars);
+    reports.push_back(r);
 }

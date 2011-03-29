@@ -29,6 +29,7 @@ signals:
     void pressedViewAllReports();
     void pressedUpdateWaitingList();
 public slots:
+    void pressedExitSlot();
     void pressedAddBedsSlot();
     void pressedAddFacilitiesSlot();
     void pressedAddUserAcctsSlot();

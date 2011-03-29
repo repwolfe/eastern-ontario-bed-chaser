@@ -3,7 +3,6 @@
 ViewAllReportsWindow::ViewAllReportsWindow(QWidget *parent) :
     QWidget(parent)
 {
-
     QGridLayout* layout = new QGridLayout();
     layout->addWidget(new QLabel("Reports"),0,0);
     layout->addWidget(new QLabel(),0,1);
@@ -13,11 +12,29 @@ ViewAllReportsWindow::ViewAllReportsWindow(QWidget *parent) :
     reportsBox->addItem("Report Submitted: Jan 15th 2011");
 
     layout->addWidget(reportsBox,1,0,1,0);
-
-    layout->addWidget(new QPushButton("Select"),2,0);
+    QPushButton* select = new QPushButton("Select");
+    layout->addWidget(select,2,0);
+    connect(select,SIGNAL(pressed()),this,SLOT(pressedSelectSlot()));
     layout->addWidget(new QPushButton("Cancel"),3,0);
     setLayout(layout);
     layout->setContentsMargins(30,10,30,10);
     setGeometry(Convenience::getCenterForSize(400,350));
+
+    //
+    //DELETE THIS
+    //
+
+    //wind = new ViewReportWindow(new Report(bars));
+    //wind->show();
+}
+void ViewAllReportsWindow::pressedSelectSlot()
+{
+    QVector<int> bars;
+    bars.push_back(100);
+    bars.push_back(30);
+    bars.push_back(70);
+    bars.push_back(10);
+    wind = new ViewReportWindow(new Report(bars));
+    wind->show();
 }
 

@@ -2,6 +2,7 @@
 #define RIGHTCOLUMNWIDTH 80
 #define TOPMENUHEIGHT 10
 enum {FACILITYSTAFF,LHINSTAFF,ADMINISTRATOR};
+enum {ADDBEDS,ADDFACILITY,ADDUSER,MOVEPATIENTSBED,MOVEPATIENTSFACILITY,UPDATEWAITINGLIST,SUBMITREPORT,VIEWREPORT};
 /** The constructor for Map, sets up the menu bar and calls multiple helper functions
   * to set up more functionality
   * @param parent just passed to the QMainWindow constructor
@@ -19,7 +20,7 @@ Map::Map(QWidget *parent) :
     reportsMenu = menuBar()->addMenu("&Reports");
     menuBar()->addMenu("&Help");
 
-    editAct = new QAction(tr("&Edit"),this);
+    editAct = new QAction(tr("&Exit"),this);
     fileMenu->addAction(editAct);
     actions.push_back(new QAction("&Beds",this));
     addMenu->addAction(actions.at(actions.count()-1));
@@ -28,7 +29,9 @@ Map::Map(QWidget *parent) :
     actions.push_back(new QAction("&User Accounts",this));
     addMenu->addAction(actions.at(actions.count()-1));
 
-    actions.push_back(new QAction("&Move Patients",this));
+    actions.push_back(new QAction("Move Patients to &Bed",this));
+    updateMenu->addAction(actions.at(actions.count()-1));
+    actions.push_back(new QAction("Move Patients to &Facility",this));
     updateMenu->addAction(actions.at(actions.count()-1));
     actions.push_back(new QAction("&Update Waiting List",this));
     updateMenu->addAction(actions.at(actions.count()-1));
@@ -242,22 +245,24 @@ void Map::resizeEvent(QResizeEvent *)
   */
 void Map::setPermissions(int permissions)
 {
+    //enum {ADDPATIENT,ADDFACILITY,ADDUSER,MOVEPATIENTSBED,MOVEPATIENTSFACILITY,UPDATEWAITINGLIST,SUBMITREPORT,VIEWREPORT};
     this->editAct->setEnabled(true);
     if(permissions >= FACILITYSTAFF)
     {
-        actions.at(0)->setEnabled(true);
-        actions.at(3)->setEnabled(true);
-        actions.at(4)->setEnabled(true);
+        actions.at(ADDBEDS)->setEnabled(true);
+        actions.at(MOVEPATIENTSBED)->setEnabled(true);
+        actions.at(MOVEPATIENTSFACILITY)->setEnabled(true);
+        actions.at(UPDATEWAITINGLIST)->setEnabled(true);
     }
     if(permissions >= LHINSTAFF)
     {
-        actions.at(5)->setEnabled(true);
-        actions.at(6)->setEnabled(true);
+        actions.at(SUBMITREPORT)->setEnabled(true);
+        actions.at(VIEWREPORT)->setEnabled(true);
     }
     if(permissions == ADMINISTRATOR)
     {
-        actions.at(1)->setEnabled(true);
-        actions.at(2)->setEnabled(true);
+        actions.at(ADDFACILITY)->setEnabled(true);
+        actions.at(ADDUSER)->setEnabled(true);
     }
 
 
@@ -277,14 +282,19 @@ void Map::pressedMovePatientsSlot(){emit pressedMovePatients();}
 void Map::pressedAddPatientsSlot(){emit pressedAddPatients();}
 void Map::pressedGenerateReportSlot(){emit pressedGenerateReport();}
 void Map::pressedViewAllReportsSlot(){emit pressedViewAllReports();}
+void Map::pressedUpdateWaitingListSlot(){emit pressedUpdateWaitingList();}
+void Map::pressedExitSlot(){close();}
 void Map::connectActions()
 {
-    connect(actions.at(0),SIGNAL(triggered()),this,SLOT(pressedAddBedsSlot()));
-    connect(actions.at(1),SIGNAL(triggered()),this,SLOT(pressedAddFacilitiesSlot()));
-    connect(actions.at(2),SIGNAL(triggered()),this,SLOT(pressedAddUserAcctsSlot()));
-    connect(actions.at(3),SIGNAL(triggered()),this,SLOT(pressedAddPatientsSlot()));
-    connect(actions.at(4),SIGNAL(triggered()),this,SLOT(pressedMovePatientsSlot()));
-    connect(actions.at(5),SIGNAL(triggered()),this,SLOT(pressedGenerateReportSlot()));
-    connect(actions.at(6),SIGNAL(triggered()),this,SLOT(pressedViewAllReportsSlot()));
+    //enum {ADDPATIENT,ADDFACILITY,ADDUSER,MOVEPATIENTSBED,MOVEPATIENTSFACILITY,UPDATEWAITINGLIST,SUBMITREPORT,VIEWREPORT};
+    connect(editAct,SIGNAL(triggered()),this,SLOT(pressedExitSlot()));
+    connect(actions.at(ADDBEDS),SIGNAL(triggered()),this,SLOT(pressedAddBedsSlot()));
+    connect(actions.at(ADDFACILITY),SIGNAL(triggered()),this,SLOT(pressedAddFacilitiesSlot()));
+    connect(actions.at(ADDUSER),SIGNAL(triggered()),this,SLOT(pressedAddUserAcctsSlot()));
+    connect(actions.at(MOVEPATIENTSBED),SIGNAL(triggered()),this,SLOT(pressedAddPatientsSlot()));
+    connect(actions.at(MOVEPATIENTSFACILITY),SIGNAL(triggered()),this,SLOT(pressedMovePatientsSlot()));
+    connect(actions.at(UPDATEWAITINGLIST),SIGNAL(triggered()),this,SLOT(pressedUpdateWaitingListSlot()));
+    connect(actions.at(SUBMITREPORT),SIGNAL(triggered()),this,SLOT(pressedGenerateReportSlot()));
+    connect(actions.at(VIEWREPORT),SIGNAL(triggered()),this,SLOT(pressedViewAllReportsSlot()));
 }
 

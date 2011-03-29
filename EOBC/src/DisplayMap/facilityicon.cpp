@@ -16,7 +16,7 @@ FacilityIcon::FacilityIcon(QPoint pos,QString name, QString area, QObject *paren
     pieColor = new QColor[3];
     pieColor[0] = Qt::red;
     pieColor[1]= Qt::green;
-    pieColor[2] = QColor(255,255,0);
+    pieColor[2] = Qt::blue;
     this->name = name;
     this->area = area;
     iconNum ++;
@@ -43,7 +43,7 @@ void FacilityIcon::draw(QPainter& g)
     }
     else
     {
-        g.setBrush(QColor(125,125,20));
+        g.setBrush(QColor(255,255,255));
         g.drawEllipse(realPosition + mapPos, (int)(ICONRADIUS*scale/3),(int)(ICONRADIUS*scale/3));
     }
 }

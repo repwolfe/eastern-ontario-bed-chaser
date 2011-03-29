@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QtGui>
 #include "convenience.h"
+#include "viewreportwindow.h"
 class ViewAllReportsWindow : public QWidget
 {
     Q_OBJECT
@@ -13,6 +14,9 @@ public:
 signals:
 
 public slots:
+    void pressedSelectSlot();
+private:
+    ViewReportWindow* wind;
 
 };
 

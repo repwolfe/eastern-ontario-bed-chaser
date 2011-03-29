@@ -24,7 +24,7 @@ MapArea::MapArea(QObject *parent) :
    //
    // FOR TESTING, PLEASE REMOVE
    //
-   icons.push_back(new FacilityIcon(QPoint(-MAPMIDDLEX,-MAPMIDDLEY),"General Hospital","Renfrew County"));
+   //icons.push_back(new FacilityIcon(QPoint(-MAPMIDDLEX,-MAPMIDDLEY),"General Hospital","Renfrew County"));
    for(int i=0;i<17;i++)
     icons.push_back(new FacilityIcon(QPoint(rand()%500 - 250,rand()%150 - 50),"General Hospital","Renfrew County"));
    //
@@ -340,7 +340,7 @@ void MapArea::updateLabels()
         if(icons.at(i)->isSelected())
         {
             labels.at(0)->setText(icons.at(i)->getName());
-            //labels.at(1)->setText(icons.at(i)->getArea());
+            labels.at(1)->setText(icons.at(i)->getArea());
             labels.at(2)->setText("LTC: " + QString::number(icons.at(i)->getLTC())+"%");
             labels.at(3)->setText("CCC: " + QString::number(icons.at(i)->getCCC())+"%");
             labels.at(4)->setText("AC: " + QString::number(icons.at(i)->getAC())+"%");
@@ -351,7 +351,7 @@ void MapArea::updateLabels()
     {
         if(vecs[i]->isSelected())
         {
-            labels.at(1)->setText(vecs[i]->getRegion());
+            //labels.at(1)->setText(vecs[i]->getRegion());
         }
     }
 }

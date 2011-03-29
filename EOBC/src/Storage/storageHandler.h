@@ -22,11 +22,14 @@ public:
     int loadModel(QString fileName);
     int saveModel(QString fileName, Area* anArea, int facilityID);
 
+    Facility getFacility(int areaID, int facilityID);
+
 protected:
     Facility* _currentFacility;
     Area* _currentArea;
 
 private:
+   Area _getArea(int id);
    StorageHandler _StorageHandler();
    QLinkedList<Area*> _model;
    void parseWaitingList(Area* anArea,QDomNode* n);

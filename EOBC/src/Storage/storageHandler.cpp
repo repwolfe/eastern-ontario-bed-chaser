@@ -212,23 +212,33 @@ QDomElement* saveWaitingList(WaitingList* aWaitingList){
 
 QDomElement* saveFacility(Facility* aFacility){
  QDomElement* e = new QDomElement();
+ e->setTagName("Facility");
  aFacility->getFacilityId(); //to make robbie happy
+
+ return e;
 };
 
 QDomElement* saveArea(Area* anArea){
     QDomElement* e = new QDomElement();
     e->setTagName("Area");
     e->setAttribute("ID", anArea->getAreaId());
+
+    return e;
 };
 /// @todo fix save model
 int StorageHandler::saveModel(QString fileName, Area* anArea, int facilityID){
-    QDomElement* wl;
+    //QDomElement* wl;  //make robbie happy
+    facilityID++; // make robbie happy
     if(anArea && !anArea->getWaitingList().isEmpty()){
        //wl = this->saveWaitingList(anArea);
     }
     QDomElement* e = new QDomElement();
     e->setTagName("Area");
     e->setAttribute("ID", anArea->getAreaId());
-    //e->appendChild(QDomNode(wl));
+    //e->appendChild(QDomNode(wl*));
+    QFile file(fileName);
+    //open the file
+    if( !file.open(QIODevice::WriteOnly))
+        return -1;
     return 0;
 };

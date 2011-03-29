@@ -10,7 +10,7 @@ ChangeDataControl::ChangeDataControl()
     _updateWaitingListControl	= new UpdateWaitingListControl();
 
     /// @todo remove
-    _updateWaitingListControl->showForm();
+    //_updateWaitingListControl->showForm();
 
     _setupConnections();
 }

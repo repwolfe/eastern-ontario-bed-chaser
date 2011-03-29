@@ -20,12 +20,21 @@ public:
     StorageHandler(QString fileName);
     virtual ~StorageHandler();
     int loadModel(QString fileName);
-    int saveModel(QString filename, Area* anArea, int facilityID);
+    int saveModel(QString fileName, Area* anArea, int facilityID);
+
+protected:
+    Facility* _currentFacility;
+    Area* _currentArea;
+
 private:
    StorageHandler _StorageHandler();
    QLinkedList<Area*> _model;
    void parseWaitingList(Area* anArea,QDomNode* n);
    void parseFacility(Facility* aFacility,QDomNode* n);
+
+   QDomElement saveWaitingList(QDomElement waitingList);
+   QDomElement saveFacility(QDomElement facility);
+   QDomElement saveArea(QDomElement area);
 
 };
 

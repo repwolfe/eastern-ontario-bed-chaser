@@ -31,6 +31,7 @@ public slots:
     //void displayAddPatientForm();
     void displayCreateUserForm();
     void displayUpdateBedsForm();
+    void displayUpdateWaitingList();
 
     void movePatientsToBedSubmitted();
     void movePatientsToFacilitySubmitted();

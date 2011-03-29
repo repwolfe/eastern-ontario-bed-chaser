@@ -75,6 +75,11 @@ void ChangeDataControl::displayUpdateBedsForm()
     _updateBedsControl->showForm();
 }
 
+void ChangeDataControl::displayUpdateWaitingList()
+{
+    _updateWaitingListControl->showForm();
+}
+
 void ChangeDataControl::movePatientsToBedSubmitted()
 {
     const QMap<QString, QString>& changes = _movePatientControl->getBedChanges();

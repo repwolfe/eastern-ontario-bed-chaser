@@ -24,12 +24,15 @@ public:
     void addPatientItem(QString name, QString hcn);
     void removeSelectedPatientItem();
 
+    bool isPatientInList(QString hcn) const;
+
     void setPatientItems(const QMap<QString,QString>& inPatients);
 
 signals:
     void addPatientClicked();
     void removePatientClicked();
     void submitClicked();
+    void cancelClicked();
 
 private slots:
     void _submitClicked();

@@ -8,7 +8,7 @@ AddPatientForm::AddPatientForm(QWidget *parent) :
     setWindowTitle("Add Patient");
 
     int width = 300;
-    int height = 275;
+    int height = 300;
 
     setGeometry(Convenience::getCenterForSize(width, height));
     setFixedSize(width, height);
@@ -53,6 +53,12 @@ void AddPatientForm::clearContents()
     _lastNameBox->clear();
     _healthCardNumber->clear();
     _requiredCareBox->setCurrentIndex(0);
+    _errorMessage->setText("");
+}
+
+void AddPatientForm::displayError()
+{
+    _errorMessage->setText("Incorrect values entered");
 }
 
 void AddPatientForm::_setupLayout()
@@ -60,6 +66,9 @@ void AddPatientForm::_setupLayout()
     _firstNameBox       = new QLineEdit();
     _lastNameBox        = new QLineEdit();
     _healthCardNumber   = new QLineEdit();
+
+    _errorMessage	= new QLabel();
+    _errorMessage->setStyleSheet("QLabel { color : red; }");
 
     _submitButton       = new QPushButton("Add Patient");
     _cancelButton       = new QPushButton("Cancel");
@@ -78,11 +87,12 @@ void AddPatientForm::_setupLayout()
 
     QFormLayout* q = new QFormLayout();
     q->setContentsMargins(15, 10, 15, 10);
-    q->setVerticalSpacing(20);
+    q->setVerticalSpacing(15);
     q->addRow("First Name", _firstNameBox);
     q->addRow("Last Name", _lastNameBox);
     q->addRow("Health Card #", _healthCardNumber);
     q->addRow("Required Care", _requiredCareBox);
+    q->addRow(_errorMessage);
     q->addRow("", _submitButton);
     q->addRow("", _cancelButton);
     setLayout(q);

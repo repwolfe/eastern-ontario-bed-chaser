@@ -10,7 +10,7 @@ UpdateWaitingListForm::UpdateWaitingListForm(QWidget *parent) :
 {
     setWindowTitle("Update Waiting List");
 
-    int width = 600;
+    int width = 575;
     int height = 300;
 
     setGeometry(Convenience::getCenterForSize(width, height));
@@ -39,7 +39,12 @@ void UpdateWaitingListForm::addPatientItem(QString name, QString hcn)
 
 void UpdateWaitingListForm::removeSelectedPatientItem()
 {
-    _patientList->removeItemWidget(_patientList->currentItem(), 0);
+    _patientList->takeTopLevelItem(_patientList->indexOfTopLevelItem(_patientList->currentItem()));
+}
+
+bool UpdateWaitingListForm::isPatientInList(QString hcn) const
+{
+    return !_patientList->findItems(hcn, Qt::MatchExactly, 1).empty();
 }
 
 void UpdateWaitingListForm::setPatientItems(const QMap<QString,QString>& inPatients)
@@ -114,7 +119,7 @@ void UpdateWaitingListForm::_submitClicked()
 
 void UpdateWaitingListForm::_cancelClicked()
 {
-    close();
+    emit cancelClicked();
 }
 
 void UpdateWaitingListForm::_addPatientClicked()

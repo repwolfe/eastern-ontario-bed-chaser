@@ -4,33 +4,38 @@ ChangeDataControl::ChangeDataControl()
 {
     _movePatientControl		= new MovePatientControl();
     _addFacilityControl		= new AddFacilityControl();
-    _addPatientControl		= new AddPatientControl();
+    //_addPatientControl		= new AddPatientControl();
     _createUserControl		= new CreateUserControl();
     _updateBedsControl		= new UpdateBedsControl();
     _updateWaitingListControl	= new UpdateWaitingListControl();
 
     /// @todo remove
     _updateWaitingListControl->showForm();
-    _movePatientControl->showToBedForm();
 
-    connect(_movePatientControl, SIGNAL(toBedFormSubmitClicked()), SLOT(movePatientsToBedSubmitted()));
-    connect(_movePatientControl, SIGNAL(toFacilityFormSubmitClicked()), SLOT(movePatientsToFacilitySubmitted()));
-    connect(_addFacilityControl, SIGNAL(submitClicked(QString,QString,QString)),
-            SLOT(addFacilitySubmitted(QString,QString,QString)));
-    connect(_addPatientControl, SIGNAL(submitClicked(QString,QString,QString,QString)),
-            SLOT(addPatientSubmitted(QString,QString,QString,QString)));
-    connect(_createUserControl, SIGNAL(submitClicked(QString,QString,QString, QString, QString)),
-	    SLOT(createUserSubmitted(QString,QString,QString,QString, QString)));
+    _setupConnections();
 }
 
 ChangeDataControl::~ChangeDataControl()
 {
     delete _movePatientControl;
     delete _addFacilityControl;
-    delete _addPatientControl;
+    //delete _addPatientControl;
     delete _createUserControl;
     delete _updateBedsControl;
     delete _updateWaitingListControl;
+}
+
+void ChangeDataControl::_setupConnections()
+{
+    connect(_movePatientControl, SIGNAL(toBedFormSubmitClicked()), SLOT(movePatientsToBedSubmitted()));
+    connect(_movePatientControl, SIGNAL(toFacilityFormSubmitClicked()), SLOT(movePatientsToFacilitySubmitted()));
+    connect(_addFacilityControl, SIGNAL(submitClicked(QString,QString,QString)),
+	    SLOT(addFacilitySubmitted(QString,QString,QString)));
+    //connect(_addPatientControl, SIGNAL(submitClicked(QString,QString,QString,QString)),
+    //        SLOT(addPatientSubmitted(QString,QString,QString,QString)));
+    connect(_createUserControl, SIGNAL(submitClicked(QString,QString,QString, QString, QString)),
+	    SLOT(createUserSubmitted(QString,QString,QString,QString, QString)));
+    connect(_updateWaitingListControl, SIGNAL(submitClicked()), SLOT(updateWaitingListSubmitted()));
 }
 
 /// @todo implement this
@@ -85,14 +90,14 @@ void ChangeDataControl::movePatientsToBedSubmitted()
 {
     const QMap<QString, QString>& changes = _movePatientControl->getBedChanges();
     /// @todo send changes to StorageWrite
-    changes.count();
+    Q_UNUSED(changes);
 }
 
 void ChangeDataControl::movePatientsToFacilitySubmitted()
 {
     const QMap<QString, QString>& changes = _movePatientControl->getFacilityChanges();
     /// @todo send changes to StorageWrite
-    changes.count();
+    Q_UNUSED(changes);
 }
 
 void ChangeDataControl::addFacilitySubmitted(QString, QString, QString)
@@ -113,5 +118,15 @@ void ChangeDataControl::createUserSubmitted(QString, QString, QString, QString, 
 
 void ChangeDataControl::updateBedsSubmitted(QString, int, int, int)
 {
-    /// @todo send the facility, num ac beds, num ccc beds, num ltc beds
+    /// @todo send the facility, num ac beds, num ccc beds, num ltc beds to StorageWrite
+}
+
+void ChangeDataControl::updateWaitingListSubmitted()
+{
+    const QLinkedList<Patient>& patientsAdded = _updateWaitingListControl->getPatientsAdded();
+    const QLinkedList<QString>& patientsRemoved = _updateWaitingListControl->getPatientsRemoved();
+    Q_UNUSED(patientsAdded);
+    Q_UNUSED(patientsRemoved);
+
+    /// @todo send the patientsAdded and patientsRemoved to StorageWrite
 }

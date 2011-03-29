@@ -66,8 +66,9 @@ EOBC::CareType Convenience::qstringToCareType(QString care)
  */
 bool Convenience::correctHealthCardNumber(QString hcn)
 {
-    QRegExp rx("[0-9]{4,4}-[0-9]{3,3}-[0-9]{3,3}");
+    QRegExp rx("\\d{4,4}-?\\d{3,3}-?\\d{3,3}");
     int pos = 0;
     QRegExpValidator v(rx, 0);
-    return v.validate(hcn, pos);
+    QValidator::State state = v.validate(hcn, pos);
+    return (state == QValidator::Acceptable);
 }

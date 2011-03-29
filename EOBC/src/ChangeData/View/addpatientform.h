@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLineEdit>
 #include <QComboBox>
+#include <QLabel>
 #include <QPushButton>
 
 /**
@@ -18,6 +19,8 @@ public:
     explicit AddPatientForm(QWidget *parent = 0);
 
     void clearContents();
+
+    void displayError();
 
     const QString getFirstName() const;
     const QString getLastName() const;
@@ -38,6 +41,7 @@ private:
     QLineEdit* _lastNameBox;
     QLineEdit* _healthCardNumber;
     QComboBox* _requiredCareBox;
+    QLabel* _errorMessage;
     QPushButton* _submitButton;
     QPushButton* _cancelButton;
 

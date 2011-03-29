@@ -2,6 +2,7 @@
 #define RIGHTCOLUMNWIDTH 80
 #define TOPMENUHEIGHT 10
 enum {FACILITYSTAFF,LHINSTAFF,ADMINISTRATOR};
+enum {ADDBEDS,ADDFACILITY,ADDUSER,MOVEPATIENTSBED,MOVEPATIENTSFACILITY,UPDATEWAITINGLIST,SUBMITREPORT,VIEWREPORT};
 /** The constructor for Map, sets up the menu bar and calls multiple helper functions
   * to set up more functionality
   * @param parent just passed to the QMainWindow constructor
@@ -28,7 +29,9 @@ Map::Map(QWidget *parent) :
     actions.push_back(new QAction("&User Accounts",this));
     addMenu->addAction(actions.at(actions.count()-1));
 
-    actions.push_back(new QAction("&Move Patients",this));
+    actions.push_back(new QAction("&Move Patients to Bed",this));
+    updateMenu->addAction(actions.at(actions.count()-1));
+    actions.push_back(new QAction("&Move Patients to Facilities",this));
     updateMenu->addAction(actions.at(actions.count()-1));
     actions.push_back(new QAction("&Update Waiting List",this));
     updateMenu->addAction(actions.at(actions.count()-1));
@@ -277,14 +280,17 @@ void Map::pressedMovePatientsSlot(){emit pressedMovePatients();}
 void Map::pressedAddPatientsSlot(){emit pressedAddPatients();}
 void Map::pressedGenerateReportSlot(){emit pressedGenerateReport();}
 void Map::pressedViewAllReportsSlot(){emit pressedViewAllReports();}
+void Map::pressedUpdateWaitingListSlot(){emit pressedUpdateWaitingList();}
 void Map::connectActions()
 {
-    connect(actions.at(0),SIGNAL(triggered()),this,SLOT(pressedAddBedsSlot()));
-    connect(actions.at(1),SIGNAL(triggered()),this,SLOT(pressedAddFacilitiesSlot()));
-    connect(actions.at(2),SIGNAL(triggered()),this,SLOT(pressedAddUserAcctsSlot()));
-    connect(actions.at(3),SIGNAL(triggered()),this,SLOT(pressedAddPatientsSlot()));
-    connect(actions.at(4),SIGNAL(triggered()),this,SLOT(pressedMovePatientsSlot()));
-    connect(actions.at(5),SIGNAL(triggered()),this,SLOT(pressedGenerateReportSlot()));
-    connect(actions.at(6),SIGNAL(triggered()),this,SLOT(pressedViewAllReportsSlot()));
+    //enum {ADDPATIENT,ADDFACILITY,ADDUSER,MOVEPATIENTSBED,MOVEPATIENTSFACILITY,UPDATEWAITINGLIST,SUBMITREPORT,VIEWREPORT};
+    connect(actions.at(ADDBEDS),SIGNAL(triggered()),this,SLOT(pressedAddBedsSlot()));
+    connect(actions.at(ADDFACILITY),SIGNAL(triggered()),this,SLOT(pressedAddFacilitiesSlot()));
+    connect(actions.at(ADDUSER),SIGNAL(triggered()),this,SLOT(pressedAddUserAcctsSlot()));
+    connect(actions.at(MOVEPATIENTSBED),SIGNAL(triggered()),this,SLOT(pressedAddPatientsSlot()));
+    connect(actions.at(MOVEPATIENTSFACILITY),SIGNAL(triggered()),this,SLOT(pressedMovePatientsSlot()));
+    connect(actions.at(UPDATEWAITINGLIST),SIGNAL(triggered()),this,SLOT(pressedUpdateWaitingListSlot()));
+    connect(actions.at(SUBMITREPORT),SIGNAL(triggered()),this,SLOT(pressedGenerateReportSlot()));
+    connect(actions.at(VIEWREPORT),SIGNAL(triggered()),this,SLOT(pressedViewAllReportsSlot()));
 }
 

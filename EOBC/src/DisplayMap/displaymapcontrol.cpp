@@ -26,6 +26,7 @@ void DisplayMapControl::pressedMovePatientsSlot(){emit pressedMovePatients();}
 void DisplayMapControl::pressedAddPatientsSlot(){emit pressedAddPatients();}
 void DisplayMapControl::pressedGenerateReportSlot(){emit pressedGenerateReport();}
 void DisplayMapControl::pressedViewAllReportsSlot(){emit pressedViewAllReports();}
+void DisplayMapControl::pressedUpdateWaitingListSlot(){emit pressedUpdateWaitingList();}
 void DisplayMapControl::connectSlots()
 {
     connect(map,SIGNAL(pressedAddBeds()),this,SLOT(pressedAddBedsSlot()));
@@ -35,5 +36,6 @@ void DisplayMapControl::connectSlots()
     connect(map,SIGNAL(pressedMovePatients()),this,SLOT(pressedMovePatientsSlot()));
     connect(map,SIGNAL(pressedGenerateReport()),this,SLOT(pressedGenerateReportSlot()));
     connect(map,SIGNAL(pressedViewAllReports()),this,SLOT(pressedViewAllReportsSlot()));
+    connect(map,SIGNAL(pressedUpdateWaitingList()),this,SLOT(pressedUpdateWaitingListSlot()));
 }
 

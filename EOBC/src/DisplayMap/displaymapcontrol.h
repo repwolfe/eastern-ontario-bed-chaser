@@ -15,6 +15,7 @@ public slots:
     void pressedAddPatientsSlot();
     void pressedGenerateReportSlot();
     void pressedViewAllReportsSlot();
+    void pressedUpdateWaitingListSlot();
 signals:
     void pressedAddBeds();
     void pressedAddFacilities();
@@ -23,6 +24,7 @@ signals:
     void pressedAddPatients();
     void pressedGenerateReport();
     void pressedViewAllReports();
+    void pressedUpdateWaitingList();
 private:
     void connectSlots();
 public:

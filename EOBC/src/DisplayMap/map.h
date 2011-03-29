@@ -27,6 +27,7 @@ signals:
     void pressedAddPatients();
     void pressedGenerateReport();
     void pressedViewAllReports();
+    void pressedUpdateWaitingList();
 public slots:
     void pressedAddBedsSlot();
     void pressedAddFacilitiesSlot();
@@ -35,6 +36,7 @@ public slots:
     void pressedAddPatientsSlot();
     void pressedGenerateReportSlot();
     void pressedViewAllReportsSlot();
+    void pressedUpdateWaitingListSlot();
 
 protected:
     void resizeEvent(QResizeEvent *);

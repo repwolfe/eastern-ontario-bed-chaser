@@ -1,7 +1,7 @@
 #include "convenience.h"
 #include <QDesktopWidget>
 #include <QApplication>
-
+#include <QRegExpValidator>
 /**
  * Static convenience function that returns a QRect with size width and height at center of screen.
  *
@@ -55,4 +55,19 @@ EOBC::CareType Convenience::qstringToCareType(QString care)
     {
 	return EOBC::LTC;
     }
+}
+
+/**
+ * Static convenience function that checks if a given health card number
+ * is properly formated (####-###-###)
+ *
+ * @param hcn the health card number
+ * @return True if formatted right, False otherwise
+ */
+bool Convenience::correctHealthCardNumber(QString hcn)
+{
+    QRegExp rx("[0-9]{4,4}-[0-9]{3,3}-[0-9]{3,3}");
+    int pos = 0;
+    QRegExpValidator v(rx, 0);
+    return v.validate(hcn, pos);
 }

@@ -2,7 +2,7 @@
 #define UPDATEWAITINGLISTFORM_H
 
 #include <QWidget>
-#include <QListWidget>
+#include <QTreeWidget>
 #include <QComboBox>
 #include <QPushButton>
 
@@ -21,6 +21,11 @@ public:
 
     const QString getCurrentPatient() const;
 
+    void addPatientItem(QString name, QString hcn);
+    void removeSelectedPatientItem();
+
+    void setPatientItems(const QMap<QString,QString>& inPatients);
+
 signals:
     void addPatientClicked();
     void removePatientClicked();
@@ -36,7 +41,7 @@ private:
     void _setupLayout();
     void _setupConnections();
 
-    QListWidget* _patientList;
+    QTreeWidget* _patientList;
     QComboBox* _facilityList;
 
     QPushButton* _addPatientButton;

@@ -2,7 +2,7 @@
 #define MOVEPATIENTFORM_H
 
 #include <QWidget>
-#include <QListWidget>
+#include <QTreeWidget>
 #include <QComboBox>
 #include <QPushButton>
 #include <QMap>
@@ -23,10 +23,13 @@ public:
    MovePatientForm(QString title, bool displayBedType, QString moveTo, QWidget *parent = 0);
 
    void setFacilityItems(QStringList& items);
-   void setPatientItems(QStringList& items);
+   void setPatientItems(const QMap<QString,QString>& items);
    void setMoveToItems(QStringList& items);
 
    void removeFacilityItem(QString& item);
+
+   void addPatientItem(QString name, QString hcn);
+   void removeSelectedPatientItem();
 
    int getCurrentPatientRow();
    QString getCurrentPatient();
@@ -41,7 +44,7 @@ signals:
 
 private slots:
    void _moveToChanged(QString moveTo);
-   void _patientItemSelected(QListWidgetItem* item);
+   void _patientItemSelected(QTreeWidgetItem* item);
    void _submitButtonClicked();
    void _cancelButtonClicked();
 
@@ -52,7 +55,7 @@ private:
    bool _displayBedType;
    QString _moveToLabel;
 
-   QListWidget* _patientList;
+   QTreeWidget* _patientList;
    QComboBox* _facilityList;
    QComboBox* _moveToList;
 

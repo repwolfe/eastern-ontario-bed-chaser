@@ -17,7 +17,7 @@ MovePatientForm::MovePatientForm(QString title, bool displayBedType, QString mov
 {
     setWindowTitle(title);
 
-    int width = 520;
+    int width = 575;
     int height = 300;
 
     setGeometry(Convenience::getCenterForSize(width, height));
@@ -53,19 +53,40 @@ void MovePatientForm::setMoveToItems(QStringList& items)
  * Set the items of the Patient list, removes the old ones
  * @todo fix this to include columns
  */
-void MovePatientForm::setPatientItems(QStringList& items)
+void MovePatientForm::setPatientItems(const QMap<QString, QString> &inPatients)
 {
     _patientList->clear();
-    if (items.size() > 0)
+    if (inPatients.size() > 0)
     {
-        _patientList->addItems(items);
-        _patientList->item(0)->setSelected(true);
+        QList<QTreeWidgetItem*> items;
+        QMap<QString,QString>::const_iterator iter = inPatients.begin();
+        while (iter != inPatients.end())
+        {
+            QStringList info(iter.key());
+            info.push_back(iter.value());
+            items.append(new QTreeWidgetItem((QTreeWidget*)0, info));
+            ++iter;
+        }
+        _patientList->insertTopLevelItems(0, items);
+        _patientList->setCurrentItem(items.first());
         _moveToList->setEnabled(true);
     }
     else
     {
         _moveToList->setEnabled(false);
     }
+}
+
+void MovePatientForm::addPatientItem(QString name, QString hcn)
+{
+    QStringList info(name);
+    info.push_back(hcn);
+    _patientList->insertTopLevelItem(0, new QTreeWidgetItem((QTreeWidget*)0, info));
+}
+
+void MovePatientForm::removeSelectedPatientItem()
+{
+    _patientList->removeItemWidget(_patientList->currentItem(), 0);
 }
 
 /**
@@ -80,12 +101,12 @@ void MovePatientForm::removeFacilityItem(QString& item)
 
 int MovePatientForm::getCurrentPatientRow()
 {
-   return _patientList->currentRow();
+   return _patientList->indexOfTopLevelItem(_patientList->currentItem());
 }
 
 QString MovePatientForm::getCurrentPatient()
 {
-    return _patientList->currentItem()->text();
+    return _patientList->currentItem()->text(1);
 }
 
 void MovePatientForm::setCurrentMoveToItem(int index)
@@ -95,11 +116,16 @@ void MovePatientForm::setCurrentMoveToItem(int index)
 
 void MovePatientForm::_setupLayout()
 {
-    _patientList    = new QListWidget();
     _facilityList   = new QComboBox();
     _moveToList     = new QComboBox();
 
+    _patientList    = new QTreeWidget();
     _patientList->setSelectionMode(QAbstractItemView::SingleSelection);
+    _patientList->setColumnCount(2);    // For Name and Hcn
+    QStringList headers = (QStringList() << "Patient Name" << "Health Card Number");
+    _patientList->setHeaderLabels(headers);
+    _patientList->setColumnWidth(0, 250);
+    _patientList->setSortingEnabled(true);
 
     _moveToList->setEnabled(false);
 
@@ -126,7 +152,7 @@ void MovePatientForm::_setupLayout()
 
 void MovePatientForm::_setupConnections()
 {
-    connect(_patientList, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), SLOT(_patientItemSelected(QListWidgetItem*)));
+    connect(_patientList, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), SLOT(_patientItemSelected(QTreeWidgetItem*)));
     connect(_moveToList, SIGNAL(currentIndexChanged(QString)), SLOT(_moveToChanged(QString)));
     connect(_submitButton, SIGNAL(clicked()), SLOT(_submitButtonClicked()));
     connect(_cancelButton, SIGNAL(clicked()), SLOT(_cancelButtonClicked()));
@@ -138,9 +164,9 @@ void MovePatientForm::_moveToChanged(QString moveTo)
     emit patientMoved(moveTo);
 }
 
-void MovePatientForm::_patientItemSelected(QListWidgetItem* item)
+void MovePatientForm::_patientItemSelected(QTreeWidgetItem* item)
 {
-    emit patientSelected(item->text());
+    emit patientSelected(item->text(1));
 }
 
 void MovePatientForm::_submitButtonClicked()

@@ -10,7 +10,7 @@ UpdateWaitingListForm::UpdateWaitingListForm(QWidget *parent) :
 {
     setWindowTitle("Update Waiting List");
 
-    int width = 520;
+    int width = 600;
     int height = 300;
 
     setGeometry(Convenience::getCenterForSize(width, height));
@@ -20,9 +20,44 @@ UpdateWaitingListForm::UpdateWaitingListForm(QWidget *parent) :
     _setupConnections();
 }
 
+/**
+ * Returns the currently selected patient's health card number
+ *
+ * @return the health card number
+ */
 const QString UpdateWaitingListForm::getCurrentPatient() const
 {
-    return _patientList->currentItem()->text();
+    return _patientList->currentItem()->text(1);
+}
+
+void UpdateWaitingListForm::addPatientItem(QString name, QString hcn)
+{
+    QStringList info(name);
+    info.push_back(hcn);
+    _patientList->insertTopLevelItem(0, new QTreeWidgetItem((QTreeWidget*)0, info));
+}
+
+void UpdateWaitingListForm::removeSelectedPatientItem()
+{
+    _patientList->removeItemWidget(_patientList->currentItem(), 0);
+}
+
+void UpdateWaitingListForm::setPatientItems(const QMap<QString,QString>& inPatients)
+{
+    _patientList->clear();
+    if (inPatients.size() > 0)
+    {
+        QList<QTreeWidgetItem*> items;
+        QMap<QString,QString>::const_iterator iter = inPatients.begin();
+        while (iter != inPatients.end())
+        {
+            QStringList info(iter.key());
+            info.push_back(iter.value());
+            items.append(new QTreeWidgetItem((QTreeWidget*)0, info));
+            ++iter;
+        }
+        _patientList->insertTopLevelItems(0, items);
+    }
 }
 
 void UpdateWaitingListForm::_setupConnections()
@@ -35,10 +70,15 @@ void UpdateWaitingListForm::_setupConnections()
 
 void UpdateWaitingListForm::_setupLayout()
 {
-    _patientList            = new QListWidget();
     _facilityList           = new QComboBox();
 
+    _patientList            = new QTreeWidget();
     _patientList->setSelectionMode(QAbstractItemView::SingleSelection);
+    _patientList->setColumnCount(2);    // For Name and Hcn
+    QStringList headers = (QStringList() << "Patient Name" << "Health Card Number");
+    _patientList->setHeaderLabels(headers);
+    _patientList->setColumnWidth(0, 250);
+    _patientList->setSortingEnabled(true);
 
     _addPatientButton       = new QPushButton("Add Patient");
     _removePatientButton    = new QPushButton("Remove Patient");

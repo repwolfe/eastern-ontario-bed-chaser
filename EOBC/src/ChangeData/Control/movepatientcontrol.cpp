@@ -13,10 +13,11 @@ MovePatientControl::MovePatientControl()
     _toBedForm->setMoveToItems(bedOptions);
 
     /// @todo remove this, get real patients somehow:
-    QStringList patients;
-    patients.push_back("Robbie");
-    patients.push_back("JP");
-    patients.push_back("Austin");
+    QMap<QString, QString> patients;
+    patients["Robbie Wolfe"] = "123-123-123";
+    patients["JP Landry"] = "555-234-123";
+    patients["Chuck Norris"] = "123-323-154";
+    patients["Austin Chamney"] = "321-999-123";
 
     QMap<QString,QString> patientsToBed;
     patientsToBed["Robbie"] = "CCC";

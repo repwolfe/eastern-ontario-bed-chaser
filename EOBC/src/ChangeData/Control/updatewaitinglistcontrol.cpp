@@ -4,9 +4,19 @@ UpdateWaitingListControl::UpdateWaitingListControl()
 {
     _form = new UpdateWaitingListForm();
 
+    /// @todo remove this:
+    QMap<QString, QString> patients;
+    patients["Robbie Wolfe"] = "123-123-123";
+    patients["JP Landry"] = "555-234-123";
+    patients["Chuck Norris"] = "123-323-154";
+    patients["Austin Chamney"] = "321-999-123";
+    _form->setPatientItems(patients);
+
     /// @todo okay to have more than one addpatientControl's?
     _addPatientControl = new AddPatientControl();
 
+    connect(_form, SIGNAL(addPatientClicked()), SLOT(_addPatientClicked()));
+    connect(_form, SIGNAL(removePatientClicked()), SLOT(_removePatientClicked()));
     connect(_form, SIGNAL(submitClicked()), SLOT(_submitClicked()));
 }
 

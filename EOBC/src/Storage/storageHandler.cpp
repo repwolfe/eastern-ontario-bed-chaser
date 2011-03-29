@@ -3,7 +3,7 @@
 #include "logger.h"
 #include "qmessagebox.h"
 #include "convenience.h"
-
+#include <QList>
 /**
   * This constructor takes the name of a file to load the model
   * @param filename: The name of the file.
@@ -65,6 +65,7 @@ int StorageHandler::loadModel(QString fileName){
 
         //parse the xml into objsects
         Area* anArea = new Area((root.attribute("ID").toInt()));
+        _currentArea = anArea;
 
         QDomNode rootChild = root.firstChild();
         QDomNode n;
@@ -91,6 +92,7 @@ int StorageHandler::loadModel(QString fileName){
                 QPoint coordinates(e->attribute("coordinateX", "0").toInt(), e->attribute("coordinateY", "0").toInt());
                 Facility* aFacility = new Facility(ID.toInt(),name,AC,CCC,coordinates);
                 aFacility->addBeds(LTC,EOBC::LTC);
+                _currentFacility = aFacility;
                 //set up facility
 
                 this->parseFacility(aFacility, &n);
@@ -103,7 +105,14 @@ int StorageHandler::loadModel(QString fileName){
     }
     return 0;
 };
-
+/**
+ * Helper function to loadModel
+ *
+ * @param anArea that will contain a waitingList with patients parsed in this step
+ *
+ * @param n is an xml node of the first patient in the waiting List
+ *
+ */
 void StorageHandler::parseWaitingList(Area* anArea,QDomNode* n){
     QDomElement* e;
     while( !n->isNull() )
@@ -131,7 +140,14 @@ void StorageHandler::parseWaitingList(Area* anArea,QDomNode* n){
 //YYYY-MM-DDThh:mm:ss
     */
 };
-
+/**
+ * Helper function to loadModel
+ *
+ * @param afacility that will contain patients parsed in this step
+ *
+ * @param n is an xml node of the first patient in the facility
+ *
+ */
 void StorageHandler::parseFacility(Facility* aFacility, QDomNode* n){
     QDomElement* e;
     while( !n->isNull() )
@@ -170,9 +186,36 @@ void StorageHandler::parseFacility(Facility* aFacility, QDomNode* n){
 StorageHandler::~StorageHandler(){
 
 }
+QDomElement* saveWaitingList(WaitingList* aWaitingList){
+    QDomElement* e = new QDomElement();
+    QList<Patient*> pList = aWaitingList->values();
+    QList<Patient*>::Iterator it = pList.begin();
+    Patient* p;
+    for(int i=0; ; i++){
+        p = it[i];
 
+
+        }
+};
+
+QDomElement* saveFacility(Facility* aFacility){
+ QDomElement* e = new QDomElement();
+};
+
+QDomElement* saveArea(Area* anArea){
+    QDomElement* e = new QDomElement();
+    e->setTagName("Area");
+    e->setAttribute("ID", anArea->getAreaId());
+};
+/// @todo fix save model
 int StorageHandler::saveModel(QString fileName, Area* anArea, int facilityID){
-    fileName.begin();//delete me
-    anArea->setAreaId(facilityID);//delete me
+    QDomElement* wl;
+    if(anArea && !anArea->getWaitingList().isEmpty()){
+       //wl = this->saveWaitingList(anArea);
+    }
+    QDomElement* e = new QDomElement();
+    e->setTagName("Area");
+    e->setAttribute("ID", anArea->getAreaId());
+    //e->appendChild(QDomNode(wl));
     return 0;
 };

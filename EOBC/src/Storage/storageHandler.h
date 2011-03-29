@@ -32,9 +32,9 @@ private:
    void parseWaitingList(Area* anArea,QDomNode* n);
    void parseFacility(Facility* aFacility,QDomNode* n);
 
-   QDomElement saveWaitingList(QDomElement waitingList);
-   QDomElement saveFacility(QDomElement facility);
-   QDomElement saveArea(QDomElement area);
+   QDomElement* saveWaitingList(Area* anArea);
+   QDomElement* saveFacility(Facility* facility);
+   QDomElement* saveArea(Area* area);
 
 };
 

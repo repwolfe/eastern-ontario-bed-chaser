@@ -186,34 +186,36 @@ void StorageHandler::parseFacility(Facility* aFacility, QDomNode* n){
 StorageHandler::~StorageHandler(){
 
 }
-QDomElement saveWaitingList(QDomElement waitingList, WaitingList* aWaitingList){
+QDomElement* saveWaitingList(WaitingList* aWaitingList){
+    QDomElement* e = new QDomElement();
+    QList<Patient*> pList = aWaitingList->values();
+    QList<Patient*>::Iterator it = pList.begin();
+    Patient* p;
+    for(int i=0; ; i++){
+        p = it[i];
 
+
+        }
 };
 
-QDomElement saveFacility(QDomElement facility, Facility* aFacility){
-
+QDomElement* saveFacility(Facility* aFacility){
+ QDomElement* e = new QDomElement();
 };
 
-QDomElement saveArea(QDomElement area, Area* anArea){
+QDomElement* saveArea(Area* anArea){
     QDomElement* e = new QDomElement();
     e->setTagName("Area");
     e->setAttribute("ID", anArea->getAreaId());
 };
-
+/// @todo fix save model
 int StorageHandler::saveModel(QString fileName, Area* anArea, int facilityID){
-    if(anArea){
-QList<Patient*> patientList = anArea->getWaitingList().values();
-QList<Patient*>::Iterator it = patientList.begin();
-Patient* p;
-for(int i=0; i<patientList.size()-1; i++){
-    p = it[i];
-
-    }
-
-
+    QDomElement* wl;
+    if(anArea && !anArea->getWaitingList().isEmpty()){
+       //wl = this->saveWaitingList(anArea);
     }
     QDomElement* e = new QDomElement();
     e->setTagName("Area");
     e->setAttribute("ID", anArea->getAreaId());
+    //e->appendChild(QDomNode(wl));
     return 0;
 };

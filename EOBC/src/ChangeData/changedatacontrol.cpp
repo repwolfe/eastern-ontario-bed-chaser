@@ -2,9 +2,15 @@
 
 ChangeDataControl::ChangeDataControl()
 {
-    _movePatientControl = new MovePatientControl();
-    _addFacilityControl = new AddFacilityControl();
-    _addPatientControl  = new AddPatientControl();
+    _movePatientControl		= new MovePatientControl();
+    _addFacilityControl		= new AddFacilityControl();
+    _addPatientControl		= new AddPatientControl();
+    _createUserControl		= new CreateUserControl();
+    _updateBedsControl		= new UpdateBedsControl();
+    _updateWaitingListControl	= new UpdateWaitingListControl();
+
+    /// @todo remove
+    //_updateWaitingListControl->showForm();
 
     connect(_movePatientControl, SIGNAL(toBedFormSubmitClicked()), SLOT(movePatientsToBedSubmitted()));
     connect(_movePatientControl, SIGNAL(toFacilityFormSubmitClicked()), SLOT(movePatientsToFacilitySubmitted()));
@@ -12,6 +18,8 @@ ChangeDataControl::ChangeDataControl()
             SLOT(addFacilitySubmitted(QString,QString,QString)));
     connect(_addPatientControl, SIGNAL(submitClicked(QString,QString,QString,QString)),
             SLOT(addPatientSubmitted(QString,QString,QString,QString)));
+    connect(_createUserControl, SIGNAL(submitClicked(QString,QString,QString, QString, QString)),
+	    SLOT(createUserSubmitted(QString,QString,QString,QString, QString)));
 }
 
 ChangeDataControl::~ChangeDataControl()
@@ -19,15 +27,9 @@ ChangeDataControl::~ChangeDataControl()
     delete _movePatientControl;
     delete _addFacilityControl;
     delete _addPatientControl;
-}
-
-/// @todo remove this
-void ChangeDataControl::run()
-{
-  //  displayMovePatientsToBedForm();
-  //  displayMovePatientsToFacilityForm();
-  //  displayAddFacilityForm();
-  //  displayAddPatientForm();
+    delete _createUserControl;
+    delete _updateBedsControl;
+    delete _updateWaitingListControl;
 }
 
 /// @todo implement this
@@ -55,9 +57,22 @@ void ChangeDataControl::displayAddFacilityForm()
     _addFacilityControl->showForm();
 }
 
+/**
+ * @todo Figure out if this can exist...I don't think it can
 void ChangeDataControl::displayAddPatientForm()
 {
     _addPatientControl->showForm();
+}
+*/
+
+void ChangeDataControl::displayCreateUserForm()
+{
+    _createUserControl->showForm();
+}
+
+void ChangeDataControl::displayUpdateBedsForm()
+{
+    _updateBedsControl->showForm();
 }
 
 void ChangeDataControl::movePatientsToBedSubmitted()
@@ -82,4 +97,15 @@ void ChangeDataControl::addFacilitySubmitted(QString, QString, QString)
 void ChangeDataControl::addPatientSubmitted(QString, QString, QString, QString)
 {
     /// @todo send the firstname, lastname, healthcardnum and required care to StorageWrite
+}
+
+void ChangeDataControl::createUserSubmitted(QString, QString, QString, QString, QString)
+{
+    /// @todo send the username, password, firstname, lastname and priveledge to StorageWrite
+    /// or log on control???
+}
+
+void ChangeDataControl::updateBedsSubmitted(QString, int, int, int)
+{
+    /// @todo send the facility, num ac beds, num ccc beds, num ltc beds
 }

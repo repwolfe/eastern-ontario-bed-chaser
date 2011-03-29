@@ -13,12 +13,16 @@ public slots:
     void pressedAddUserAcctsSlot();
     void pressedMovePatientsSlot();
     void pressedAddPatientsSlot();
+    void pressedGenerateReportSlot();
+    void pressedViewAllReportsSlot();
 signals:
     void pressedAddBeds();
     void pressedAddFacilities();
     void pressedAddUserAccts();
     void pressedMovePatients();
     void pressedAddPatients();
+    void pressedGenerateReport();
+    void pressedViewAllReports();
 private:
     void connectSlots();
 public:

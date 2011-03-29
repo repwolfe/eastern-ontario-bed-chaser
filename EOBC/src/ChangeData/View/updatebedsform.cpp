@@ -18,11 +18,71 @@ UpdateBedsForm::UpdateBedsForm(QWidget *parent) :
     _setupLayout();
 }
 
+void UpdateBedsForm::setNumAC(int num)
+{
+    _ACBeds->setValue(num);
+}
+
+void UpdateBedsForm::setNumCCC(int num)
+{
+    _CCCBeds->setValue(num);
+}
+
+void UpdateBedsForm::setNumLTC(int num)
+{
+    _LTCBeds->setValue(num);
+}
+
+void UpdateBedsForm::setMinimumAC(int num)
+{
+    _ACBeds->setMinimum(num);
+}
+
+void UpdateBedsForm::setMinimumCCC(int num)
+{
+    _CCCBeds->setMinimum(num);
+}
+
+void UpdateBedsForm::setMinimumLTC(int num)
+{
+    _LTCBeds->setMinimum(num);
+}
+
+int UpdateBedsForm::getNumAC() const
+{
+    return _ACBeds->value();
+}
+
+int UpdateBedsForm::getNumCCC() const
+{
+    return _CCCBeds->value();
+}
+
+int UpdateBedsForm::getNumLTC() const
+{
+    return _LTCBeds->value();
+}
+
+QString UpdateBedsForm::getCurrentFacility() const
+{
+    return _facilities->currentText();
+}
+
+void UpdateBedsForm::_submitClicked()
+{
+    emit submitClicked();
+}
+
+void UpdateBedsForm::_cancelClicked()
+{
+    close();
+}
+
 void UpdateBedsForm::_setupLayout()
 {
-    _ACBeds     = new QAbstractSpinBox();
-    _CCCBeds    = new QAbstractSpinBox();
-    _LTCBeds    = new QAbstractSpinBox();
+    _ACBeds     = new QSpinBox();
+    _CCCBeds    = new QSpinBox();
+    _LTCBeds    = new QSpinBox();
 
     _facilities = new QComboBox();
 
@@ -31,6 +91,9 @@ void UpdateBedsForm::_setupLayout()
 
     _submitButton->setMaximumWidth(125);
     _cancelButton->setMaximumWidth(125);
+
+    connect(_submitButton, SIGNAL(clicked()), SLOT(_submitClicked()));
+    connect(_cancelButton, SIGNAL(clicked()), SLOT(_cancelClicked()));
 
     QFormLayout* q = new QFormLayout();
     q->addRow("Facility", _facilities);

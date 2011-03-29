@@ -24,10 +24,9 @@ MapArea::MapArea(QObject *parent) :
    //
    // FOR TESTING, PLEASE REMOVE
    //
-   icons.push_back(new FacilityIcon(QPoint(200,100),"Franklin Hospital","Eastern Counties"));
    icons.push_back(new FacilityIcon(QPoint(-MAPMIDDLEX,-MAPMIDDLEY),"General Hospital","Renfrew County"));
    for(int i=0;i<17;i++)
-    icons.push_back(new FacilityIcon(QPoint(rand()%500 - 250,rand()%100 - 50),"General Hospital","Renfrew County"));
+    icons.push_back(new FacilityIcon(QPoint(rand()%500 - 250,rand()%150 - 50),"General Hospital","Renfrew County"));
    //
    //
    //
@@ -93,9 +92,8 @@ void MapArea::paintEvent(QPaintEvent *)
     QPoint lastMousePos = this->lastMousePos;
     lastMousePos += QPoint(MAPMIDDLEX,MAPMIDDLEY);
     lastMousePos -= mapPos;
-    painter.drawText(10,middle.y()*2 - 40,"X: " + QString::number(lastMousePos.x()) + " Y: " + QString::number(lastMousePos.y()));
-    //painter.drawEllipse(mapPos,15,15);
-    //painter.drawEllipse(middle,10,10);
+    painter.drawText(15,middle.y()*2 - 40,"X: " + QString::number(lastMousePos.x()) + " Y: " + QString::number(lastMousePos.y()));
+
 }
 /**
  * Adds a mapvector to the map. A mapvector is a specific series of points that resembles a reigon on the map

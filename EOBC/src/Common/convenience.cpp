@@ -14,22 +14,45 @@ QRect Convenience::getCenterForSize(int width, int height)
     QRect rect(d->width()/2 - width/2, d->height()/2 - height/2, width, height);
     return rect;
 }
+
 /**
  * Static convenience function that returns an EOBC::CareType for a given integer
  *
  * @param care the integer, type of care
  * @return the type of care based on that integer, or LTC
  */
-EOBC::CareType Convenience::intToCareType(int care){
+EOBC::CareType Convenience::intToCareType(int care)
+{
     switch(care){
-    case 0: return EOBC::AC;
-        break;
-    case 1: return EOBC::CCC;
-        break;
-    case 2: return EOBC::LTC;
-        break;
-    default: return EOBC::LTC;
-        break;
+	case 0: return EOBC::AC;
+	case 1: return EOBC::CCC;
+	case 2: return EOBC::LTC;
+	default: return EOBC::LTC;
     }
+}
 
+/**
+ * Static convenience function that returns an EOBC::CareType for a given QString
+ *
+ * @param care the QString, type of care
+ * @return the type of care based on that integer, or LTC
+ */
+EOBC::CareType Convenience::qstringToCareType(QString care)
+{
+    if (care.trimmed() == "AC")
+    {
+	return EOBC::AC;
+    }
+    else if (care.trimmed() == "CCC")
+    {
+	return EOBC::CCC;
+    }
+    else if (care.trimmed() == "LTC")
+    {
+	return EOBC::LTC;
+    }
+    else
+    {
+	return EOBC::LTC;
+    }
 }

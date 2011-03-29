@@ -19,12 +19,22 @@ class UpdateWaitingListForm : public QWidget
 public:
     explicit UpdateWaitingListForm(QWidget *parent = 0);
 
-signals:
+    const QString getCurrentPatient() const;
 
-public slots:
+signals:
+    void addPatientClicked();
+    void removePatientClicked();
+    void submitClicked();
+
+private slots:
+    void _submitClicked();
+    void _cancelClicked();
+    void _addPatientClicked();
+    void _removePatientClicked();
 
 private:
     void _setupLayout();
+    void _setupConnections();
 
     QListWidget* _patientList;
     QComboBox* _facilityList;

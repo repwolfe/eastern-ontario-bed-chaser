@@ -149,7 +149,7 @@ void StorageHandler::parseFacility(Facility* aFacility, QDomNode* n){
 
         Patient* p = new Patient(healthCardNumber, firstName, lastName,  Convenience::intToCareType(reqCare));
         p->setAdmissionDate(dateAdmitted);
-        p->setDatePlacedonWaitingList(dateAdded);
+	p->setDatePlacedOnWaitingList(dateAdded);
         aFacility->addPatientToBed(p, Convenience::intToCareType(occCare));
         n = &(e->nextSibling());
 

@@ -15,6 +15,7 @@ class Convenience
 public:
     static QRect getCenterForSize(int width, int height);
     static EOBC::CareType intToCareType(int care);
+    static EOBC::CareType qstringToCareType(QString care);
 
 private:
     Convenience();

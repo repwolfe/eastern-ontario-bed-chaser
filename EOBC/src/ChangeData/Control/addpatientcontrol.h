@@ -26,7 +26,7 @@ private slots:
     void _submitClicked();
 
 private:
-    AddPatientForm* form;
+    AddPatientForm* _form;
 
 };
 

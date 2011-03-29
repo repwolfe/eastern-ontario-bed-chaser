@@ -3,6 +3,7 @@
 #include "logoncontrol.h"
 #include "storageHandler.h"
 #include "changedatacontrol.h"
+#include "reportingcontrol.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,18 +14,21 @@ int main(int argc, char *argv[])
     LogOnControl logControl;
     logControl.run();
     ChangeDataControl changeDataControl;
-    changeDataControl.run();
+    ReportingControl rControl;
+    rControl.run();
 
     //
     //CONNECT SUBSYSTEMS
     //
+
     QObject::connect(&logControl,SIGNAL(pressedEnter(int)),&mapControl,SLOT(getLoggedOn(int)));
-    //QObject::connect(&mapControl,SIGNAL(pressedAddBeds()),&changeDataControl,SLOT(displayAddBedsForm()));
+    QObject::connect(&mapControl,SIGNAL(pressedAddBeds()),&changeDataControl,SLOT(displayUpdateBedsForm()));
     QObject::connect(&mapControl,SIGNAL(pressedAddFacilities()),&changeDataControl,SLOT(displayAddFacilityForm()));
     QObject::connect(&mapControl,SIGNAL(pressedAddPatients()),&changeDataControl,SLOT(displayMovePatientsToBedForm()));
-    //QObject::connect(&mapControl,SIGNAL(pressedAddUserAccts()),&changeDataControl,SLOT(displayAddUserAccountsForm()));
+    QObject::connect(&mapControl,SIGNAL(pressedAddUserAccts()),&changeDataControl,SLOT(displayCreateUserForm()));
     QObject::connect(&mapControl,SIGNAL(pressedMovePatients()),&changeDataControl,SLOT(displayMovePatientsToFacilityForm()));
-
+    QObject::connect(&mapControl,SIGNAL(pressedGenerateReport()),&rControl,SLOT(showGenerateReportWindow()));
+    QObject::connect(&mapControl,SIGNAL(pressedViewAllReports()),&rControl,SLOT(showViewAllReportsWindow()));
     return a.exec();
 }
 

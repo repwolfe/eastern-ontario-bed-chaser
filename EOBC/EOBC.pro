@@ -22,7 +22,8 @@ INCLUDEPATH +=\
     src/GetData \
     src/LogOn \
     src/Model \
-    src/Storage
+    src/Storage \
+    src/Reporting
 
 
 SOURCES +=\
@@ -54,7 +55,13 @@ SOURCES +=\
     src/ChangeData/Control/addfacilitycontrol.cpp \
     src/ChangeData/Control/addpatientcontrol.cpp \
     src/DisplayMap/mapmarker.cpp \
-    src/Reporting/reportingcontrol.cpp
+    src/Reporting/reportingcontrol.cpp \
+    src/ChangeData/Control/createusercontrol.cpp \
+    src/ChangeData/Control/updatebedscontrol.cpp \
+    src/ChangeData/Control/updatewaitinglistcontrol.cpp \
+    src/Reporting/generatereportwindow.cpp \
+    src/Reporting/viewallreportswindow.cpp
+
 
 
 
@@ -87,7 +94,12 @@ HEADERS  += \
     src/ChangeData/Control/addfacilitycontrol.h \
     src/ChangeData/Control/addpatientcontrol.h \
     src/DisplayMap/mapmarker.h \
-    src/Reporting/reportingcontrol.h
+    src/Reporting/reportingcontrol.h \
+    src/ChangeData/Control/createusercontrol.h \
+    src/ChangeData/Control/updatebedscontrol.h \
+    src/ChangeData/Control/updatewaitinglistcontrol.h \
+    src/Reporting/generatereportwindow.h \
+    src/Reporting/viewallreportswindow.h
 
 
 RESOURCES += \

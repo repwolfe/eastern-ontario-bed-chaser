@@ -124,12 +124,12 @@ void Patient::setOccupiedCare(CareType care)
     _occupiedCare = care;
 }
 
-void Patient::setDatePlacedonWaitingList(QDate& date)
+void Patient::setDatePlacedOnWaitingList(QDate date)
 {
     _placedOnWL = date;
 }
 
-void Patient::setAdmissionDate(QDate& date)
+void Patient::setAdmissionDate(QDate date)
 {
     _admitted = date;
 }
@@ -142,7 +142,7 @@ void Patient::setAdmissionDate(QDate& date)
  *
  * @todo make sure this function is right
  */
-void Patient::makeInpatient(QDate& admissionDate, CareType occupiedCare)
+void Patient::makeInpatient(QDate admissionDate, CareType occupiedCare)
 {
     if (!_inpatient)
     {

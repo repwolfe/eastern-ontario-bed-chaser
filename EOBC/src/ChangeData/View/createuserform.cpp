@@ -16,6 +16,51 @@ CreateUserForm::CreateUserForm(QWidget *parent) :
     _setupLayout();
 }
 
+void CreateUserForm::clearContents()
+{
+    _usernameBox->clear();
+    _passwordBox->clear();
+    _firstNameBox->clear();
+    _lastNameBox->clear();
+    _priveledgeMenu->setCurrentIndex(0);
+}
+
+const QString CreateUserForm::getUserName() const
+{
+    return _usernameBox->text();
+}
+
+const QString CreateUserForm::getPassword() const
+{
+    return _passwordBox->text();
+}
+
+const QString CreateUserForm::getFirstName() const
+{
+    return _firstNameBox->text();
+}
+
+const QString CreateUserForm::getLastName() const
+{
+    return _lastNameBox->text();
+}
+
+const QString CreateUserForm::getPriveledge() const
+{
+    return _priveledgeMenu->currentText();
+}
+
+void CreateUserForm::_submitClicked()
+{
+    emit submitClicked();
+}
+
+void CreateUserForm::_cancelClicked()
+{
+    close();
+    clearContents();
+}
+
 void CreateUserForm::_setupLayout()
 {
     _usernameBox    = new QLineEdit();
@@ -30,6 +75,9 @@ void CreateUserForm::_setupLayout()
 
     _submitButton   = new QPushButton("Submit");
     _cancelButton   = new QPushButton("Cancel");
+
+    connect(_submitButton, SIGNAL(clicked()), SLOT(_submitClicked()));
+    connect(_cancelButton, SIGNAL(clicked()), SLOT(_cancelClicked()));
 
     _submitButton->setFixedWidth(125);
     _cancelButton->setFixedWidth(125);

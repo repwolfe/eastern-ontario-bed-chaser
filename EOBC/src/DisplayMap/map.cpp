@@ -275,6 +275,8 @@ void Map::pressedAddFacilitiesSlot(){emit pressedAddFacilities();}
 void Map::pressedAddUserAcctsSlot(){emit pressedAddUserAccts();}
 void Map::pressedMovePatientsSlot(){emit pressedMovePatients();}
 void Map::pressedAddPatientsSlot(){emit pressedAddPatients();}
+void Map::pressedGenerateReportSlot(){emit pressedGenerateReport();}
+void Map::pressedViewAllReportsSlot(){emit pressedViewAllReports();}
 void Map::connectActions()
 {
     connect(actions.at(0),SIGNAL(triggered()),this,SLOT(pressedAddBedsSlot()));
@@ -282,5 +284,7 @@ void Map::connectActions()
     connect(actions.at(2),SIGNAL(triggered()),this,SLOT(pressedAddUserAcctsSlot()));
     connect(actions.at(3),SIGNAL(triggered()),this,SLOT(pressedAddPatientsSlot()));
     connect(actions.at(4),SIGNAL(triggered()),this,SLOT(pressedMovePatientsSlot()));
+    connect(actions.at(5),SIGNAL(triggered()),this,SLOT(pressedGenerateReportSlot()));
+    connect(actions.at(6),SIGNAL(triggered()),this,SLOT(pressedViewAllReportsSlot()));
 }
 

@@ -1,6 +1,6 @@
 #include "maparea.h"
 
-#define BASEZOOMSPEED 1.3
+#define BASEZOOMSPEED 1.7
 #define MOVESPEED 5
 QPoint MapArea::middle;
 #define MAPMIDDLEX 500
@@ -194,9 +194,6 @@ void MapArea::resize(QPoint p)
          fiter++;
     }
     mapX->setPosition(p);
-
-
-    repaint();
 }
 /**
  * Event triggered when mouse is down, position saved, and the resize method is called to zoom in
@@ -335,6 +332,7 @@ void MapArea::updateLabels()
     {
         labels.at(i)->setText("");
     }
+    bool iconSelected = false;
     for(int i=0;i<icons.count();i++)
     {
         if(icons.at(i)->isSelected())
@@ -345,13 +343,17 @@ void MapArea::updateLabels()
             labels.at(3)->setText("CCC: " + QString::number(icons.at(i)->getCCC())+"%");
             labels.at(4)->setText("AC: " + QString::number(icons.at(i)->getAC())+"%");
             labels.at(5)->setText("X: "+QString::number(icons.at(i)->getPosition().x()) + " Y: "+QString::number(icons.at(i)->getPosition().y()));
+            iconSelected = true;
         }
     }
-    for(int i=0;i<vecs.count();i++)
+    if(!iconSelected)
     {
-        if(vecs[i]->isSelected())
+        for(int i=0;i<vecs.count();i++)
         {
-            //labels.at(1)->setText(vecs[i]->getRegion());
+            if(vecs[i]->isSelected())
+            {
+                labels.at(1)->setText(vecs[i]->getRegion());
+            }
         }
     }
 }

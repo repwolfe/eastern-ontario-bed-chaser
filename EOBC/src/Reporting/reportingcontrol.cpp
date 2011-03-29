@@ -3,7 +3,8 @@
 ReportingControl::ReportingControl(QObject *parent) :
     QObject(parent), rWind() ,vWind()
 {
-
+    connect(&rWind,SIGNAL(reportGenerated(Report*)),this,SLOT(reportGenerated(Report*)));
+    connect(&vWind,SIGNAL(pressedSelect(int)),this,SLOT(pressedSelect(int)));
 }
 ReportingControl::~ReportingControl()
 {
@@ -32,7 +33,17 @@ void ReportingControl::showViewAllReportsWindow()
 }
 void ReportingControl::receiveReport(QString )
 {
-    QVector<int> bars;
-    Report* r = new Report(bars);
+    //QVector<ReportBars*> bars;
+    //Report* r = new Report(bars);
+    //reports.push_back(r);
+}
+void ReportingControl::reportGenerated(Report* r)
+{
     reports.push_back(r);
+    vWind.addItem(r);
+}
+void ReportingControl::pressedSelect(int index)
+{
+    ViewReportWindow* wind = new ViewReportWindow(reports.at(index));
+    wind->show();
 }

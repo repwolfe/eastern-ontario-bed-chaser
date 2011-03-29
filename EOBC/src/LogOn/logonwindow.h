@@ -11,6 +11,7 @@
 #include <QKeyEvent>
 #include <QFile>
 #include <QTextStream>
+#include <convenience.h>
 class LogOnWindow : public QMainWindow
 {
     Q_OBJECT

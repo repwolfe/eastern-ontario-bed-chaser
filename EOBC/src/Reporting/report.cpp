@@ -2,18 +2,18 @@
 int height = 300;
 int left = 120;
 int width = 300;
-int threeDness = 20;
-Report::Report(QVector<int> bars, QObject *parent) :
+int threeDness = 10;
+Report::Report(QString date, QVector<ReportBars*>& bars, QObject *parent) :
     QObject(parent)
 {
     this->bars = bars;
-    date = ""+QDate::currentDate().toString("d MMM yyyy");
+    this->date = date;
 
     maxHeight = 0;
     for(int i=0;i<bars.count();i++)
     {
-        if(bars.at(i) > maxHeight)
-            maxHeight = bars.at(i);
+        if(bars.at(i)->getHeight() > maxHeight)
+            maxHeight = bars.at(i)->getHeight();
     }
 }
 void Report::draw(QPainter& g)
@@ -28,7 +28,7 @@ void Report::draw(QPainter& g)
 void Report::drawGrid(QPainter& g)
 {
     int bars = 6;
-    g.setBrush(QColor(190,255,190));
+    g.setBrush(QColor(190,210,255));
     g.drawRect(left,50,width,height);
 
     g.drawLine(left,50,left+width,50);
@@ -54,16 +54,25 @@ void Report::drawGrid(QPainter& g)
     bottom.push_back(QPoint(left+width - threeDness,height + 50 + threeDness));
     g.setBrush(Qt::gray);
     g.drawPolygon(bottom,Qt::OddEvenFill);
+
+    g.setBrush(Qt::black);
+    g.drawText(width/2+left-30, height+50+threeDness + 60,"Time");
 }
 void Report::drawBars(QPainter& g)
 {
     for(int i=0;i<bars.count();i++)
     {
-        float curBar = bars.at(i);
+        ReportBars* curBar = bars.at(i);
+
         int barLeft = left + i*width/bars.count() + 10;
         float barWidth = width/bars.count() - 20;
-        g.setBrush(Qt::blue);
-        g.drawRect(barLeft,(50+height)-(curBar/maxHeight)*height,barWidth,(curBar/maxHeight)*height);
+        int barHeight = curBar->getHeight();
+        curBar->setPosition(QPoint(barLeft,(50+height)-(barHeight/maxHeight)*height));
+        curBar->setSize(QPoint(barWidth,(barHeight/maxHeight)*height));
+
+        //g.setBrush(Qt::blue);
+        //g.drawRect(barLeft,(50+height)-(curBar->getHeight()/maxHeight)*height,barWidth,(curBar->getHeight()/maxHeight)*height);
+        curBar->draw(g,threeDness);
     }
 }
 

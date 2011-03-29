@@ -13,11 +13,12 @@ DisplayMapControl::~DisplayMapControl()
 
 void DisplayMapControl::run()
 {
-    map->show();
+
 }
 void DisplayMapControl::getLoggedOn(int permissions)
 {
     map->setPermissions(permissions);
+    map->show();
 }
 void DisplayMapControl::pressedAddBedsSlot(){emit pressedAddBeds();}
 void DisplayMapControl::pressedAddFacilitiesSlot(){emit pressedAddFacilities();}

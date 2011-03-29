@@ -5,8 +5,8 @@ LogOnWindow::LogOnWindow(QWidget *parent) :
     QMainWindow(parent)
 {
     this->setWindowTitle("EOBC : Log On");
-    resize(1000,800);
-    setGeometry (100,0,1000,800);
+    //resize(1000,800);
+    setGeometry(Convenience::getCenterForSize(1000,650));
     loadBackground();
     loadLayout();
     permissions = -1;
@@ -15,9 +15,9 @@ void LogOnWindow::loadBackground()
 {
     backgroundPic = new QLabel();
     QImage img(":/pics/resources/LHINLogo2.png");
-    QImage fixedImage(1000,800, QImage::Format_ARGB32_Premultiplied);
+    QImage fixedImage(1000,650, QImage::Format_ARGB32_Premultiplied);
     QPainter painter(&fixedImage);
-    painter.fillRect(QRect(0,0,1000,800), Qt::white);
+    painter.fillRect(QRect(0,0,1000,650), Qt::white);
     painter.drawImage(0,0,img);
     painter.end();
     backgroundPic->setPixmap(QPixmap::fromImage(fixedImage));
@@ -35,7 +35,7 @@ void LogOnWindow::loadLayout()
     usrBox = new QLineEdit();
     passBox = new QLineEdit();
 
-    q->setContentsMargins(300,300,330,330);
+    q->setContentsMargins(300,350,330,130);
     q->setColumnStretch(1,150);
     q->setRowStretch(2,15);
     q->setRowStretch(3,15);
@@ -100,6 +100,7 @@ void LogOnWindow::keyPressEvent(QKeyEvent *event)
     if(event->key() == ENTER)
     {
         logIn();
+        emit pressedEnter(2);
         close();
     }
 }

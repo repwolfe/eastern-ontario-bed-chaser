@@ -5,12 +5,13 @@
 #include <QtGui/qpainter.h>
 #include <QTime>
 #include <QDate>
+#include <reportbars.h>
 
 class Report : public QObject
 {
     Q_OBJECT
 public:
-    explicit Report(QVector<int> bars,QObject *parent = 0);
+    explicit Report(QString date,QVector<ReportBars*>& bars,QObject *parent = 0);
     void draw(QPainter& g);
     QString getDate();
 
@@ -25,7 +26,7 @@ private:
     QString date;
     QString xAxis;
     QString yAxis;
-    QVector<int> bars;
+    QVector<ReportBars*> bars;
     float maxHeight;
 
 };

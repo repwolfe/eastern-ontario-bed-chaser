@@ -18,8 +18,8 @@ void MapMarker::draw(QPainter& g)
     g.setPen(Qt::black);
     g.setBrush(Qt::blue);
 
-    g.drawLine(QPoint(-5,-5)+position + mapPos,QPoint(5,5)+position + mapPos);
-    g.drawLine(QPoint(5,-5)+position + mapPos,QPoint(-5,5)+position + mapPos);
+    g.drawLine(QPoint(-5,-5)+realPosition + mapPos,QPoint(5,5)+realPosition + mapPos);
+    g.drawLine(QPoint(5,-5)+realPosition + mapPos,QPoint(-5,5)+realPosition + mapPos);
     //g.drawEllipse(realPosition + mapPos,ICONSIZE*scale,ICONSIZE*scale);
     //QRect rect(realPosition+mapPos-QPoint(ICONRADIUS,ICONRADIUS)*scale,realPosition + mapPos +QPoint(ICONRADIUS,ICONRADIUS)*scale);
 
@@ -56,6 +56,7 @@ void MapMarker::setPosition(QPoint mouse)
 {
     this->position = mouse;
     position -= mapPos;
+    position /= scale;
     MapItem::update(mouse);
     //MapItem::resizePoints(mouse,scale);
 }

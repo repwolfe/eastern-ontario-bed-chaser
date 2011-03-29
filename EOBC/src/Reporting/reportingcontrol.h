@@ -5,6 +5,8 @@
 #include "generatereportwindow.h"
 #include "viewallreportswindow.h"
 #include "report.h"
+#include "reportbars.h"
+#include "viewreportwindow.h"
 class ReportingControl : public QObject
 {
     Q_OBJECT
@@ -21,6 +23,8 @@ signals:
 public slots:
     void showGenerateReportWindow();
     void showViewAllReportsWindow();
+    void reportGenerated(Report*);
+    void pressedSelect(int);
     void receiveReport(QString);
 
 };

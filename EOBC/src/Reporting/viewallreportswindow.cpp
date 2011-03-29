@@ -6,10 +6,7 @@ ViewAllReportsWindow::ViewAllReportsWindow(QWidget *parent) :
     QGridLayout* layout = new QGridLayout();
     layout->addWidget(new QLabel("Reports"),0,0);
     layout->addWidget(new QLabel(),0,1);
-    QListWidget* reportsBox = new QListWidget();
-    reportsBox->addItem("Report Submitted: Jan 4th 2011");
-    reportsBox->addItem("Report Submitted: Jan 14th 2011");
-    reportsBox->addItem("Report Submitted: Jan 15th 2011");
+    reportsBox = new QListWidget();
 
     layout->addWidget(reportsBox,1,0,1,0);
     QPushButton* select = new QPushButton("Select");
@@ -29,12 +26,11 @@ ViewAllReportsWindow::ViewAllReportsWindow(QWidget *parent) :
 }
 void ViewAllReportsWindow::pressedSelectSlot()
 {
-    QVector<int> bars;
-    bars.push_back(100);
-    bars.push_back(30);
-    bars.push_back(70);
-    bars.push_back(10);
-    wind = new ViewReportWindow(new Report(bars));
-    wind->show();
+    emit pressedSelect(reportsBox->currentIndex().row());
 }
+void ViewAllReportsWindow::addItem(Report* r)
+{
+    reportsBox->addItem("Report: "+ r->getDate());
+}
+
 

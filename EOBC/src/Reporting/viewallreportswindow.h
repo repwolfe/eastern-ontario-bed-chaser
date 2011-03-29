@@ -5,18 +5,20 @@
 #include <QtGui>
 #include "convenience.h"
 #include "viewreportwindow.h"
+#include "reportbars.h"
 class ViewAllReportsWindow : public QWidget
 {
     Q_OBJECT
 public:
     explicit ViewAllReportsWindow(QWidget *parent = 0);
-
+    void addItem(Report* r);
 signals:
-
+    void pressedSelect(int);
 public slots:
     void pressedSelectSlot();
 private:
     ViewReportWindow* wind;
+    QListWidget* reportsBox;
 
 };
 

@@ -10,8 +10,8 @@ ChangeDataControl::ChangeDataControl()
     _updateWaitingListControl	= new UpdateWaitingListControl();
 
     /// @todo remove
-    _updateWaitingListControl->showForm();
-    _movePatientControl->showToBedForm();
+    //_updateWaitingListControl->showForm();
+    //_movePatientControl->showToBedForm();
 
     connect(_movePatientControl, SIGNAL(toBedFormSubmitClicked()), SLOT(movePatientsToBedSubmitted()));
     connect(_movePatientControl, SIGNAL(toFacilityFormSubmitClicked()), SLOT(movePatientsToFacilitySubmitted()));

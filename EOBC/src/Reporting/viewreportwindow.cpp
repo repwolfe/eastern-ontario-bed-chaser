@@ -14,8 +14,8 @@ ViewReportWindow::ViewReportWindow(Report* report, QWidget *parent) :
 }
 void ViewReportWindow::paintEvent(QPaintEvent *)
 {
-    QImage r(500,500,QImage::Format_ARGB32_Premultiplied);
+    //QImage r(500,500,QImage::Format_ARGB32_Premultiplied);
     QPainter g(this);
     report->draw(g);
-    background->setPixmap(QPixmap::fromImage(r));
+    //background->setPixmap(QPixmap::fromImage(r));
 }

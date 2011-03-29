@@ -39,8 +39,11 @@ public slots:
     void addPatientSubmitted(QString, QString, QString, QString);
     void createUserSubmitted(QString, QString, QString, QString, QString);
     void updateBedsSubmitted(QString, int, int, int);
+    void updateWaitingListSubmitted();
 
 private:
+    void _setupConnections();
+
     void _changeLocal(QString& args, QString& data);
     void _changeRemote(QString& args, QString& data);
 
@@ -50,7 +53,7 @@ private:
     // Child Control objects
     MovePatientControl*		_movePatientControl;
     AddFacilityControl*		_addFacilityControl;
-    AddPatientControl*		_addPatientControl;
+    //AddPatientControl*		_addPatientControl;
     CreateUserControl*		_createUserControl;
     UpdateBedsControl*		_updateBedsControl;
     UpdateWaitingListControl*	_updateWaitingListControl;

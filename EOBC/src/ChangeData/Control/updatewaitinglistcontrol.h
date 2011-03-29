@@ -1,7 +1,6 @@
 #ifndef UPDATEWAITINGLISTCONTROL_H
 #define UPDATEWAITINGLISTCONTROL_H
 
-#include <QObject>
 #include <QLinkedList>
 
 #include "updatewaitinglistform.h"
@@ -22,11 +21,11 @@ public:
     const QLinkedList<Patient>& getPatientsAdded() const;
 
 signals:
-    /// Patients Removed, Patients Added
     void submitClicked();
 
 private slots:
     void _submitClicked();
+    void _cancelClicked();
     void _removePatientClicked();
     void _addPatientClicked();
     void _patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare);

@@ -69,27 +69,27 @@ int StorageHandler::loadModel(QString fileName){
 
         QDomNode rootChild = root.firstChild();
         QDomNode n;
-        QDomElement* e;
+        QDomElement e;
 
         while( !rootChild.isNull() )
         {
-            e = &(rootChild.toElement());
-              Logger::infoMessage("storageHandler", "loadModel", "The rootChild Name= ", e->tagName());
+            e = rootChild.toElement();
+              Logger::infoMessage("storageHandler", "loadModel", "The rootChild Name= ", e.tagName());
 
             n = rootChild.firstChild();
             if(rootChild.nodeName() =="WaitingList")
                  this->parseWaitingList(anArea, &n);
 
             if(rootChild.nodeName() =="Facility"){
-                e = &(rootChild.toElement());
+                e = rootChild.toElement();
 
                 //set up facility
-                QString ID = e->attribute("ID", "0");
-                QString name = e->attribute("name", "noName");
-                int LTC = e->attribute("LTC", "0").toInt();
-                int CCC = e->attribute("CCC", "0").toInt();
-                int AC = e->attribute("AC", "0").toInt();
-                QPoint coordinates(e->attribute("coordinateX", "0").toInt(), e->attribute("coordinateY", "0").toInt());
+                QString ID = e.attribute("ID", "0");
+                QString name = e.attribute("name", "noName");
+                int LTC = e.attribute("LTC", "0").toInt();
+                int CCC = e.attribute("CCC", "0").toInt();
+                int AC = e.attribute("AC", "0").toInt();
+                QPoint coordinates(e.attribute("coordinateX", "0").toInt(), e.attribute("coordinateY", "0").toInt());
                 Facility* aFacility = new Facility(ID.toInt(),name,AC,CCC,coordinates);
                 aFacility->addBeds(LTC,EOBC::LTC);
                 _currentFacility = aFacility;
@@ -114,18 +114,20 @@ int StorageHandler::loadModel(QString fileName){
  *
  */
 void StorageHandler::parseWaitingList(Area* anArea,QDomNode* n){
-    QDomElement* e;
-    while( !n->isNull() )
+    QDomElement e;
+    QDomNode node;
+    while(!n->isNull())
     {
-        e = &(n->toElement());
+        e = n->toElement();
 
-        QString healthCardNumber = e->attribute( "healthCardNumber", "1111111111" );
-        QString firstName = e->attribute( "firstName", "FirstName" );
-        QString lastName = e->attribute( "lastName", "LastName" );
+        QString healthCardNumber = e.attribute( "healthCardNumber", "1111111111" );
+        QString firstName = e.attribute( "firstName", "FirstName" );
+        QString lastName = e.attribute( "lastName", "LastName" );
         QDate dateAdded(12,12,12);
         Logger::infoMessage("storageHandler","parseWaitingList", "Patient added to waiting list name= ", firstName);
         anArea->addPatientToWaitingList(healthCardNumber, firstName, lastName, dateAdded);
-        n = &(e->nextSibling());
+        node = e.nextSibling();
+        n = &(node);
 
     }
     /**
@@ -149,16 +151,17 @@ void StorageHandler::parseWaitingList(Area* anArea,QDomNode* n){
  *
  */
 void StorageHandler::parseFacility(Facility* aFacility, QDomNode* n){
-    QDomElement* e;
+    QDomElement e;
+    QDomNode node;
     while( !n->isNull() )
     {
-        e = &(n->toElement());
+        e = n->toElement();
 
-        QString healthCardNumber = e->attribute( "healthCardNumber", "1111111111" );
-        QString firstName = e->attribute( "firstName", "noFirstName" );
-        QString lastName = e->attribute( "lastName", "noLastName" );
-        int reqCare = e->attribute("reqCare", "0").toInt();
-        int occCare = e->attribute("occCare", "0").toInt();
+        QString healthCardNumber = e.attribute( "healthCardNumber", "1111111111" );
+        QString firstName = e.attribute( "firstName", "noFirstName" );
+        QString lastName = e.attribute( "lastName", "noLastName" );
+        int reqCare = e.attribute("reqCare", "0").toInt();
+        int occCare = e.attribute("occCare", "0").toInt();
         QDate dateAdded(12,12,12);
         QDate dateAdmitted(1984,11,11);
         Logger::infoMessage("storageHandler","parseWaitingList", "Patient added to a facility pName= ", firstName);
@@ -167,7 +170,8 @@ void StorageHandler::parseFacility(Facility* aFacility, QDomNode* n){
         p->setAdmissionDate(dateAdmitted);
 	p->setDatePlacedOnWaitingList(dateAdded);
         aFacility->addPatientToBed(p, Convenience::intToCareType(occCare));
-        n = &(e->nextSibling());
+        node = e.nextSibling();
+        n = &(node);
 
     }
     /**
@@ -188,34 +192,84 @@ StorageHandler::~StorageHandler(){
 }
 QDomElement* saveWaitingList(WaitingList* aWaitingList){
     QDomElement* e = new QDomElement();
+    e->setTagName("WaitingList");
     QList<Patient*> pList = aWaitingList->values();
-    QList<Patient*>::Iterator it = pList.begin();
-    Patient* p;
-    for(int i=0; ; i++){
-        p = it[i];
+    foreach(Patient* p, pList){
 
-
-        }
+        QDomElement* pat = new QDomElement();
+        pat->setTagName("Patient");
+        pat->setAttribute("healthCardNumber", p->getHealthCardNumber());
+        pat->setAttribute("firstName", p->getFirstName());
+        pat->setAttribute("lastName", p->getLastName());
+        pat->setAttribute("reqCare", int(p->getRequiredCare()));
+        //e->appendChild(pat);
+        /// @todo date parsing
+       // QDate dateAdded(12,12,12);
+       // QDate dateAdmitted(1984,11,11);
+    }
+    return e;
 };
 
 QDomElement* saveFacility(Facility* aFacility){
  QDomElement* e = new QDomElement();
+ e->setTagName("Facility");
+ aFacility->getFacilityId(); //to make robbie happy
+
+ return e;
 };
 
 QDomElement* saveArea(Area* anArea){
     QDomElement* e = new QDomElement();
     e->setTagName("Area");
     e->setAttribute("ID", anArea->getAreaId());
+
+    return e;
 };
 /// @todo fix save model
 int StorageHandler::saveModel(QString fileName, Area* anArea, int facilityID){
-    QDomElement* wl;
+    //QDomElement* wl;  //make robbie happy
+    facilityID++; // make robbie happy
     if(anArea && !anArea->getWaitingList().isEmpty()){
        //wl = this->saveWaitingList(anArea);
     }
     QDomElement* e = new QDomElement();
     e->setTagName("Area");
     e->setAttribute("ID", anArea->getAreaId());
-    //e->appendChild(QDomNode(wl));
+    //e->appendChild(QDomNode(wl*));
+    QFile file(fileName);
+    //open the file
+    if( !file.open(QIODevice::WriteOnly))
+        return -1;
     return 0;
+};
+Facility* StorageHandler::getFacility(ID areaID, ID facilityID){
+  Area* anArea = this->_getArea(areaID);
+  return anArea->getFacility(facilityID);
+};
+
+/// @todo fix 3 get methods
+/*
+QList<Patient*> StorageHandler::getWaitingList(ID areaID){
+    return QList<Patient*> p(); // make robbie happy
+};
+
+QList<Patient*> StorageHandler::getPatients(ID areaID, ID facilityID, int reqCare){
+    return QList<Patient*> p(); // make robbie happy
+};
+
+QList<Patient*> StorageHandler::getPatients(ID areaID, ID facilityID){
+    QList<Patient*> p(); // make robbie happy
+    return p;
+};
+*/
+areaList StorageHandler::getAreas(){
+    return _areas;
+};
+
+Area* StorageHandler::_getArea(ID id){
+    Area* anArea= this->getAreas().find(id).value();
+    if(!anArea)
+        anArea = new Area(id);
+    this->getAreas().insert(id, anArea);
+    return anArea;
 };

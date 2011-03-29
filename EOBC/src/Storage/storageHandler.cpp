@@ -242,3 +242,34 @@ int StorageHandler::saveModel(QString fileName, Area* anArea, int facilityID){
         return -1;
     return 0;
 };
+Facility* StorageHandler::getFacility(ID areaID, ID facilityID){
+  Area* anArea = this->_getArea(areaID);
+  return anArea->getFacility(facilityID);
+};
+
+/// @todo fix 3 get methods
+/*
+QList<Patient*> StorageHandler::getWaitingList(ID areaID){
+    return QList<Patient*> p(); // make robbie happy
+};
+
+QList<Patient*> StorageHandler::getPatients(ID areaID, ID facilityID, int reqCare){
+    return QList<Patient*> p(); // make robbie happy
+};
+
+QList<Patient*> StorageHandler::getPatients(ID areaID, ID facilityID){
+    QList<Patient*> p(); // make robbie happy
+    return p;
+};
+*/
+areaList StorageHandler::getAreas(){
+    return _areas;
+};
+
+Area* StorageHandler::_getArea(ID id){
+    Area* anArea= this->getAreas().find(id).value();
+    if(!anArea)
+        anArea = new Area(id);
+    this->getAreas().insert(id, anArea);
+    return anArea;
+};

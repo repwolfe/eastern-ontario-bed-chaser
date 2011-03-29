@@ -32,8 +32,8 @@
 <Patient firstName="Jon4" lastName="Doe" healthCardNumber="4444333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="2" careOcc="1"/>
 <Patient firstName="Jon5" lastName="Doe" healthCardNumber="4444333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="2" careOcc="1"/>
 </WaitingList>
-<Facility ID="6" LTC="5" CCC="4" AC="4" name="Almonte" coordinateX="123" coordinateY="321">
-<Patient firstName="Jon11" lastName="Doe" healthCardNumber="4444333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="2" careOcc="1"/>
-<Patient firstName="Jon12" lastName="Doe" healthCardNumber="4444333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="2" careOcc="1"/>
+<Facility ID="6" LTC="0" CCC="4" AC="4" name="Almonte" coordinateX="123" coordinateY="321">
+<Patient firstName="Jon11" lastName="Doe" healthCardNumber="4444333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="1" careOcc="1"/>
+<Patient firstName="Jon12" lastName="Doe" healthCardNumber="4444333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="1" careOcc="1"/>
 </Facility>
 </Area>

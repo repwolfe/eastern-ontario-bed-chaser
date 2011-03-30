@@ -8,6 +8,8 @@
 #include <QPushButton>
 
 /**
+ * @brief Form to add a new Patient
+ *
  * This form allows you to add a patient to a waiting list or @todo facility??
  *
  * @todo Add this to D2

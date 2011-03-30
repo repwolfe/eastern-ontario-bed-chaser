@@ -6,7 +6,10 @@
 #include "createuserform.h"
 
 /**
- * @todo description
+ * @brief Controller for the CreateUserForm
+ *
+ * Displays the form and handles submissions
+ *
  * @todo traceability
  */
 class CreateUserControl : public QObject

@@ -3,7 +3,10 @@
 
 #include <QRect>
 #include "modelcommon.h"
+
 /**
+ * @brief Class of static convenience functions
+ *
  * This Class will only have static convenience functions
  * to help the developers avoid code repetition for
  * simple, generic tasks.

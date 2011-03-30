@@ -8,6 +8,15 @@
 #include "patient.h"
 #include "convenience.h"
 
+/**
+ * @brief Controller for UpdateWaitingListForm.
+ *
+ * Allows you to add a Patient to a Waiting List, using
+ * the AddPatientControl and AddPatientForm.
+ * Also allows you to remove a Patient from a waiting list.
+ *
+ * @todo Traceability
+ */
 class UpdateWaitingListControl : public QObject
 {
     Q_OBJECT

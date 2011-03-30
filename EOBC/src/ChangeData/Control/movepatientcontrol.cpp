@@ -2,9 +2,11 @@
 
 MovePatientControl::MovePatientControl()
 {
+    // Create the two forms
     _toFacilityForm = new MovePatientForm("Move Patients to Facility", false, "To Facility");
     _toBedForm = new MovePatientForm("Move Patients to Bed", true, "To Bed");
 
+    // Set the options for moving a patient to a bed
     QStringList bedOptions;
     bedOptions.push_back("AC");
     bedOptions.push_back("CCC");
@@ -14,22 +16,23 @@ MovePatientControl::MovePatientControl()
 
     /// @todo remove this, get real patients somehow:
     QMap<QString, QString> patients;
-    patients["Robbie Wolfe"] = "123-123-123";
-    patients["JP Landry"] = "555-234-123";
-    patients["Chuck Norris"] = "123-323-154";
-    patients["Austin Chamney"] = "321-999-123";
+    patients["Robbie Wolfe"] = "1233-123-123";
+    patients["JP Landry"] = "5535-234-123";
+    patients["Chuck Norris"] = "1233-323-154";
+    patients["Austin Chamney"] = "3213-999-123";
 
     QMap<QString,QString> patientsToBed;
-    patientsToBed["Robbie"] = "CCC";
-    patientsToBed["JP"] = "LTC";
-    patientsToBed["Austin"] = "AC";
+    patientsToBed["1233-123-123"] = "CCC";
+    patientsToBed["5553-234-123"] = "LTC";
+    patientsToBed["3213-999-123"] = "AC";
+    patientsToBed["1233-323-154"] = "AC";
     setPatientToBedMap(patientsToBed);
 
     QStringList facilities;
     facilities.push_back("Franklin General");
     facilities.push_back("Cedar Sinar");
     _toBedForm->setFacilityItems(facilities);
-    _toBedForm->setPatientItems(patients);
+    _toBedForm->setPatientItems(patients, patientsToBed);
 
     _setupConnections();
 }
@@ -40,6 +43,11 @@ MovePatientControl::~MovePatientControl()
     delete _toBedForm;
 }
 
+/**
+ * Set the map of a patient to which bed they are in
+ *
+ * @param inMap the map to set to
+ */
 void MovePatientControl::setPatientToBedMap(QMap<QString,QString>& inMap)
 {
     _patientToBed = inMap;
@@ -126,7 +134,10 @@ void MovePatientControl::toBedFormPatientMoved(QString moveTo)
 }
 
 /**
- * @todo find better use for this
+ * When a patient is selected, set the "Move To" option to be their
+ * current bed
+ *
+ * @param item The Patient selected
  */
 void MovePatientControl::toBedFormPatientSelected(QString item)
 {

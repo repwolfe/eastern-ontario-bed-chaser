@@ -8,11 +8,15 @@
 #include <QMap>
 
 /**
- * A form that Moves a patient.
+ * @brief A form that Moves a patient.
+ *
  * Has a drop down menu of all the facilities,
  * and depending on the selection populates a
  * list of all the admitted patients and optionally
  * what bed type they are in.
+ * The form has a second drop down menu that will either
+ * contain bed types or facilities, and this is what the
+ * selected patient can be moved to.
  *
  * @todo Traceability/Add to D2
  */
@@ -24,6 +28,7 @@ public:
 
    void setFacilityItems(QStringList& items);
    void setPatientItems(const QMap<QString,QString>& items);
+   void setPatientItems(const QMap<QString,QString>& nameToHcn, const QMap<QString,QString>& hcnToBed);
    void setMoveToItems(QStringList& items);
 
    void removeFacilityItem(QString& item);
@@ -51,6 +56,7 @@ private slots:
 private:
    void _setupLayout();
    void _setupConnections();
+   void _setPatientItems(const QMap<QString,QString>& nameToHcn, const QMap<QString,QString>* hcnToBed = 0);
 
    bool _displayBedType;
    QString _moveToLabel;

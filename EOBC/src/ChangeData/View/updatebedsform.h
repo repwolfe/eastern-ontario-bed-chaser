@@ -7,8 +7,10 @@
 #include <QPushButton>
 
 /**
+ * @brief Form to Update Beds
+ *
  * A form that allows you to update the number of beds
- * of each type of a particular facility.
+ * of each type for a particular facility.
  *
  * @todo Add to D2
  */

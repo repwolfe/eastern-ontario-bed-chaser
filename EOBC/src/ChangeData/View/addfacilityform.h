@@ -6,8 +6,10 @@
 #include <QPushButton>
 
 /**
+ * @brief Form for adding a new Facility.
+ *
  * This class is a form which allows a system administrator
- * to create a new Facility.
+ * to create a new Facility at a specific location with a name.
  *
  * @todo Rename this in D2 from FacilityInformationForm
  * //This class is part of the ChangeData subsystem described in D2.

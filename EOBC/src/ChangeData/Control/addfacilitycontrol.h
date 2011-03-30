@@ -6,7 +6,11 @@
 #include "addfacilityform.h"
 
 /**
- * @todo description
+ * @brief Controller for AddFacilityForm
+ *
+ * Used to display the form
+ * and handle submission
+ *
  * @todo traceability
  */
 class AddFacilityControl : public QObject

@@ -18,6 +18,11 @@ void AddPatientControl::showForm()
     _form->show();
 }
 
+/**
+ * Private slot for a submission
+ * Removes whitespace and makes sure none of the fields are empty
+ * Also checks if the health card number is properly formatted
+ */
 void AddPatientControl::_submitClicked()
 {
     const QString& firstName	= _form->getFirstName().trimmed();

@@ -7,6 +7,8 @@
 #include <QPushButton>
 
 /**
+ * @brief A form to Update the Waiting list of a Facility.
+ *
  * A form that updates the waiting list of a particular
  * facility. You can add and remove patients from it
  * @todo Check if this is only LTC facilities

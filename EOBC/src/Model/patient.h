@@ -8,6 +8,8 @@
 using EOBC::CareType;
 
 /**
+ * @brief Object representation of a Patient.
+ *
  * Patients have a health card number and a name.
  * They are people requiring care and are trying to
  * be placed in a particular Facility or Area.

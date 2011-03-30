@@ -51,25 +51,67 @@ void MovePatientForm::setMoveToItems(QStringList& items)
 
 /**
  * Set the items of the Patient list, removes the old ones
- * @todo fix this to include columns
+ * Used for rows containing Patient Name and Health Card Number
+ *
+ * @param inPatients map of Patient Name to Health Card Number
  */
 void MovePatientForm::setPatientItems(const QMap<QString, QString> &inPatients)
 {
+    _setPatientItems(inPatients);
+}
+
+/**
+ * Set the items of the Patient list, removes the old ones
+ * Used for rows containing Patient Name, Health Card Number and Bed Type
+ *
+ * @param nameToHcn map of Patient Name to Health Card Number
+ * @param hcnToBed map of Health Card Number to Bed
+ */
+void MovePatientForm::setPatientItems(const QMap<QString,QString>& nameToHcn, const QMap<QString,QString>& hcnToBed)
+{
+    _setPatientItems(nameToHcn, &hcnToBed);
+}
+
+/**
+ * Helper function to avoid code repetition for setPatientItems
+ */
+void MovePatientForm::_setPatientItems(const QMap<QString,QString>& nameToHcn, const QMap<QString,QString>* hcnToBed)
+{
     _patientList->clear();
-    if (inPatients.size() > 0)
+    bool includeBeds = false;
+    if (nameToHcn.size() > 0)
     {
+        if (hcnToBed && hcnToBed->size() > 0)
+        {
+            includeBeds = true;
+        }
         QList<QTreeWidgetItem*> items;
-        QMap<QString,QString>::const_iterator iter = inPatients.begin();
-        while (iter != inPatients.end())
+        QMap<QString,QString>::const_iterator iter = nameToHcn.begin();
+        while (iter != nameToHcn.end())
         {
             QStringList info(iter.key());
-            info.push_back(iter.value());
-            items.append(new QTreeWidgetItem((QTreeWidget*)0, info));
+            info << iter.value();
+            if (includeBeds)
+            {
+                QMap<QString,QString>::const_iterator bedFind = hcnToBed->find(iter.value());
+                if (bedFind != hcnToBed->end())
+                {
+                    info << bedFind.value();
+                    items.append(new QTreeWidgetItem((QTreeWidget*)0, info));
+                }
+            }
+            else
+            {
+                items.append(new QTreeWidgetItem((QTreeWidget*)0, info));
+            }
             ++iter;
         }
         _patientList->insertTopLevelItems(0, items);
-        _patientList->setCurrentItem(items.first());
-        _moveToList->setEnabled(true);
+        if (!items.isEmpty())
+        {
+            _patientList->setCurrentItem(items.first());
+            _moveToList->setEnabled(true);
+        }
     }
     else
     {
@@ -104,6 +146,11 @@ int MovePatientForm::getCurrentPatientRow()
    return _patientList->indexOfTopLevelItem(_patientList->currentItem());
 }
 
+/**
+ * Returns the current patient's health card number
+ *
+ * @return health card number of current patient
+ */
 QString MovePatientForm::getCurrentPatient()
 {
     return _patientList->currentItem()->text(1);
@@ -121,10 +168,19 @@ void MovePatientForm::_setupLayout()
 
     _patientList    = new QTreeWidget();
     _patientList->setSelectionMode(QAbstractItemView::SingleSelection);
-    _patientList->setColumnCount(2);    // For Name and Hcn
     QStringList headers = (QStringList() << "Patient Name" << "Health Card Number");
+    if (_displayBedType)
+    {
+        _patientList->setColumnCount(3);    // For Name, Hcn and Bed
+        headers << "Bed";
+    }
+    else
+    {
+        _patientList->setColumnCount(2);    // For Name and Hcn
+    }
     _patientList->setHeaderLabels(headers);
     _patientList->setColumnWidth(0, 250);
+    if (_displayBedType) { _patientList->setColumnWidth(2, 40); }
     _patientList->setSortingEnabled(true);
 
     _moveToList->setEnabled(false);
@@ -166,7 +222,10 @@ void MovePatientForm::_moveToChanged(QString moveTo)
 
 void MovePatientForm::_patientItemSelected(QTreeWidgetItem* item)
 {
-    emit patientSelected(item->text(1));
+    if (item)
+    {
+        emit patientSelected(item->text(1));
+    }
 }
 
 void MovePatientForm::_submitButtonClicked()

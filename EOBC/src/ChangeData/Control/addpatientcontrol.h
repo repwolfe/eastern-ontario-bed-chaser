@@ -6,7 +6,10 @@
 #include "addpatientform.h"
 
 /**
- * @todo description
+ * @brief Controller for AddPatientForm
+ *
+ * Displays the form and handles submissions
+ *
  * @todo traceability
  */
 class AddPatientControl : public QObject

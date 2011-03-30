@@ -5,9 +5,10 @@
 #include <QTextStream>
 
 /**
- * Logger class used for debugging and error checking
- * Easy to use, when created it will output to a log file.
- * It has different message priorities.
+ * @brief Logger class used for debugging and error checking.
+ *
+ * Easy to use, static functions to output to a log file.
+ * It has different message priorities, ERROR, DEBUG and INFO
  *
  * @todo what to do about traceability
  */

@@ -6,7 +6,10 @@
 #include "updatebedsform.h"
 
 /**
- * @todo description
+ * @brief Controller for UpdateBedsForm.
+ *
+ * Displays the form and handles submissions.
+ *
  * @todo traceability
  */
 class UpdateBedsControl : public QObject

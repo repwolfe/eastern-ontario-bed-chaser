@@ -7,9 +7,12 @@
 #include <QPushButton>
 
 /**
+ * @brief Form to create new user
+ *
  * CreateUserForm is a form that appears and allows
  * the system administrator to create a new user at the
- * current Facility.
+ * current Facility. They have a username/password,
+ * first/last name and priveledge level.
  *
  * This class is part of the ChangeData subsystem described in D2.
  */

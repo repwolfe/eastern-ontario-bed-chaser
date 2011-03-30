@@ -5,7 +5,6 @@
 #include <QObject>
 
 #include "movepatientcontrol.h"
-#include "addpatientcontrol.h"
 #include "addfacilitycontrol.h"
 #include "createusercontrol.h"
 #include "updatebedscontrol.h"
@@ -15,6 +14,16 @@
 class StorageWrite;
 class SendChangeDataRequest;
 
+/**
+ * @brief Controller that controls other Controller objects.
+ *
+ * Specifically ones involved with forms which Change Data.
+ * Listens for submissions and takes their information and gives
+ * it to the database. Also informs other systems to update their
+ * information with what was changed.
+ *
+ * This class is part of the ChangeData subsystem described in D2.
+ */
 class ChangeDataControl : public QObject
 {
     Q_OBJECT
@@ -28,7 +37,6 @@ public slots:
     void displayMovePatientsToBedForm();
     void displayMovePatientsToFacilityForm();
     void displayAddFacilityForm();
-    //void displayAddPatientForm();
     void displayCreateUserForm();
     void displayUpdateBedsForm();
     void displayUpdateWaitingList();
@@ -53,7 +61,6 @@ private:
     // Child Control objects
     MovePatientControl*		_movePatientControl;
     AddFacilityControl*		_addFacilityControl;
-    //AddPatientControl*		_addPatientControl;
     CreateUserControl*		_createUserControl;
     UpdateBedsControl*		_updateBedsControl;
     UpdateWaitingListControl*	_updateWaitingListControl;

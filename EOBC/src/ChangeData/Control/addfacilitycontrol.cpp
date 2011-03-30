@@ -19,6 +19,7 @@ void AddFacilityControl::showForm()
 
 void AddFacilityControl::_submitClicked()
 {
+    /// @todo Check for empty submissions
     emit submitClicked(form->getFacilityName(), form->getXAxis(), form->getYAxis());
     form->close();
 }

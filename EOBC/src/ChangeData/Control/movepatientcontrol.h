@@ -6,10 +6,12 @@
 #include <QMap>
 
 /**
- * Controller for the Move Patients to Bed and to Facility forms.
- * handles changes and submissions, and populates the forms with data.
+ * @brief Controller for the MovePatientForm for Bed and Facility movement.
+ *
+ * Handles changes and submissions, and populates the forms with data.
  *
  * @todo Handle changing facility
+ * @todo Know what beds are available to move to?
  * @todo Traceability
  */
 class MovePatientControl : public QObject

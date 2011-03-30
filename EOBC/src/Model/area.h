@@ -12,7 +12,9 @@ typedef QMap<ID,Facility*> FacilityList;
 typedef QMap<QString, Patient*> WaitingList;
 
 /**
- * Areas have a collection of Facility pointers, as well
+ * @brief The object representation of an Area.
+ *
+ *Areas have a collection of Facility pointers, as well
  * as a waiting list of patients trying to get admitted
  * to this area.
  *

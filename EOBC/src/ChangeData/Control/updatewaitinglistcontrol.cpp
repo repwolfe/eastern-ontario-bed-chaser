@@ -12,7 +12,7 @@ UpdateWaitingListControl::UpdateWaitingListControl()
     patients["Austin Chamney"] = "3211-999-123";
     _form->setPatientItems(patients);
 
-    /// @todo okay to have more than one addpatientControl's?
+    /// @todo okay to have more than one AddPatientControl? (in case MovePatientController uses one)
     _addPatientControl = new AddPatientControl();
 
     connect(_form, SIGNAL(addPatientClicked()), SLOT(_addPatientClicked()));

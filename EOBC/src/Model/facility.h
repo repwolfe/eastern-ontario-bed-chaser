@@ -12,7 +12,9 @@ typedef QHash<QString, Patient*> PatientContainer;
 typedef int ID;
 
 /**
- * Facilities have a collection of Patients, each in a different list
+ * @brief The object representation of a Facility.
+ *
+ * Facilities have a collection of Patient objects, each in a different list
  * depending on their level of care required.
  * Each facility also has a certain number of beds, each of a different type
  *

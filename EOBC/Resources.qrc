@@ -31,4 +31,7 @@
     <qresource prefix="/storage">
         <file>resources/storage.xml</file>
     </qresource>
+    <qresource prefix="/comms">
+        <file>resources/comsConfig.txt</file>
+    </qresource>
 </RCC>

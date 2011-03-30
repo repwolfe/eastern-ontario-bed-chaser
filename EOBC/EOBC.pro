@@ -6,6 +6,7 @@
 
 QT       += core gui
 QT       += xml
+QT       += network
 
 TARGET = EOBCapplication
 TEMPLATE = app
@@ -62,7 +63,9 @@ SOURCES +=\
     src/Reporting/viewallreportswindow.cpp \
     src/Reporting/viewreportwindow.cpp \
     src/Reporting/report.cpp \
-    src/Reporting/reportbars.cpp
+    src/Reporting/reportbars.cpp \
+    src/Communication/channelin.cpp \
+    src/Communication/channelout.cpp
 
 
 
@@ -103,7 +106,9 @@ HEADERS  += \
     src/Reporting/viewallreportswindow.h \
     src/Reporting/viewreportwindow.h \
     src/Reporting/report.h \
-    src/Reporting/reportbars.h
+    src/Reporting/reportbars.h \
+    src/Communication/channelin.h \
+    src/Communication/channelout.h
 
 
 RESOURCES += \

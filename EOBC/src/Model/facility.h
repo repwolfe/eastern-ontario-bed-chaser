@@ -21,7 +21,13 @@ typedef int ID;
 class Facility
 {
 public:
-    Facility(ID facilityId, QString facilityName, int numACBeds, int numCCCBeds, QPoint location);
+    enum FacilityType
+    {
+        Normal,
+        LTC
+    };
+
+    Facility(ID facilityId, QString facilityName, int numACBeds, int numCCCBeds, int numLTCBeds, QPoint location);
     virtual ~Facility();
 
     bool addPatientToBed(Patient* patient, CareType type);
@@ -47,16 +53,18 @@ public:
     void setLocation(QPoint& location);
 
 protected:
-    virtual inline bool _getPointersForType(CareType type, PatientContainer*& container, int*& numBeds);
+    inline bool _getPointersForType(CareType type, PatientContainer*& container, int*& numBeds);
     Patient* _getPatient(const QString& healthCardNum, PatientContainer*& outContainedIn) const;
 
     PatientContainer _patientsAC;
     PatientContainer _patientsCCC;
+    PatientContainer _patientsLTC;
 
     QLinkedList<PatientContainer*> _patients;
 
     ID _facilityId;
     QString _facilityName;
+    FacilityType _type;
 
     int _numACBeds;
     int _numCCCBeds;

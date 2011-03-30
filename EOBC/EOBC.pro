@@ -32,7 +32,6 @@ SOURCES +=\
     src/Model/area.cpp \
     src/Model/patient.cpp \
     src/Model/facility.cpp \
-    src/Model/ltc_facility.cpp \
     src/DisplayMap/mapvectors.cpp \
     src/DisplayMap/maparea.cpp \
     src/DisplayMap/map.cpp \
@@ -73,7 +72,6 @@ HEADERS  += \
     src/Model/area.h \
     src/Model/patient.h \
     src/Model/facility.h \
-    src/Model/ltc_facility.h \
     src/DisplayMap/mapvectors.h \
     src/DisplayMap/maparea.h \
     src/DisplayMap/map.h \

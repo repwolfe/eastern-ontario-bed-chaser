@@ -7,8 +7,10 @@
  * Continuing Complex Care
  * Long Term Care
  */
-namespace EOBC {
-    enum CareType {
+namespace EOBC
+{
+    enum CareType
+    {
 	AC,
 	CCC,
 	LTC

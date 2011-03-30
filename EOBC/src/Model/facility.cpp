@@ -1,12 +1,35 @@
 #include "facility.h"
+#include <stdlib.h>
 
-Facility::Facility(ID facilityId, QString facilityName, int numACBeds, int numCCCBeds, QPoint location)
+Facility::Facility(ID facilityId, QString facilityName, int numACBeds, int numCCCBeds, int numLTCBeds, QPoint location)
     : _facilityId(facilityId), _facilityName(facilityName)
-    , _numACBeds(numACBeds), _numCCCBeds(numCCCBeds), _numLTCBeds(0)
+    , _numACBeds(numACBeds), _numCCCBeds(numCCCBeds), _numLTCBeds(numLTCBeds)
     , _location(location)
 {
-    _patients.push_back(&_patientsAC);
-    _patients.push_back(&_patientsCCC);
+    // No LTC Beds but possibly AC or CCC, make it a Normal facility
+    if (numACBeds >= 0 && numCCCBeds >= 0 && numLTCBeds == 0)
+    {
+        _type = Facility::Normal;
+        _patients.push_back(&_patientsAC);
+        _patients.push_back(&_patientsCCC);
+    }
+    // Only LTC Beds make LTC Facility
+    else if (numACBeds == 0 && numCCCBeds == 0 && numLTCBeds > 0)
+    {
+        _type = Facility::LTC;
+        _patients.push_back(&_patientsLTC);
+    }
+    else
+    {
+        Logger::errorMessage("Facility", "Facility()", "Incorrect bed numbers passed in, forcing Normal Facility");
+        _numLTCBeds = 0;
+        // Prevent negative numbers passing in
+        _numACBeds = abs(_numACBeds);
+        _numCCCBeds = abs(_numCCCBeds);
+        _type = Facility::Normal;
+        _patients.push_back(&_patientsAC);
+        _patients.push_back(&_patientsCCC);
+    }
 }
 
 /**
@@ -349,21 +372,33 @@ inline bool Facility::_getPointersForType(CareType type, PatientContainer* &cont
 {
     container = 0;
     numBeds = 0;
-    switch (type)
+
+    if (_type == Facility::Normal)
     {
-    case EOBC::AC:
-        container = &_patientsAC;
-        numBeds = &_numACBeds;
-        break;
-
-    case EOBC::CCC:
-        container = &_patientsCCC;
-        numBeds = &_numCCCBeds;
-        break;
-
-    default:
-        return false;
+        // AC or CC should be passed in
+        if (type == EOBC::AC)
+        {
+            container = &_patientsAC;
+            numBeds = &_numACBeds;
+            return true;
+        }
+        else if (type == EOBC::CCC)
+        {
+            container = &_patientsCCC;
+            numBeds = &_numCCCBeds;
+            return true;
+        }
     }
 
-    return true;
+    else if (_type == Facility::LTC)
+    {
+        // Only LTC should be passed in
+        if (type == EOBC::LTC)
+        {
+            container = &_patientsLTC;
+            numBeds = &_numLTCBeds;
+            return true;
+        }
+    }
+    return false;
 }

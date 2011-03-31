@@ -9,6 +9,7 @@ FacilityIcon::FacilityIcon(QPoint pos,QString name, QString area, QObject *paren
     MapItem(parent)
 {
     position = pos;
+    type = rand()%2;
     piePercent = new float[3];
     piePercent[0]=12 +rand()%50;
     piePercent[1] = 12 +rand()%50;
@@ -40,6 +41,19 @@ void FacilityIcon::draw(QPainter& g)
             g.drawPie(rect,lastRot-piePercent[i]*3.6*16, piePercent[i]*3.6*16);
             lastRot -= piePercent[i]*3.6*16;
         }
+        QString iconText = "";
+        if(type == FacilityIcon::HOSPITAL)
+        {
+            iconText = "H";
+        }
+        if(type == FacilityIcon::LONGTERMCARE)
+        {
+            iconText = "N";
+        }
+        g.setPen(Qt::white);
+        g.drawText(realPosition.x()+mapPos.x()- 5,realPosition.y()+mapPos.y(),iconText);
+        g.setPen(Qt::black);
+        g.drawText(realPosition.x()+mapPos.x()- 3,realPosition.y()+mapPos.y(),iconText);
     }
     else
     {

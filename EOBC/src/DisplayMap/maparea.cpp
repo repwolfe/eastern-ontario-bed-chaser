@@ -15,23 +15,22 @@ MapArea::MapArea(QObject *parent) :
     QWidget() , vecs(), resizeTimer()
 {
     zoomed = false;
-   resizeTimer.start(10);
    connect(&resizeTimer,SIGNAL(timeout()),this,SLOT(timerEvent()));
    mapPos = QPoint(400,300);
    this->setMouseTracking(true);
    lastMousePos = middle;
    zoomSpeed = BASEZOOMSPEED;
+   resizeTimer.stop();
    //
    // FOR TESTING, PLEASE REMOVE
    //
    //icons.push_back(new FacilityIcon(QPoint(-MAPMIDDLEX,-MAPMIDDLEY),"General Hospital","Renfrew County"));
    for(int i=0;i<17;i++)
-    icons.push_back(new FacilityIcon(QPoint(rand()%500 - 250,rand()%150 - 50),"General Hospital","Renfrew County"));
+    icons.push_back(new FacilityIcon(QPoint(rand()%700 - 250,rand()%150 - 50),"General Hospital","Renfrew County"));
    //
    //
    //
    mapX = new MapMarker(QPoint(-10,-10),parent);
-    setGeometry(0,0,400,300);
 }
 /**
  * Destructor for MapArea. Deletes any mapvectors that the area may have
@@ -356,4 +355,8 @@ void MapArea::updateLabels()
             }
         }
     }
+}
+void MapArea::startTimer()
+{
+    resizeTimer.start(10);
 }

@@ -67,14 +67,16 @@ void GenerateReportWindow::pressedSubmit()
         int* barHeights = new int[3];
         barHeights[0]=rand()%(15+i)+10;
         barHeights[1]=rand()%(15+i)+10;
-        barHeights[2]=rand()%(15+i)+10;
+        barHeights[2]=100-(barHeights[0]+barHeights[1]);
         bars.push_back(new ReportBars(barHeights));
     }
     Report* rep = new Report(dateStartEntry->text() + "-"+dateEndEntry->text(),dateStartEntry->date(),bars);
 
     emit reportGenerated(rep);
     QMessageBox mb;
-    mb.setText("Report Submitted. Go to Reports->View Reports");
+    mb.setWindowTitle("Report Submitted");
+    mb.setIcon(QMessageBox::Information);
+    mb.setText("Report Submitted. \nGo to Reports-> View Reports");
     mb.exec();
 
     close();

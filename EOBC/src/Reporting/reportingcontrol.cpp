@@ -1,8 +1,9 @@
 #include "reportingcontrol.h"
 
-ReportingControl::ReportingControl(QObject *parent) :
+ReportingControl::ReportingControl(GetDataReportingInterface& inter,QObject *parent) :
     QObject(parent), rWind() ,vWind()
 {
+    Q_UNUSED(inter);
     connect(&rWind,SIGNAL(reportGenerated(Report*)),this,SLOT(reportGenerated(Report*)));
     connect(&vWind,SIGNAL(pressedSelect(int)),this,SLOT(pressedSelect(int)));
 }

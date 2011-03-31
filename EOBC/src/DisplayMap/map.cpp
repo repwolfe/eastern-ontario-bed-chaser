@@ -275,6 +275,11 @@ void Map::setPermissions(int permissions)
     /* FOR TESTING ONLY, DELETE FOR FINAL RELEASE */
     /* FOR TESTING ONLY, DELETE FOR FINAL RELEASE */
 }
+void Map::startTimer()
+{
+    area->startTimer();
+}
+
 void Map::pressedAddBedsSlot(){emit pressedAddBeds();}
 void Map::pressedAddFacilitiesSlot(){emit pressedAddFacilities();}
 void Map::pressedAddUserAcctsSlot(){emit pressedAddUserAccts();}

@@ -11,7 +11,7 @@
 class Report : public QObject
 {
     Q_OBJECT
-    enum {OCCUPANCYRATES};
+    enum {OCCUPANCYRATESNUMBER,OCCUPANCYRATESPERCENT};
 public:
     explicit Report(QString date,QDate startDate,QVector<ReportBars*>& bars,QObject *parent = 0);
     void draw(QPainter& g);

@@ -31,6 +31,7 @@ public:
     void resize(QPoint p);
     static void setMiddle(QPoint& middle);
     void loadLabels(QVector<QLabel*> labels);
+    void startTimer();
 
 signals:
 

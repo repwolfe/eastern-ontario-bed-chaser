@@ -7,11 +7,13 @@
 #include "report.h"
 #include "reportbars.h"
 #include "viewreportwindow.h"
+#include "getdatareportinginterface.h"
+
 class ReportingControl : public QObject
 {
     Q_OBJECT
 public:
-    explicit ReportingControl(QObject *parent = 0);
+    explicit ReportingControl(GetDataReportingInterface& inter,QObject *parent = 0);
     ~ReportingControl();
     void run();
 private:

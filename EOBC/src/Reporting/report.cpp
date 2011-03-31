@@ -9,7 +9,7 @@ Report::Report(QString date, QDate startDate,QVector<ReportBars*>& bars, QObject
     this->bars = bars;
     this->date = date;
     this->startDate = startDate;
-    type = Report::OCCUPANCYRATES;
+    type = Report::OCCUPANCYRATESNUMBER;
     maxHeight = 0;
     for(int i=0;i<bars.count();i++)
     {
@@ -22,7 +22,7 @@ void Report::draw(QPainter& g)
     g.setBrush(Qt::white);
     g.setPen(Qt::black);
     g.drawRect(0,0,500,500);
-    g.drawText(175,20,"Report: " + date);
+
     drawGrid(g);
     drawBars(g);
 }
@@ -49,20 +49,7 @@ void Report::drawGrid(QPainter& g)
         g.drawLine(left,50+ratio,left-threeDness,50+ratio+ threeDness);
         g.setPen(Qt::black);
         g.drawText(left - 40,50 + ratio + 15,QString::number((int)maxHeight - (i*(int)maxHeight/bars)));
-    }//what happens when the facil are too close together
-    //right now nothing, but i can write some collision code
-    //itl be really innexpensive if i just add it into the slot that listens to see if a new facility has been added
-    //i just dont know what to do WHEN i know they are colliding. i dont want to change the coords of the facility
-    //one possible option is to NEVER make the pie charts for the colliding facilities to show
-    //another is to have a temp position just so they draw far appart from each other
-    //but the problem with that is that if you move the position to somewhere away from the origin, then it might collide
-    //with another facility
-    //could you merge?
-            //possibly, that would be hard to code...
- //draw the selected one?   //g.drawText(left - 40,50 + ratio,QString::number(maxHeight - (i*maxHeight/(bars))));
-    //so have the dots draw regardless of the zoom, but as soon as you select it it becomes a pie chart?
-    //only if you can have more than 1 selected
-    //oh yeah, i still have to work on selecting multiple facilities
+    }
     QPolygon bottom;
     bottom.push_back(QPoint(left - threeDness,height + 50 + threeDness));
     bottom.push_back(QPoint(left,height + 50));
@@ -71,9 +58,28 @@ void Report::drawGrid(QPainter& g)
     g.setBrush(Qt::gray);
     g.drawPolygon(bottom,Qt::OddEvenFill);
 
+    //
+    // DRAW TITLES
+    //
+
+    QFont font = g.font();//save old font
     g.setBrush(Qt::black);
+
+    g.setFont(QFont("Times New Roman",16,5));
+    g.drawText(100,20,"Report: " + date);
+    g.setFont(QFont("Arial",14,5));
     g.drawText(width/2+left-30, height+50+threeDness + 60,"Time");
     g.drawText(left-30, height+50+threeDness + 30,""+startDate.toString("MMM"));
+    if(this->type == Report::OCCUPANCYRATESNUMBER)
+    {
+        g.save();
+        g.setFont(QFont("Arial",14,5));
+        g.translate(left-70,height/2+125);
+        g.rotate(-90);
+        g.drawText(0,0,"Occupancy Rates");
+        g.restore();
+    }
+    g.setFont(font); // restore old font
 }
 void Report::drawBars(QPainter& g)
 {
@@ -90,7 +96,7 @@ void Report::drawBars(QPainter& g)
         //g.setBrush(Qt::blue);
         //g.drawRect(barLeft,(50+height)-(curBar->getHeight()/maxHeight)*height,barWidth,(curBar->getHeight()/maxHeight)*height);
         curBar->draw(g,threeDness);
-        g.setBrush(Qt::black);
+        g.setPen(Qt::black);
         g.drawText(left+i*(width/bars.count()) + 15, height+50+threeDness + 30,""+QString::number(startDate.day()+i));
     }
 }

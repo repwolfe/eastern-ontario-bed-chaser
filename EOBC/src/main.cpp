@@ -24,11 +24,10 @@ int main(int argc, char *argv[])
     GetDataReportingInterface gdReportingI(getDataControl);
 
     DisplayMapControl mapControl(gdDisplayMapI);
-    mapControl.run();
     LogOnControl logControl;
     logControl.run();
     ChangeDataControl changeDataControl(gdChangeDataI);
-    ReportingControl rControl;
+    ReportingControl rControl(gdReportingI);
     rControl.run();
 
     /// @todo Should these be created here or something else which creates them?

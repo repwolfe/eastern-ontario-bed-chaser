@@ -18,6 +18,7 @@ public:
     Map(QWidget *parent = 0);
     void setPermissions(int permissions);
     ~Map();
+    void startTimer();
 
 signals:
     void pressedAddBeds();

@@ -26,6 +26,7 @@ void ReportBars::draw(QPainter& g,int threeDness)
     //rg.setColorAt(0.5,barColors[1]);
     //rg.setColorAt(0.75,barColors[2]);
     g.setBrush(rg);
+    g.setPen(Qt::black);
     //g.drawRect(position.x()-threeDness,position.y()+threeDness,size.x(),size.y()); ///Draw Face
     rg.setColorAt(0,barColors[0].lighter(70));
     rg.setColorAt(1,barColors[0].lighter(150));
@@ -40,6 +41,7 @@ void ReportBars::draw(QPainter& g,int threeDness)
     float lastHeight = 0;
     for(int i=0;i<3;i++)
     {
+        g.setPen(Qt::black);
         rg.setColorAt(0,barColors[i].lighter(70));
         rg.setColorAt(1,barColors[i].lighter(150));
         g.setBrush(rg);                                          ///Draw Side
@@ -52,6 +54,8 @@ void ReportBars::draw(QPainter& g,int threeDness)
 
         g.drawRect(position.x()-threeDness,position.y()+ threeDness + lastHeight,size.x(),barHeights[i]*size.y()/totalHeight); ///Draw Other Faces
         lastHeight += barHeights[i]*size.y()/totalHeight;
+        g.setPen(Qt::white);
+        g.drawText(position.x()+size.x()/2 - 15,position.y()+lastHeight/*+ lastHeight+size.y()*barHeights[i]/totalHeight / 2*/,QString::number(barHeights[i]));
     }
 }
 int ReportBars::getHeight()

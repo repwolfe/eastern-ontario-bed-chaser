@@ -29,7 +29,7 @@ void FacilityIcon::draw(QPainter& g)
     //g.drawEllipse(realPosition + mapPos,ICONSIZE*scale,ICONSIZE*scale);
     if(iconNum < (scale) * MAXPIEMODENUM)
     {
-        QRect rect(realPosition+mapPos-QPoint(ICONRADIUS,ICONRADIUS)*scale,realPosition + mapPos +QPoint(ICONRADIUS,ICONRADIUS)*scale);
+        QRect rect(realPosition+mapPos-QPoint(ICONRADIUS,ICONRADIUS),realPosition + mapPos +QPoint(ICONRADIUS,ICONRADIUS));
         float lastRot=359*16;
         for(int i=0;i<3;i++)
         {

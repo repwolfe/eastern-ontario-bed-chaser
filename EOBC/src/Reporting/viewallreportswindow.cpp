@@ -12,7 +12,10 @@ ViewAllReportsWindow::ViewAllReportsWindow(QWidget *parent) :
     QPushButton* select = new QPushButton("Select");
     layout->addWidget(select,2,0);
     connect(select,SIGNAL(pressed()),this,SLOT(pressedSelectSlot()));
-    layout->addWidget(new QPushButton("Cancel"),3,0);
+
+    QPushButton* cancel = new QPushButton("Cancel");
+    layout->addWidget(cancel,3,0);
+    connect(cancel,SIGNAL(clicked()),this,SLOT(close()));
     setLayout(layout);
     layout->setContentsMargins(30,10,30,10);
     setGeometry(Convenience::getCenterForSize(400,350));
@@ -31,6 +34,10 @@ void ViewAllReportsWindow::pressedSelectSlot()
 void ViewAllReportsWindow::addItem(Report* r)
 {
     reportsBox->addItem("Report: "+ r->getDate());
+}
+void ViewAllReportsWindow::pressedCancelSlot()
+{
+    close();
 }
 
 

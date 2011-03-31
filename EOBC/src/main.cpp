@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     GetDataDisplayMapInterface gdDisplayMapI(getDataControl);
     GetDataReportingInterface gdReportingI(getDataControl);
 
-    DisplayMapControl mapControl;
+    DisplayMapControl mapControl(gdDisplayMapI);
     mapControl.run();
     LogOnControl logControl;
     logControl.run();

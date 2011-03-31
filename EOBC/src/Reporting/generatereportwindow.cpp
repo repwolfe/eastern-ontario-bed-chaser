@@ -40,7 +40,9 @@ GenerateReportWindow::GenerateReportWindow(QWidget *parent) :
     QPushButton* submit = new QPushButton("Submit");
     connect(submit,SIGNAL(clicked()),this,SLOT(pressedSubmit()));
     layout.addWidget(submit,height++,2,Qt::AlignTop);
-    layout.addWidget(new QPushButton("Cancel"),height,2,Qt::AlignTop);
+    QPushButton* cancel = new QPushButton("Cancel");
+    layout.addWidget(cancel,height,2,Qt::AlignTop);
+    connect(cancel,SIGNAL(clicked()),this,SLOT(close()));
 
     //layout.addWidget(new QLabel(),height++,0); ///////////SPACER
 
@@ -59,21 +61,23 @@ GenerateReportWindow::GenerateReportWindow(QWidget *parent) :
 void GenerateReportWindow::pressedSubmit()
 {
     QVector<ReportBars*> bars;
-    int barLengths1[] = {12+rand()%7,12+rand()%7,12+rand()%7};
-    bars.push_back(new ReportBars(barLengths1));
-    int barLengths2[] = {13+rand()%7,13+rand()%7,13+rand()%7};
-    bars.push_back(new ReportBars(barLengths2));
-    int barLengths3[] = {14+rand()%7,14+rand()%7,14+rand()%7};
-    bars.push_back(new ReportBars(barLengths3));
-    int barLengths4[] = {15+rand()%7,15+rand()%7,15+rand()%7};
-    bars.push_back(new ReportBars(barLengths4));
-    int barLengths5[] = {16+rand()%7,16+rand()%7,16+rand()%7};
-    bars.push_back(new ReportBars(barLengths5));
-    int barLengths6[] = {17+rand()%7,17+rand()%7,17+rand()%7};
-    bars.push_back(new ReportBars(barLengths6));
-    Report* rep = new Report(dateStartEntry->text() + "-"+dateEndEntry->text(),bars);
+    int barnum = dateEndEntry->date().day() - dateStartEntry->date().day();
+    for(int i=0;i<=barnum;i++)
+    {
+        int* barHeights = new int[3];
+        barHeights[0]=rand()%(15+i)+10;
+        barHeights[1]=rand()%(15+i)+10;
+        barHeights[2]=rand()%(15+i)+10;
+        bars.push_back(new ReportBars(barHeights));
+    }
+    Report* rep = new Report(dateStartEntry->text() + "-"+dateEndEntry->text(),dateStartEntry->date(),bars);
 
     emit reportGenerated(rep);
+    QMessageBox mb;
+    mb.setText("Report Submitted. Go to Reports->View Reports");
+    mb.exec();
+
+    close();
 }
 
 

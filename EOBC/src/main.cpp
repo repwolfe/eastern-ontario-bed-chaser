@@ -4,6 +4,8 @@
 #include "storageHandler.h"
 #include "changedatacontrol.h"
 #include "reportingcontrol.h"
+#include "channelin.h"
+#include "channelout.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,6 +18,13 @@ int main(int argc, char *argv[])
     ChangeDataControl changeDataControl;
     ReportingControl rControl;
     rControl.run();
+
+    /// @todo Should these be created here or something else which creates them?
+    ChannelIn channelIn;
+    ChannelOut channelOut;
+    Q_UNUSED(channelIn);
+    Q_UNUSED(channelOut);
+
 
     //
     //CONNECT SUBSYSTEMS

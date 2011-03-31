@@ -24,7 +24,8 @@ INCLUDEPATH +=\
     src/LogOn \
     src/Model \
     src/Storage \
-    src/Reporting
+    src/Reporting \
+    src/Communication
 
 
 SOURCES +=\

@@ -21,7 +21,7 @@ ChannelOut::~ChannelOut()
  */
 void ChannelOut::sendMessage(const QByteArray &datagram)
 {
-    QString location(":/resources/comsConfig");
+    QString location(":/comms/resources/comsConfig.txt");
     QStringList ips;
     QFile myFile(location);
     if (!myFile.open(QIODevice::ReadOnly))

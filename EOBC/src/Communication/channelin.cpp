@@ -5,7 +5,7 @@
 ChannelIn::ChannelIn()
 {
     _socket = new QUdpSocket();
-    QString location(":/resources/comsConfig");
+    QString location(":/comms/resources/comsConfig.txt");
     QFile myFile(location);
     if (!myFile.open(QIODevice::ReadOnly))
     {

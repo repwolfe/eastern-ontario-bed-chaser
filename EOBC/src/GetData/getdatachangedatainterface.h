@@ -1,8 +1,6 @@
 #ifndef GETDATACHANGEDATAINTERFACE_H
 #define GETDATACHANGEDATAINTERFACE_H
 
-#include <QMap>
-
 #include "getdatacontrol.h"
 
 /**
@@ -24,8 +22,8 @@ public:
     void requestFacilitiesPatients();
     const QMap<ID, QLinkedList<Patient> >& getFacilitiesPatients() const;
 
-    void requestFacilitiesWaitingList();
-    const QMap<ID, QLinkedList<Patient> >& getFacilitiesWaitingList() const;
+    void requestAreasWaitingList();
+    const QMap<ID, QLinkedList<Patient> >& getAreasWaitingList() const;
 
     void requestFacilitiesCurrentBedNumbers();
     const QMap<ID, QLinkedList<int> >& getFacilitiesCurrentBedNumbers() const;
@@ -36,14 +34,14 @@ public:
 signals:
     void receivedAllFacilities();
     void receivedFacilitiesPatients();
-    void receivedFacilitiesWaitingList();
+    void receivedAreasWaitingList();
     void receivedFacilitiesCurrentBedNumbers();
     void receivedFacilitiesMinimumBedNumbers();
 
 public slots:
     void _receivedAllFacilities();
     void _receivedFacilitiesPatients();
-    void _receivedFacilitiesWaitingList();
+    void _receivedAreasWaitingList();
     void _receivedFacilitiesCurrentBedNumbers();
     void _receivedFacilitiesMinimumBedNumbers();
 
@@ -52,7 +50,7 @@ private:
 
     QMap<ID, QString>                   _facilities;
     QMap<ID, QLinkedList<Patient> >     _facilitiesPatients;
-    QMap<ID, QLinkedList<Patient> >     _facilitiesWaitingList;
+    QMap<ID, QLinkedList<Patient> >     _areasWaitingList;
     QMap<ID, QLinkedList<int> >         _facilitiesCurrentBedNumbers;
     QMap<ID, QLinkedList<int> >         _facilitiesMinimumBedNumbers;
 };

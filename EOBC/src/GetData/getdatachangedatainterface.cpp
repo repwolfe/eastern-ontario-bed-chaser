@@ -3,12 +3,17 @@
 GetDataChangeDataInterface::GetDataChangeDataInterface(GetDataControl &getData) :
     _getData(getData)
 {
+    connect(&_getData, SIGNAL(receivedAllFacilities()), SLOT(_receivedAllFacilities()));
+    connect(&_getData, SIGNAL(receivedFacilitiesCurrentBedNumbers()), SLOT(_receivedFacilitiesCurrentBedNumbers()));
+    connect(&_getData, SIGNAL(receivedFacilitiesMinimumBedNumbers()), SLOT(_receivedFacilitiesMinimumBedNumbers()));
+    connect(&_getData, SIGNAL(receivedFacilitiesPatients()), SLOT(_receivedFacilitiesPatients()));
+    connect(&_getData, SIGNAL(receivedAreasWaitingList()), SLOT(_receivedAreasWaitingList()));
 }
 
 void GetDataChangeDataInterface::requestAllFacilities()
 {
     _facilities.clear();
-    /// @todo ask getData for all facilities
+    _getData.requestAllFacilities();
 }
 
 const QMap<ID, QString>&
@@ -20,7 +25,7 @@ const QMap<ID, QString>&
 void GetDataChangeDataInterface::requestFacilitiesPatients()
 {
     _facilitiesPatients.clear();
-    /// @todo ask getData for all facilities' patients
+    _getData.requestFacilitiesPatients();
 }
 
 const QMap<ID, QLinkedList<Patient> >&
@@ -29,22 +34,22 @@ const QMap<ID, QLinkedList<Patient> >&
     return _facilitiesPatients;
 }
 
-void GetDataChangeDataInterface::requestFacilitiesWaitingList()
+void GetDataChangeDataInterface::requestAreasWaitingList()
 {
-    _facilitiesWaitingList.clear();
-    /// @todo ask getData for all facilities' waiting list
+    _areasWaitingList.clear();
+    _getData.requestAreasWaitingList();
 }
 
 const QMap<ID, QLinkedList<Patient> >&
-        GetDataChangeDataInterface::getFacilitiesWaitingList() const
+        GetDataChangeDataInterface::getAreasWaitingList() const
 {
-    return _facilitiesWaitingList;
+    return _areasWaitingList;
 }
 
 void GetDataChangeDataInterface::requestFacilitiesCurrentBedNumbers()
 {
     _facilitiesCurrentBedNumbers.clear();
-    /// @todo ask all facilities' for their current bed numbers
+    _getData.requestFacilitiesCurrentBedNumbers();
 }
 
 const QMap<ID, QLinkedList<int> >&
@@ -56,7 +61,7 @@ const QMap<ID, QLinkedList<int> >&
 void GetDataChangeDataInterface::requestFacilitiesMinimumBedNumbers()
 {
     _facilitiesMinimumBedNumbers.clear();
-    /// @todo ask all facilities' for their minimum bed numbers
+    _getData.requestFacilitiesMinimumBedNumbers();
 }
 
 const QMap<ID, QLinkedList<int> >&
@@ -67,25 +72,30 @@ const QMap<ID, QLinkedList<int> >&
 
 void GetDataChangeDataInterface::_receivedAllFacilities()
 {
+    _facilities = _getData.getAllFacilities();
     emit receivedAllFacilities();
 }
 
 void GetDataChangeDataInterface::_receivedFacilitiesPatients()
 {
+    _facilitiesPatients = _getData.getFacilitiesPatients();
     emit receivedFacilitiesPatients();
 }
 
-void GetDataChangeDataInterface::_receivedFacilitiesWaitingList()
+void GetDataChangeDataInterface::_receivedAreasWaitingList()
 {
-    emit receivedFacilitiesWaitingList();
+    _areasWaitingList = _getData.getAreasWaitingList();
+    emit receivedAreasWaitingList();
 }
 
 void GetDataChangeDataInterface::_receivedFacilitiesCurrentBedNumbers()
 {
+    _facilitiesCurrentBedNumbers = _getData.getFacilitiesCurrentBedNumbers();
     emit receivedFacilitiesCurrentBedNumbers();
 }
 
 void GetDataChangeDataInterface::_receivedFacilitiesMinimumBedNumbers()
 {
+    _facilitiesMinimumBedNumbers = _getData.getFacilitiesMinimumBedNumbers();
     emit receivedFacilitiesMinimumBedNumbers();
 }

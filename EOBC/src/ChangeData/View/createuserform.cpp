@@ -3,7 +3,7 @@
 #include <QFormLayout>
 
 CreateUserForm::CreateUserForm(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent, Qt::WindowStaysOnTopHint)
 {
     setWindowTitle("Add User Account");
 

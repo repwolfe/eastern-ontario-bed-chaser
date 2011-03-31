@@ -30,6 +30,13 @@ void ChangeDataControl::_setupConnections()
     connect(_createUserControl, SIGNAL(submitClicked(QString,QString,QString, QString, QString)),
 	    SLOT(createUserSubmitted(QString,QString,QString,QString, QString)));
     connect(_updateWaitingListControl, SIGNAL(submitClicked()), SLOT(updateWaitingListSubmitted()));
+
+    // GetData
+    connect(&_getData, SIGNAL(receivedAllFacilities()), SLOT(receivedAllFacilities()));
+    connect(&_getData, SIGNAL(receivedAreasWaitingList()), SLOT(receivedAreasWaitingList()));
+    connect(&_getData, SIGNAL(receivedFacilitiesPatients()), SLOT(receivedFacilitiesPatients()));
+    connect(&_getData, SIGNAL(receivedFacilitiesCurrentBedNumbers()), SLOT(receivedFacilitiesCurrentBedNumbers()));
+    connect(&_getData, SIGNAL(receivedFacilitiesMinimumBedNumbers()), SLOT(receivedFacilitiesMinimumBedNumbers()));
 }
 
 /// @todo implement this
@@ -44,11 +51,16 @@ bool ChangeDataControl::changeData(QString &args, QString &data)
 
 void ChangeDataControl::displayMovePatientsToBedForm()
 {
+    // Request data to populate form
+    _getData.requestAllFacilities();
+    _getData.requestFacilitiesPatients();
     _movePatientControl->showToBedForm();
 }
 
 void ChangeDataControl::displayMovePatientsToFacilityForm()
 {
+    _getData.requestAllFacilities();
+    _getData.requestFacilitiesPatients();
     _movePatientControl->showToFacilityForm();
 }
 
@@ -64,6 +76,9 @@ void ChangeDataControl::displayCreateUserForm()
 
 void ChangeDataControl::displayUpdateBedsForm()
 {
+    _getData.requestAllFacilities();
+    _getData.requestFacilitiesCurrentBedNumbers();
+    _getData.requestFacilitiesMinimumBedNumbers();
     _updateBedsControl->showForm();
 }
 
@@ -115,4 +130,56 @@ void ChangeDataControl::updateWaitingListSubmitted()
     Q_UNUSED(patientsRemoved);
 
     /// @todo send the patientsAdded and patientsRemoved to StorageWrite
+}
+/*
+// Get Data
+void ChangeDataControl::requestAllFacilities()
+{
+    _getData.requestAllFacilities();
+}
+
+void ChangeDataControl::requestFacilitiesPatients()
+{
+    _getData.requestFacilitiesPatients();
+}
+
+void ChangeDataControl::requestAreasWaitingList()
+{
+    _getData.requestAreasWaitingList();
+}
+
+void ChangeDataControl::requestFacilitiesCurrentBedNumbers()
+{
+    _getData.requestFacilitiesCurrentBedNumbers();
+}
+
+void ChangeDataControl::requestFacilitiesMinimumBedNumbers()
+{
+    _getData.requestFacilitiesMinimumBedNumbers();
+}
+*/
+// Received Data
+void ChangeDataControl::receivedAllFacilities()
+{
+    emit receivedAllFacilities(_getData.getAllFacilities());
+}
+
+void ChangeDataControl::receivedFacilitiesPatients()
+{
+    emit receivedFacilitiesPatients(_getData.getFacilitiesPatients());
+}
+
+void ChangeDataControl::receivedAreasWaitingList()
+{
+    emit receivedAreasWaitingList(_getData.getAreasWaitingList());
+}
+
+void ChangeDataControl::receivedFacilitiesCurrentBedNumbers()
+{
+    emit receivedFacilitiesCurrentBedNumbers(_getData.getFacilitiesCurrentBedNumbers());
+}
+
+void ChangeDataControl::receivedFacilitiesMinimumBedNumbers()
+{
+    emit receivedFacilitiesMinimumBedNumbers(_getData.getFacilitiesMinimumBedNumbers());
 }

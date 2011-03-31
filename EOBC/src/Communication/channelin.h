@@ -1,7 +1,7 @@
 #ifndef CHANNELIN_H
 #define CHANNELIN_H
 
-#include "QUdpSocket"
+#include <QUdpSocket>
 
 /**
  * @brief Used to listen for messages

@@ -2,13 +2,12 @@
 #define GETDATACONTROL_H
 
 #include <QString>
+#include "facility.h"
 
 /// @todo remove these
 class StorageRead;
 class SendRequestForData;
 class SendDataResponse;
-
-#include "patient.h"
 
 class GetDataControl
 {

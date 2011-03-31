@@ -11,7 +11,7 @@ void GetDataChangeDataInterface::requestAllFacilities()
     /// @todo ask getData for all facilities
 }
 
-const QLinkedList<QString>&
+const QMap<ID, QString>&
         GetDataChangeDataInterface::getAllFacilities() const
 {
     return _facilities;
@@ -23,7 +23,7 @@ void GetDataChangeDataInterface::requestFacilitiesPatients()
     /// @todo ask getData for all facilities' patients
 }
 
-const QMap<QString, Patient>&
+const QMap<ID, QLinkedList<Patient> >&
         GetDataChangeDataInterface::getFacilitiesPatients() const
 {
     return _facilitiesPatients;
@@ -35,7 +35,7 @@ void GetDataChangeDataInterface::requestFacilitiesWaitingList()
     /// @todo ask getData for all facilities' waiting list
 }
 
-const QMap<QString, QLinkedList<Patient> >&
+const QMap<ID, QLinkedList<Patient> >&
         GetDataChangeDataInterface::getFacilitiesWaitingList() const
 {
     return _facilitiesWaitingList;
@@ -47,7 +47,7 @@ void GetDataChangeDataInterface::requestFacilitiesCurrentBedNumbers()
     /// @todo ask all facilities' for their current bed numbers
 }
 
-const QMap<QString, QLinkedList<int> >&
+const QMap<ID, QLinkedList<int> >&
         GetDataChangeDataInterface::getFacilitiesCurrentBedNumbers() const
 {
     return _facilitiesCurrentBedNumbers;
@@ -59,7 +59,7 @@ void GetDataChangeDataInterface::requestFacilitiesMinimumBedNumbers()
     /// @todo ask all facilities' for their minimum bed numbers
 }
 
-const QMap<QString, QLinkedList<int> >&
+const QMap<ID, QLinkedList<int> >&
         GetDataChangeDataInterface::getFacilitiesMinimumBedNumbers() const
 {
     return _facilitiesMinimumBedNumbers;

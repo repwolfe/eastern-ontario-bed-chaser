@@ -6,6 +6,7 @@
 #include <QtGui>
 #include "report.h"
 #include "reportbars.h"
+#include <QtGui/QMessageBox>
 class GenerateReportWindow : public QWidget
 {
     Q_OBJECT

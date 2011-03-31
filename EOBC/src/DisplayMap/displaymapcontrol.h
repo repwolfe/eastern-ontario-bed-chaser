@@ -2,6 +2,7 @@
 #define DISPLAYMAPCONTROL_H
 
 #include "map.h"
+#include "getdatadisplaymapinterface.h"
 
 class DisplayMapControl : public QObject
 {
@@ -28,7 +29,7 @@ signals:
 private:
     void connectSlots();
 public:
-    DisplayMapControl(QObject* parent = 0);
+    DisplayMapControl(GetDataDisplayMapInterface& inter,QObject* parent = 0);
     ~DisplayMapControl();
     void run();
 

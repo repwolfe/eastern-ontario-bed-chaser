@@ -16,6 +16,7 @@ signals:
     void pressedSelect(int);
 public slots:
     void pressedSelectSlot();
+    void pressedCancelSlot();
 private:
     ViewReportWindow* wind;
     QListWidget* reportsBox;

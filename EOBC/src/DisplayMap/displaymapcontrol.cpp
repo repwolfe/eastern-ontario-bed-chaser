@@ -1,9 +1,10 @@
 #include "displaymapcontrol.h"
 
-DisplayMapControl::DisplayMapControl(QObject* parent) : QObject(parent)
+DisplayMapControl::DisplayMapControl(GetDataDisplayMapInterface& inter,QObject* parent) : QObject(parent)
 {
     map = new Map();
     //map->setGeometry(QRect(90,0,1000,600));
+
     connectSlots();
 }
 DisplayMapControl::~DisplayMapControl()

@@ -34,7 +34,15 @@ public:
 
     bool changeData(QString& args, QString& data);
 
+signals:
+    void receivedAllFacilities(const QMap<ID, QString>&);
+    void receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient> >&);
+    void receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient> >&);
+    void receivedFacilitiesCurrentBedNumbers(const QMap<ID, QLinkedList<int> >&);
+    void receivedFacilitiesMinimumBedNumbers(const QMap<ID, QLinkedList<int> >&);
+
 public slots:
+    // Display GUI
     void displayMovePatientsToBedForm();
     void displayMovePatientsToFacilityForm();
     void displayAddFacilityForm();
@@ -42,6 +50,8 @@ public slots:
     void displayUpdateBedsForm();
     void displayUpdateWaitingList();
 
+private slots:
+    // Submissions
     void movePatientsToBedSubmitted();
     void movePatientsToFacilitySubmitted();
     void addFacilitySubmitted(QString, QString, QString);
@@ -50,6 +60,19 @@ public slots:
     void updateBedsSubmitted(QString, int, int, int);
     void updateWaitingListSubmitted();
 
+/*    // Get Data
+    void requestAllFacilities();
+    void requestFacilitiesPatients();
+    void requestAreasWaitingList();
+    void requestFacilitiesCurrentBedNumbers();
+    void requestFacilitiesMinimumBedNumbers();
+*/
+    // Received Data
+    void receivedAllFacilities();
+    void receivedFacilitiesPatients();
+    void receivedAreasWaitingList();
+    void receivedFacilitiesCurrentBedNumbers();
+    void receivedFacilitiesMinimumBedNumbers();
 private:
     void _setupConnections();
 

@@ -9,7 +9,6 @@
 #include <QPoint>
 
 typedef QHash<QString, Patient*> PatientContainer;
-typedef int ID;
 
 /**
  * @brief The object representation of a Facility.

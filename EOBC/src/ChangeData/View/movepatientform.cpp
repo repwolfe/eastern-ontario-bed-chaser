@@ -13,7 +13,7 @@
  * @param parent the parent widget (optional)
  */
 MovePatientForm::MovePatientForm(QString title, bool displayBedType, QString moveTo, QWidget *parent) :
-    QWidget(parent), _displayBedType(displayBedType), _moveToLabel(moveTo)
+    QWidget(parent, Qt::WindowStaysOnTopHint), _displayBedType(displayBedType), _moveToLabel(moveTo)
 {
     setWindowTitle(title);
 

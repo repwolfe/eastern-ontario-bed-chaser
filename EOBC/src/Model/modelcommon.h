@@ -1,6 +1,8 @@
 #ifndef MODELCOMMON_H
 #define MODELCOMMON_H
 
+typedef int ID;
+
 namespace EOBC
 {
     /**

@@ -4,7 +4,7 @@
 #include <QFormLayout>
 
 UpdateBedsForm::UpdateBedsForm(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent, Qt::WindowStaysOnTopHint)
 {
     setWindowTitle("Update Beds");
 

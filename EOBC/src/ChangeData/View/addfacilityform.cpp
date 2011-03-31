@@ -3,7 +3,7 @@
 #include <QFormLayout>
 
 AddFacilityForm::AddFacilityForm(QWidget *parent) :
-    QWidget(parent)
+        QWidget(parent, Qt::WindowStaysOnTopHint)
 {
     setWindowTitle("Add Facility");
 

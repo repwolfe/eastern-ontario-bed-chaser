@@ -3,20 +3,36 @@ int height = 300;
 int left = 120;
 int width = 300;
 int threeDness = 10;
-Report::Report(QString date, QDate startDate,QVector<ReportBars*>& bars, QObject *parent) :
+Report::Report(QString date, QDate startDate,QVector<ReportBars*>& bars,int facilityType, int dateType,QObject *parent) :
     QObject(parent)
 {
     this->bars = bars;
     this->date = date;
+    this->dateType = dateType;
+    this->facilityType = facilityType;
     this->startDate = startDate;
     type = Report::OCCUPANCYRATESNUMBER;
     maxHeight = 0;
     for(int i=0;i<bars.count();i++)
     {
+        if(facilityType == Convenience::LONGTERMCARE)
+        {
+            bars.at(i)->setBarMax(2);
+        }
         if(bars.at(i)->getHeight() > maxHeight)
             maxHeight = bars.at(i)->getHeight();
     }
 }
+Report::~Report()
+{
+    QVector<ReportBars*>::iterator iter = bars.begin();
+    while(iter != bars.end())
+    {
+        delete *iter;
+        iter++;
+    }
+}
+
 void Report::draw(QPainter& g)
 {
     g.setBrush(Qt::white);
@@ -69,7 +85,8 @@ void Report::drawGrid(QPainter& g)
     g.drawText(100,20,"Report: " + date);
     g.setFont(QFont("Arial",14,5));
     g.drawText(width/2+left-30, height+50+threeDness + 60,"Time");
-    g.drawText(left-30, height+50+threeDness + 30,""+startDate.toString("MMM"));
+    if(dateType == Report::DAY)
+        g.drawText(left-30, height+50+threeDness + 30,""+startDate.toString("MMM"));
     if(this->type == Report::OCCUPANCYRATESNUMBER)
     {
         g.save();
@@ -97,7 +114,12 @@ void Report::drawBars(QPainter& g)
         //g.drawRect(barLeft,(50+height)-(curBar->getHeight()/maxHeight)*height,barWidth,(curBar->getHeight()/maxHeight)*height);
         curBar->draw(g,threeDness);
         g.setPen(Qt::black);
-        g.drawText(left+i*(width/bars.count()) + 15, height+50+threeDness + 30,""+QString::number(startDate.day()+i));
+        if(dateType == Report::DAY)
+            g.drawText(left+i*(width/bars.count()) + 15, height+50+threeDness + 30,""+QString::number(startDate.day()+i));
+        if(dateType == Report::MONTH)
+            g.drawText(left+i*(width/bars.count()) + 15, height+50+threeDness + 30,""+startDate.addMonths(i).toString("MMM"));
+        if(dateType == Report::YEAR)
+            g.drawText(left+i*(width/bars.count()) + 15, height+50+threeDness + 30,""+QString::number(startDate.year()+i));
     }
 }
 

@@ -11,14 +11,15 @@ class ViewReportWindow : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ViewReportWindow(Report* r, QWidget *parent = 0);
+    explicit ViewReportWindow(Report* __report, QWidget *parent = 0);
+    ~ViewReportWindow();
     void paintEvent(QPaintEvent *);
 signals:
 
 public slots:
 private:
     QLabel* background;
-    Report* report;
+    Report* __report;
 
 };
 

@@ -59,6 +59,7 @@ private:
         QLabel* fLTCRates;
         QLabel* fACRates;
         QLabel* fCCCRates;
+        QLabel* fOpenRates;
         QLabel* fWList;
         QLabel* fCoord;
         QVector<QAction*> actions;

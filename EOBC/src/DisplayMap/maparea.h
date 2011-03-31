@@ -30,6 +30,7 @@ public:
     void addVecs(QString reg,QVector<QPoint>* points, QColor col);
     void resize(QPoint p);
     static void setMiddle(QPoint& middle);
+    void loadIcon();
     void loadLabels(QVector<QLabel*> labels);
     void startTimer();
 

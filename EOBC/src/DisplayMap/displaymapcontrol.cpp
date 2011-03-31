@@ -4,7 +4,7 @@ DisplayMapControl::DisplayMapControl(GetDataDisplayMapInterface& inter,QObject* 
 {
     map = new Map();
     //map->setGeometry(QRect(90,0,1000,600));
-
+    Q_UNUSED(inter);
     connectSlots();
 }
 DisplayMapControl::~DisplayMapControl()

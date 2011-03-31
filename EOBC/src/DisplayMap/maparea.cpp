@@ -21,12 +21,12 @@ MapArea::MapArea(QObject *parent) :
    lastMousePos = middle;
    zoomSpeed = BASEZOOMSPEED;
    resizeTimer.stop();
+
    //
    // FOR TESTING, PLEASE REMOVE
    //
    //icons.push_back(new FacilityIcon(QPoint(-MAPMIDDLEX,-MAPMIDDLEY),"General Hospital","Renfrew County"));
-   for(int i=0;i<17;i++)
-    icons.push_back(new FacilityIcon(QPoint(rand()%700 - 250,rand()%150 - 50),"General Hospital","Renfrew County"));
+   loadIcon();
    //
    //
    //
@@ -283,6 +283,16 @@ void MapArea::moveMap()
     }
     mapX->move(mapPos);
 }
+void MapArea::loadIcon()
+{
+    for(int i=0;i<17;i++)
+    {
+       icons.push_back(new FacilityIcon(QPoint(rand()%700 - 250,rand()%150 - 50),"General Hospital","Renfrew County"));
+       FacilityIcon::makeCollisionIcons(icons.at(icons.count()-1),icons);
+    }
+
+}
+
 /**
  * Used to determine if the mouse is hovering over an area
  *
@@ -338,10 +348,21 @@ void MapArea::updateLabels()
         {
             labels.at(0)->setText(icons.at(i)->getName());
             labels.at(1)->setText(icons.at(i)->getArea());
-            labels.at(2)->setText("LTC: " + QString::number(icons.at(i)->getLTC())+"%");
-            labels.at(3)->setText("CCC: " + QString::number(icons.at(i)->getCCC())+"%");
-            labels.at(4)->setText("AC: " + QString::number(icons.at(i)->getAC())+"%");
-            labels.at(5)->setText("X: "+QString::number(icons.at(i)->getPosition().x()) + " Y: "+QString::number(icons.at(i)->getPosition().y()));
+            if(icons.at(i)->getType()== Convenience::HOSPITAL)
+            {
+                labels.at(2)->setText("AC: " + QString::number(icons.at(i)->getAC())+"%");
+                labels.at(3)->setText("CCC: " + QString::number(icons.at(i)->getCCC())+"%");
+                labels.at(4)->setText("Open AC Beds: " + QString::number(icons.at(i)->getACOpen())+"%");
+                labels.at(5)->setText("Open CCC Beds: " + QString::number(icons.at(i)->getCCCOpen())+"%");
+            }
+            if(icons.at(i)->getType()== Convenience::LONGTERMCARE)
+            {
+                labels.at(2)->setText("LTC: " + QString::number(icons.at(i)->getLTC())+"%");
+                labels.at(3)->setText("Open Beds: " + QString::number(icons.at(i)->getLTCOpen())+"%");
+                labels.at(4)->setText("");
+                labels.at(5)->setText("");
+            }
+            labels.at(6)->setText("X: "+QString::number(icons.at(i)->getPosition().x()) + " Y: "+QString::number(icons.at(i)->getPosition().y()));
             iconSelected = true;
         }
     }

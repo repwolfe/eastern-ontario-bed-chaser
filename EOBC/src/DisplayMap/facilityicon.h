@@ -5,6 +5,7 @@
 #include <QtGui/QPainter>
 #include "mapitem.h"
 #include <qmath.h>
+#include "convenience.h"
 /**
   * @brief The facilityicon class is the graphical representation of the facilities on the map.
   *
@@ -16,13 +17,14 @@
 
 class FacilityIcon : public MapItem
 {
-    enum {HOSPITAL,LONGTERMCARE};
+
 public:
     explicit FacilityIcon(QPoint pos,QString name, QString area, QObject *parent = 0);
     void draw(QPainter& g);
     void update(QPoint mouse);
     void move(QPoint mPos);
     void resizePoints(QPoint mouse, float scale);
+    static void makeCollisionIcons(FacilityIcon* f, QVector<FacilityIcon*> icons);
     bool checkSetSelected(QPoint);
     QString getName();
     QString getArea();
@@ -30,6 +32,11 @@ public:
     float getLTC();
     float getCCC();
     float getAC();
+    float getLTCOpen();
+    float getCCCOpen();
+    float getACOpen();
+    int getType();
+    void setCollided(bool col);
 signals:
 
 public slots:
@@ -42,6 +49,7 @@ private:
     QString area;
     int type;
     static int iconNum;
+    bool collidedIcon;
 
 
 };

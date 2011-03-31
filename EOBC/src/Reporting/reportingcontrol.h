@@ -16,6 +16,7 @@ public:
     explicit ReportingControl(GetDataReportingInterface& inter,QObject *parent = 0);
     ~ReportingControl();
     void run();
+
 private:
     GenerateReportWindow rWind;
     ViewAllReportsWindow vWind;

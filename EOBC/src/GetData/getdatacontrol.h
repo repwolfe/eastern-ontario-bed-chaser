@@ -8,6 +8,8 @@ class StorageRead;
 class SendRequestForData;
 class SendDataResponse;
 
+#include "patient.h"
+
 class GetDataControl
 {
 public:

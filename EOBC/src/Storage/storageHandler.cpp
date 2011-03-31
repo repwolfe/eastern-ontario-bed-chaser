@@ -91,7 +91,6 @@ int StorageHandler::loadModel(QString fileName){
                 int AC = e.attribute("AC", "0").toInt();
                 QPoint coordinates(e.attribute("coordinateX", "0").toInt(), e.attribute("coordinateY", "0").toInt());
                 Facility* aFacility = new Facility(ID.toInt(),name,AC,CCC,LTC,coordinates);
-                aFacility->addBeds(LTC,EOBC::LTC);
                 _currentFacility = aFacility;
                 //set up facility
 

@@ -66,7 +66,10 @@ SOURCES +=\
     src/Reporting/report.cpp \
     src/Reporting/reportbars.cpp \
     src/Communication/channelin.cpp \
-    src/Communication/channelout.cpp
+    src/Communication/channelout.cpp \
+    src/GetData/getdatachangedatainterface.cpp \
+    src/GetData/getdatadisplaymapinterface.cpp \
+    src/GetData/getdatareportinginterface.cpp
 
 
 
@@ -109,7 +112,10 @@ HEADERS  += \
     src/Reporting/report.h \
     src/Reporting/reportbars.h \
     src/Communication/channelin.h \
-    src/Communication/channelout.h
+    src/Communication/channelout.h \
+    src/GetData/getdatachangedatainterface.h \
+    src/GetData/getdatadisplaymapinterface.h \
+    src/GetData/getdatareportinginterface.h
 
 
 RESOURCES += \

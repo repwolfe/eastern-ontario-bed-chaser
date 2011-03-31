@@ -1,6 +1,7 @@
 #include "changedatacontrol.h"
 
-ChangeDataControl::ChangeDataControl()
+ChangeDataControl::ChangeDataControl(GetDataChangeDataInterface& getData)
+    : _getData(getData)
 {
     _movePatientControl		= new MovePatientControl();
     _addFacilityControl		= new AddFacilityControl();

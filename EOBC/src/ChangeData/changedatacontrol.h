@@ -4,6 +4,7 @@
 #include <QString>
 #include <QObject>
 
+#include "getdatachangedatainterface.h"
 #include "movepatientcontrol.h"
 #include "addfacilitycontrol.h"
 #include "createusercontrol.h"
@@ -28,7 +29,7 @@ class ChangeDataControl : public QObject
 {
     Q_OBJECT
 public:
-    ChangeDataControl();
+    ChangeDataControl(GetDataChangeDataInterface& getData);
     ~ChangeDataControl();
 
     bool changeData(QString& args, QString& data);
@@ -57,6 +58,8 @@ private:
 
     StorageWrite* _storage;
     SendChangeDataRequest* _sendData;
+
+    GetDataChangeDataInterface& _getData;
 
     // Child Control objects
     MovePatientControl*		_movePatientControl;

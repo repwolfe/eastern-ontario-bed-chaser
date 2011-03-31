@@ -1,4 +1,9 @@
 #include <QtGui/QApplication>
+
+#include "getdatacontrol.h"
+#include "getdatadisplaymapinterface.h"
+#include "getdatareportinginterface.h"
+
 #include "displaymapcontrol.h"
 #include "logoncontrol.h"
 #include "storageHandler.h"
@@ -11,11 +16,18 @@ int main(int argc, char *argv[])
 {
     StorageHandler handler (QString(":/storage/resources/storage.xml"));
     QApplication a(argc, argv);
+
+    // Get Data and its interfaces
+    GetDataControl getDataControl;
+    GetDataChangeDataInterface gdChangeDataI(getDataControl);
+    GetDataDisplayMapInterface gdDisplayMapI(getDataControl);
+    GetDataReportingInterface gdReportingI(getDataControl);
+
     DisplayMapControl mapControl;
     mapControl.run();
     LogOnControl logControl;
     logControl.run();
-    ChangeDataControl changeDataControl;
+    ChangeDataControl changeDataControl(gdChangeDataI);
     ReportingControl rControl;
     rControl.run();
 

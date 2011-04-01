@@ -1,21 +1,31 @@
 #include "displaymapcontrol.h"
-
+/** @todo remove testing
+  *
+  */
 DisplayMapControl::DisplayMapControl(GetDataDisplayMapInterface& inter,QObject* parent) : QObject(parent)
 {
     map = new Map();
     //map->setGeometry(QRect(90,0,1000,600));
     connectSlots(inter);
+
+    //
+    ///FOR TESTING ONLY, REMOVE
+    //
     for(int i=0;i<9;i++)
     {
-        Facility* c = new Facility(1234,"Johnson Hospital",rand()%34,rand()%21,0,QPoint(200+rand()%800,350+rand()%100));
-        CareType ct = Convenience::intToCareType(rand()%2+1);
-        c->addPatientToBed(new Patient("111-111-111","fdsaf","Fdsaf",ct),ct);
+        Facility* c = new Facility(1234,"Johnson Hospital",34,21,0,QPoint(200+rand()%800,350+rand()%100));
+        for(int i=0;i<40;i++)
+        {
+            CareType ct = Convenience::intToCareType(rand()%2);
+            c->addPatientToBed(new Patient("111-111-11"+QString::number(i),"fdsaf","Fdsaf",ct),ct);
+        }
         this->addFacility(c);
     }
     for(int i=0;i<9;i++)
     {
         Facility* c = new Facility(1234,"Johnson Hospital",0,0,rand()%40,QPoint(200+rand()%800,350+rand()%100));
-        c->addPatientToBed(new Patient("111-111-111","fdsaf","Fdsaf",Convenience::intToCareType(0)),Convenience::intToCareType(0));
+        for(int i=0;i<10;i++)
+            c->addPatientToBed(new Patient("111-111-11"+QString::number(i),"fdsaf","Fdsaf",Convenience::intToCareType(2)),Convenience::intToCareType(2));
         this->addFacility(c);
     }
 }
@@ -50,9 +60,9 @@ void DisplayMapControl::addFacility(Facility* f)
 
     map->loadIcon(f);
 }
-void DisplayMapControl::addWaitingList(ID,QLinkedList<Patient*>&)
+void DisplayMapControl::addWaitingList(ID id,QLinkedList<Patient*>& patients)
 {
-
+    map->setWaitingList(id,patients.count());
 }
 //
 ///GetDataSlots

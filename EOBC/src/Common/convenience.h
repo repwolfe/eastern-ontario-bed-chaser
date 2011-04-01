@@ -21,6 +21,7 @@ public:
     static EOBC::CareType intToCareType(int care);
     static EOBC::CareType qstringToCareType(QString care);
     static bool correctHealthCardNumber(QString hcn);
+    static QString areaIDtoQString(ID id);
 
 private:
     Convenience();

@@ -72,3 +72,15 @@ bool Convenience::correctHealthCardNumber(QString hcn)
     QValidator::State state = v.validate(hcn, pos);
     return (state == QValidator::Acceptable);
 }
+QString Convenience::areaIDtoQString(ID id)
+{
+
+    if(id == 0) return "Eastern Counties";
+    if(id == 1) return "North Lanark";
+    if(id == 2) return "Renfrew County";
+    if(id == 3) return "Ottawa East";
+    if(id == 4) return "North Grenville";
+    if(id == 5) return "Ottawa West";
+    if(id == 6) return "Ottawa Central";
+    return "";
+}

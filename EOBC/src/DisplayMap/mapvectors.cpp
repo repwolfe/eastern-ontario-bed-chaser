@@ -163,6 +163,8 @@ QString MapVectors::getRegion()
 {
     return region;
 }
+int MapVectors::getWaitingListNum(){ return waitingListNum;}
+void MapVectors::setWaitingListNum(int wln){waitingListNum = wln;}
 
 bool MapVectors::checkZoomOut(QVector<MapVectors*> vecs, QPoint mouse)
 {

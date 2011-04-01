@@ -19,6 +19,7 @@ public:
     Map(QWidget *parent = 0);
     void setPermissions(int permissions);
     void loadIcon(Facility* f);
+    void setWaitingList(ID id,int count);
     ~Map();
     void startTimer();
 

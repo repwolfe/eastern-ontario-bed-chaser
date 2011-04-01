@@ -32,6 +32,7 @@ public:
     void resize(QPoint p);
     static void setMiddle(QPoint& middle);
     void loadIcon(Facility* f);
+    void loadWaitingList(ID,int);
     void loadLabels(QVector<QLabel*> labels);
     void startTimer();
 

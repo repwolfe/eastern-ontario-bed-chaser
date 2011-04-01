@@ -289,6 +289,10 @@ void Map::loadIcon(Facility* f)
 {
     area->loadIcon(f);
 }
+void Map::setWaitingList(ID id,int count)
+{
+    area->loadWaitingList(id,count);
+}
 
 
 void Map::pressedAddBedsSlot(){emit pressedAddBeds();}

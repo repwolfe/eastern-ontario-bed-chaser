@@ -283,6 +283,11 @@ void MapArea::moveMap()
     }
     mapX->move(mapPos);
 }
+ /** loadIcon is called whenever a facility is sent from getData
+   * the facility parameter is parsed, and a new facilityIcon is added to the map.
+   *
+   * @param f The pointer to the facility given by GetData
+   */
 void MapArea::loadIcon(Facility* f)
 {
    /* for(int i=0;i<17;i++)
@@ -295,17 +300,17 @@ void MapArea::loadIcon(Facility* f)
     if(f->getNumBeds(Convenience::intToCareType(0))==0)
     {
         iconType = Convenience::LONGTERMCARE;
-        percents[0] = f->getNumBeds(Convenience::intToCareType(2));
-        percents[1] = 0;
+        percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(2));
+        percents[1] = f->getNumBedsAvailable(Convenience::intToCareType(2));
         percents[2] = 0;
         percents[3] = 0;
     }
     else
     {
-        percents[0] = f->getNumBeds(Convenience::intToCareType(0));
-        percents[1] = f->getNumBeds(Convenience::intToCareType(1));
-        percents[2] = f->getNumBeds(Convenience::intToCareType(0));
-        percents[3] = f->getNumBeds(Convenience::intToCareType(1));
+        percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(0)); //ccc occ
+        percents[1] = f->getNumBedsOccupied(Convenience::intToCareType(1));//ac occ
+        percents[2] = f->getNumBedsAvailable(Convenience::intToCareType(0));
+        percents[3] = f->getNumBedsAvailable(Convenience::intToCareType(1));
     }
     icons.push_back(new FacilityIcon(f->getLocation()-QPoint(MAPMIDDLEX,MAPMIDDLEY),f->getFacilityName(),"Out Of Area",iconType));
     icons.at(icons.count()-1)->setPercents(percents);
@@ -320,6 +325,14 @@ void MapArea::loadIcon(Facility* f)
         }
     }
     FacilityIcon::makeCollisionIcons(icons.at(icons.count()-1),icons);
+}
+void MapArea::loadWaitingList(ID id,int count)
+{
+    for(int i=0;i<vecs.count();i++)
+    {
+        if(vecs.at(i)->getRegion()==Convenience::areaIDtoQString(id))
+           vecs.at(i)->setWaitingListNum(count);
+    }
 }
 
 /**
@@ -402,6 +415,7 @@ void MapArea::updateLabels()
             if(vecs[i]->isSelected())
             {
                 labels.at(1)->setText(vecs[i]->getRegion());
+                labels.at(7)->setText("Size: "+QString::number(vecs[i]->getWaitingListNum()));
             }
         }
     }

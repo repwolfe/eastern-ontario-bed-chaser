@@ -37,6 +37,8 @@ public:
     static bool checkZoomOut(QVector<MapVectors*> vecs, QPoint mouse);
     bool checkSetSelected(QPoint);
     QString getRegion();
+    int getWaitingListNum();
+    void setWaitingListNum(int);
 private:
 
 
@@ -52,6 +54,7 @@ private:
     QPolygonF poly;
     QColor col;
     QString region;
+    int waitingListNum;
 };
 
 #endif // MAPVECTORS_H

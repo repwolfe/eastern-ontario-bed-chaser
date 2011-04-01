@@ -28,15 +28,15 @@ public:
     void response(Area* requestArea, QDate start, QDate finish );
     void response(Area* requestArea, QDate start);
 private:
-    QDomNode toXML(Area* anArea, Facility* aFacility, Patient* p);
-    QDomNode toXML(Area* anArea, Facility* aFacility);
-
+    QDomElement toXML(Area* anArea, Facility* aFacility, Patient* p);
+    QDomElement toXML(Area* anArea, Facility* aFacility);
+    QDomElement toXML(Patient* p);
     QDomNode addThis(QDomNode addThis);
-    QDomNode deleteThis(QDomNode deleteThis);
-    QDomNode rebuildThis(QDomNode rebuildThis);
-    QDomNode requestThis(QDomNode requestThis, QDate start, QDate finish);
-    QDomNode requestThis(QDomNode requestThis, QDate start);
-    QDomNode responseThis(QDomNode responseThis);
+    QDomNode deleteThis(QDomElement deleteThis);
+    QDomNode rebuildThis(QDomElement rebuildThis);
+    QDomNode requestThis(QDomElement requestThis, QDate start, QDate finish);
+    QDomNode requestThis(QDomElement requestThis, QDate start);
+    QDomNode responseThis(QDomElement responseThis);
 };
 
 #endif // SENDMESSAGECONTROL_H

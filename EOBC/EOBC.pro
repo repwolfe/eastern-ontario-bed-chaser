@@ -69,7 +69,8 @@ SOURCES +=\
     src/Communication/channelout.cpp \
     src/GetData/getdatachangedatainterface.cpp \
     src/GetData/getdatadisplaymapinterface.cpp \
-    src/GetData/getdatareportinginterface.cpp
+    src/GetData/getdatareportinginterface.cpp \
+    src/Send/sendmessagecontrol.cpp
 
 
 
@@ -115,7 +116,8 @@ HEADERS  += \
     src/Communication/channelout.h \
     src/GetData/getdatachangedatainterface.h \
     src/GetData/getdatadisplaymapinterface.h \
-    src/GetData/getdatareportinginterface.h
+    src/GetData/getdatareportinginterface.h \
+    src/Send/sendmessagecontrol.h
 
 
 RESOURCES += \

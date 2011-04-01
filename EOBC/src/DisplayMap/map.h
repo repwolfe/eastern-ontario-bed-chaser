@@ -11,12 +11,14 @@
 #include <QtGui/QPushButton>
 #include "maparea.h"
 #include "convenience.h"
+#include "facility.h"
 class Map : public QMainWindow
 {
     Q_OBJECT
 public:
     Map(QWidget *parent = 0);
     void setPermissions(int permissions);
+    void loadIcon(Facility* f);
     ~Map();
     void startTimer();
 
@@ -46,6 +48,7 @@ private:
     QVector<QPoint>* loadFile(QString fname);
     void loadAreas();
     void connectActions();
+
 
 private:
         QMenu* fileMenu;

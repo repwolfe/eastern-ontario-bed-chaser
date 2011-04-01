@@ -3,6 +3,7 @@
 
 #include "map.h"
 #include "getdatadisplaymapinterface.h"
+#include "facility.h"
 
 class DisplayMapControl : public QObject
 {
@@ -17,6 +18,14 @@ public slots:
     void pressedGenerateReportSlot();
     void pressedViewAllReportsSlot();
     void pressedUpdateWaitingListSlot();
+    ///
+    ////GetDataSlots
+    //
+    void addFacility(Facility* f);
+    void addWaitingList(ID,QLinkedList<Patient*>&);
+    ///
+    ////GetDataSlots
+    //
 signals:
     void pressedAddBeds();
     void pressedAddFacilities();
@@ -27,7 +36,7 @@ signals:
     void pressedViewAllReports();
     void pressedUpdateWaitingList();
 private:
-    void connectSlots();
+    void connectSlots(GetDataDisplayMapInterface&);
 public:
     DisplayMapControl(GetDataDisplayMapInterface& inter,QObject* parent = 0);
     ~DisplayMapControl();

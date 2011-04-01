@@ -5,20 +5,20 @@
 #define MAPMIDDLEY 400
 int FacilityIcon::iconNum = 0;
 
-FacilityIcon::FacilityIcon(QPoint pos,QString name, QString area, QObject *parent) :
+FacilityIcon::FacilityIcon(QPoint pos,QString name, QString area, int type,QObject *parent) :
     MapItem(parent)
 {
     position = pos;
-    type = rand()%2;
+    this->type = type;
     piePercent = new float[4];
     pieColor = new QColor[4];
     collidedIcon = false;
     if(type == Convenience::HOSPITAL)
     {
-        piePercent[0]=12 +rand()%50;
-        piePercent[1] = 12 +rand()%50;
-        piePercent[2] = 7 + rand()%12;
-        piePercent[3] = 100-(piePercent[0]+piePercent[1]+piePercent[2]);
+        //piePercent[0]=12 +rand()%50;
+        //piePercent[1] = 12 +rand()%50;
+        //piePercent[2] = 7 + rand()%12;
+        //piePercent[3] = 100-(piePercent[0]+piePercent[1]+piePercent[2]);
         pieColor[0] = Qt::red;
         pieColor[2]= QColor(100,255,0);
         pieColor[3]= QColor(0,255,100);
@@ -26,10 +26,9 @@ FacilityIcon::FacilityIcon(QPoint pos,QString name, QString area, QObject *paren
     }
     else
     {
-        piePercent[0]=30 +rand()%50;
-        piePercent[1] = 100-(piePercent[0]);
-        piePercent[2] = 0;
-        piePercent[3] = 0;
+        //piePercent[0]=30 +rand()%50;
+        //piePercent[1] = 100-(piePercent[0]);
+
         //pieColor[0] = QColor(255,100,50);
         //pieColor[1]= QColor(150,150,0);
         pieColor[0] = QColor(0,200,200);
@@ -149,14 +148,14 @@ float FacilityIcon::getLTC()
 {
     return piePercent[1];
 }
-
 float FacilityIcon::getCCC()
 {
-   return piePercent[0];
+   return round(piePercent[0]);
 }
 float FacilityIcon::getAC()
 {
-   return piePercent[1];
+   return round(piePercent[1]);
+
 }
 int FacilityIcon::getType()
 {
@@ -164,19 +163,35 @@ int FacilityIcon::getType()
 }
 float FacilityIcon::getLTCOpen()
 {
-    return piePercent[0];
+    return (int)piePercent[0];
 }
 
 float FacilityIcon::getCCCOpen()
 {
-   return piePercent[2];
+   return round(piePercent[2]);
 }
 float FacilityIcon::getACOpen()
 {
-   return piePercent[3];
+   return round(piePercent[3]);
 }
 void FacilityIcon::setCollided(bool col)
 {
     collidedIcon = col;
 }
-
+void FacilityIcon::setArea(QString area)
+{
+    this->area = area;
+}
+void FacilityIcon::setPercents(int* per)
+{
+    int max = 0;
+    for(int i=0;i<4;i++)
+    {
+        piePercent[i]=per[i];
+        max += per[i];
+    }
+    for(int i=0;i<4;i++)
+    {
+        piePercent[i] = piePercent[i]*100/max;
+    }
+}

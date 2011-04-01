@@ -19,7 +19,7 @@ class FacilityIcon : public MapItem
 {
 
 public:
-    explicit FacilityIcon(QPoint pos,QString name, QString area, QObject *parent = 0);
+    explicit FacilityIcon(QPoint pos,QString name, QString area,int type, QObject *parent = 0);
     void draw(QPainter& g);
     void update(QPoint mouse);
     void move(QPoint mPos);
@@ -36,7 +36,10 @@ public:
     float getCCCOpen();
     float getACOpen();
     int getType();
+    void setArea(QString area);
     void setCollided(bool col);
+    void setPercents(int* per);
+
 signals:
 
 public slots:

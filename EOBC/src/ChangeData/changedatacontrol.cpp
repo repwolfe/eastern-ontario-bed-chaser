@@ -32,11 +32,16 @@ void ChangeDataControl::_setupConnections()
     connect(_updateWaitingListControl, SIGNAL(submitClicked()), SLOT(updateWaitingListSubmitted()));
 
     // GetData
-    connect(&_getData, SIGNAL(receivedAllFacilities()), SLOT(receivedAllFacilities()));
-    connect(&_getData, SIGNAL(receivedAreasWaitingList()), SLOT(receivedAreasWaitingList()));
-    connect(&_getData, SIGNAL(receivedFacilitiesPatients()), SLOT(receivedFacilitiesPatients()));
-    connect(&_getData, SIGNAL(receivedFacilitiesCurrentBedNumbers()), SLOT(receivedFacilitiesCurrentBedNumbers()));
-    connect(&_getData, SIGNAL(receivedFacilitiesMinimumBedNumbers()), SLOT(receivedFacilitiesMinimumBedNumbers()));
+    connect(&_getData, SIGNAL(receivedAllFacilities(QMap<ID,QString>)),
+            SLOT(_receivedAllFacilities(QMap<ID,QString>)));
+    connect(&_getData, SIGNAL(receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)),
+            SLOT(_receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)));
+    connect(&_getData, SIGNAL(receivedFacilitiesPatients(QMap<ID,QLinkedList<Patient*> >)),
+            SLOT(_receivedFacilitiesPatients(QMap<ID,QLinkedList<Patient*> >)));
+    connect(&_getData, SIGNAL(receivedFacilitiesCurrentBedNumbers(QMap<ID,QVector<int> >)),
+            SLOT(_receivedFacilitiesCurrentBedNumbers(QMap<ID,QVector<int> >)));
+    connect(&_getData, SIGNAL(receivedFacilitiesMinimumBedNumbers(QMap<ID,QVector<int> >)),
+            SLOT(_receivedFacilitiesMinimumBedNumbers(QMap<ID,QVector<int> >)));
 }
 
 /// @todo implement this
@@ -131,55 +136,29 @@ void ChangeDataControl::updateWaitingListSubmitted()
 
     /// @todo send the patientsAdded and patientsRemoved to StorageWrite
 }
-/*
-// Get Data
-void ChangeDataControl::requestAllFacilities()
-{
-    _getData.requestAllFacilities();
-}
 
-void ChangeDataControl::requestFacilitiesPatients()
-{
-    _getData.requestFacilitiesPatients();
-}
-
-void ChangeDataControl::requestAreasWaitingList()
-{
-    _getData.requestAreasWaitingList();
-}
-
-void ChangeDataControl::requestFacilitiesCurrentBedNumbers()
-{
-    _getData.requestFacilitiesCurrentBedNumbers();
-}
-
-void ChangeDataControl::requestFacilitiesMinimumBedNumbers()
-{
-    _getData.requestFacilitiesMinimumBedNumbers();
-}
-*/
 // Received Data
-void ChangeDataControl::receivedAllFacilities()
+void ChangeDataControl::_receivedAllFacilities(const QMap<ID, QString> &data)
 {
-    emit receivedAllFacilities(_getData.getAllFacilities());
+
 }
 
-void ChangeDataControl::receivedFacilitiesPatients()
+void ChangeDataControl::_receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient *> > &data)
 {
-    emit receivedFacilitiesPatients(_getData.getFacilitiesPatients());
+
 }
 
-void ChangeDataControl::receivedAreasWaitingList()
+void ChangeDataControl::_receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient *> > &data)
 {
-    emit receivedAreasWaitingList(_getData.getAreasWaitingList());
+
 }
 
-void ChangeDataControl::receivedFacilitiesCurrentBedNumbers()
+void ChangeDataControl::_receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> > &data)
 {
-    emit receivedFacilitiesCurrentBedNumbers(_getData.getFacilitiesCurrentBedNumbers());
+
 }
 
-void ChangeDataControl::receivedFacilitiesMinimumBedNumbers()
+void ChangeDataControl::_receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> > &data)
 {
-    emit receivedFacilitiesMinimumBedNumbers(_getData.getFacilitiesMinimumBedNumbers());
+
 }

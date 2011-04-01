@@ -3,99 +3,64 @@
 GetDataChangeDataInterface::GetDataChangeDataInterface(GetDataControl &getData) :
     _getData(getData)
 {
-    connect(&_getData, SIGNAL(receivedAllFacilities()), SLOT(_receivedAllFacilities()));
-    connect(&_getData, SIGNAL(receivedFacilitiesCurrentBedNumbers()), SLOT(_receivedFacilitiesCurrentBedNumbers()));
-    connect(&_getData, SIGNAL(receivedFacilitiesMinimumBedNumbers()), SLOT(_receivedFacilitiesMinimumBedNumbers()));
-    connect(&_getData, SIGNAL(receivedFacilitiesPatients()), SLOT(_receivedFacilitiesPatients()));
-    connect(&_getData, SIGNAL(receivedAreasWaitingList()), SLOT(_receivedAreasWaitingList()));
+    connect(&_getData, SIGNAL(receivedAllFacilities(QMap<ID,QString>)),
+            SLOT(_receivedAllFacilities(QMap<ID,QString>)));
+    connect(&_getData, SIGNAL(receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)),
+            SLOT(_receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)));
+    connect(&_getData, SIGNAL(receivedFacilitiesPatients(QMap<ID,QLinkedList<Patient*> >)),
+            SLOT(_receivedFacilitiesPatients(QMap<ID,QLinkedList<Patient*> >)));
+    connect(&_getData, SIGNAL(receivedFacilitiesCurrentBedNumbers(QMap<ID,QVector<int> >)),
+            SLOT(_receivedFacilitiesCurrentBedNumbers(QMap<ID,QVector<int> >)));
+    connect(&_getData, SIGNAL(receivedFacilitiesMinimumBedNumbers(QMap<ID,QVector<int> >)),
+            SLOT(_receivedFacilitiesMinimumBedNumbers(QMap<ID,QVector<int> >)));
 }
 
 void GetDataChangeDataInterface::requestAllFacilities()
 {
-    _facilities.clear();
     _getData.requestAllFacilities();
-}
-
-const QMap<ID, QString>&
-        GetDataChangeDataInterface::getAllFacilities() const
-{
-    return _facilities;
 }
 
 void GetDataChangeDataInterface::requestFacilitiesPatients()
 {
-    _facilitiesPatients.clear();
     _getData.requestFacilitiesPatients();
-}
-
-const QMap<ID, QLinkedList<Patient> >&
-        GetDataChangeDataInterface::getFacilitiesPatients() const
-{
-    return _facilitiesPatients;
 }
 
 void GetDataChangeDataInterface::requestAreasWaitingList()
 {
-    _areasWaitingList.clear();
     _getData.requestAreasWaitingList();
-}
-
-const QMap<ID, QLinkedList<Patient> >&
-        GetDataChangeDataInterface::getAreasWaitingList() const
-{
-    return _areasWaitingList;
 }
 
 void GetDataChangeDataInterface::requestFacilitiesCurrentBedNumbers()
 {
-    _facilitiesCurrentBedNumbers.clear();
     _getData.requestFacilitiesCurrentBedNumbers();
-}
-
-const QMap<ID, QLinkedList<int> >&
-        GetDataChangeDataInterface::getFacilitiesCurrentBedNumbers() const
-{
-    return _facilitiesCurrentBedNumbers;
 }
 
 void GetDataChangeDataInterface::requestFacilitiesMinimumBedNumbers()
 {
-    _facilitiesMinimumBedNumbers.clear();
     _getData.requestFacilitiesMinimumBedNumbers();
 }
 
-const QMap<ID, QLinkedList<int> >&
-        GetDataChangeDataInterface::getFacilitiesMinimumBedNumbers() const
+void GetDataChangeDataInterface::_receivedAllFacilities(const QMap<ID, QString> &data)
 {
-    return _facilitiesMinimumBedNumbers;
+    emit receivedAllFacilities(data);
 }
 
-void GetDataChangeDataInterface::_receivedAllFacilities()
+void GetDataChangeDataInterface::_receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient *> > &data)
 {
-    _facilities = _getData.getAllFacilities();
-    emit receivedAllFacilities();
+    emit receivedFacilitiesPatients(data);
 }
 
-void GetDataChangeDataInterface::_receivedFacilitiesPatients()
+void GetDataChangeDataInterface::_receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient *> > &data)
 {
-    _facilitiesPatients = _getData.getFacilitiesPatients();
-    emit receivedFacilitiesPatients();
+    emit receivedAreasWaitingList(data);
 }
 
-void GetDataChangeDataInterface::_receivedAreasWaitingList()
+void GetDataChangeDataInterface::_receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> > &data)
 {
-    _areasWaitingList = _getData.getAreasWaitingList();
-    emit receivedAreasWaitingList();
+    emit receivedFacilitiesCurrentBedNumbers(data);
 }
 
-void GetDataChangeDataInterface::_receivedFacilitiesCurrentBedNumbers()
+void GetDataChangeDataInterface::_receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> > &data)
 {
-    _facilitiesCurrentBedNumbers = _getData.getFacilitiesCurrentBedNumbers();
-    emit receivedFacilitiesCurrentBedNumbers();
-}
-
-void GetDataChangeDataInterface::_receivedFacilitiesMinimumBedNumbers()
-{
-    _facilitiesMinimumBedNumbers = _getData.getFacilitiesMinimumBedNumbers();
-    emit receivedFacilitiesMinimumBedNumbers();
+    emit receivedFacilitiesMinimumBedNumbers(data);
 }

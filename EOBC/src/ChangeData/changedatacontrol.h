@@ -60,19 +60,12 @@ private slots:
     void updateBedsSubmitted(QString, int, int, int);
     void updateWaitingListSubmitted();
 
-/*    // Get Data
-    void requestAllFacilities();
-    void requestFacilitiesPatients();
-    void requestAreasWaitingList();
-    void requestFacilitiesCurrentBedNumbers();
-    void requestFacilitiesMinimumBedNumbers();
-*/
     // Received Data
-    void receivedAllFacilities();
-    void receivedFacilitiesPatients();
-    void receivedAreasWaitingList();
-    void receivedFacilitiesCurrentBedNumbers();
-    void receivedFacilitiesMinimumBedNumbers();
+    void _receivedAllFacilities(const QMap<ID, QString>& data);
+    void _receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient*> >& data);
+    void _receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data);
+    void _receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >& data);
+    void _receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> >& data);
 private:
     void _setupConnections();
 

@@ -22,86 +22,51 @@ QString GetDataControl::requestData(QString& args)
 
 void GetDataControl::requestAllFacilities()
 {
-    _facilities.clear();
     /// @todo ask storage for all facilities
-}
-
-const QMap<ID, QString>&
-        GetDataControl::getAllFacilities() const
-{
-    return _facilities;
 }
 
 void GetDataControl::requestFacilitiesPatients()
 {
-    _facilitiesPatients.clear();
     /// @todo ask storage for all facilities' patients
-}
-
-const QMap<ID, QLinkedList<Patient> >&
-        GetDataControl::getFacilitiesPatients() const
-{
-    return _facilitiesPatients;
 }
 
 void GetDataControl::requestAreasWaitingList()
 {
-    _areasWaitingList.clear();
     /// @todo ask storage for all facilities' waiting list
-}
-
-const QMap<ID, QLinkedList<Patient> >&
-        GetDataControl::getAreasWaitingList() const
-{
-    return _areasWaitingList;
 }
 
 void GetDataControl::requestFacilitiesCurrentBedNumbers()
 {
-    _facilitiesCurrentBedNumbers.clear();
     /// @todo ask all facilities' for their current bed numbers
-}
-
-const QMap<ID, QLinkedList<int> >&
-        GetDataControl::getFacilitiesCurrentBedNumbers() const
-{
-    return _facilitiesCurrentBedNumbers;
 }
 
 void GetDataControl::requestFacilitiesMinimumBedNumbers()
 {
-    _facilitiesMinimumBedNumbers.clear();
     /// @todo ask all facilities' for their minimum bed numbers
 }
 
-const QMap<ID, QLinkedList<int> >&
-        GetDataControl::getFacilitiesMinimumBedNumbers() const
+void GetDataControl::_receivedAllFacilities(const QMap<ID, QString> & data)
 {
-    return _facilitiesMinimumBedNumbers;
+    emit receivedAllFacilities(data);
 }
 
-void GetDataControl::_receivedAllFacilities()
+void GetDataControl::_receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient *> > &data)
 {
-    emit receivedAllFacilities();
+    emit receivedFacilitiesPatients(data);
 }
 
-void GetDataControl::_receivedFacilitiesPatients()
+void GetDataControl::_receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient *> > &data)
 {
-    emit receivedFacilitiesPatients();
+    emit receivedAreasWaitingList(data);
 }
 
-void GetDataControl::_receivedAreasWaitingList()
+void GetDataControl::_receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> > &data)
 {
-    emit receivedAreasWaitingList();
+    emit receivedFacilitiesCurrentBedNumbers(data);
 }
 
-void GetDataControl::_receivedFacilitiesCurrentBedNumbers()
+void GetDataControl::_receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> > &data)
 {
-    emit receivedFacilitiesCurrentBedNumbers();
-}
-
-void GetDataControl::_receivedFacilitiesMinimumBedNumbers()
-{
-    emit receivedFacilitiesMinimumBedNumbers();
+    emit receivedFacilitiesMinimumBedNumbers(data);
 }
 

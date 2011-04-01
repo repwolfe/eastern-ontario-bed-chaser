@@ -29,11 +29,12 @@ void AddPatientControl::_submitClicked()
     const QString& lastName	= _form->getLastName().trimmed();
     const QString& hcn		= _form->getHealthCardNumber().trimmed();
     const QString& requiredCare = _form->getRequiredCare().trimmed();
+    const QDate&   dateAdded    = _form->getDateAdded();
 
     if (!firstName.isEmpty() && !lastName.isEmpty() &&
 	Convenience::correctHealthCardNumber(hcn) && !requiredCare.isEmpty())
     {
-	emit submitClicked(firstName, lastName, hcn, requiredCare);
+        emit submitClicked(firstName, lastName, hcn, requiredCare, dateAdded);
 	_form->close();
     }
     else

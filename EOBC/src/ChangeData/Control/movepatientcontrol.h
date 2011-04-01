@@ -49,7 +49,7 @@ private slots:
     void _toBedFormCancel();
     void _toFacilityFormAddPatient();
     void _toFacilityFormRemovePatient();
-    void _patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare);
+    void _patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare, QDate dateAdded);
     void _toFacilityFormSubmit();
     void _toFacilityFormCancel();
 

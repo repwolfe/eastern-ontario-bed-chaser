@@ -19,7 +19,7 @@ UpdateWaitingListControl::UpdateWaitingListControl()
     connect(_form, SIGNAL(submitClicked()), SLOT(_submitClicked()));
     connect(_form, SIGNAL(cancelClicked()), SLOT(_cancelClicked()));
 
-    connect(_addPatientControl, SIGNAL(submitClicked(QString,QString,QString,QString)), SLOT(_patientCreated(QString,QString,QString,QString)));
+    connect(_addPatientControl, SIGNAL(submitClicked(QString,QString,QString,QString,QDate)), SLOT(_patientCreated(QString,QString,QString,QString,QDate)));
 }
 
 UpdateWaitingListControl::~UpdateWaitingListControl()
@@ -85,13 +85,13 @@ void UpdateWaitingListControl::_removePatientClicked()
     }
 }
 
-void UpdateWaitingListControl::_patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare)
+void UpdateWaitingListControl::_patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare, QDate dateAdded)
 {
     // Don't add a patient already in the waiting list
     if (!_form->isPatientInList(hcn))
     {
 	Patient patient(hcn, firstName, lastName, Convenience::qstringToCareType(requiredCare));
-	patient.setDatePlacedOnWaitingList(QDate::currentDate());
+        patient.setDatePlacedOnWaitingList(dateAdded);
 	_patientsAdded.push_back(patient);
 	_form->addPatientItem(patient.getName(), hcn);
     }

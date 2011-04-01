@@ -40,7 +40,7 @@ private slots:
     void _cancelClicked();
     void _removePatientClicked();
     void _addPatientClicked();
-    void _patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare);
+    void _patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare, QDate dateAdded);
 
 private:
     UpdateWaitingListForm* _form;

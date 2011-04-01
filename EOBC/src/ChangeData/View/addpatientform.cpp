@@ -8,7 +8,7 @@ AddPatientForm::AddPatientForm(QWidget *parent) :
     setWindowTitle("Add Patient");
 
     int width = 300;
-    int height = 300;
+    int height = 320;
 
     setGeometry(Convenience::getCenterForSize(width, height));
     setFixedSize(width, height);
@@ -36,6 +36,11 @@ const QString AddPatientForm::getRequiredCare() const
     return _requiredCareBox->currentText();
 }
 
+const QDate AddPatientForm::getDateAdded() const
+{
+    return _dateAdded->date();
+}
+
 void AddPatientForm::_submitClicked()
 {
     emit submitClicked();
@@ -53,6 +58,7 @@ void AddPatientForm::clearContents()
     _lastNameBox->clear();
     _healthCardNumber->clear();
     _requiredCareBox->setCurrentIndex(0);
+    _dateAdded->setDate(QDate::currentDate());
     _errorMessage->setText("");
 }
 
@@ -85,6 +91,12 @@ void AddPatientForm::_setupLayout()
     _requiredCareBox->addItem("LTC");
     _requiredCareBox->addItem("CCC");
 
+    _dateAdded          = new QDateEdit();
+    _dateAdded->setDisplayFormat("MMMM dd yyyy");
+    _dateAdded->setDate(QDate::currentDate());
+    /// @todo can you add a patient in the future?
+    _dateAdded->setDateRange(QDate(1900,1,1), QDate::currentDate());
+
     QFormLayout* q = new QFormLayout();
     q->setContentsMargins(15, 10, 15, 10);
     q->setVerticalSpacing(15);
@@ -92,6 +104,7 @@ void AddPatientForm::_setupLayout()
     q->addRow("Last Name", _lastNameBox);
     q->addRow("Health Card #", _healthCardNumber);
     q->addRow("Required Care", _requiredCareBox);
+    q->addRow("Date Added", _dateAdded);
     q->addRow(_errorMessage);
     q->addRow("", _submitButton);
     q->addRow("", _cancelButton);

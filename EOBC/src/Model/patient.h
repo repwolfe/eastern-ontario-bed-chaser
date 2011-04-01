@@ -2,6 +2,7 @@
 #define PATIENT_H
 
 #include <QDate>
+#include <QMap>
 #include "modelcommon.h"
 #include "logger.h"
 
@@ -60,5 +61,8 @@ private:
 
     bool _inpatient;
 };
+
+/// A list of Patients
+typedef QMap<QString, Patient*> WaitingList;
 
 #endif // PATIENT_H

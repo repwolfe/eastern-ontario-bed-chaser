@@ -6,6 +6,7 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QPushButton>
+#include <QDateEdit>
 
 /**
  * @brief Form to add a new Patient
@@ -28,6 +29,7 @@ public:
     const QString getLastName() const;
     const QString getHealthCardNumber() const;
     const QString getRequiredCare() const;
+    const QDate   getDateAdded() const;
 
 signals:
     void submitClicked();
@@ -43,6 +45,7 @@ private:
     QLineEdit* _lastNameBox;
     QLineEdit* _healthCardNumber;
     QComboBox* _requiredCareBox;
+    QDateEdit* _dateAdded;
     QLabel* _errorMessage;
     QPushButton* _submitButton;
     QPushButton* _cancelButton;

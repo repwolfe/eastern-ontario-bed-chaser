@@ -3,13 +3,8 @@
 
 #include "facility.h"
 
-#include <QMap>
-
-/// A list of Facilities
-typedef QMap<ID,Facility*> FacilityList;
-
-/// A list of Patients
-typedef QMap<QString, Patient*> WaitingList;
+/// WaitingList defined in patient.h
+/// FacilityList defined in facility.h
 
 /**
  * @brief The object representation of an Area.

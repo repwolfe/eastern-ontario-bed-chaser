@@ -95,7 +95,7 @@ void MovePatientControl::_setupConnections()
 
     connect(_toFacilityForm, SIGNAL(addPatientClicked()), SLOT(_toFacilityFormAddPatient()));
     connect(_toFacilityForm, SIGNAL(removePatientClicked()), SLOT(_toFacilityFormRemovePatient()));
-    connect(_addPatientControl, SIGNAL(submitClicked(QString,QString,QString,QString)), SLOT(_patientCreated(QString,QString,QString,QString)));
+    connect(_addPatientControl, SIGNAL(submitClicked(QString,QString,QString,QString,QDate)), SLOT(_patientCreated(QString,QString,QString,QString,QDate)));
 
     connect(_toFacilityForm, SIGNAL(submitButtonClicked()), SLOT(_toFacilityFormSubmit()));
     connect(_toFacilityForm, SIGNAL(cancelButtonClicked()), SLOT(_toFacilityFormCancel()));
@@ -216,13 +216,13 @@ void MovePatientControl::_toFacilityFormCancel()
     _facilityMoveToChanges.clear();
 }
 
-void MovePatientControl::_patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare)
+void MovePatientControl::_patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare, QDate dateAdded)
 {
     // Don't add a patient already in the Facility
     if (!_toFacilityForm->isPatientInList(hcn))
     {
         Patient patient(hcn, firstName, lastName, Convenience::qstringToCareType(requiredCare));
-        patient.setDatePlacedOnWaitingList(QDate::currentDate());
+        patient.setAdmissionDate(dateAdded);
         _patientsAdded.push_back(patient);
         _toFacilityForm->addPatientItem(patient.getName(), hcn);
     }

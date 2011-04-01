@@ -23,7 +23,7 @@ public:
 
 signals:
     /// FirstName; LastName; HealthCardNum; RequiredCare
-    void submitClicked(QString, QString, QString, QString);
+    void submitClicked(QString, QString, QString, QString, QDate);
 
 private slots:
     void _submitClicked();

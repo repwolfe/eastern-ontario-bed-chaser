@@ -25,7 +25,7 @@ DisplayMapControl::DisplayMapControl(GetDataDisplayMapInterface& inter,QObject* 
     {
         Facility* c = new Facility(1234,"Johnson Hospital",0,0,rand()%40,QPoint(200+rand()%800,350+rand()%100));
         for(int i=0;i<10;i++)
-            c->addPatientToBed(new Patient("111-111-11"+QString::number(i),"fdsaf","Fdsaf",Convenience::intToCareType(2)),Convenience::intToCareType(2));
+            c->addPatientToBed(new Patient("111-111-11"+QString::number(i),"fdsaf","Fdsaf",Convenience::intToCareType(EOBC::LTC)),Convenience::intToCareType(2));
         this->addFacility(c);
     }
 }
@@ -60,7 +60,7 @@ void DisplayMapControl::addFacility(Facility* f)
 
     map->loadIcon(f);
 }
-void DisplayMapControl::addWaitingList(ID id,QLinkedList<Patient*>& patients)
+void DisplayMapControl::addWaitingList(ID id,WaitingList& patients)
 {
     map->setWaitingList(id,patients.count());
 }
@@ -78,11 +78,12 @@ void DisplayMapControl::connectSlots(GetDataDisplayMapInterface& inter)
     connect(map,SIGNAL(pressedGenerateReport()),this,SLOT(pressedGenerateReportSlot()));
     connect(map,SIGNAL(pressedViewAllReports()),this,SLOT(pressedViewAllReportsSlot()));
     connect(map,SIGNAL(pressedUpdateWaitingList()),this,SLOT(pressedUpdateWaitingListSlot()));
+
     //
     ///GetDataSlots
     //
 
     connect(&inter,SIGNAL(receivedUpdatedFacility(Facility*)),this,SLOT(addFacility(Facility*)));
-    connect(&inter,SIGNAL(receivedUpdatedWaitingList(ID,QLinkedList<Patient*>&)),this,SLOT(addWaitingList(ID,QLinkedList<Patient*>&)));
+    connect(&inter,SIGNAL(receivedUpdatedWaitingList(ID,QLinkedList<Patient*>&)),this,SLOT(addWaitingList(ID,WaitingList&)));
 }
 

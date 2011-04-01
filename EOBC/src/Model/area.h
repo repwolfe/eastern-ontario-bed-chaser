@@ -8,8 +8,7 @@
 /// A list of Facilities
 typedef QMap<ID,Facility*> FacilityList;
 
-/// A list of Patients
-typedef QMap<QString, Patient*> WaitingList;
+
 
 /**
  * @brief The object representation of an Area.

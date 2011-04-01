@@ -21,7 +21,7 @@ MapArea::MapArea(QObject *parent) :
    lastMousePos = middle;
    zoomSpeed = BASEZOOMSPEED;
    resizeTimer.stop();
-
+    mouseDown = false;
    //
    // FOR TESTING, PLEASE REMOVE
    //
@@ -88,6 +88,12 @@ void MapArea::paintEvent(QPaintEvent *)
         icons.at(i)->draw(painter);
     }
     mapX->draw(painter);
+    if(mouseDown)
+    {
+        //painter.setBackgroundMode(Qt::TransparentMode);
+        painter.setBrush(QColor(100,100,255,100));
+        painter.drawRect(QRect(lastMousePos,curMousePos));
+    }
     QPoint lastMousePos = this->lastMousePos;
     lastMousePos += QPoint(MAPMIDDLEX,MAPMIDDLEY);
     lastMousePos -= mapPos;
@@ -134,49 +140,46 @@ void MapArea::timerEvent()
  *
  * @param p the point about which the icons and areas will resize
  */
-void MapArea::resize(QPoint p)
+void MapArea::resize(QPoint p, SelectType st)
 {
     QVector<MapVectors*>::iterator viter = vecs.begin();
     QVector<FacilityIcon*>::iterator fiter = icons.begin();
    // zoomSpeed = middle.manhattanLength() *BASEZOOMSPEED / QPoint(500,400).manhattanLength();
     float scale = 1;
-
-        if(zoomed)
+    if(zoomed)
+    {
+        if(MapVectors::checkZoomOut(vecs, p))
         {
-            if(MapVectors::checkZoomOut(vecs, p))
-            {
-               // scale = 0.66;
-                scale = 1/zoomSpeed;
-                zoomed = false;
-                lastMousePos = middle;
-            }
+           // scale = 0.66;
+            scale = 1/zoomSpeed;
+            zoomed = false;
+            lastMousePos = middle;
         }
-        else
+    }
+    else
+    {
+        //scale = 1.5;
+        scale = zoomSpeed;
+        zoomed = true;
+    }
+
+    if((!MapVectors::checkZoomOut(vecs, p)&& zoomed)||
+       (MapVectors::checkZoomOut(vecs, p)&& !zoomed)||
+       (MapVectors::checkZoomOut(vecs, p)&& zoomed))
+    {
+        while(viter != vecs.end())
         {
-            //scale = 1.5;
-            scale = zoomSpeed;
-            zoomed = true;
+             (*viter)->resizePoints(p,scale);
+             viter++;
         }
-
-        if((!MapVectors::checkZoomOut(vecs, p)&& zoomed)||
-           (MapVectors::checkZoomOut(vecs, p)&& !zoomed)||
-           (MapVectors::checkZoomOut(vecs, p)&& zoomed))
+        while(fiter != icons.end())
         {
-            while(viter != vecs.end())
-            {
-                 (*viter)->resizePoints(p,scale);
-                 viter++;
-            }
-            while(fiter != icons.end())
-            {
-                 (*fiter)->resizePoints(p,scale);
-                 fiter++;
-            }
-
+             (*fiter)->resizePoints(p,scale);
+             fiter++;
         }
-        mapX->resizePoints(p,scale);
 
-
+    }
+    mapX->resizePoints(p,scale);
     viter = vecs.begin();
     fiter = icons.begin();
     while(viter != vecs.end())
@@ -186,11 +189,18 @@ void MapArea::resize(QPoint p)
     }
     while(fiter != icons.end())
     {
-         if((*fiter)->checkSetSelected(p))
-         {
-             break;
-         }
-         fiter++;
+        if(st == MapArea::POINTSELECT)
+        {
+             if((*fiter)->checkSetSelected(p))
+             {
+                 break;
+             }
+        }
+        else
+        {
+           (*fiter)->checkSetSelectedBox(lastMousePos,curMousePos);
+        }
+        fiter++;
     }
     mapX->setPosition(p);
 }
@@ -202,13 +212,24 @@ void MapArea::resize(QPoint p)
 void MapArea::mousePressEvent(QMouseEvent *event)
 {
     lastMousePos = QPoint(event->x(),event->y());
-    resize(lastMousePos);
-    updateLabels();
+    mouseDown = true;
 }
 
 void MapArea::mouseReleaseEvent(QMouseEvent *)
 {
+    QPoint xpos = (curMousePos + lastMousePos)/2;
+    if((curMousePos - lastMousePos).manhattanLength()>4)
+    {
 
+        resize(xpos,BOXSELECT);
+        updateLabels(BOXSELECT);
+    }
+    if((curMousePos - lastMousePos).manhattanLength()<4)
+    {
+        resize(xpos,POINTSELECT);
+        updateLabels(POINTSELECT);
+    }
+    mouseDown = false;
 }
 
 void MapArea::mouseClickEvent(QMouseEvent *)
@@ -356,6 +377,7 @@ void MapArea::mouseMoveEvent(QMouseEvent *event)
         }
         iter++;
     }
+    curMousePos = QPoint(event->x(),event->y());
 }
 /**
  * Loads in all the labels on the right hand side so that their values can be changed.
@@ -377,7 +399,7 @@ void MapArea::loadLabels(QVector<QLabel*> labels)
  *
  *
  */
-void MapArea::updateLabels()
+void MapArea::updateLabels(SelectType st)
 {
     for(int i=0;i<labels.size();i++)
     {

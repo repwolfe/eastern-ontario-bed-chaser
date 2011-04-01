@@ -22,7 +22,7 @@ public slots:
     ////GetDataSlots
     //
     void addFacility(Facility* f);
-    void addWaitingList(ID,QLinkedList<Patient*>&);
+    void addWaitingList(ID,WaitingList&);
     ///
     ////GetDataSlots
     //

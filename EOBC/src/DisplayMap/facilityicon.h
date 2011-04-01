@@ -26,6 +26,7 @@ public:
     void resizePoints(QPoint mouse, float scale);
     static void makeCollisionIcons(FacilityIcon* f, QVector<FacilityIcon*> icons);
     bool checkSetSelected(QPoint);
+    bool checkSetSelectedBox(QPoint,QPoint);
     QString getName();
     QString getArea();
     QPoint getPosition();

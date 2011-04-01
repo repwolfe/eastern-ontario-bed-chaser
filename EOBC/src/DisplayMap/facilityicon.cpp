@@ -116,6 +116,45 @@ bool FacilityIcon::checkSetSelected(QPoint mouse)
     }
     return false;
 }
+bool FacilityIcon::checkSetSelectedBox(QPoint start,QPoint end)
+{
+    QRect rect;
+    start +=  -mapPos;
+    end += -mapPos;
+    if(start.x()<end.x())
+    {
+        rect.setLeft(start.x());
+        rect.setRight(end.x());
+    }
+    else
+    {
+        rect.setLeft(end.x());
+        rect.setRight(start.x());
+    }
+    if(start.y()<end.y())
+    {
+        rect.setTop(start.y());
+        rect.setBottom(end.y());
+    }
+    else
+    {
+        rect.setTop(end.y());
+        rect.setBottom(start.y());
+    }
+    selected = false;
+    if(rect.contains(realPosition))
+    {
+        //if(realPosition.x()>start.x())
+        //if(realPosition.y()>start.y())
+          //  if(realPosition.x()<end.x())
+            //    if(realPosition.y()<end.y())
+              //  {
+                    selected= true;
+                    return true;
+                //}
+    }
+    return false;
+}
 void FacilityIcon::makeCollisionIcons(FacilityIcon* f, QVector<FacilityIcon*> icons)
 {
     for(int i=1;i<icons.count()-1;i++)
@@ -195,3 +234,4 @@ void FacilityIcon::setPercents(int* per)
         piePercent[i] = piePercent[i]*100/max;
     }
 }
+

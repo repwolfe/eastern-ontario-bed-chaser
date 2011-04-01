@@ -6,7 +6,7 @@
 #include <QLabel>
 
 UpdateWaitingListForm::UpdateWaitingListForm(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent, Qt::WindowStaysOnTopHint)
 {
     setWindowTitle("Update Waiting List");
 
@@ -75,9 +75,9 @@ void UpdateWaitingListForm::_setupConnections()
 
 void UpdateWaitingListForm::_setupLayout()
 {
-    _facilityList           = new QComboBox();
+    _areaList           = new QComboBox();
 
-    _patientList            = new QTreeWidget();
+    _patientList        = new QTreeWidget();
     _patientList->setSelectionMode(QAbstractItemView::SingleSelection);
     _patientList->setColumnCount(2);    // For Name and Hcn
     QStringList headers = (QStringList() << "Patient Name" << "Health Card Number");
@@ -101,9 +101,9 @@ void UpdateWaitingListForm::_setupLayout()
     for (int i = 0; i < 3; ++i) { q->setRowStretch(i, 0); }
     for (int i = 3; i < 6; ++i) { q->setRowStretch(i,100); }
     q->addWidget(new QLabel("Waiting List"), 0, 0);
-    q->addWidget(new QLabel("From Facility"), 0, 1);
+    q->addWidget(new QLabel("From Area"), 0, 1);
     q->addWidget(_patientList, 1, 0, 5, 1);
-    q->addWidget(_facilityList, 1, 1);
+    q->addWidget(_areaList, 1, 1);
     q->addWidget(_addPatientButton, 2, 1, Qt::AlignBottom);
     q->addWidget(_removePatientButton, 3, 1, Qt::AlignTop);
     q->addWidget(_submitButton, 4, 1);

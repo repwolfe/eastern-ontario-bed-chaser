@@ -47,7 +47,7 @@ private:
     void _setupConnections();
 
     QTreeWidget* _patientList;
-    QComboBox* _facilityList;
+    QComboBox*   _areaList;
 
     QPushButton* _addPatientButton;
     QPushButton* _removePatientButton;

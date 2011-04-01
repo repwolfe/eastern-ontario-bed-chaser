@@ -30,6 +30,18 @@ void ChangeDataControl::_setupConnections()
     connect(_createUserControl, SIGNAL(submitClicked(QString,QString,QString, QString, QString)),
 	    SLOT(createUserSubmitted(QString,QString,QString,QString, QString)));
     connect(_updateWaitingListControl, SIGNAL(submitClicked()), SLOT(updateWaitingListSubmitted()));
+
+    // GetData
+    connect(&_getData, SIGNAL(receivedAllFacilities(QMap<ID,QString>)),
+            SLOT(_receivedAllFacilities(QMap<ID,QString>)));
+    connect(&_getData, SIGNAL(receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)),
+            SLOT(_receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)));
+    connect(&_getData, SIGNAL(receivedFacilitiesPatients(QMap<ID,QLinkedList<Patient*> >)),
+            SLOT(_receivedFacilitiesPatients(QMap<ID,QLinkedList<Patient*> >)));
+    connect(&_getData, SIGNAL(receivedFacilitiesCurrentBedNumbers(QMap<ID,QVector<int> >)),
+            SLOT(_receivedFacilitiesCurrentBedNumbers(QMap<ID,QVector<int> >)));
+    connect(&_getData, SIGNAL(receivedFacilitiesMinimumBedNumbers(QMap<ID,QVector<int> >)),
+            SLOT(_receivedFacilitiesMinimumBedNumbers(QMap<ID,QVector<int> >)));
 }
 
 /// @todo implement this
@@ -44,11 +56,16 @@ bool ChangeDataControl::changeData(QString &args, QString &data)
 
 void ChangeDataControl::displayMovePatientsToBedForm()
 {
+    // Request data to populate form
+    _getData.requestAllFacilities();
+    _getData.requestFacilitiesPatients();
     _movePatientControl->showToBedForm();
 }
 
 void ChangeDataControl::displayMovePatientsToFacilityForm()
 {
+    _getData.requestAllFacilities();
+    _getData.requestFacilitiesPatients();
     _movePatientControl->showToFacilityForm();
 }
 
@@ -64,6 +81,9 @@ void ChangeDataControl::displayCreateUserForm()
 
 void ChangeDataControl::displayUpdateBedsForm()
 {
+    _getData.requestAllFacilities();
+    _getData.requestFacilitiesCurrentBedNumbers();
+    _getData.requestFacilitiesMinimumBedNumbers();
     _updateBedsControl->showForm();
 }
 
@@ -115,4 +135,30 @@ void ChangeDataControl::updateWaitingListSubmitted()
     Q_UNUSED(patientsRemoved);
 
     /// @todo send the patientsAdded and patientsRemoved to StorageWrite
+}
+
+// Received Data
+void ChangeDataControl::_receivedAllFacilities(const QMap<ID, QString> &data)
+{
+
+}
+
+void ChangeDataControl::_receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient *> > &data)
+{
+
+}
+
+void ChangeDataControl::_receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient *> > &data)
+{
+
+}
+
+void ChangeDataControl::_receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> > &data)
+{
+
+}
+
+void ChangeDataControl::_receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> > &data)
+{
+
 }

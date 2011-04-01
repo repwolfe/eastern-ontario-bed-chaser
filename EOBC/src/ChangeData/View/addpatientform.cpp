@@ -3,7 +3,7 @@
 #include <QFormLayout>
 
 AddPatientForm::AddPatientForm(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent, Qt::WindowStaysOnTopHint)
 {
     setWindowTitle("Add Patient");
 

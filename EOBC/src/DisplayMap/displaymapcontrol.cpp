@@ -4,7 +4,7 @@ DisplayMapControl::DisplayMapControl(GetDataDisplayMapInterface& inter,QObject* 
 {
     map = new Map();
     //map->setGeometry(QRect(90,0,1000,600));
-
+    Q_UNUSED(inter);
     connectSlots();
 }
 DisplayMapControl::~DisplayMapControl()
@@ -14,11 +14,12 @@ DisplayMapControl::~DisplayMapControl()
 
 void DisplayMapControl::run()
 {
-
+    map->startTimer();
 }
 void DisplayMapControl::getLoggedOn(int permissions)
 {
     map->setPermissions(permissions);
+    run();
     map->show();
 }
 void DisplayMapControl::pressedAddBedsSlot(){emit pressedAddBeds();}

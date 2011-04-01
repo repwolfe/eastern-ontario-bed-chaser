@@ -3,89 +3,64 @@
 GetDataChangeDataInterface::GetDataChangeDataInterface(GetDataControl &getData) :
     _getData(getData)
 {
+    connect(&_getData, SIGNAL(receivedAllFacilities(QMap<ID,QString>)),
+            SLOT(_receivedAllFacilities(QMap<ID,QString>)));
+    connect(&_getData, SIGNAL(receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)),
+            SLOT(_receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)));
+    connect(&_getData, SIGNAL(receivedFacilitiesPatients(QMap<ID,QLinkedList<Patient*> >)),
+            SLOT(_receivedFacilitiesPatients(QMap<ID,QLinkedList<Patient*> >)));
+    connect(&_getData, SIGNAL(receivedFacilitiesCurrentBedNumbers(QMap<ID,QVector<int> >)),
+            SLOT(_receivedFacilitiesCurrentBedNumbers(QMap<ID,QVector<int> >)));
+    connect(&_getData, SIGNAL(receivedFacilitiesMinimumBedNumbers(QMap<ID,QVector<int> >)),
+            SLOT(_receivedFacilitiesMinimumBedNumbers(QMap<ID,QVector<int> >)));
 }
 
 void GetDataChangeDataInterface::requestAllFacilities()
 {
-    _facilities.clear();
-    /// @todo ask getData for all facilities
-}
-
-const QMap<ID, QString>&
-        GetDataChangeDataInterface::getAllFacilities() const
-{
-    return _facilities;
+    _getData.requestAllFacilities();
 }
 
 void GetDataChangeDataInterface::requestFacilitiesPatients()
 {
-    _facilitiesPatients.clear();
-    /// @todo ask getData for all facilities' patients
+    _getData.requestFacilitiesPatients();
 }
 
-const QMap<ID, QLinkedList<Patient> >&
-        GetDataChangeDataInterface::getFacilitiesPatients() const
+void GetDataChangeDataInterface::requestAreasWaitingList()
 {
-    return _facilitiesPatients;
-}
-
-void GetDataChangeDataInterface::requestFacilitiesWaitingList()
-{
-    _facilitiesWaitingList.clear();
-    /// @todo ask getData for all facilities' waiting list
-}
-
-const QMap<ID, QLinkedList<Patient> >&
-        GetDataChangeDataInterface::getFacilitiesWaitingList() const
-{
-    return _facilitiesWaitingList;
+    _getData.requestAreasWaitingList();
 }
 
 void GetDataChangeDataInterface::requestFacilitiesCurrentBedNumbers()
 {
-    _facilitiesCurrentBedNumbers.clear();
-    /// @todo ask all facilities' for their current bed numbers
-}
-
-const QMap<ID, QLinkedList<int> >&
-        GetDataChangeDataInterface::getFacilitiesCurrentBedNumbers() const
-{
-    return _facilitiesCurrentBedNumbers;
+    _getData.requestFacilitiesCurrentBedNumbers();
 }
 
 void GetDataChangeDataInterface::requestFacilitiesMinimumBedNumbers()
 {
-    _facilitiesMinimumBedNumbers.clear();
-    /// @todo ask all facilities' for their minimum bed numbers
+    _getData.requestFacilitiesMinimumBedNumbers();
 }
 
-const QMap<ID, QLinkedList<int> >&
-        GetDataChangeDataInterface::getFacilitiesMinimumBedNumbers() const
+void GetDataChangeDataInterface::_receivedAllFacilities(const QMap<ID, QString> &data)
 {
-    return _facilitiesMinimumBedNumbers;
+    emit receivedAllFacilities(data);
 }
 
-void GetDataChangeDataInterface::_receivedAllFacilities()
+void GetDataChangeDataInterface::_receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient *> > &data)
 {
-    emit receivedAllFacilities();
+    emit receivedFacilitiesPatients(data);
 }
 
-void GetDataChangeDataInterface::_receivedFacilitiesPatients()
+void GetDataChangeDataInterface::_receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient *> > &data)
 {
-    emit receivedFacilitiesPatients();
+    emit receivedAreasWaitingList(data);
 }
 
-void GetDataChangeDataInterface::_receivedFacilitiesWaitingList()
+void GetDataChangeDataInterface::_receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> > &data)
 {
-    emit receivedFacilitiesWaitingList();
+    emit receivedFacilitiesCurrentBedNumbers(data);
 }
 
-void GetDataChangeDataInterface::_receivedFacilitiesCurrentBedNumbers()
+void GetDataChangeDataInterface::_receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> > &data)
 {
-    emit receivedFacilitiesCurrentBedNumbers();
-}
-
-void GetDataChangeDataInterface::_receivedFacilitiesMinimumBedNumbers()
-{
-    emit receivedFacilitiesMinimumBedNumbers();
+    emit receivedFacilitiesMinimumBedNumbers(data);
 }

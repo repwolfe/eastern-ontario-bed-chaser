@@ -11,6 +11,7 @@ class ViewAllReportsWindow : public QWidget
     Q_OBJECT
 public:
     explicit ViewAllReportsWindow(QWidget *parent = 0);
+    ~ViewAllReportsWindow();
     void addItem(Report* r);
 signals:
     void pressedSelect(int);

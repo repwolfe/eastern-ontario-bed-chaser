@@ -85,39 +85,44 @@ void Map::loadAreas()
     q->setColumnMinimumWidth(1,150);
     q->setMargin(0);
 
+
     QLabel* fTemp = new QLabel("Facility Name");
+    int rows = 0;
     fTemp->setFont(QFont("Arial",14,3));
-    q->addWidget(fTemp,0,1);
+    q->addWidget(fTemp,rows++,1);
     fName = new QLabel();
-    q->addWidget(fName,1,1);
+    q->addWidget(fName,rows++,1);
     fTemp = new QLabel("Facility Area");
     fTemp->setFont(QFont("Arial",14,3));
-    q->addWidget(fTemp,2,1);
+    q->addWidget(fTemp,rows++,1);
     fArea = new QLabel();
-    q->addWidget(fArea,3,1);
+    q->addWidget(fArea,rows++,1);
     fTemp = new QLabel();
-    q->addWidget(fTemp,4,1);
+    q->addWidget(fTemp,rows++,1);
     fTemp = new QLabel("Occupancy Rates");
     fTemp->setFont(QFont("Arial",14,3));
-    q->addWidget(fTemp,5,1);
+    q->addWidget(fTemp,rows++,1);
     fLTCRates = new QLabel();
-    q->addWidget(fLTCRates,6,1);
+    q->addWidget(fLTCRates,rows++,1);
     fCCCRates = new QLabel();
-    q->addWidget(fCCCRates,7,1);
+    q->addWidget(fCCCRates,rows++,1);
     fACRates = new QLabel();
-    q->addWidget(fACRates,8,1);
+    q->addWidget(fACRates,rows++,1);
+    fOpenRates = new QLabel();
+    q->addWidget(fOpenRates,rows++,1);
     fTemp = new QLabel();
-    q->addWidget(fTemp,9,1);
+    q->addWidget(fTemp,rows++,1);
     fTemp = new QLabel("Coordinates");
     fTemp->setFont(QFont("Arial",14,3));
-    q->addWidget(fTemp,10,1);
+    q->addWidget(fTemp,rows++,1);
     fCoord = new QLabel();
-    q->addWidget(fCoord,11,1);
+    q->addWidget(fCoord,rows++,1);
     fTemp = new QLabel("Waiting List");
     fTemp->setFont(QFont("Arial",14,3));
-    q->addWidget(fTemp,12,1);
+    q->addWidget(fTemp,rows++,1);
     fWList = new QLabel();
-    q->addWidget(fWList,13,1);
+    q->addWidget(fWList,rows++,1);
+
     for(int i=1;i<14;i++)
     {
         q->setRowMinimumHeight(i,20);
@@ -132,9 +137,9 @@ void Map::loadAreas()
     q->setRowStretch(6,0);
     q->setRowStretch(7,0);
     q->setRowStretch(8,0);
-    q->setRowStretch(9,1);
-    q->setRowMinimumHeight(9,100);
-    q->setRowStretch(10,0);
+    q->setRowStretch(10,1);
+    q->setRowMinimumHeight(11,100);
+    q->setRowStretch(12,0);
     //
     //
     QVector<QLabel*> labels;
@@ -143,6 +148,7 @@ void Map::loadAreas()
     labels.push_back(fLTCRates);
     labels.push_back(fCCCRates);
     labels.push_back(fACRates);
+    labels.push_back(fOpenRates);
     labels.push_back(fCoord);
     labels.push_back(fWList);
     tempArea->loadLabels(labels);
@@ -275,6 +281,11 @@ void Map::setPermissions(int permissions)
     /* FOR TESTING ONLY, DELETE FOR FINAL RELEASE */
     /* FOR TESTING ONLY, DELETE FOR FINAL RELEASE */
 }
+void Map::startTimer()
+{
+    area->startTimer();
+}
+
 void Map::pressedAddBedsSlot(){emit pressedAddBeds();}
 void Map::pressedAddFacilitiesSlot(){emit pressedAddFacilities();}
 void Map::pressedAddUserAcctsSlot(){emit pressedAddUserAccts();}

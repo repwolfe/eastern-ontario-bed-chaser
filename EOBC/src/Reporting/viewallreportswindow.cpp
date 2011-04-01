@@ -3,6 +3,7 @@
 ViewAllReportsWindow::ViewAllReportsWindow(QWidget *parent) :
     QWidget(parent)
 {
+    setWindowTitle("All Reports Recieved");
     QGridLayout* layout = new QGridLayout();
     layout->addWidget(new QLabel("Reports"),0,0);
     layout->addWidget(new QLabel(),0,1);
@@ -27,6 +28,10 @@ ViewAllReportsWindow::ViewAllReportsWindow(QWidget *parent) :
     //wind = new ViewReportWindow(new Report(bars));
     //wind->show();
 }
+ViewAllReportsWindow::~ViewAllReportsWindow()
+{
+}
+
 void ViewAllReportsWindow::pressedSelectSlot()
 {
     emit pressedSelect(reportsBox->currentIndex().row());

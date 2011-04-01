@@ -61,20 +61,39 @@ GenerateReportWindow::GenerateReportWindow(QWidget *parent) :
 void GenerateReportWindow::pressedSubmit()
 {
     QVector<ReportBars*> bars;
-    int barnum = dateEndEntry->date().day() - dateStartEntry->date().day();
+    int barnum = 0;
+    int dateType = 0;
+    if(dateEndEntry->date().month() - dateStartEntry->date().month() == 0)
+    {
+        barnum= dateEndEntry->date().day() - dateStartEntry->date().day();
+    }
+    else if(dateEndEntry->date().year() - dateStartEntry->date().year() == 0)
+    {
+       barnum= dateEndEntry->date().month() - dateStartEntry->date().month();
+       dateType = 1;
+    }
+    else
+    {
+       barnum= dateEndEntry->date().year() - dateStartEntry->date().year();
+       dateType = 2;
+    }
     for(int i=0;i<=barnum;i++)
     {
-        int* barHeights = new int[3];
-        barHeights[0]=rand()%(15+i)+10;
-        barHeights[1]=rand()%(15+i)+10;
-        barHeights[2]=rand()%(15+i)+10;
+        int* barHeights = new int[4];
+        barHeights[0]=rand()%(11+i)+10;
+        barHeights[1]=rand()%(11+i)+10;
+        barHeights[2]=rand()%(11+i)+10;
+        barHeights[3]=100-(barHeights[0]+barHeights[1]+barHeights[2]);
+
         bars.push_back(new ReportBars(barHeights));
     }
-    Report* rep = new Report(dateStartEntry->text() + "-"+dateEndEntry->text(),dateStartEntry->date(),bars);
+    Report* rep = new Report(dateStartEntry->text() + "-"+dateEndEntry->text(),dateStartEntry->date(),bars,(int)Convenience::HOSPITAL,dateType);
 
     emit reportGenerated(rep);
     QMessageBox mb;
-    mb.setText("Report Submitted. Go to Reports->View Reports");
+    mb.setWindowTitle("Report Submitted");
+    mb.setIcon(QMessageBox::Information);
+    mb.setText("Report Submitted. \nGo to Reports-> View Reports");
     mb.exec();
 
     close();

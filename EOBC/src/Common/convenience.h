@@ -16,6 +16,7 @@
 class Convenience
 {
 public:
+    enum {HOSPITAL = 0,LONGTERMCARE=1};
     static QRect getCenterForSize(int width, int height);
     static EOBC::CareType intToCareType(int care);
     static EOBC::CareType qstringToCareType(QString care);

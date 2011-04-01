@@ -327,6 +327,40 @@ int Facility::getNumBeds(CareType type)
     return *numBeds;
 }
 
+/**
+ * Return the number of occupied beds of a particular type
+ *
+ * @param type which bed type to check
+ *
+ * @return number of occupied beds of a particular type
+ */
+int Facility::getNumBedsOccupied(CareType type)
+{
+    PatientContainer* patientsInBeds;
+    int* temp;
+
+    // If they passed in the wrong bed type
+    if (!_getPointersForType(type, patientsInBeds, temp))
+    {
+        Logger::errorMessage("Facility", "getNumBedsOccupied()", "Incorrect bed type passed in: ", QString::number(type));
+        return 0;
+    }
+
+    return patientsInBeds->size();
+}
+
+/**
+ * Return the number of available beds of a particular type
+ *
+ * @param type which bed type to check
+ *
+ * @return number of available beds of a particular type
+ */
+int Facility::getNumBedsAvailable(CareType type)
+{
+    return getNumBeds(type) - getNumBedsOccupied(type);
+}
+
 ID Facility::getFacilityId() const
 {
     return _facilityId;

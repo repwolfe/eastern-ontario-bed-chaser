@@ -43,6 +43,8 @@ public:
     bool addBeds(unsigned num, CareType type);
     bool decreaseBeds(unsigned num, CareType type);
     int getNumBeds(CareType type);
+    int getNumBedsOccupied(CareType type);
+    int getNumBedsAvailable(CareType type);
 
     ID getFacilityId() const;
     void setFacilityId(ID theId);

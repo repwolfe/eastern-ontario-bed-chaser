@@ -12,7 +12,6 @@ UpdateWaitingListControl::UpdateWaitingListControl()
     patients["Austin Chamney"] = "3211-999-123";
     _form->setPatientItems(patients);
 
-    /// @todo okay to have more than one AddPatientControl? (in case MovePatientController uses one)
     _addPatientControl = new AddPatientControl();
 
     connect(_form, SIGNAL(addPatientClicked()), SLOT(_addPatientClicked()));
@@ -78,9 +77,12 @@ void UpdateWaitingListControl::_addPatientClicked()
 
 void UpdateWaitingListControl::_removePatientClicked()
 {
-    QString patient = _form->getCurrentPatient();
-    _patientsRemoved.push_back(patient);
-    _form->removeSelectedPatientItem();
+    QString patientHCN;
+    if (_form->getCurrentPatient(patientHCN))
+    {
+        _patientsRemoved.push_back(patientHCN);
+        _form->removeSelectedPatientItem();
+    }
 }
 
 void UpdateWaitingListControl::_patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare)

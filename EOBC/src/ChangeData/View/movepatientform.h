@@ -24,7 +24,7 @@ class MovePatientForm : public QWidget
 {
     Q_OBJECT
 public:
-   MovePatientForm(QString title, bool displayBedType, QString moveTo, QWidget *parent = 0);
+   MovePatientForm(QString title, bool displayBedType, QString moveTo, bool displayAddRemove, QWidget *parent = 0);
 
    void setFacilityItems(QStringList& items);
    void setPatientItems(const QMap<QString,QString>& items);
@@ -36,20 +36,26 @@ public:
    void addPatientItem(QString name, QString hcn);
    void removeSelectedPatientItem();
 
+   bool isPatientInList(QString hcn) const;
+
    int getCurrentPatientRow();
-   QString getCurrentPatient();
+   bool getCurrentPatient(QString& outHcn) const;
 
    void setCurrentMoveToItem(int index);
 
 signals:
    void patientMoved(QString moveTo);
    void patientSelected(QString patient);
+   void addPatientClicked();
+   void removePatientClicked();
    void submitButtonClicked();
    void cancelButtonClicked();
 
 private slots:
    void _moveToChanged(QString moveTo);
    void _patientItemSelected(QTreeWidgetItem* item);
+   void _addPatientClicked();
+   void _removePatientClicked();
    void _submitButtonClicked();
    void _cancelButtonClicked();
 
@@ -59,12 +65,19 @@ private:
    void _setPatientItems(const QMap<QString,QString>& nameToHcn, const QMap<QString,QString>* hcnToBed = 0);
 
    bool _displayBedType;
+   bool _displayAddRemove;
+
    QString _moveToLabel;
 
    QTreeWidget* _patientList;
    QComboBox* _facilityList;
    QComboBox* _moveToList;
 
+   // Optional buttons
+   QPushButton* _addPatientButton;
+   QPushButton* _removePatientButton;
+
+   // Mandatory buttons
    QPushButton* _submitButton;
    QPushButton* _cancelButton;
 };

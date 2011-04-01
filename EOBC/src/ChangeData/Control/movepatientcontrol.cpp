@@ -1,10 +1,13 @@
 #include "movepatientcontrol.h"
+#include "convenience.h"
 
 MovePatientControl::MovePatientControl()
 {
     // Create the two forms
-    _toFacilityForm = new MovePatientForm("Move Patients to Facility", false, "To Facility");
-    _toBedForm = new MovePatientForm("Move Patients to Bed", true, "To Bed");
+    _toFacilityForm = new MovePatientForm("Move Patients to Facility", false, "To Facility", true);
+    _toBedForm = new MovePatientForm("Move Patients to Bed", true, "To Bed", false);
+
+    _addPatientControl = new AddPatientControl();
 
     // Set the options for moving a patient to a bed
     QStringList bedOptions;
@@ -41,6 +44,7 @@ MovePatientControl::~MovePatientControl()
 {
     delete _toFacilityForm;
     delete _toBedForm;
+    delete _addPatientControl;
 }
 
 void MovePatientControl::setFacilitiesList(const QMap<ID, QString>& data)
@@ -81,15 +85,30 @@ void MovePatientControl::showToBedForm()
 
 void MovePatientControl::_setupConnections()
 {
-    connect(_toBedForm, SIGNAL(patientMoved(QString)), SLOT(toBedFormPatientMoved(QString)));
-    connect(_toFacilityForm, SIGNAL(patientMoved(QString)), SLOT(toFacilityFormPatientMoved(QString)));
+    connect(_toBedForm, SIGNAL(patientMoved(QString)), SLOT(_toBedFormPatientMoved(QString)));
+    connect(_toFacilityForm, SIGNAL(patientMoved(QString)), SLOT(_toFacilityFormPatientMoved(QString)));
 
-    connect(_toBedForm, SIGNAL(patientSelected(QString)), SLOT(toBedFormPatientSelected(QString)));
+    connect(_toBedForm, SIGNAL(patientSelected(QString)), SLOT(_toBedFormPatientSelected(QString)));
 
-    connect(_toBedForm, SIGNAL(submitButtonClicked()), SLOT(toBedFormSubmit()));
-    connect(_toBedForm, SIGNAL(cancelButtonClicked()), SLOT(toBedFormCancel()));
-    connect(_toFacilityForm, SIGNAL(submitButtonClicked()), SLOT(toFacilityFormSubmit()));
-    connect(_toFacilityForm, SIGNAL(cancelButtonClicked()), SLOT(toFacilityFormCancel()));
+    connect(_toBedForm, SIGNAL(submitButtonClicked()), SLOT(_toBedFormSubmit()));
+    connect(_toBedForm, SIGNAL(cancelButtonClicked()), SLOT(_toBedFormCancel()));
+
+    connect(_toFacilityForm, SIGNAL(addPatientClicked()), SLOT(_toFacilityFormAddPatient()));
+    connect(_toFacilityForm, SIGNAL(removePatientClicked()), SLOT(_toFacilityFormRemovePatient()));
+    connect(_addPatientControl, SIGNAL(submitClicked(QString,QString,QString,QString)), SLOT(_patientCreated(QString,QString,QString,QString)));
+
+    connect(_toFacilityForm, SIGNAL(submitButtonClicked()), SLOT(_toFacilityFormSubmit()));
+    connect(_toFacilityForm, SIGNAL(cancelButtonClicked()), SLOT(_toFacilityFormCancel()));
+}
+
+const QLinkedList<QString>& MovePatientControl::getPatientsRemoved() const
+{
+    return _patientsRemoved;
+}
+
+const QLinkedList<Patient>& MovePatientControl::getPatientsAdded() const
+{
+    return _patientsAdded;
 }
 
 /****************************************
@@ -102,12 +121,11 @@ void MovePatientControl::_setupConnections()
  *
  * @param moveTo where they were moved
  */
-void MovePatientControl::toFacilityFormPatientMoved(QString moveTo)
+void MovePatientControl::_toFacilityFormPatientMoved(QString moveTo)
 {
-    // Find out who was moved
-    if (_toFacilityForm->getCurrentPatientRow() != -1)
+    QString patientHCN;
+    if (_toFacilityForm->getCurrentPatient(patientHCN))
     {
-        const QString& patientHCN = _toFacilityForm->getCurrentPatient();
         _facilityMoveToChanges[patientHCN] = moveTo;
     }
 }
@@ -118,12 +136,11 @@ void MovePatientControl::toFacilityFormPatientMoved(QString moveTo)
  *
  * @param moveTo where they were moved
  */
-void MovePatientControl::toBedFormPatientMoved(QString moveTo)
+void MovePatientControl::_toBedFormPatientMoved(QString moveTo)
 {
-    // Find out who was moved
-    if (_toBedForm->getCurrentPatientRow() != -1)
+    QString patientHCN;
+    if (_toBedForm->getCurrentPatient(patientHCN))
     {
-        const QString& patientHCN = _toBedForm->getCurrentPatient();
         // Avoid redundant changes (bed == AC, bed --> CCC, bed --> AC)
         if (_patientToBed[patientHCN] != moveTo)
         {
@@ -144,7 +161,7 @@ void MovePatientControl::toBedFormPatientMoved(QString moveTo)
  *
  * @param item The Patient selected
  */
-void MovePatientControl::toBedFormPatientSelected(QString item)
+void MovePatientControl::_toBedFormPatientSelected(QString item)
 {
     QMap<QString, QString>::const_iterator iter = _patientToBed.find(item);
 
@@ -160,26 +177,54 @@ void MovePatientControl::toBedFormPatientSelected(QString item)
     }
 }
 
-void MovePatientControl::toBedFormSubmit()
+void MovePatientControl::_toBedFormSubmit()
 {
     _toBedForm->close();
     emit toBedFormSubmitClicked();
 }
 
-void MovePatientControl::toBedFormCancel()
+void MovePatientControl::_toBedFormCancel()
 {
     _toBedForm->close();
     _bedMoveToChanges.clear();
 }
 
-void MovePatientControl::toFacilityFormSubmit()
+void MovePatientControl::_toFacilityFormAddPatient()
+{
+    _addPatientControl->showForm();
+}
+
+void MovePatientControl::_toFacilityFormRemovePatient()
+{
+    QString patientHCN;
+    if (_toFacilityForm->getCurrentPatient(patientHCN))
+    {
+        _patientsRemoved.push_back(patientHCN);
+        _toFacilityForm->removeSelectedPatientItem();
+    }
+}
+
+void MovePatientControl::_toFacilityFormSubmit()
 {
     _toFacilityForm->close();
     emit toFacilityFormSubmitClicked();
 }
 
-void MovePatientControl::toFacilityFormCancel()
+void MovePatientControl::_toFacilityFormCancel()
 {
     _toFacilityForm->close();
     _facilityMoveToChanges.clear();
 }
+
+void MovePatientControl::_patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare)
+{
+    // Don't add a patient already in the Facility
+    if (!_toFacilityForm->isPatientInList(hcn))
+    {
+        Patient patient(hcn, firstName, lastName, Convenience::qstringToCareType(requiredCare));
+        patient.setDatePlacedOnWaitingList(QDate::currentDate());
+        _patientsAdded.push_back(patient);
+        _toFacilityForm->addPatientItem(patient.getName(), hcn);
+    }
+}
+

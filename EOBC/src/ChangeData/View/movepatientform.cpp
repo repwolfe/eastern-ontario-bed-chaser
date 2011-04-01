@@ -12,13 +12,18 @@
  * @param moveTo String of where the patient is moved to (Bed or Facility)
  * @param parent the parent widget (optional)
  */
-MovePatientForm::MovePatientForm(QString title, bool displayBedType, QString moveTo, QWidget *parent) :
-    QWidget(parent, Qt::WindowStaysOnTopHint), _displayBedType(displayBedType), _moveToLabel(moveTo)
+MovePatientForm::MovePatientForm(QString title, bool displayBedType, QString moveTo, bool displayAddRemove, QWidget *parent) :
+    QWidget(parent), _displayBedType(displayBedType),
+    _displayAddRemove(displayAddRemove), _moveToLabel(moveTo)
 {
     setWindowTitle(title);
 
     int width = 575;
     int height = 300;
+
+    // For now make these NULL
+    _addPatientButton = 0;
+    _removePatientButton = 0;
 
     setGeometry(Convenience::getCenterForSize(width, height));
     setFixedSize(width, height);
@@ -128,7 +133,7 @@ void MovePatientForm::addPatientItem(QString name, QString hcn)
 
 void MovePatientForm::removeSelectedPatientItem()
 {
-    _patientList->removeItemWidget(_patientList->currentItem(), 0);
+    _patientList->takeTopLevelItem(_patientList->indexOfTopLevelItem(_patientList->currentItem()));
 }
 
 /**
@@ -147,18 +152,31 @@ int MovePatientForm::getCurrentPatientRow()
 }
 
 /**
- * Returns the current patient's health card number
+ * Returns the current patient's health card number if something is selected
  *
- * @return health card number of current patient
+ * @param outHcn out parameter with the health card number of the selected patient, otherwise doesn't touch it
+ *
+ * @return True if a patient is selected, False otherwise
  */
-QString MovePatientForm::getCurrentPatient()
+bool MovePatientForm::getCurrentPatient(QString& outHcn) const
 {
-    return _patientList->currentItem()->text(1);
+    QTreeWidgetItem* selection = _patientList->currentItem();
+    if (selection)
+    {
+        outHcn = selection->text(1);
+        return true;
+    }
+    return false;
 }
 
 void MovePatientForm::setCurrentMoveToItem(int index)
 {
     _moveToList->setCurrentIndex(index);
+}
+
+bool MovePatientForm::isPatientInList(QString hcn) const
+{
+    return !_patientList->findItems(hcn, Qt::MatchExactly, 1).empty();
 }
 
 void MovePatientForm::_setupLayout()
@@ -191,18 +209,34 @@ void MovePatientForm::_setupLayout()
     _submitButton->setMinimumWidth(125);
     _cancelButton->setMinimumWidth(125);
 
+    int patientSpan;
+    _displayAddRemove ? patientSpan = 7 : patientSpan = 5;
+
     QGridLayout* q = new QGridLayout();
     q->setColumnMinimumWidth(1, 150);
     for (int i = 0; i < 3; ++i) { q->setRowStretch(i, 0); }
     for (int i = 3; i < 6; ++i) { q->setRowStretch(i,100); }
     q->addWidget(new QLabel("Patients"), 0, 0);
     q->addWidget(new QLabel("From Facility"), 0, 1);
-    q->addWidget(_patientList, 1, 0, 5, 1);
+    q->addWidget(_patientList, 1, 0, patientSpan, 1);
     q->addWidget(_facilityList, 1, 1);
     q->addWidget(new QLabel(_moveToLabel), 2, 1, Qt::AlignBottom);
     q->addWidget(_moveToList, 3, 1, Qt::AlignTop);
-    q->addWidget(_submitButton, 4, 1);
-    q->addWidget(_cancelButton, 5, 1);
+
+    int submitLocation = 4;
+    int cancelLocation = 5;
+    if (_displayAddRemove)
+    {
+        _addPatientButton = new QPushButton("Add Patient");
+        _removePatientButton = new QPushButton("Remove Patient");
+        q->addWidget(_addPatientButton, 4, 1, Qt::AlignTop);
+        q->addWidget(_removePatientButton, 5, 1, Qt::AlignTop);
+        submitLocation = 6;
+        cancelLocation = 7;
+    }
+
+    q->addWidget(_submitButton, submitLocation, 1);
+    q->addWidget(_cancelButton, cancelLocation, 1);
     setLayout(q);
 }
 
@@ -212,6 +246,12 @@ void MovePatientForm::_setupConnections()
     connect(_moveToList, SIGNAL(currentIndexChanged(QString)), SLOT(_moveToChanged(QString)));
     connect(_submitButton, SIGNAL(clicked()), SLOT(_submitButtonClicked()));
     connect(_cancelButton, SIGNAL(clicked()), SLOT(_cancelButtonClicked()));
+
+    if (_displayAddRemove)
+    {
+        connect(_addPatientButton, SIGNAL(clicked()), SLOT(_addPatientClicked()));
+        connect(_removePatientButton, SIGNAL(clicked()), SLOT(_removePatientClicked()));
+    }
 }
 
 /************** PRIVATE SLOTS ***************/
@@ -222,10 +262,17 @@ void MovePatientForm::_moveToChanged(QString moveTo)
 
 void MovePatientForm::_patientItemSelected(QTreeWidgetItem* item)
 {
-    if (item)
-    {
-        emit patientSelected(item->text(1));
-    }
+    if (item) { emit patientSelected(item->text(1)); }
+}
+
+void MovePatientForm::_addPatientClicked()
+{
+    emit addPatientClicked();
+}
+
+void MovePatientForm::_removePatientClicked()
+{
+    emit removePatientClicked();
 }
 
 void MovePatientForm::_submitButtonClicked()

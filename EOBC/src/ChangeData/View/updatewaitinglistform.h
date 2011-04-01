@@ -21,7 +21,7 @@ class UpdateWaitingListForm : public QWidget
 public:
     explicit UpdateWaitingListForm(QWidget *parent = 0);
 
-    const QString getCurrentPatient() const;
+    bool getCurrentPatient(QString& outHcn) const;
 
     void addPatientItem(QString name, QString hcn);
     void removeSelectedPatientItem();

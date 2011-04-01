@@ -21,13 +21,21 @@ UpdateWaitingListForm::UpdateWaitingListForm(QWidget *parent) :
 }
 
 /**
- * Returns the currently selected patient's health card number
+ * Returns the current patient's health card number if something is selected
  *
- * @return the health card number
+ * @param outHcn out parameter with the health card number of the selected patient, otherwise doesn't touch it
+ *
+ * @return True if a patient is selected, False otherwise
  */
-const QString UpdateWaitingListForm::getCurrentPatient() const
+bool UpdateWaitingListForm::getCurrentPatient(QString& outHcn) const
 {
-    return _patientList->currentItem()->text(1);
+    QTreeWidgetItem* selection = _patientList->currentItem();
+    if (selection)
+    {
+        outHcn = selection->text(1);
+        return true;
+    }
+    return false;
 }
 
 void UpdateWaitingListForm::addPatientItem(QString name, QString hcn)

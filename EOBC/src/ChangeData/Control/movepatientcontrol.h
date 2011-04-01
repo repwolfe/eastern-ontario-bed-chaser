@@ -2,10 +2,11 @@
 #define MOVEPATIENTCONTROL_H
 
 #include "movepatientform.h"
+#include "addpatientcontrol.h"
 #include "patient.h"
 
-#include <QObject>
 #include <QMap>
+#include <QLinkedList>
 
 /**
  * @brief Controller for the MovePatientForm for Bed and Facility movement.
@@ -33,24 +34,36 @@ public:
     const QMap<QString, QString>& getBedChanges() const;
     const QMap<QString, QString>& getFacilityChanges() const;
 
+    const QLinkedList<QString>& getPatientsRemoved() const;
+    const QLinkedList<Patient>& getPatientsAdded() const;
+
 signals:
     void toBedFormSubmitClicked();
     void toFacilityFormSubmitClicked();
 
-public slots:
-    void toFacilityFormPatientMoved(QString moveTo);
-    void toBedFormPatientMoved(QString moveTo);
-    void toBedFormPatientSelected(QString item);
-    void toBedFormSubmit();
-    void toBedFormCancel();
-    void toFacilityFormSubmit();
-    void toFacilityFormCancel();
+private slots:
+    void _toFacilityFormPatientMoved(QString moveTo);
+    void _toBedFormPatientMoved(QString moveTo);
+    void _toBedFormPatientSelected(QString item);
+    void _toBedFormSubmit();
+    void _toBedFormCancel();
+    void _toFacilityFormAddPatient();
+    void _toFacilityFormRemovePatient();
+    void _patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare);
+    void _toFacilityFormSubmit();
+    void _toFacilityFormCancel();
 
 private:
     void _setupConnections();
 
     MovePatientForm* _toFacilityForm;
     MovePatientForm* _toBedForm;
+
+    /// Used to open a add patient form when adding a new patient to the waiting list
+    AddPatientControl* _addPatientControl;
+
+    QLinkedList<Patient> _patientsAdded;
+    QLinkedList<QString> _patientsRemoved;
 
     /// A Map of all the changes done to each Patient for the Bed Form
     QMap<QString, QString> _bedMoveToChanges;

@@ -102,9 +102,13 @@ void ChangeDataControl::movePatientsToBedSubmitted()
 
 void ChangeDataControl::movePatientsToFacilitySubmitted()
 {
-    const QMap<QString, QString>& changes = _movePatientControl->getFacilityChanges();
+    const QMap<QString, QString>& changes   = _movePatientControl->getFacilityChanges();
+    const QMap<QString, Patient>& additions = _movePatientControl->getPatientsAdded();
+    const QLinkedList<QString>& removals    = _movePatientControl->getPatientsRemoved();
     /// @todo send changes to StorageWrite
     Q_UNUSED(changes);
+    Q_UNUSED(additions);
+    Q_UNUSED(removals);
 }
 
 void ChangeDataControl::addFacilitySubmitted(QString, QString, QString)
@@ -130,7 +134,7 @@ void ChangeDataControl::updateBedsSubmitted(QString, int, int, int)
 
 void ChangeDataControl::updateWaitingListSubmitted()
 {
-    const QLinkedList<Patient>& patientsAdded = _updateWaitingListControl->getPatientsAdded();
+    const QMap<QString,Patient>& patientsAdded  = _updateWaitingListControl->getPatientsAdded();
     const QLinkedList<QString>& patientsRemoved = _updateWaitingListControl->getPatientsRemoved();
     Q_UNUSED(patientsAdded);
     Q_UNUSED(patientsRemoved);

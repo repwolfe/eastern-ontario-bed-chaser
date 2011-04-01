@@ -30,7 +30,7 @@ public:
     void setAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data);
 
     const QLinkedList<QString>& getPatientsRemoved() const;
-    const QLinkedList<Patient>& getPatientsAdded() const;
+    const QMap<QString, Patient>& getPatientsAdded() const;
 
 signals:
     void submitClicked();
@@ -50,8 +50,7 @@ private:
 
     QLinkedList<QString> _patientsRemoved;
 
-    /// @todo think of a way not to need patient, might be necessary though
-    QLinkedList<Patient> _patientsAdded;
+    QMap<QString, Patient> _patientsAdded;
 
 };
 

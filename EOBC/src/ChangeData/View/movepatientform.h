@@ -33,7 +33,7 @@ public:
 
    void removeFacilityItem(QString& item);
 
-   void addPatientItem(QString name, QString hcn);
+   void addPatientItem(QString name, QString hcn, QString bed=QString());
    void removeSelectedPatientItem();
 
    bool isPatientInList(QString hcn) const;

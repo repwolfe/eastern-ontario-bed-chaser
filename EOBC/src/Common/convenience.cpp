@@ -37,7 +37,7 @@ EOBC::CareType Convenience::intToCareType(int care)
  * @param care the QString, type of care
  * @return the type of care based on that integer, or LTC
  */
-EOBC::CareType Convenience::qstringToCareType(QString care)
+EOBC::CareType Convenience::qStringToCareType(QString care)
 {
     if (care.trimmed() == "AC")
     {
@@ -55,6 +55,23 @@ EOBC::CareType Convenience::qstringToCareType(QString care)
     {
 	return EOBC::LTC;
     }
+}
+
+/**
+ * Static convenience function that returns a QString for a given EOBC::CareType
+ *
+ * @param care the CareType
+ * @return the QString of the type of care
+ */
+QString Convenience::careTypeToQString(EOBC::CareType care)
+{
+    switch(care)
+    {
+        case EOBC::AC: return "AC";
+        case EOBC::CCC: return "CCC";
+        case EOBC::LTC: return "LTC";
+    }
+    return "LTC";
 }
 
 /**

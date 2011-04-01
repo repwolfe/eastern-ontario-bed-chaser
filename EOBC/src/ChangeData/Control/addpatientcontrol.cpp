@@ -1,9 +1,10 @@
 #include "addpatientcontrol.h"
 #include "convenience.h"
 
-AddPatientControl::AddPatientControl()
+AddPatientControl::AddPatientControl(bool addingToBed)
+    : _addingToBed(addingToBed)
 {
-    _form = new AddPatientForm();
+    _form = new AddPatientForm(addingToBed);
     connect(_form, SIGNAL(submitClicked()), SLOT(_submitClicked()));
 }
 
@@ -29,13 +30,29 @@ void AddPatientControl::_submitClicked()
     const QString& lastName	= _form->getLastName().trimmed();
     const QString& hcn		= _form->getHealthCardNumber().trimmed();
     const QString& requiredCare = _form->getRequiredCare().trimmed();
+    const QString& occuringCare = _form->getOccuringCare().trimmed();
     const QDate&   dateAdded    = _form->getDateAdded();
 
     if (!firstName.isEmpty() && !lastName.isEmpty() &&
 	Convenience::correctHealthCardNumber(hcn) && !requiredCare.isEmpty())
     {
-        emit submitClicked(firstName, lastName, hcn, requiredCare, dateAdded);
-	_form->close();
+        if (_addingToBed)
+        {
+            if (!occuringCare.isEmpty())
+            {
+                emit submitClicked(firstName, lastName, hcn, requiredCare, dateAdded, occuringCare);
+                _form->close();
+            }
+            else
+            {
+                _form->displayError();
+            }
+        }
+        else
+        {
+            emit submitClicked(firstName, lastName, hcn, requiredCare, dateAdded);
+            _form->close();
+        }
     }
     else
     {

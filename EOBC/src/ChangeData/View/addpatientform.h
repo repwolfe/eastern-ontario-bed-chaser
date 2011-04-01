@@ -19,7 +19,8 @@ class AddPatientForm : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AddPatientForm(QWidget *parent = 0);
+    explicit AddPatientForm(bool addingToBed, QWidget *parent = 0);
+    ~AddPatientForm();
 
     void clearContents();
 
@@ -29,6 +30,7 @@ public:
     const QString getLastName() const;
     const QString getHealthCardNumber() const;
     const QString getRequiredCare() const;
+    const QString getOccuringCare() const;
     const QDate   getDateAdded() const;
 
 signals:
@@ -41,10 +43,13 @@ private slots:
 private:
     void _setupLayout();
 
+    bool _addingToBed;
+
     QLineEdit* _firstNameBox;
     QLineEdit* _lastNameBox;
     QLineEdit* _healthCardNumber;
     QComboBox* _requiredCareBox;
+    QComboBox* _occuringCareBox;
     QDateEdit* _dateAdded;
     QLabel* _errorMessage;
     QPushButton* _submitButton;

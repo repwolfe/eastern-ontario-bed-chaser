@@ -12,7 +12,7 @@ UpdateWaitingListControl::UpdateWaitingListControl()
     patients["Austin Chamney"] = "3211-999-123";
     _form->setPatientItems(patients);
 
-    _addPatientControl = new AddPatientControl();
+    _addPatientControl = new AddPatientControl(false);
 
     connect(_form, SIGNAL(addPatientClicked()), SLOT(_addPatientClicked()));
     connect(_form, SIGNAL(removePatientClicked()), SLOT(_removePatientClicked()));
@@ -43,7 +43,7 @@ const QLinkedList<QString>& UpdateWaitingListControl::getPatientsRemoved() const
     return _patientsRemoved;
 }
 
-const QLinkedList<Patient>& UpdateWaitingListControl::getPatientsAdded() const
+const QMap<QString,Patient>& UpdateWaitingListControl::getPatientsAdded() const
 {
     return _patientsAdded;
 }
@@ -80,8 +80,18 @@ void UpdateWaitingListControl::_removePatientClicked()
     QString patientHCN;
     if (_form->getCurrentPatient(patientHCN))
     {
-        _patientsRemoved.push_back(patientHCN);
-        _form->removeSelectedPatientItem();
+        // See if this patient was also added to the waiting list
+        QMap<QString, Patient>::iterator find = _patientsAdded.find(patientHCN);
+        if (find == _patientsAdded.end())
+        {
+            _patientsRemoved.push_back(patientHCN);
+            _form->removeSelectedPatientItem();
+        }
+        // If they were, simply remove them from the list of added patients
+        else
+        {
+            _patientsAdded.erase(find);
+        }
     }
 }
 
@@ -90,9 +100,9 @@ void UpdateWaitingListControl::_patientCreated(QString firstName, QString lastNa
     // Don't add a patient already in the waiting list
     if (!_form->isPatientInList(hcn))
     {
-	Patient patient(hcn, firstName, lastName, Convenience::qstringToCareType(requiredCare));
+        Patient patient(hcn, firstName, lastName, Convenience::qStringToCareType(requiredCare));
         patient.setDatePlacedOnWaitingList(dateAdded);
-	_patientsAdded.push_back(patient);
+        _patientsAdded.insert(hcn,patient);
 	_form->addPatientItem(patient.getName(), hcn);
     }
 }

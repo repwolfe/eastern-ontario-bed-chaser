@@ -30,7 +30,7 @@ signals:
     void receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> >&);
 
     void receivedUpdatedFacility(Facility*);
-    void receivedUpdatedWaitingList(ID, QLinkedList<Patient*>&);
+    void receivedUpdatedWaitingList(ID, WaitingList&);
 
 private slots:
     void _receivedAllFacilities(const QMap<ID, QString>& data);
@@ -40,7 +40,7 @@ private slots:
     void _receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> >& data);
 
     void _receivedUpdatedFacility(Facility* fac);
-    void _receivedUpdatedWaitingList(ID id, QLinkedList<Patient*>& wl);
+    void _receivedUpdatedWaitingList(ID id, WaitingList& wl);
 
 private:
     StorageRead* _storage;

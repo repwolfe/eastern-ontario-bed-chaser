@@ -35,7 +35,7 @@ public:
     const QMap<QString, QString>& getFacilityChanges() const;
 
     const QLinkedList<QString>& getPatientsRemoved() const;
-    const QLinkedList<Patient>& getPatientsAdded() const;
+    const QMap<QString,Patient>& getPatientsAdded() const;
 
 signals:
     void toBedFormSubmitClicked();
@@ -47,9 +47,9 @@ private slots:
     void _toBedFormPatientSelected(QString item);
     void _toBedFormSubmit();
     void _toBedFormCancel();
-    void _toFacilityFormAddPatient();
-    void _toFacilityFormRemovePatient();
-    void _patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare);
+    void _toBedFormAddPatient();
+    void _toBedFormRemovePatient();
+    void _patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare, QDate dateAdded, QString occuringCare);
     void _toFacilityFormSubmit();
     void _toFacilityFormCancel();
 
@@ -62,8 +62,8 @@ private:
     /// Used to open a add patient form when adding a new patient to the waiting list
     AddPatientControl* _addPatientControl;
 
-    QLinkedList<Patient> _patientsAdded;
     QLinkedList<QString> _patientsRemoved;
+    QMap<QString,Patient> _patientsAdded;
 
     /// A Map of all the changes done to each Patient for the Bed Form
     QMap<QString, QString> _bedMoveToChanges;

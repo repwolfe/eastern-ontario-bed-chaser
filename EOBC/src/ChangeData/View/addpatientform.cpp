@@ -2,18 +2,29 @@
 #include "convenience.h"
 #include <QFormLayout>
 
-AddPatientForm::AddPatientForm(QWidget *parent) :
-    QWidget(parent, Qt::WindowStaysOnTopHint)
+AddPatientForm::AddPatientForm(bool addingToBed, QWidget *parent) :
+    QWidget(parent, Qt::WindowStaysOnTopHint), _addingToBed(addingToBed)
 {
     setWindowTitle("Add Patient");
 
     int width = 300;
-    int height = 300;
+    int height = 320;
+
+    if (addingToBed) { height += 30; }
 
     setGeometry(Convenience::getCenterForSize(width, height));
     setFixedSize(width, height);
 
     _setupLayout();
+}
+
+AddPatientForm::~AddPatientForm()
+{
+    // This Widget wasn't added to a layout, have to delete it manually
+    if (!_addingToBed)
+    {
+        delete _occuringCareBox;
+    }
 }
 
 const QString AddPatientForm::getFirstName() const
@@ -36,6 +47,16 @@ const QString AddPatientForm::getRequiredCare() const
     return _requiredCareBox->currentText();
 }
 
+const QString AddPatientForm::getOccuringCare() const
+{
+    return _occuringCareBox->currentText();
+}
+
+const QDate AddPatientForm::getDateAdded() const
+{
+    return _dateAdded->date();
+}
+
 void AddPatientForm::_submitClicked()
 {
     emit submitClicked();
@@ -53,6 +74,8 @@ void AddPatientForm::clearContents()
     _lastNameBox->clear();
     _healthCardNumber->clear();
     _requiredCareBox->setCurrentIndex(0);
+    _occuringCareBox->setCurrentIndex(0);
+    _dateAdded->setDate(QDate::currentDate());
     _errorMessage->setText("");
 }
 
@@ -79,11 +102,18 @@ void AddPatientForm::_setupLayout()
     connect(_submitButton, SIGNAL(clicked()), SLOT(_submitClicked()));
     connect(_cancelButton, SIGNAL(clicked()), SLOT(_cancelClicked()));
 
+    QStringList cares = QStringList() << "" << "AC" << "CCC" << "LTC";
     _requiredCareBox    = new QComboBox();
-    _requiredCareBox->addItem("");
-    _requiredCareBox->addItem("AC");
-    _requiredCareBox->addItem("LTC");
-    _requiredCareBox->addItem("CCC");
+    _occuringCareBox    = new QComboBox();
+
+    _requiredCareBox->addItems(cares);
+    _occuringCareBox->addItems(cares);
+
+    _dateAdded          = new QDateEdit();
+    _dateAdded->setDisplayFormat("MMMM dd yyyy");
+    _dateAdded->setDate(QDate::currentDate());
+    /// @todo can you add a patient in the future?
+    _dateAdded->setDateRange(QDate(1900,1,1), QDate::currentDate());
 
     QFormLayout* q = new QFormLayout();
     q->setContentsMargins(15, 10, 15, 10);
@@ -92,6 +122,10 @@ void AddPatientForm::_setupLayout()
     q->addRow("Last Name", _lastNameBox);
     q->addRow("Health Card #", _healthCardNumber);
     q->addRow("Required Care", _requiredCareBox);
+
+    if (_addingToBed) { q->addRow("Occuring Care", _occuringCareBox); }
+
+    q->addRow("Date Added", _dateAdded);
     q->addRow(_errorMessage);
     q->addRow("", _submitButton);
     q->addRow("", _cancelButton);

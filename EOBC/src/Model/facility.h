@@ -82,4 +82,7 @@ private:
     Facility(const Facility&);	// no implicit copy constructors
 };
 
+/// A list of Facilities
+typedef QMap<ID,Facility*> FacilityList;
+
 #endif // FACILITY_H

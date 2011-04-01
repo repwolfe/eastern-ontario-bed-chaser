@@ -5,8 +5,8 @@ GetDataDisplayMapInterface::GetDataDisplayMapInterface(GetDataControl &getData) 
 {
     connect(&_getData, SIGNAL(receivedUpdatedFacility(Facility*)),
             SLOT(_receivedUpdatedFacility(Facility*)));
-    connect(&_getData, SIGNAL(receivedUpdatedWaitingList(ID,QLinkedList<Patient*>&)),
-            SLOT(_receivedUpdatedWaitingList(ID,QLinkedList<Patient*>&)));
+    connect(&_getData, SIGNAL(receivedUpdatedWaitingList(ID,WaitingList&)),
+            SLOT(_receivedUpdatedWaitingList(ID,WaitingList&)));
 }
 
 void GetDataDisplayMapInterface::_receivedUpdatedFacility(Facility* fac)
@@ -14,7 +14,7 @@ void GetDataDisplayMapInterface::_receivedUpdatedFacility(Facility* fac)
     emit receivedUpdatedFacility(fac);
 }
 
-void GetDataDisplayMapInterface::_receivedUpdatedWaitingList(ID id, QLinkedList<Patient*>& wl)
+void GetDataDisplayMapInterface::_receivedUpdatedWaitingList(ID id, WaitingList& wl)
 {
     emit receivedUpdatedWaitingList(id, wl);
 }

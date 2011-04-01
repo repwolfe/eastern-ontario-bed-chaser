@@ -3,11 +3,16 @@
 
 #include "facility.h"
 
+
 #include <QMap>
 
 /// A list of Facilities
 typedef QMap<ID,Facility*> FacilityList;
 
+
+
+/// WaitingList defined in patient.h
+/// FacilityList defined in facility.h
 
 
 /**

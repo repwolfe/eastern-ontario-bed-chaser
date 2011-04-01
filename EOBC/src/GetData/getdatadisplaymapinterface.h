@@ -19,11 +19,11 @@ public:
 
 signals:
     void receivedUpdatedFacility(Facility*);
-    void receivedUpdatedWaitingList(ID, QLinkedList<Patient*>&);
+    void receivedUpdatedWaitingList(ID, WaitingList&);
 
 private slots:
     void _receivedUpdatedFacility(Facility* fac);
-    void _receivedUpdatedWaitingList(ID id, QLinkedList<Patient*>& wl);
+    void _receivedUpdatedWaitingList(ID id, WaitingList& wl);
 
 private:
     GetDataControl& _getData;

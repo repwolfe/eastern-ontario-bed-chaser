@@ -16,20 +16,24 @@ class AddPatientControl : public QObject
 {
     Q_OBJECT
 public:
-    AddPatientControl();
+    AddPatientControl(bool addingToBed);
     ~AddPatientControl();
 
     void showForm();
 
 signals:
-    /// FirstName; LastName; HealthCardNum; RequiredCare
-    void submitClicked(QString, QString, QString, QString);
+    /// FirstName; LastName; HealthCardNum; RequiredCare; DateAdded
+    void submitClicked(QString, QString, QString, QString, QDate);
+
+    /// FirstName; LastName; HealthCardNum; RequiredCare; DateAdded; OccuringCare
+    void submitClicked(QString, QString, QString, QString, QDate, QString);
 
 private slots:
     void _submitClicked();
 
 private:
     AddPatientForm* _form;
+    bool _addingToBed;
 
 };
 

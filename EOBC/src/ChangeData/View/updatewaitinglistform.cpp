@@ -6,7 +6,7 @@
 #include <QLabel>
 
 UpdateWaitingListForm::UpdateWaitingListForm(QWidget *parent) :
-    QWidget(parent, Qt::WindowStaysOnTopHint)
+    QWidget(parent)
 {
     setWindowTitle("Update Waiting List");
 

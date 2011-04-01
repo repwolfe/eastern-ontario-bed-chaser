@@ -59,7 +59,7 @@ void GetDataControl::_receivedUpdatedFacility(Facility* fac)
     emit receivedUpdatedFacility(fac);
 }
 
-void GetDataControl::_receivedUpdatedWaitingList(ID id, QLinkedList<Patient*>& wl)
+void GetDataControl::_receivedUpdatedWaitingList(ID id, WaitingList& wl)
 {
     emit receivedUpdatedWaitingList(id, wl);
 }

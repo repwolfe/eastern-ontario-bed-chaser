@@ -27,6 +27,8 @@ INCLUDEPATH +=\
     src/Reporting \
     src/Communication
 
+DEPENDPATH += INCLUDEPATH
+
 
 SOURCES +=\
     src/DisplayMap/displaymapcontrol.cpp \

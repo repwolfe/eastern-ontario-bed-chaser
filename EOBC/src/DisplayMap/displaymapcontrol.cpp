@@ -84,6 +84,6 @@ void DisplayMapControl::connectSlots(GetDataDisplayMapInterface& inter)
     //
 
     connect(&inter,SIGNAL(receivedUpdatedFacility(Facility*)),this,SLOT(addFacility(Facility*)));
-    connect(&inter,SIGNAL(receivedUpdatedWaitingList(ID,QLinkedList<Patient*>&)),this,SLOT(addWaitingList(ID,WaitingList&)));
+    connect(&inter,SIGNAL(receivedUpdatedWaitingList(ID,WaitingList&)),this,SLOT(addWaitingList(ID,WaitingList&)));
 }
 

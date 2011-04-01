@@ -124,10 +124,9 @@ void MovePatientForm::_setPatientItems(const QMap<QString,QString>& nameToHcn, c
     }
 }
 
-void MovePatientForm::addPatientItem(QString name, QString hcn)
+void MovePatientForm::addPatientItem(QString name, QString hcn, QString bed)
 {
-    QStringList info(name);
-    info.push_back(hcn);
+    QStringList info = QStringList() << name << hcn << bed;
     _patientList->insertTopLevelItem(0, new QTreeWidgetItem((QTreeWidget*)0, info));
 }
 

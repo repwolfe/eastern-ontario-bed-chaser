@@ -285,6 +285,11 @@ void Map::startTimer()
 {
     area->startTimer();
 }
+void Map::loadIcon(Facility* f)
+{
+    area->loadIcon(f);
+}
+
 
 void Map::pressedAddBedsSlot(){emit pressedAddBeds();}
 void Map::pressedAddFacilitiesSlot(){emit pressedAddFacilities();}

@@ -10,6 +10,7 @@
 #include "mapvectors.h"
 #include "facilityicon.h"
 #include "mapmarker.h"
+#include "facility.h"
 
 /**
  * This class holds the widget in which the map is contained.
@@ -30,7 +31,7 @@ public:
     void addVecs(QString reg,QVector<QPoint>* points, QColor col);
     void resize(QPoint p);
     static void setMiddle(QPoint& middle);
-    void loadIcon();
+    void loadIcon(Facility* f);
     void loadLabels(QVector<QLabel*> labels);
     void startTimer();
 

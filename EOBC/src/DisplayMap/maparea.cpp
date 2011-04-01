@@ -26,7 +26,7 @@ MapArea::MapArea(QObject *parent) :
    // FOR TESTING, PLEASE REMOVE
    //
    //icons.push_back(new FacilityIcon(QPoint(-MAPMIDDLEX,-MAPMIDDLEY),"General Hospital","Renfrew County"));
-   loadIcon();
+   //loadIcon();
    //
    //
    //
@@ -283,14 +283,43 @@ void MapArea::moveMap()
     }
     mapX->move(mapPos);
 }
-void MapArea::loadIcon()
+void MapArea::loadIcon(Facility* f)
 {
-    for(int i=0;i<17;i++)
+   /* for(int i=0;i<17;i++)
     {
        icons.push_back(new FacilityIcon(QPoint(rand()%700 - 250,rand()%150 - 50),"General Hospital","Renfrew County"));
        FacilityIcon::makeCollisionIcons(icons.at(icons.count()-1),icons);
+    }*/
+    int* percents = new int[4];
+    int iconType = Convenience::HOSPITAL;
+    if(f->getNumBeds(Convenience::intToCareType(0))==0)
+    {
+        iconType = Convenience::LONGTERMCARE;
+        percents[0] = f->getNumBeds(Convenience::intToCareType(2));
+        percents[1] = 0;
+        percents[2] = 0;
+        percents[3] = 0;
     }
-
+    else
+    {
+        percents[0] = f->getNumBeds(Convenience::intToCareType(0));
+        percents[1] = f->getNumBeds(Convenience::intToCareType(1));
+        percents[2] = f->getNumBeds(Convenience::intToCareType(0));
+        percents[3] = f->getNumBeds(Convenience::intToCareType(1));
+    }
+    icons.push_back(new FacilityIcon(f->getLocation()-QPoint(MAPMIDDLEX,MAPMIDDLEY),f->getFacilityName(),"Out Of Area",iconType));
+    icons.at(icons.count()-1)->setPercents(percents);
+    for(int i=0;i<vecs.count();i++)
+    {
+        QPolygonF p = vecs.at(i)->getPoly();
+        p.translate(QPoint(MAPMIDDLEX,MAPMIDDLEY));
+        QPoint Ipos = icons.at(icons.count()-1)->getPosition();
+        if(p.containsPoint(Ipos,Qt::OddEvenFill))
+        {
+            icons.at(icons.count()-1)->setArea(vecs.at(i)->getRegion());
+        }
+    }
+    FacilityIcon::makeCollisionIcons(icons.at(icons.count()-1),icons);
 }
 
 /**

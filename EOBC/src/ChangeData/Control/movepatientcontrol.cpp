@@ -43,14 +43,19 @@ MovePatientControl::~MovePatientControl()
     delete _toBedForm;
 }
 
-/**
- * Set the map of a patient to which bed they are in
- *
- * @param inMap the map to set to
- */
+void MovePatientControl::setFacilitiesList(const QMap<ID, QString>& data)
+{
+    /// @todo implement
+}
+
+void MovePatientControl::setFacilitiesToPatients(const QMap<ID, QLinkedList<Patient*> >& data)
+{
+    /// @todo implement
+}
+
 void MovePatientControl::setPatientToBedMap(QMap<QString,QString>& inMap)
 {
-    _patientToBed = inMap;
+    /// @todo implement
 }
 
 const QMap<QString, QString>& MovePatientControl::getBedChanges() const

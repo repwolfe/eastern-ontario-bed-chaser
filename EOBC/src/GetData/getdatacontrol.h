@@ -29,6 +29,9 @@ signals:
     void receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >&);
     void receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> >&);
 
+    void receivedUpdatedFacility(Facility*);
+    void receivedUpdatedWaitingList(ID, QLinkedList<Patient*>&);
+
 private slots:
     void _receivedAllFacilities(const QMap<ID, QString>& data);
     void _receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient*> >& data);
@@ -36,12 +39,10 @@ private slots:
     void _receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >& data);
     void _receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> >& data);
 
-private:
-    /// @todo decide if these interface functions should each be in their own class
-    /// to prevent classes from having abilities they shouldn't
-    QString sendRequestForData(QString& args);
-    QString requestData(QString& args);
+    void _receivedUpdatedFacility(Facility* fac);
+    void _receivedUpdatedWaitingList(ID id, QLinkedList<Patient*>& wl);
 
+private:
     StorageRead* _storage;
     SendRequestForData* _sendRequest;
     SendDataResponse* _sendResponse;

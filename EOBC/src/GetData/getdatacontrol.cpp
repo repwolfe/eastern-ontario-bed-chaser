@@ -4,22 +4,6 @@ GetDataControl::GetDataControl()
 {
 }
 
-/**
- * @todo complete this function
- */
-QString GetDataControl::sendRequestForData(QString& args)
-{
-    return QString(args);
-}
-
-/**
- * @todo complete this function
- */
-QString GetDataControl::requestData(QString& args)
-{
-    return QString(args);
-}
-
 void GetDataControl::requestAllFacilities()
 {
     /// @todo ask storage for all facilities
@@ -68,5 +52,15 @@ void GetDataControl::_receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector
 void GetDataControl::_receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> > &data)
 {
     emit receivedFacilitiesMinimumBedNumbers(data);
+}
+
+void GetDataControl::_receivedUpdatedFacility(Facility* fac)
+{
+    emit receivedUpdatedFacility(fac);
+}
+
+void GetDataControl::_receivedUpdatedWaitingList(ID id, QLinkedList<Patient*>& wl)
+{
+    emit receivedUpdatedWaitingList(id, wl);
 }
 

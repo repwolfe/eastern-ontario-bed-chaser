@@ -17,6 +17,21 @@ void UpdateBedsControl::showForm()
     _form->show();
 }
 
+void UpdateBedsControl::setFacilitiesList(const QMap<ID, QString>& data)
+{
+    /// @todo implement
+}
+
+void UpdateBedsControl::setCurrentBedNumbers(const QMap<ID, QVector<int> >& data)
+{
+    /// @todo implement
+}
+
+void UpdateBedsControl::setMinimumBedNumbers(const QMap<ID, QVector<int> >& data)
+{
+    /// @todo implement
+}
+
 void UpdateBedsControl::_submitClicked()
 {
     emit submitClicked(_form->getCurrentFacility(), _form->getNumAC(),

@@ -18,8 +18,12 @@ public:
     explicit GetDataDisplayMapInterface(GetDataControl& getData);
 
 signals:
+    void receivedUpdatedFacility(Facility*);
+    void receivedUpdatedWaitingList(ID, QLinkedList<Patient*>&);
 
-public slots:
+private slots:
+    void _receivedUpdatedFacility(Facility* fac);
+    void _receivedUpdatedWaitingList(ID id, QLinkedList<Patient*>& wl);
 
 private:
     GetDataControl& _getData;

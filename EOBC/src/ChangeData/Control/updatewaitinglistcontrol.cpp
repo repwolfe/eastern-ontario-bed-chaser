@@ -29,6 +29,16 @@ UpdateWaitingListControl::~UpdateWaitingListControl()
     delete _addPatientControl;
 }
 
+void UpdateWaitingListControl::setFacilitiesList(const QMap<ID, QString>& data)
+{
+    /// @todo implement
+}
+
+void UpdateWaitingListControl::setAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data)
+{
+    /// @todo implement
+}
+
 const QLinkedList<QString>& UpdateWaitingListControl::getPatientsRemoved() const
 {
     return _patientsRemoved;

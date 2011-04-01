@@ -29,7 +29,7 @@ signals:
     void receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >&);
     void receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> >&);
 
-public slots:
+private slots:
     void _receivedAllFacilities(const QMap<ID, QString>& data);
     void _receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient*> >& data);
     void _receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data);

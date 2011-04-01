@@ -89,6 +89,7 @@ void ChangeDataControl::displayUpdateBedsForm()
 
 void ChangeDataControl::displayUpdateWaitingList()
 {
+    _getData.requestAreasWaitingList();
     _updateWaitingListControl->showForm();
 }
 
@@ -140,25 +141,27 @@ void ChangeDataControl::updateWaitingListSubmitted()
 // Received Data
 void ChangeDataControl::_receivedAllFacilities(const QMap<ID, QString> &data)
 {
-
+    _movePatientControl->setFacilitiesList(data);
+    _updateBedsControl->setFacilitiesList(data);
+    _updateWaitingListControl->setFacilitiesList(data);
 }
 
 void ChangeDataControl::_receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient *> > &data)
 {
-
+    _movePatientControl->setFacilitiesToPatients(data);
 }
 
 void ChangeDataControl::_receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient *> > &data)
 {
-
+    _updateWaitingListControl->setAreasWaitingList(data);
 }
 
 void ChangeDataControl::_receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> > &data)
 {
-
+    _updateBedsControl->setCurrentBedNumbers(data);
 }
 
 void ChangeDataControl::_receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> > &data)
 {
-
+    _updateBedsControl->setMinimumBedNumbers(data);
 }

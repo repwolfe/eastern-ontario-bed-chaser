@@ -26,6 +26,9 @@ public:
 
     void showForm();
 
+    void setFacilitiesList(const QMap<ID, QString>& data);
+    void setAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data);
+
     const QLinkedList<QString>& getPatientsRemoved() const;
     const QLinkedList<Patient>& getPatientsAdded() const;
 

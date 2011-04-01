@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "updatebedsform.h"
+#include "patient.h"
 
 /**
  * @brief Controller for UpdateBedsForm.
@@ -20,6 +21,10 @@ public:
     ~UpdateBedsControl();
 
     void showForm();
+
+    void setFacilitiesList(const QMap<ID, QString>& data);
+    void setCurrentBedNumbers(const QMap<ID, QVector<int> >& data);
+    void setMinimumBedNumbers(const QMap<ID, QVector<int> >& data);
 
 signals:
     /// Facility Name, Num AC Beds, Num CCC Beds, num LTC Beds

@@ -2,6 +2,8 @@
 #define MOVEPATIENTCONTROL_H
 
 #include "movepatientform.h"
+#include "patient.h"
+
 #include <QObject>
 #include <QMap>
 
@@ -24,6 +26,8 @@ public:
     void showToFacilityForm();
     void showToBedForm();
 
+    void setFacilitiesList(const QMap<ID, QString>& data);
+    void setFacilitiesToPatients(const QMap<ID, QLinkedList<Patient*> >& data);
     void setPatientToBedMap(QMap<QString,QString>& inMap);
 
     const QMap<QString, QString>& getBedChanges() const;

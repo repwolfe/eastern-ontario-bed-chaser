@@ -206,13 +206,13 @@ void MovePatientControl::_toBedFormRemovePatient()
         if (find == _patientsAdded.end())
         {
             _patientsRemoved.push_back(patientHCN);
-            _toBedForm->removeSelectedPatientItem();
         }
         // If they were, simply remove them from the list of added patients
         else
         {
             _patientsAdded.erase(find);
         }
+        _toBedForm->removeSelectedPatientItem();
     }
 }
 

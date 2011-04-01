@@ -10,9 +10,6 @@
 
 typedef QHash<QString, Patient*> PatientContainer;
 
-/// A list of Patients
-typedef QMap<QString, Patient*> WaitingList;
-
 /**
  * @brief The object representation of a Facility.
  *

@@ -96,19 +96,19 @@ void ChangeDataControl::displayUpdateWaitingList()
 void ChangeDataControl::movePatientsToBedSubmitted()
 {
     const QMap<QString, QString>& changes = _movePatientControl->getBedChanges();
+    const QMap<QString, Patient>& additions = _movePatientControl->getPatientsAdded();
+    const QLinkedList<QString>& removals    = _movePatientControl->getPatientsRemoved();
     /// @todo send changes to StorageWrite
+    Q_UNUSED(additions);
+    Q_UNUSED(removals);
     Q_UNUSED(changes);
 }
 
 void ChangeDataControl::movePatientsToFacilitySubmitted()
 {
     const QMap<QString, QString>& changes   = _movePatientControl->getFacilityChanges();
-    const QMap<QString, Patient>& additions = _movePatientControl->getPatientsAdded();
-    const QLinkedList<QString>& removals    = _movePatientControl->getPatientsRemoved();
     /// @todo send changes to StorageWrite
     Q_UNUSED(changes);
-    Q_UNUSED(additions);
-    Q_UNUSED(removals);
 }
 
 void ChangeDataControl::addFacilitySubmitted(QString, QString, QString)

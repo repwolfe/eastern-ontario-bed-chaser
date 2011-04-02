@@ -28,9 +28,11 @@ public:
     void response(Area* requestArea, QDate start, QDate finish );
     void response(Area* requestArea, QDate start);
 private:
-    QDomElement toXML(Area* anArea, Facility* aFacility, Patient* p);
-    QDomElement toXML(Area* anArea, Facility* aFacility);
-    QDomElement toXML(Patient* p);
+    void toXML(QDomElement* e, Area* anArea, Facility* aFacility, Patient* p);
+    void toXML(QDomElement* e, Area* anArea, Facility* aFacility);
+    void toXML(QDomElement* e, Facility* aFacility);
+    void toXML(QDomElement* e, Patient* p);
+    QString toXML(QDate date);
     QDomNode addThis(QDomNode addThis);
     QDomNode deleteThis(QDomElement deleteThis);
     QDomNode rebuildThis(QDomElement rebuildThis);

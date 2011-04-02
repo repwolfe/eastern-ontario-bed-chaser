@@ -72,7 +72,8 @@ SOURCES +=\
     src/GetData/getdatachangedatainterface.cpp \
     src/GetData/getdatadisplaymapinterface.cpp \
     src/GetData/getdatareportinginterface.cpp \
-    src/Send/sendmessagecontrol.cpp
+    src/Send/sendmessagecontrol.cpp \
+    src/Receive/ReceiveMessageControl.cpp
 
 
 
@@ -119,7 +120,8 @@ HEADERS  += \
     src/GetData/getdatachangedatainterface.h \
     src/GetData/getdatadisplaymapinterface.h \
     src/GetData/getdatareportinginterface.h \
-    src/Send/sendmessagecontrol.h
+    src/Send/sendmessagecontrol.h \
+    src/Receive/ReceiveMessageControl.h
 
 
 RESOURCES += \

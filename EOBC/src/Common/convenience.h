@@ -3,6 +3,8 @@
 
 #include <QRect>
 #include "modelcommon.h"
+#include <QDate>
+#include <QString>
 
 /**
  * @brief Class of static convenience functions
@@ -29,7 +31,7 @@ public:
 
     static bool correctHealthCardNumber(QString hcn);
     static QString areaIDtoQString(ID id);
-
+    static QString toXML(QDate date);
 private:
     Convenience();
 };

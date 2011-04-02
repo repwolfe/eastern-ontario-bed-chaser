@@ -2,6 +2,7 @@
 #include <QDesktopWidget>
 #include <QApplication>
 #include <QRegExpValidator>
+
 /**
  * Static convenience function that returns a QRect with size width and height at center of screen.
  *
@@ -101,3 +102,16 @@ QString Convenience::areaIDtoQString(ID id)
     if(id == 6) return "Ottawa Central";
     return "";
 }
+
+QString Convenience::toXML(QDate aDate){
+    QString str;
+    str.append(aDate.year());
+    str.append("-");
+    str.append(aDate.month());
+    str.append("-");
+    str.append(aDate.day());
+    str.append("T00:00:00"); // fake time
+
+    return str;
+
+};

@@ -6,6 +6,7 @@
 #include "QLinkedList"
 #include <QtXml/qdom.h>
 #include "../Common/logger.h"
+#include "../Common/convenience.h"
 
 class SendMessageControl
 {
@@ -31,8 +32,7 @@ private:
     void toXML(QDomElement* e, Area* anArea, Facility* aFacility, Patient* p);
     void toXML(QDomElement* e, Area* anArea, Facility* aFacility);
     void toXML(QDomElement* e, Facility* aFacility);
-    void toXML(QDomElement* e, Patient* p);
-    QString toXML(QDate date);
+    void toXML(QDomElement* e, Patient* p, bool inpatient);
     QDomNode addThis(QDomNode addThis);
     QDomNode deleteThis(QDomElement deleteThis);
     QDomNode rebuildThis(QDomElement rebuildThis);

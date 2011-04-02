@@ -4,24 +4,27 @@ SendMessageControl::SendMessageControl()
 {
 }
 
-void SendMessageControl::toXML(QDomElement* e,Patient* p){
+void SendMessageControl::toXML(QDomElement* e,Patient* p, bool inpatient){
     e->setTagName("Patient");
     e->setAttribute("healthCardNumber", p->getHealthCardNumber());
     e->setAttribute("firstName", p->getFirstName());
     e->setAttribute("lastName", p->getLastName());
     e->setAttribute("reqCare", p->getRequiredCare());
     e->setAttribute("occCare", p->getOccupiedCare());
-
+    if (inpatient){
+        e->setAttribute("dateAdmitted", Convenience::toXML(p->getAdmissionDate()));
+    }else{
+        e->setAttribute("dateAdded", Convenience::toXML(p->getDatePlacedOnWaitingList()));
+    }
 };
-
 
 void SendMessageControl::toXML(QDomElement* area, Area* anArea, Facility* aFacility, Patient* p){
     QDomElement* fac = new QDomElement();
     fac->setTagName("Facility");
     fac->setAttribute("ID", aFacility->getFacilityId());
     QDomElement* pat = new QDomElement();
-    this->toXML(pat, p);
-   fac->appendChild(*pat);
+    this->toXML(pat, p, true);
+    fac->appendChild(*pat);
 
     area->setTagName("Area");
     area->setAttribute("ID", anArea->getAreaId());
@@ -56,7 +59,7 @@ void SendMessageControl::toXML(QDomElement* fac, Facility* aFacility){
         foreach(QString str, patients->keys()){
              p = patients->find(str).value();
              pat = new QDomElement();
-             this->toXML(pat,p);
+             this->toXML(pat,p, true);
              fac->appendChild(*pat);
         }
 
@@ -64,7 +67,7 @@ void SendMessageControl::toXML(QDomElement* fac, Facility* aFacility){
         foreach(QString str, patients->keys()){
              p = patients->find(str).value();
              pat = new QDomElement();
-             this->toXML(pat,p);
+             this->toXML(pat,p, true);
              fac->appendChild(*pat);
         }
     }else {
@@ -73,7 +76,7 @@ void SendMessageControl::toXML(QDomElement* fac, Facility* aFacility){
         foreach(QString str, patients->keys()){
              p = patients->find(str).value();
              pat = new QDomElement();
-             this->toXML(pat,p);
+             this->toXML(pat,p, true);
              fac->appendChild(*pat);
         }
     }

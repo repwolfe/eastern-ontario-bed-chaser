@@ -38,6 +38,12 @@ bool UpdateWaitingListForm::getCurrentPatient(QString& outHcn) const
     return false;
 }
 
+/**
+ * Add a new Patient to the patient list
+ *
+ * @param name Patient name
+ * @param hcn Patient health card number
+ */
 void UpdateWaitingListForm::addPatientItem(QString name, QString hcn)
 {
     QStringList info(name);
@@ -45,16 +51,29 @@ void UpdateWaitingListForm::addPatientItem(QString name, QString hcn)
     _patientList->insertTopLevelItem(0, new QTreeWidgetItem((QTreeWidget*)0, info));
 }
 
+/**
+ * Removes the selected patient from the GUI
+ */
 void UpdateWaitingListForm::removeSelectedPatientItem()
 {
     _patientList->takeTopLevelItem(_patientList->indexOfTopLevelItem(_patientList->currentItem()));
 }
 
+/**
+ * Checks if the Patient is in the list by checking health card numbers
+ * @param hcn Patient health card number
+ */
 bool UpdateWaitingListForm::isPatientInList(QString hcn) const
 {
     return !_patientList->findItems(hcn, Qt::MatchExactly, 1).empty();
 }
 
+/**
+ * Sets the list of patients in the GUI
+ * Displays patients by Name, then health card number
+ *
+ * @param inPatients map of Patient health card number to name
+ */
 void UpdateWaitingListForm::setPatientItems(const QMap<QString,QString>& inPatients)
 {
     _patientList->clear();

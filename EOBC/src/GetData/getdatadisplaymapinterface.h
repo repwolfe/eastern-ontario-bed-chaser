@@ -7,7 +7,8 @@
 /**
  * @brief Interface between the GetData and DisplayMap subsystems
  *
- * @todo Description
+ * Provides data needed by DisplayMap forms to the subsystem without
+ * revealing the internals of the database
  *
  * @todo traceability
  */

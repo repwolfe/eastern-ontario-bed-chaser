@@ -7,7 +7,8 @@
 /**
  * @brief Interface between the GetData and Reporting subsystems
  *
- * @todo Description
+ * Provides data needed by Reporting forms to the subsystem without
+ * revealing the internals of the database
  *
  * @todo traceability
  */

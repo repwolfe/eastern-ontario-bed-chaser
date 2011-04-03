@@ -73,44 +73,87 @@ void GetDataControl::requestReport(QDate fromDate, QDate toDate, ID facId, QStri
 
     /// @todo remove
     Q_UNUSED(constraints)
-    // QDate start, QDate end, ID facId, QPair<QString, QLinkedList<int> > &data, QPair<QString, QLinkedList<int> > &data2
-    QLinkedList<int> list1 = QLinkedList<int> () << rand() % 20 << rand() % 20 << rand() % 20 << rand() % 20;
-    QLinkedList<int> list2 = QLinkedList<int> () << rand() % 20 << rand() % 20 << rand() % 20 << rand() % 20;
+    int barnum = 0;
+    if(toDate.month() - fromDate.month() == 0)
+    {
+	barnum= toDate.day() - fromDate.day();
+    }
+    else if(toDate.year() - fromDate.year() == 0)
+    {
+	barnum= toDate.month() - fromDate.month();
+    }
+    else
+    {
+	barnum= toDate.year() - fromDate.year();
+    }
+
+    QLinkedList<int> list1;
+    QLinkedList<int> list2;
+    for (int i = 0; i < barnum; ++i) { list1 << rand() % 20; list2 << rand() % 20; }
     QPair<QString, QLinkedList<int> > data1 = qMakePair(tr("AC"), list1);
     QPair<QString, QLinkedList<int> > data2 = qMakePair(tr("AC"), list2);
     emit receivedReport(fromDate, toDate, facId, data1, data2);
 }
 
+/**
+ * Slot for when received all the facilities
+ * @param data map of Facility ID to Name
+ */
 void GetDataControl::_receivedAllFacilities(const QMap<ID, QString> & data)
 {
     emit receivedAllFacilities(data);
 }
 
+/**
+ * Slot for when received all the facilities patients
+ * @param data map of Facility ID to list of Patient objects
+ */
 void GetDataControl::_receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient *> > &data)
 {
     emit receivedFacilitiesPatients(data);
 }
 
+/**
+ * Slot for when received all areas waiting list
+ * @param data map of Area ID to a list of Patient objects
+ */
 void GetDataControl::_receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient *> > &data)
 {
     emit receivedAreasWaitingList(data);
 }
 
+/**
+ * Slot for when received current bed numbers
+ * @param data map of Facility ID to a Vector of bed numbers
+ */
 void GetDataControl::_receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> > &data)
 {
     emit receivedFacilitiesCurrentBedNumbers(data);
 }
 
+/**
+ * Slot for when received minimum bed numbers
+ * @param data map of Facility ID to a Vector of bed numbers
+ */
 void GetDataControl::_receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> > &data)
 {
     emit receivedFacilitiesMinimumBedNumbers(data);
 }
 
+/**
+ * Slot for when a specific Facility was updated
+ * @param fac Facility that was updated
+ */
 void GetDataControl::_receivedUpdatedFacility(Facility* fac)
 {
     emit receivedUpdatedFacility(fac);
 }
 
+/**
+ * Slot for when a specific Waiting List was updated
+ * @param id Area ID that whose waiting list was updated
+ * @param wl the WaitingList that was updated
+ */
 void GetDataControl::_receivedUpdatedWaitingList(ID id, WaitingList& wl)
 {
     emit receivedUpdatedWaitingList(id, wl);

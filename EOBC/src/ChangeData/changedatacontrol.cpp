@@ -54,15 +54,20 @@ bool ChangeDataControl::changeData(QString &args, QString &data)
  *                SLOTS                 *
  ****************************************/
 
+/**
+ * Requests data for the form and then displays it
+ */
 void ChangeDataControl::displayMovePatientsToBedForm()
 {
-    // Request data to populate form
     _movePatientControl->toBedFormWaitingForInfo();
     _getData.requestAllFacilities();
     _getData.requestFacilitiesPatients();
     _movePatientControl->showToBedForm();
 }
 
+/**
+ * Requests data for the form and then displays it
+ */
 void ChangeDataControl::displayMovePatientsToFacilityForm()
 {
     _movePatientControl->toFacilityFormWaitingForInfo();
@@ -81,6 +86,9 @@ void ChangeDataControl::displayCreateUserForm()
     _createUserControl->showForm();
 }
 
+/**
+ * Requests data for the form and then displays it
+ */
 void ChangeDataControl::displayUpdateBedsForm()
 {
     _updateBedsControl->waitingForData();
@@ -90,6 +98,9 @@ void ChangeDataControl::displayUpdateBedsForm()
     _updateBedsControl->showForm();
 }
 
+/**
+ * Requests data for the form and then displays it
+ */
 void ChangeDataControl::displayUpdateWaitingList()
 {
     _getData.requestAreasWaitingList();

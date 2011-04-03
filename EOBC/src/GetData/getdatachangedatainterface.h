@@ -6,7 +6,8 @@
 /**
  * @brief Interface between the GetData and ChangeData subsystems
  *
- * @todo Description
+ * Provides data needed by ChangeData forms to the subsystem without
+ * revealing the internals of the database
  *
  * @todo traceability
  */

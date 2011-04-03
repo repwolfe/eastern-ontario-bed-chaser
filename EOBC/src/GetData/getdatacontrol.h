@@ -10,6 +10,16 @@ class StorageRead;
 class SendRequestForData;
 class SendDataResponse;
 
+/**
+ * @brief Handles passing data from the database to subsystems
+ *
+ * Takes requests from any subsystem for data and passes it via
+ * signals. Interfaces take this class and the signals and pass
+ * the data to the needed subsystem, making no subsystem know
+ * about this class, and subsequently the database.
+ *
+ * This class is in the Getdata subsystem described in D2.
+ */
 class GetDataControl : public QObject
 {
     Q_OBJECT

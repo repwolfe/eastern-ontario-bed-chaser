@@ -31,7 +31,10 @@ void UpdateBedsControl::showForm()
 }
 
 /**
+ * Upon receiving the map of facility id to its names, stores
+ * the index of each facility and puts it in the drop down menu
  *
+ * @param data map of facility id to name
  */
 void UpdateBedsControl::setFacilitiesList(const QMap<ID, QString>& data)
 {
@@ -53,6 +56,12 @@ void UpdateBedsControl::setFacilitiesList(const QMap<ID, QString>& data)
     }
 }
 
+/**
+ * Sets the current bed numbers map to this, and if all the bed numbers
+ * have been received, refreshes the values in the GUI
+ *
+ * @param map of facility id to a vector of its current bed numbers
+ */
 void UpdateBedsControl::setCurrentBedNumbers(const QMap<ID, QVector<int> >& data)
 {
     _currentBedNumbers = data;
@@ -63,6 +72,12 @@ void UpdateBedsControl::setCurrentBedNumbers(const QMap<ID, QVector<int> >& data
     }
 }
 
+/**
+ * Sets the minimum bed numbers map to this, and if all the bed numbers
+ * have been received, refreshes the values in the GUI
+ *
+ * @param map of facility id to a vector of its minimum bed numbers
+ */
 void UpdateBedsControl::setMinimumBedNumbers(const QMap<ID, QVector<int> >& data)
 {
     _minimumBedNumbers = data;
@@ -73,6 +88,12 @@ void UpdateBedsControl::setMinimumBedNumbers(const QMap<ID, QVector<int> >& data
     }
 }
 
+/**
+ * When a facility is selected, get the current/minimum bed numbers
+ * and adjust the dials accordingly
+ *
+ * @param index of the selected facility, ID found in the map
+ */
 void UpdateBedsControl::_facilitySelected(int index)
 {
     QMap<int, ID>::const_iterator find = _indexToFacilityId.find(index);
@@ -99,7 +120,12 @@ void UpdateBedsControl::_facilitySelected(int index)
 
 void UpdateBedsControl::_submitClicked()
 {
-    emit submitClicked(_form->getCurrentFacilityIndex(), _form->getNumAC(),
-		       _form->getNumCCC(), _form->getNumLTC());
+    int index = _form->getCurrentFacilityIndex();
+    QMap<int, ID>::const_iterator find = _indexToFacilityId.find(index);
+    if (find != _indexToFacilityId.end())
+    {
+	emit submitClicked(find.value(), _form->getNumAC(),
+			   _form->getNumCCC(), _form->getNumLTC());
+    }
     _form->close();
 }

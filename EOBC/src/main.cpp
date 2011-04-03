@@ -11,10 +11,13 @@
 #include "reportingcontrol.h"
 #include "channelin.h"
 #include "channelout.h"
+#include "Send/sendmessagecontrol.h"
+#include "Receive/ReceiveMessageControl.h"
 
 int main(int argc, char *argv[])
 {
     StorageHandler handler (QString(":/storage/resources/storage.xml"));
+
     QApplication a(argc, argv);
 
     // Get Data and its interfaces
@@ -30,6 +33,8 @@ int main(int argc, char *argv[])
     ReportingControl rControl(gdReportingI);
     rControl.run();
 
+    SendMessageControl sendControl;
+    ReceiveMessageControl receiveControl;
     /// @todo Should these be created here or something else which creates them?
     ChannelIn channelIn;
     ChannelOut channelOut;

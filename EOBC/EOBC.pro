@@ -7,6 +7,7 @@
 QT       += core gui
 QT       += xml
 QT       += network
+QT	 += testlib
 
 TARGET = EOBCapplication
 TEMPLATE = app

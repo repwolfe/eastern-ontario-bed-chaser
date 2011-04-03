@@ -2,6 +2,7 @@
 int height = 300;
 int left = 120;
 int width = 300;
+int top = 70;
 int threeDness = 10;
 Report::Report(QString date, QDate startDate,QVector<ReportBars*>& bars,int facilityType, int dateType,QObject *parent) :
     QObject(parent)
@@ -46,33 +47,39 @@ void Report::drawGrid(QPainter& g)
 {
     int bars = 6;
     g.setBrush(QColor(190,210,255));
-    g.drawRect(left,50,width,height);
+    g.drawRect(left,top,width,height);
 
-    g.drawLine(left,50,left+width,50);
-    g.drawLine(left,50,left-threeDness,50+ threeDness);
+    g.drawLine(left,top,left+width,top);
+    g.drawLine(left,top,left-threeDness,top+ threeDness);
 
-    g.drawLine(left-threeDness,50 + threeDness,left-threeDness,50 + height+ threeDness);
-    g.drawLine(left,50,left,50 + height);
-    g.drawLine(left + width,50,left+width,50 + height);
+    g.drawLine(left-threeDness,top + threeDness,left-threeDness,top + height+ threeDness);
+    g.drawLine(left,top,left,top + height);
+    g.drawLine(left + width,top,left+width,top + height);
 
-    g.drawLine(left,50+height,left+width,50+height);
-    g.drawLine(left,50+height,left-threeDness,50+height+ threeDness);
+    g.drawLine(left,top+height,left+width,top+height);
+    g.drawLine(left,top+height,left-threeDness,top+height+ threeDness);
 
     for(int i=0;i<=bars;i++)
     {
         int ratio = (height / bars)*i;
-        g.drawLine(left,50 +ratio,left+width,50+ratio);
-        g.drawLine(left,50+ratio,left-threeDness,50+ratio+ threeDness);
+        g.drawLine(left,top +ratio,left+width,top+ratio);
+        g.drawLine(left,top+ratio,left-threeDness,top+ratio+ threeDness);
         g.setPen(Qt::black);
-        g.drawText(left - 40,50 + ratio + 15,QString::number((int)maxHeight - (i*(int)maxHeight/bars)));
+        g.drawText(left - 40,top + ratio + 15,QString::number((int)maxHeight - (i*(int)maxHeight/bars)));
     }
     QPolygon bottom;
-    bottom.push_back(QPoint(left - threeDness,height + 50 + threeDness));
-    bottom.push_back(QPoint(left,height + 50));
-    bottom.push_back(QPoint(left+width,height + 50));
-    bottom.push_back(QPoint(left+width - threeDness,height + 50 + threeDness));
+    bottom.push_back(QPoint(left - threeDness,height + top + threeDness));
+    bottom.push_back(QPoint(left,height + top));
+    bottom.push_back(QPoint(left+width,height + top));
+    bottom.push_back(QPoint(left+width - threeDness,height + top + threeDness));
     g.setBrush(Qt::gray);
     g.drawPolygon(bottom,Qt::OddEvenFill);
+
+    //
+    ///Draw Legend
+    //
+
+    drawLegend(g);
 
     //
     // DRAW TITLES
@@ -83,10 +90,11 @@ void Report::drawGrid(QPainter& g)
 
     g.setFont(QFont("Times New Roman",16,5));
     g.drawText(100,20,"Report: " + date);
+
     g.setFont(QFont("Arial",14,5));
-    g.drawText(width/2+left-30, height+50+threeDness + 60,"Time");
+    g.drawText(width/2+left-30, height+top+threeDness + 60,"Time");
     if(dateType == Report::DAY)
-        g.drawText(left-30, height+50+threeDness + 30,""+startDate.toString("MMM"));
+        g.drawText(left-30, height+top+threeDness + 30,""+startDate.toString("MMM"));
     if(this->type == Report::OCCUPANCYRATESNUMBER)
     {
         g.save();
@@ -107,7 +115,7 @@ void Report::drawBars(QPainter& g)
         int barLeft = left + i*width/bars.count() + 10;
         float barWidth = width/bars.count() - 20;
         int barHeight = curBar->getHeight();
-        curBar->setPosition(QPoint(barLeft,(50+height)-(barHeight/maxHeight)*height));
+        curBar->setPosition(QPoint(barLeft,(top+height)-(barHeight/maxHeight)*height));
         curBar->setSize(QPoint(barWidth,(barHeight/maxHeight)*height));
 
         //g.setBrush(Qt::blue);
@@ -115,15 +123,47 @@ void Report::drawBars(QPainter& g)
         curBar->draw(g,threeDness);
         g.setPen(Qt::black);
         if(dateType == Report::DAY)
-            g.drawText(left+i*(width/bars.count()) + 15, height+50+threeDness + 30,""+QString::number(startDate.day()+i));
+            g.drawText(left+i*(width/bars.count()) + 15, height+top+threeDness + 20,""+QString::number(startDate.day()+i));
         if(dateType == Report::MONTH)
-            g.drawText(left+i*(width/bars.count()) + 15, height+50+threeDness + 30,""+startDate.addMonths(i).toString("MMM"));
+            g.drawText(left+i*(width/bars.count()) + 15, height+top+threeDness + 20,""+startDate.addMonths(i).toString("MMM"));
         if(dateType == Report::YEAR)
-            g.drawText(left+i*(width/bars.count()) + 15, height+50+threeDness + 30,""+QString::number(startDate.year()+i));
+            g.drawText(left+i*(width/bars.count()) + 15, height+top+threeDness + 20,""+QString::number(startDate.year()+i));
     }
 }
 
 QString Report::getDate()
 {
     return date;
+}
+void Report::drawLegend(QPainter& g)
+{
+    g.setFont(QFont("Arial",12,5));
+    g.drawText(20,45,"Legend: ");
+    QLinearGradient rg;
+    ReportBars* curBar = bars.at(0);
+    for(int i=0;i<4;i++)
+    {
+        if(curBar->getAllHeights()[i]>0 && curBar->getAllHeights()[i] < 1000)
+        {
+            rg.setStart(QPoint (100 + i*80,40));
+            rg.setFinalStop(QPoint(100 + i*80,70));
+
+            rg.setColorAt(0,curBar->getAllColors()[i].lighter(70));
+            rg.setColorAt(1,curBar->getAllColors()[i].lighter(150));
+            //rg.setColorAt(0.5,barColors[1]);
+            //rg.setColorAt(0.75,barColors[2]);
+            g.setBrush(rg);
+
+            if(i<2)
+            {
+                g.drawText(100 + 25 + 70*i,55,""+curBar->getAllBarTypes()[i]);
+                g.drawRect(100 + i * 70,40,20,20);
+            }
+            else
+            {
+                g.drawText(50 + 25 + 110*i,55,""+curBar->getAllBarTypes()[i]);
+                g.drawRect(50 + i * 110,40,20,20);
+            }
+        }
+    }
 }

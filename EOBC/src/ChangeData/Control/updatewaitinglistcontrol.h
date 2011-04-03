@@ -25,8 +25,9 @@ public:
     ~UpdateWaitingListControl();
 
     void showForm();
+    void waitingForData();
 
-    void setFacilitiesList(const QMap<ID, QString>& data);
+    void setAreasList(const QMap<ID, QString>& data);
     void setAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data);
 
     const QLinkedList<QString>& getPatientsRemoved() const;
@@ -41,9 +42,17 @@ private slots:
     void _removePatientClicked();
     void _addPatientClicked();
     void _patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare, QDate dateAdded);
+    void _areaSelected(int index);
 
 private:
     UpdateWaitingListForm* _form;
+
+    bool _waitingForAreasList;
+    bool _waitingForWaitingList;
+    int _currentAreaIndex;
+
+    QMap<int, ID> _indexToAreaId;
+    QMap<ID, QHash<QString,QString> > _areaToPatientInfo;
 
     /// Used to open a add patient form when adding a new patient to the waiting list
     AddPatientControl* _addPatientControl;

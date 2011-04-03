@@ -35,11 +35,6 @@ public:
     bool changeData(QString& args, QString& data);
 
 signals:
-    void receivedAllFacilities(const QMap<ID, QString>&);
-    void receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient> >&);
-    void receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient> >&);
-    void receivedFacilitiesCurrentBedNumbers(const QMap<ID, QLinkedList<int> >&);
-    void receivedFacilitiesMinimumBedNumbers(const QMap<ID, QLinkedList<int> >&);
 
 public slots:
     // Display GUI
@@ -62,6 +57,7 @@ private slots:
 
     // Received Data
     void _receivedAllFacilities(const QMap<ID, QString>& data);
+    void _receivedAllAreas(const QMap<ID, QString>& data);
     void _receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient*> >& data);
     void _receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data);
     void _receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >& data);

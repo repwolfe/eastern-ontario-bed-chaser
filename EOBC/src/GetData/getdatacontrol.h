@@ -27,6 +27,7 @@ public:
     GetDataControl();
 
     void requestAllFacilities();
+    void requestAllAreas();
     void requestFacilitiesPatients();
     void requestAreasWaitingList();
     void requestFacilitiesCurrentBedNumbers();
@@ -35,6 +36,7 @@ public:
 
 signals:
     void receivedAllFacilities(const QMap<ID, QString>&);
+    void receivedAllAreas(const QMap<ID, QString>&);
     void receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient*> >&);
     void receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >&);
     void receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >&);
@@ -47,6 +49,7 @@ signals:
 
 private slots:
     void _receivedAllFacilities(const QMap<ID, QString>& data);
+    void _receivedAllAreas(const QMap<ID, QString>& data);
     void _receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient*> >& data);
     void _receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data);
     void _receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >& data);

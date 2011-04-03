@@ -28,19 +28,22 @@ public:
 
     bool isPatientInList(QString hcn) const;
 
-    void setPatientItems(const QMap<QString,QString>& inPatients);
+    void setAreaItems(QStringList& items);
+    void setPatientItems(const QHash<QString,QString>& inPatients);
 
 signals:
     void addPatientClicked();
     void removePatientClicked();
     void submitClicked();
     void cancelClicked();
+    void areaSelected(int);
 
 private slots:
     void _submitClicked();
     void _cancelClicked();
     void _addPatientClicked();
     void _removePatientClicked();
+    void _areaSelected(int);
 
 private:
     void _setupLayout();

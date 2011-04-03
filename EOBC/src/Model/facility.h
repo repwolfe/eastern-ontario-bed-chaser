@@ -39,6 +39,7 @@ public:
     bool movePatientToFacility(QString healthCardNum, Facility* otherFacility, CareType type);
     Patient* getPatient(QString healthCardNum) const;
     PatientContainer* getPatientsForType(CareType type);
+    PatientContainer getAllPatients();
 
     bool removePatient(Patient* patient);
     bool removePatient(QString healthCardNumber);

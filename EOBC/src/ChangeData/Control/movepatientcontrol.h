@@ -91,7 +91,6 @@ private:
     // To Bed Form
     QMap<int, ID>       _tbIndexToID;
     int                 _tbcurrentFacilityIndex;
-    //QMap<ID, QLinkedList<Patient*> > _tbFacilitiesPatients;
     FacilityIDToPatientInfo _tbFacilityToPatientsInfo;
 
     // Waiting for information bools

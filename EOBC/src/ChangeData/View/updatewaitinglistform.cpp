@@ -68,19 +68,25 @@ bool UpdateWaitingListForm::isPatientInList(QString hcn) const
     return !_patientList->findItems(hcn, Qt::MatchExactly, 1).empty();
 }
 
+void UpdateWaitingListForm::setAreaItems(QStringList& items)
+{
+    _areaList->clear();
+    _areaList->insertItems(0, items);
+}
+
 /**
  * Sets the list of patients in the GUI
  * Displays patients by Name, then health card number
  *
  * @param inPatients map of Patient health card number to name
  */
-void UpdateWaitingListForm::setPatientItems(const QMap<QString,QString>& inPatients)
+void UpdateWaitingListForm::setPatientItems(const QHash<QString,QString>& inPatients)
 {
     _patientList->clear();
     if (inPatients.size() > 0)
     {
         QList<QTreeWidgetItem*> items;
-        QMap<QString,QString>::const_iterator iter = inPatients.begin();
+	QHash<QString,QString>::const_iterator iter = inPatients.begin();
         while (iter != inPatients.end())
         {
             QStringList info(iter.key());
@@ -98,6 +104,7 @@ void UpdateWaitingListForm::_setupConnections()
     connect(_removePatientButton, SIGNAL(clicked()), SLOT(_removePatientClicked()));
     connect(_submitButton, SIGNAL(clicked()), SLOT(_submitClicked()));
     connect(_cancelButton, SIGNAL(clicked()), SLOT(_cancelClicked()));
+    connect(_areaList, SIGNAL(currentIndexChanged(int)), SLOT(_areaSelected(int)));
 }
 
 void UpdateWaitingListForm::_setupLayout()
@@ -157,4 +164,9 @@ void UpdateWaitingListForm::_addPatientClicked()
 void UpdateWaitingListForm::_removePatientClicked()
 {
     emit removePatientClicked();
+}
+
+void UpdateWaitingListForm::_areaSelected(int index)
+{
+    emit areaSelected(index);
 }

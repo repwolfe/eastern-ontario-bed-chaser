@@ -15,6 +15,18 @@ void GetDataControl::requestAllFacilities()
     emit receivedAllFacilities(facilities);
 }
 
+void GetDataControl::requestAllAreas()
+{
+    /// @todo ask storage for all facilities
+
+    /// @todo remove this
+    QMap<ID, QString> facilities;
+    facilities[1] = "North Lanark";
+    facilities[2] = "Renfrew County";
+    facilities[3] = "Ottawa West";
+    emit receivedAllAreas(facilities);
+}
+
 void GetDataControl::requestFacilitiesPatients()
 {
     /// @todo ask storage for all facilities' patients
@@ -41,6 +53,26 @@ void GetDataControl::requestFacilitiesPatients()
 void GetDataControl::requestAreasWaitingList()
 {
     /// @todo ask storage for all facilities' waiting list
+
+    /// @todo remove this, MEMORY LEAK
+
+    QMap<ID, QLinkedList<Patient*> > areasWaitingList;
+    QLinkedList<Patient*> list1;
+    list1 << new Patient("1111-123-123", "Robbie", "Wolfe", EOBC::AC);
+    list1 << new Patient("2222-123-123", "Austin", "Chamney", EOBC::LTC);
+    list1 << new Patient("3333-123-123", "JP", "Landry", EOBC::CCC);
+    areasWaitingList[1] = list1;
+    QLinkedList<Patient*> list2;
+    list2 << new Patient("4444-123-123", "Ichigo", "Kurosaki", EOBC::CCC);
+    list2 << new Patient("5555-123-123", "Naruto", "Uzumaki", EOBC::AC);
+    areasWaitingList[2] = list2;
+    QLinkedList<Patient*> list3;
+    list3 << new Patient("7777-123-123", "Lelouche", "Vi Britannia", EOBC::AC);
+    list3 << new Patient("8888-123-123", "Luffy D.", "Monkey", EOBC::CCC);
+    list3 << new Patient("9999-123-123", "Light", "Yagami", EOBC::CCC);
+    areasWaitingList[3] = list3;
+
+    emit receivedAreasWaitingList(areasWaitingList);
 }
 
 void GetDataControl::requestFacilitiesCurrentBedNumbers()
@@ -89,7 +121,7 @@ void GetDataControl::requestReport(QDate fromDate, QDate toDate, ID facId, QStri
 
     QLinkedList<int> list1;
     QLinkedList<int> list2;
-    for (int i = 0; i < barnum; ++i) { list1 << rand() % 20; list2 << rand() % 20; }
+    for (int i = 0; i <= barnum; ++i) { list1 << rand() % 20; list2 << rand() % 20; }
     QPair<QString, QLinkedList<int> > data1 = qMakePair(tr("AC"), list1);
     QPair<QString, QLinkedList<int> > data2 = qMakePair(tr("AC"), list2);
     emit receivedReport(fromDate, toDate, facId, data1, data2);
@@ -102,6 +134,15 @@ void GetDataControl::requestReport(QDate fromDate, QDate toDate, ID facId, QStri
 void GetDataControl::_receivedAllFacilities(const QMap<ID, QString> & data)
 {
     emit receivedAllFacilities(data);
+}
+
+/**
+ * Slot for when received all the areas
+ * @param data map of Area ID to Name
+ */
+void GetDataControl::_receivedAllAreas(const QMap<ID, QString> & data)
+{
+    emit receivedAllAreas(data);
 }
 
 /**

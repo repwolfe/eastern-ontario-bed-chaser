@@ -34,6 +34,8 @@ void ChangeDataControl::_setupConnections()
     // GetData
     connect(&_getData, SIGNAL(receivedAllFacilities(QMap<ID,QString>)),
             SLOT(_receivedAllFacilities(QMap<ID,QString>)));
+    connect(&_getData, SIGNAL(receivedAllAreas(QMap<ID,QString>)),
+	    SLOT(_receivedAllAreas(QMap<ID,QString>)));
     connect(&_getData, SIGNAL(receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)),
             SLOT(_receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)));
     connect(&_getData, SIGNAL(receivedFacilitiesPatients(QMap<ID,QLinkedList<Patient*> >)),
@@ -41,7 +43,7 @@ void ChangeDataControl::_setupConnections()
     connect(&_getData, SIGNAL(receivedFacilitiesCurrentBedNumbers(QMap<ID,QVector<int> >)),
             SLOT(_receivedFacilitiesCurrentBedNumbers(QMap<ID,QVector<int> >)));
     connect(&_getData, SIGNAL(receivedFacilitiesMinimumBedNumbers(QMap<ID,QVector<int> >)),
-            SLOT(_receivedFacilitiesMinimumBedNumbers(QMap<ID,QVector<int> >)));
+	    SLOT(_receivedFacilitiesMinimumBedNumbers(QMap<ID,QVector<int> >)));
 }
 
 /// @todo implement this
@@ -103,6 +105,8 @@ void ChangeDataControl::displayUpdateBedsForm()
  */
 void ChangeDataControl::displayUpdateWaitingList()
 {
+    _updateWaitingListControl->waitingForData();
+    _getData.requestAllAreas();
     _getData.requestAreasWaitingList();
     _updateWaitingListControl->showForm();
 }
@@ -161,7 +165,11 @@ void ChangeDataControl::_receivedAllFacilities(const QMap<ID, QString> &data)
 {
     _movePatientControl->setFacilitiesList(data);
     _updateBedsControl->setFacilitiesList(data);
-    _updateWaitingListControl->setFacilitiesList(data);
+}
+
+void ChangeDataControl::_receivedAllAreas(const QMap<ID, QString> &data)
+{
+    _updateWaitingListControl->setAreasList(data);
 }
 
 void ChangeDataControl::_receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient *> > &data)

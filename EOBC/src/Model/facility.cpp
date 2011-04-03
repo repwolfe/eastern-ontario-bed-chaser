@@ -217,6 +217,22 @@ PatientContainer* Facility::getPatientsForType(CareType type)
 }
 
 /**
+ * Gets all Patients in this Facility, regardless of bed type
+ *
+ * @return PatientContainer with all the patients
+ */
+PatientContainer Facility::getAllPatients()
+{
+    PatientContainer allPatients;
+    foreach (PatientContainer* patients, _patients)
+    {
+	allPatients.unite(*patients);
+    }
+    // Pretty sure this isn't a deep copy being returned
+    return allPatients;
+}
+
+/**
  * Gets the Patient pointer with the given health card num, as well as which bed their in.
  *
  * @param healthCardNum of patient being request

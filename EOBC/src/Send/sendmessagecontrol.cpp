@@ -1,5 +1,8 @@
 #include "sendmessagecontrol.h"
-
+/**
+  * Empy contructor, code blows up without it... damn C++
+  *
+  */
 SendMessageControl::SendMessageControl(){
 
 }

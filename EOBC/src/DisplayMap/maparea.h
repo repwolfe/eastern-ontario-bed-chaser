@@ -64,6 +64,7 @@ private:
    bool mouseDown;
    QPoint curMousePos;
    QVector<QLabel*> labels;
+   QColor* labelBoxColors;
 };
 
 #endif // MAPAREA_H

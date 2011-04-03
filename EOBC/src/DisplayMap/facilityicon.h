@@ -36,6 +36,7 @@ public:
     float getLTCOpen();
     float getCCCOpen();
     float getACOpen();
+    QColor* getColors();
     int getType();
     void setArea(QString area);
     void setCollided(bool col);

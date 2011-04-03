@@ -3,14 +3,16 @@
 GenerateReportWindow::GenerateReportWindow(QWidget *parent) :
     QWidget(parent)
 {
+
     int height = 0;
     this->setWindowTitle("Generate Report");
     layout.addWidget(new QLabel("Facility"),height,0,Qt::AlignTop);
     layout.addWidget(new QLabel("Date(s)"),height++,1,Qt::AlignTop);
 
-    QComboBox* facilities = new QComboBox();
-    facilities->addItem("Franklin Hospital");
-    facilities->addItem("Franklin Hospital");
+    facilities = new QComboBox();
+    facilToRows = new QMap<int,ID>();
+
+
     layout.addWidget(facilities,height,0,Qt::AlignTop);
 
      //////////////////////////////////////////////////////////DATES
@@ -28,7 +30,7 @@ GenerateReportWindow::GenerateReportWindow(QWidget *parent) :
     layout.addWidget(new QLabel(),height++,0); ///////////SPACER
 
     layout.addWidget(new QLabel("Constraints"),height++,0,Qt::AlignTop);
-    QComboBox* constraints = new QComboBox();
+    constraints = new QComboBox();
     constraints->addItem("Waiting List");
     constraints->addItem("Occupancy Rates");
     //layout.addWidget(new QLabel(),height+1,1,Qt::AlignTop);
@@ -60,6 +62,9 @@ GenerateReportWindow::GenerateReportWindow(QWidget *parent) :
 }
 void GenerateReportWindow::pressedSubmit()
 {
+    // FOR TESTING ONLY
+    // FOR TESTING ONLY
+    // FOR TESTING ONLY
     QVector<ReportBars*> bars;
     int barnum = 0;
     int dateType = 0;
@@ -97,6 +102,18 @@ void GenerateReportWindow::pressedSubmit()
     Report* rep = new Report(dateStartEntry->text() + "-"+dateEndEntry->text(),dateStartEntry->date(),bars,(int)Convenience::HOSPITAL,dateType);
 
     emit reportGenerated(rep);
+    // FOR TESTING ONLY
+    // FOR TESTING ONLY
+    // FOR TESTING ONLY
+
+    // REAL CODE
+    // REAL CODE
+    // REAL CODE
+    emit sendReportRequest(dateStartEntry->date(),
+                           dateEndEntry->date(),
+                           facilToRows->value(facilities->currentIndex()),
+                           constraints->currentText());
+
     QMessageBox mb;
     mb.setWindowTitle("Report Submitted");
     mb.setIcon(QMessageBox::Information);
@@ -104,6 +121,17 @@ void GenerateReportWindow::pressedSubmit()
     mb.exec();
 
     close();
+}
+void GenerateReportWindow::updateFacilities(QMap<ID,QString>* facils)
+{
+    __facils = facils;
+    facilities = new QComboBox();
+    facilToRows = new QMap<int,ID>();
+    foreach(ID i , facils->keys())
+    {
+        facilities->addItem(facils->find(i).value());
+        facilToRows->insert(facilities->count()-1,i);
+    }
 }
 
 

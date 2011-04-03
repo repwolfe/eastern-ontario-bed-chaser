@@ -15,13 +15,18 @@ MapArea::MapArea(QObject *parent) :
     QWidget() , vecs(), resizeTimer()
 {
     zoomed = false;
-   connect(&resizeTimer,SIGNAL(timeout()),this,SLOT(timerEvent()));
-   mapPos = QPoint(400,300);
-   this->setMouseTracking(true);
-   lastMousePos = middle;
-   zoomSpeed = BASEZOOMSPEED;
-   resizeTimer.stop();
+    connect(&resizeTimer,SIGNAL(timeout()),this,SLOT(timerEvent()));
+    mapPos = QPoint(400,300);
+    this->setMouseTracking(true);
+    lastMousePos = middle;
+    zoomSpeed = BASEZOOMSPEED;
+    resizeTimer.stop();
     mouseDown = false;
+    labelBoxColors = new QColor[4];
+    for(int i=0;i<4;i++)
+    {
+        labelBoxColors[i] = QColor(Qt::transparent);
+    }
    //
    // FOR TESTING, PLEASE REMOVE
    //
@@ -99,6 +104,16 @@ void MapArea::paintEvent(QPaintEvent *)
     lastMousePos -= mapPos;
     painter.drawText(15,middle.y()*2 - 40,"X: " + QString::number(lastMousePos.x()) + " Y: " + QString::number(lastMousePos.y()));
 
+    painter.setPen(Qt::black);
+    painter.setBrush(Qt::transparent);
+    painter.drawRect(QRect(0,0, middle.x()*2-1, middle.y()*2-4));
+    for (int i=0;i<4;i++)
+    {
+        painter.setPen(labelBoxColors[i].darker());
+        painter.setBrush(labelBoxColors[i]);
+        painter.drawRect(QRect(middle.x()*2-20,280+i*30,20,20));
+    }
+
 }
 /**
  * Adds a mapvector to the map. A mapvector is a specific series of points that resembles a reigon on the map
@@ -142,6 +157,8 @@ void MapArea::timerEvent()
  */
 void MapArea::resize(QPoint p, SelectType st)
 {
+
+
     QVector<MapVectors*>::iterator viter = vecs.begin();
     QVector<FacilityIcon*>::iterator fiter = icons.begin();
    // zoomSpeed = middle.manhattanLength() *BASEZOOMSPEED / QPoint(500,400).manhattanLength();
@@ -321,17 +338,17 @@ void MapArea::loadIcon(Facility* f)
     if(f->getNumBeds(Convenience::intToCareType(0))==0)
     {
         iconType = Convenience::LONGTERMCARE;
-        percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(2));
-        percents[1] = f->getNumBedsAvailable(Convenience::intToCareType(2));
+        percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::LTC));
+        percents[1] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::LTC));
         percents[2] = 0;
         percents[3] = 0;
     }
     else
     {
-        percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(0)); //ccc occ
-        percents[1] = f->getNumBedsOccupied(Convenience::intToCareType(1));//ac occ
-        percents[2] = f->getNumBedsAvailable(Convenience::intToCareType(0));
-        percents[3] = f->getNumBedsAvailable(Convenience::intToCareType(1));
+        percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::AC)); //ccc occ
+        percents[1] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::CCC));//ac occ
+        percents[2] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::AC));
+        percents[3] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::CCC));
     }
     icons.push_back(new FacilityIcon(f->getLocation()-QPoint(MAPMIDDLEX,MAPMIDDLEY),f->getFacilityName(),"Out Of Area",iconType));
     icons.at(icons.count()-1)->setPercents(percents);
@@ -406,6 +423,8 @@ void MapArea::updateLabels(SelectType st)
         labels.at(i)->setText("");
     }
     bool iconSelected = false;
+    for(int j=0;j<4;j++)
+        labelBoxColors[j] = Qt::transparent;
     for(int i=0;i<icons.count();i++)
     {
         if(icons.at(i)->isSelected())
@@ -418,6 +437,7 @@ void MapArea::updateLabels(SelectType st)
                 labels.at(3)->setText("CCC: " + QString::number(icons.at(i)->getCCC())+"%");
                 labels.at(4)->setText("Open AC Beds: " + QString::number(icons.at(i)->getACOpen())+"%");
                 labels.at(5)->setText("Open CCC Beds: " + QString::number(icons.at(i)->getCCCOpen())+"%");
+
             }
             if(icons.at(i)->getType()== Convenience::LONGTERMCARE)
             {
@@ -426,6 +446,8 @@ void MapArea::updateLabels(SelectType st)
                 labels.at(4)->setText("");
                 labels.at(5)->setText("");
             }
+            for(int j=0;j<4;j++)
+                labelBoxColors[j] = icons.at(i)->getColors()[j];
             labels.at(6)->setText("X: "+QString::number(icons.at(i)->getPosition().x()) + " Y: "+QString::number(icons.at(i)->getPosition().y()));
             iconSelected = true;
         }

@@ -99,9 +99,11 @@ void Map::loadAreas()
     q->addWidget(fArea,rows++,1);
     fTemp = new QLabel();
     q->addWidget(fTemp,rows++,1);
+
     fTemp = new QLabel("Occupancy Rates");
     fTemp->setFont(QFont("Arial",14,3));
     q->addWidget(fTemp,rows++,1);
+
     fLTCRates = new QLabel();
     q->addWidget(fLTCRates,rows++,1);
     fCCCRates = new QLabel();
@@ -110,7 +112,9 @@ void Map::loadAreas()
     q->addWidget(fACRates,rows++,1);
     fOpenRates = new QLabel();
     q->addWidget(fOpenRates,rows++,1);
-    fTemp = new QLabel();
+
+
+    fTemp = new QLabel("");
     q->addWidget(fTemp,rows++,1);
     fTemp = new QLabel("Coordinates");
     fTemp->setFont(QFont("Arial",14,3));

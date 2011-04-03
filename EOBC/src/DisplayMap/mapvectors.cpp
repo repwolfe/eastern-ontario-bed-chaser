@@ -13,7 +13,7 @@ MapVectors::MapVectors(QString region,QColor color,QObject* parent) : MapItem(pa
 {
     col = color;
     this->region = region;
-
+    waitingListNum =0 ;
 }
 /**
   * Deconstructor for MapVectors. Deletes the list of points for the polygon

@@ -21,7 +21,7 @@ FacilityIcon::FacilityIcon(QPoint pos,QString name, QString area, int type,QObje
         //piePercent[3] = 100-(piePercent[0]+piePercent[1]+piePercent[2]);
         pieColor[0] = Qt::red;
         pieColor[2]= QColor(100,255,0);
-        pieColor[3]= QColor(0,255,100);
+        pieColor[3]= QColor(0,200,100);
         pieColor[1] = Qt::blue;
     }
     else
@@ -31,10 +31,10 @@ FacilityIcon::FacilityIcon(QPoint pos,QString name, QString area, int type,QObje
 
         //pieColor[0] = QColor(255,100,50);
         //pieColor[1]= QColor(150,150,0);
-        pieColor[0] = QColor(0,200,200);
-        pieColor[1]= QColor(0,100,255);
-        pieColor[2] = Qt::blue;
-        pieColor[3] = Qt::blue;
+        pieColor[1] = QColor(0,200,200);
+        pieColor[0]= QColor(0,100,255);
+        pieColor[2] = Qt::transparent;
+        pieColor[3] = Qt::transparent;
     }
     this->name = name;
     this->area = area;
@@ -68,9 +68,12 @@ void FacilityIcon::draw(QPainter& g)
         {
             iconText = "L";
         }
-        g.setPen(QColor(100,100,100));
-        g.setFont(QFont("Arial",18));
+        QPen pen(Qt::black);
+        pen.setWidth(100);
+        g.setPen(pen);
+        //g.setFont(QFont("Arial",20));
         QPoint letterPos(-5,4);
+
         g.drawText(realPosition.x()+mapPos.x()+letterPos.x()-2,realPosition.y()+mapPos.y()+letterPos.y() +2,iconText);
         g.setPen(Qt::white);
         g.setFont(QFont("Arial",13));
@@ -185,15 +188,15 @@ QString FacilityIcon::getName()
 }
 float FacilityIcon::getLTC()
 {
-    return piePercent[1];
+    return round(piePercent[0]);
 }
 float FacilityIcon::getCCC()
 {
-   return round(piePercent[0]);
+   return round(piePercent[1]);
 }
 float FacilityIcon::getAC()
 {
-   return round(piePercent[1]);
+   return round(piePercent[0]);
 
 }
 int FacilityIcon::getType()
@@ -202,16 +205,16 @@ int FacilityIcon::getType()
 }
 float FacilityIcon::getLTCOpen()
 {
-    return (int)piePercent[0];
+    return round(piePercent[1]);
 }
 
 float FacilityIcon::getCCCOpen()
 {
-   return round(piePercent[2]);
+   return round(piePercent[3]);
 }
 float FacilityIcon::getACOpen()
 {
-   return round(piePercent[3]);
+   return round(piePercent[2]);
 }
 void FacilityIcon::setCollided(bool col)
 {
@@ -221,6 +224,11 @@ void FacilityIcon::setArea(QString area)
 {
     this->area = area;
 }
+QColor* FacilityIcon::getColors()
+{
+    return pieColor;
+}
+
 void FacilityIcon::setPercents(int* per)
 {
     int max = 0;

@@ -12,15 +12,25 @@ class GenerateReportWindow : public QWidget
     Q_OBJECT
 public:
     explicit GenerateReportWindow(QWidget *parent = 0);
-
+    void updateFacilities(QMap<ID,QString>* facils);
 signals:
+    ////FOR TESTING ONLY
     void reportGenerated(Report*);
+    ////FOR TESTING ONLY
+    void sendReportRequest(QDate, QDate, ID, QString);
+
 public slots:
     void pressedSubmit();
+private:
+
 private:
     QGridLayout layout;
     QDateEdit* dateStartEntry;
     QDateEdit* dateEndEntry;
+    QComboBox* facilities;
+    QMap<ID,QString>* __facils;
+    QMap<int,ID>* facilToRows;
+    QComboBox* constraints;
 
 };
 

@@ -113,11 +113,6 @@ void MovePatientControl::setFacilitiesToPatients(const QMap<ID, QLinkedList<Pati
     }
 }
 
-void MovePatientControl::setPatientToBedMap(QMap<QString,QString>& inMap)
-{
-    /// @todo implement
-}
-
 const QMap<QString, QString>& MovePatientControl::getBedChanges() const
 {
     return _bedMoveToChanges;

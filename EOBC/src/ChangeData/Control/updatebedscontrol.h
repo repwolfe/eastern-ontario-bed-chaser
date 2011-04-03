@@ -20,6 +20,7 @@ public:
     UpdateBedsControl();
     ~UpdateBedsControl();
 
+    void waitingForData();
     void showForm();
 
     void setFacilitiesList(const QMap<ID, QString>& data);
@@ -27,14 +28,22 @@ public:
     void setMinimumBedNumbers(const QMap<ID, QVector<int> >& data);
 
 signals:
-    /// Facility Name, Num AC Beds, Num CCC Beds, num LTC Beds
-    void submitClicked(QString, int, int, int);
+    /// Facility ID, Num AC Beds, Num CCC Beds, num LTC Beds
+    void submitClicked(ID, int, int, int);
 
 private slots:
+    void _facilitySelected(int);
     void _submitClicked();
 
 private:
     UpdateBedsForm* _form;
+    QMap<int, ID> _indexToFacilityId;
+    QMap<ID, QVector<int> > _currentBedNumbers;
+    QMap<ID, QVector<int> > _minimumBedNumbers;
+
+    bool _waitingForFacilitiesList;
+
+
 
 
 };

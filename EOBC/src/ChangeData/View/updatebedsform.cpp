@@ -18,6 +18,12 @@ UpdateBedsForm::UpdateBedsForm(QWidget *parent) :
     _setupLayout();
 }
 
+void UpdateBedsForm::setFacilityItems(QStringList& items)
+{
+    _facilities->clear();
+    _facilities->insertItems(0, items);
+}
+
 void UpdateBedsForm::setNumAC(int num)
 {
     _ACBeds->setValue(num);
@@ -63,9 +69,9 @@ int UpdateBedsForm::getNumLTC() const
     return _LTCBeds->value();
 }
 
-QString UpdateBedsForm::getCurrentFacility() const
+int UpdateBedsForm::getCurrentFacilityIndex() const
 {
-    return _facilities->currentText();
+    return _facilities->currentIndex();
 }
 
 void UpdateBedsForm::_submitClicked()

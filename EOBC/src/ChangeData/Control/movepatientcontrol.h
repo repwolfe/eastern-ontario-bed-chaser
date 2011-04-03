@@ -32,7 +32,6 @@ public:
 
     void setFacilitiesList(const QMap<ID, QString>& data);
     void setFacilitiesToPatients(const QMap<ID, QLinkedList<Patient*> >& data);
-    void setPatientToBedMap(QMap<QString,QString>& inMap);
 
     const QMap<QString, QString>& getBedChanges() const;
     const QMap<QString, ID>& getFacilityChanges() const;

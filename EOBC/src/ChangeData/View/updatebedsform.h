@@ -20,6 +20,8 @@ class UpdateBedsForm : public QWidget
 public:
     explicit UpdateBedsForm(QWidget *parent = 0);
 
+    void setFacilityItems(QStringList& items);
+
     void setNumAC(int num);
     void setNumCCC(int num);
     void setNumLTC(int num);
@@ -31,14 +33,16 @@ public:
     int getNumAC() const;
     int getNumCCC() const;
     int getNumLTC() const;
-    QString getCurrentFacility() const;
+    int getCurrentFacilityIndex() const;
 
 signals:
     void submitClicked();
+    void facilitySelected(int);
 
 private slots:
     void _submitClicked();
     void _cancelClicked();
+    void _facilitySelected(int);
 
 private:
     void _setupLayout();

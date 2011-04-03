@@ -1,5 +1,4 @@
 #include "getdatacontrol.h"
-
 GetDataControl::GetDataControl()
 {
 }
@@ -47,11 +46,39 @@ void GetDataControl::requestAreasWaitingList()
 void GetDataControl::requestFacilitiesCurrentBedNumbers()
 {
     /// @todo ask all facilities' for their current bed numbers
+
+    /// @todo remove this
+    QMap<ID, QVector<int> > beds;
+    beds[1] = QVector<int>() << 20 << 30 << 0;
+    beds[2] = QVector<int>() << 4 << 17 << 0;
+    beds[3] = QVector<int>() << 0 << 0 << 24;
+    emit receivedFacilitiesCurrentBedNumbers(beds);
 }
 
 void GetDataControl::requestFacilitiesMinimumBedNumbers()
 {
     /// @todo ask all facilities' for their minimum bed numbers
+
+    /// @todo remove this
+    QMap<ID, QVector<int> > beds;
+    beds[1] = QVector<int>() << 13 << 12 << 0;
+    beds[2] = QVector<int>() << 1 << 10 << 0;
+    beds[3] = QVector<int>() << 0 << 0 << 20;
+    emit receivedFacilitiesMinimumBedNumbers(beds);
+}
+
+void GetDataControl::requestReport(QDate fromDate, QDate toDate, ID facId, QString constraints)
+{
+    /// @todo ask for report data
+
+    /// @todo remove
+    Q_UNUSED(constraints)
+    // QDate start, QDate end, ID facId, QPair<QString, QLinkedList<int> > &data, QPair<QString, QLinkedList<int> > &data2
+    QLinkedList<int> list1 = QLinkedList<int> () << rand() % 20 << rand() % 20 << rand() % 20 << rand() % 20;
+    QLinkedList<int> list2 = QLinkedList<int> () << rand() % 20 << rand() % 20 << rand() % 20 << rand() % 20;
+    QPair<QString, QLinkedList<int> > data1 = qMakePair(tr("AC"), list1);
+    QPair<QString, QLinkedList<int> > data2 = qMakePair(tr("AC"), list2);
+    emit receivedReport(fromDate, toDate, facId, data1, data2);
 }
 
 void GetDataControl::_receivedAllFacilities(const QMap<ID, QString> & data)
@@ -87,5 +114,10 @@ void GetDataControl::_receivedUpdatedFacility(Facility* fac)
 void GetDataControl::_receivedUpdatedWaitingList(ID id, WaitingList& wl)
 {
     emit receivedUpdatedWaitingList(id, wl);
+}
+
+void GetDataControl::_receivedReport(QDate start, QDate end, ID facId, QPair<QString, QLinkedList<int> > &data, QPair<QString, QLinkedList<int> > &data2)
+{
+    emit receivedReport(start, end, facId, data, data2);
 }
 

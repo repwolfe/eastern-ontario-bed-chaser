@@ -1,8 +1,12 @@
 #include "sendmessagecontrol.h"
+/**
+  * Empy contructor, code blows up without it... damn C++
+  *
+  */
+SendMessageControl::SendMessageControl(){
 
-SendMessageControl::SendMessageControl()
-{
 }
+
 /**
  * Helper function to the private methods, turns a Patient into an xml tag
  *
@@ -25,7 +29,26 @@ void SendMessageControl::toXML(QDomElement* e,Patient* p, bool inpatient){
     }else{
         e->setAttribute("dateAdded", Convenience::toXML(p->getDatePlacedOnWaitingList()));
     }
-};
+}
+
+void SendMessageControl::toXML(QDomElement* e, Area* anArea, Facility* aFacility, QList<Patient*> pList){
+    QDomElement* fac = new QDomElement();
+    fac->setTagName("Facility");
+    fac->setAttribute("ID", aFacility->getFacilityId());
+
+    foreach(Patient* patInList, pList ){
+        QDomElement* pat = new QDomElement();
+        this->toXML(pat, patInList, true);
+        fac->appendChild(*pat);
+    }
+
+
+
+    e->setTagName("Area");
+    e->setAttribute("ID", anArea->getAreaId());
+
+    e->appendChild(*fac);
+}
 
 /**
  * Helper function to the public methods, turns a Patient into an xml tag
@@ -39,7 +62,7 @@ void SendMessageControl::toXML(QDomElement* e,Patient* p, bool inpatient){
  * @param anArea the Area that will be turned into an XML tag
  *
  */
-void SendMessageControl::toXML(QDomElement* area, Area* anArea, Facility* aFacility, Patient* p){
+void SendMessageControl::toXML(QDomElement* e, Area* anArea, Facility* aFacility, Patient* p){
     QDomElement* fac = new QDomElement();
     fac->setTagName("Facility");
     fac->setAttribute("ID", aFacility->getFacilityId());
@@ -47,12 +70,12 @@ void SendMessageControl::toXML(QDomElement* area, Area* anArea, Facility* aFacil
     this->toXML(pat, p, true);
     fac->appendChild(*pat);
 
-    area->setTagName("Area");
-    area->setAttribute("ID", anArea->getAreaId());
+    e->setTagName("Area");
+    e->setAttribute("ID", anArea->getAreaId());
 
-    area->appendChild(*fac);
+    e->appendChild(*fac);
 
-};
+}
 /**
  * Helper function to the public methods, returns a complete view of a facility
  *
@@ -91,7 +114,8 @@ void SendMessageControl::toXML(QDomElement* fac, Facility* aFacility){
     fac->setAttribute("coordinateY", aFacility->getLocation().y());
 
     PatientContainer * patients = aFacility->getPatientsForType(EOBC::LTC);
-    if(patients->count() <= 0){
+    if(patients->count() <= 0)
+    {
         patients = aFacility->getPatientsForType(EOBC::AC);
         Patient* p;
         QDomElement* pat;
@@ -119,5 +143,67 @@ void SendMessageControl::toXML(QDomElement* fac, Facility* aFacility){
              fac->appendChild(*pat);
         }
     }
-};
+}
+/**
+ * Sends an Add message
+ *
+ * @param p the list of Patients that will be transformend into an XML tag
+ *
+ * @param anArea the Area the patients will be added to
+ *
+ * @param remote true if the facility that is being changed is this node of EOBC's facility
+ *
+ * @param aFacility the Facility the patients will be added to
+ *
+ */
+void SendMessageControl::addPatients(bool remote, Area* anArea, Facility* aFacility, QList<Patient*> p){
+    this->doStuffToPatients("Add",  remote, anArea, aFacility, p);
+}
 
+/**
+ * Sends a Delete message
+ *
+ * @param p the list of Patients that will be transformend into an XML tag
+ *
+ * @param anArea the Area the patients will be added to
+ *
+ * @param remote true if the facility that is being changed is this node of EOBC's facility
+ *
+ * @param aFacility the Facility the patients will be added to
+ *
+ */
+void SendMessageControl::deletePatients(bool remote, Area* anArea, Facility* aFacility, QList<Patient*> p){
+   this->doStuffToPatients("Delete",  remote, anArea, aFacility, p);
+}
+
+/**
+ * Private helper method, sends a message
+ *
+ * @param str the command that this message should execute e.g. 'Add', 'Delete'
+ *
+ * @param p the list of Patients that will be transformend into an XML tag
+ *
+ * @param anArea the Area the patients will be added to
+ *
+ * @param remote true if the facility that is being changed is this node of EOBC's facility
+ *
+ * @param aFacility the Facility the patients will be added to
+ *
+ */
+void SendMessageControl::doStuffToPatients(QString str, bool remote, Area* anArea, Facility* aFacility, QList<Patient*> p){
+    QDomElement* el = new QDomElement();
+    this->toXML(el,  anArea, aFacility,  p);
+
+    QDomElement* e = new QDomElement();
+    e->setTagName(str);
+    if(remote)
+    {
+        e->setAttribute("remote", "true");
+    }else
+    {
+        e->setAttribute("remote", "false");
+    }
+    e->appendChild(*el);
+    QByteArray data = e->toDocument().toByteArray();
+    emit sendQByte(data);
+}

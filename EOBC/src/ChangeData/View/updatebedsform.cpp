@@ -18,6 +18,12 @@ UpdateBedsForm::UpdateBedsForm(QWidget *parent) :
     _setupLayout();
 }
 
+void UpdateBedsForm::setFacilityItems(QStringList& items)
+{
+    _facilities->clear();
+    _facilities->insertItems(0, items);
+}
+
 void UpdateBedsForm::setNumAC(int num)
 {
     _ACBeds->setValue(num);
@@ -63,14 +69,19 @@ int UpdateBedsForm::getNumLTC() const
     return _LTCBeds->value();
 }
 
-QString UpdateBedsForm::getCurrentFacility() const
+int UpdateBedsForm::getCurrentFacilityIndex() const
 {
-    return _facilities->currentText();
+    return _facilities->currentIndex();
 }
 
 void UpdateBedsForm::_submitClicked()
 {
     emit submitClicked();
+}
+
+void UpdateBedsForm::_facilitySelected(int index)
+{
+    emit facilitySelected(index);
 }
 
 void UpdateBedsForm::_cancelClicked()
@@ -94,6 +105,7 @@ void UpdateBedsForm::_setupLayout()
 
     connect(_submitButton, SIGNAL(clicked()), SLOT(_submitClicked()));
     connect(_cancelButton, SIGNAL(clicked()), SLOT(_cancelClicked()));
+    connect(_facilities, SIGNAL(currentIndexChanged(int)), SLOT(_facilitySelected(int)));
 
     QFormLayout* q = new QFormLayout();
     q->addRow("Facility", _facilities);

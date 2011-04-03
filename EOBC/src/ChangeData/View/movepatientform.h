@@ -42,9 +42,11 @@ public:
    bool getCurrentPatient(QString& outHcn) const;
 
    void setCurrentMoveToItem(int index);
+   int getCurrentMoveToIndex() const;
 
 signals:
    void patientMoved(QString moveTo);
+   void patientMoved(int index);
    void patientSelected(QString patient);
    void addPatientClicked();
    void removePatientClicked();
@@ -54,6 +56,7 @@ signals:
 
 private slots:
    void _moveToChanged(QString moveTo);
+   void _moveToChanged(int index);
    void _patientItemSelected(QTreeWidgetItem* item);
    void _addPatientClicked();
    void _removePatientClicked();

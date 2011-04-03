@@ -32,10 +32,9 @@ public:
 
     void setFacilitiesList(const QMap<ID, QString>& data);
     void setFacilitiesToPatients(const QMap<ID, QLinkedList<Patient*> >& data);
-    void setPatientToBedMap(QMap<QString,QString>& inMap);
 
     const QMap<QString, QString>& getBedChanges() const;
-    const QMap<QString, QString>& getFacilityChanges() const;
+    const QMap<QString, ID>& getFacilityChanges() const;
 
     const QLinkedList<QString>& getPatientsRemoved() const;
     const QMap<QString,Patient>& getPatientsAdded() const;
@@ -45,18 +44,21 @@ signals:
     void toFacilityFormSubmitClicked();
 
 private slots:
-    void _toFacilityFormPatientMoved(QString moveTo);
     void _toBedFormPatientMoved(QString moveTo);
     void _toBedFormPatientSelected(QString item);
     void _toBedFormSubmit();
     void _toBedFormCancel();
     void _toBedFormAddPatient();
     void _toBedFormRemovePatient();
+    void _toBedFormFacilitySelected(int);
     void _patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare, QDate dateAdded, QString occuringCare);
+
+    void _toFacilityFormPatientMoved(int index);
     void _toFacilityFormSubmit();
     void _toFacilityFormCancel();
+    void _toFacilityFormPatientSelected();
     void _toFacilityFormFacilitySelected(int);
-    void _toBedFormFacilitySelected(int);
+
 
 private:
     void _setupConnections();
@@ -73,8 +75,8 @@ private:
     /// A Map of all the changes done to each Patient for the Bed Form
     QMap<QString, QString> _bedMoveToChanges;
 
-    /// A Map of all the changes done to each Patient for the Bed Form
-    QMap<QString, QString> _facilityMoveToChanges;
+    /// A Map of all the changes done to each Patient for the Facility Form
+    QMap<QString, ID> _facilityMoveToChanges;
 
     /// A map of all the Patients to which Beds they're in
     QMap<QString, QString> _patientToBed;
@@ -84,7 +86,6 @@ private:
     // To Facility Form
     QMap<int, ID>       _tfIndexToID;
     int                 _tfcurrentFacilityIndex;
-    //QMap<ID, QLinkedList<Patient*> > _tfFacilitiesPatients;
     FacilityIDToPatientInfo _tfFacilityToPatientsInfo;
 
     // To Bed Form

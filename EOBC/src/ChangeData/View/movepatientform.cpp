@@ -186,6 +186,11 @@ void MovePatientForm::setCurrentMoveToItem(int index)
     _moveToList->setCurrentIndex(index);
 }
 
+int MovePatientForm::getCurrentMoveToIndex() const
+{
+    return _moveToList->currentIndex();
+}
+
 bool MovePatientForm::isPatientInList(QString hcn) const
 {
     return !_patientList->findItems(hcn, Qt::MatchExactly, 1).empty();
@@ -194,8 +199,9 @@ bool MovePatientForm::isPatientInList(QString hcn) const
 void MovePatientForm::_setupLayout()
 {
     _facilityList   = new QComboBox();
-    _facilityList->setFixedWidth(150);
     _moveToList     = new QComboBox();
+    _facilityList->setFixedWidth(150);
+    _moveToList->setFixedWidth(150);
 
     _patientList    = new QTreeWidget();
     _patientList->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -257,6 +263,7 @@ void MovePatientForm::_setupConnections()
 {
     connect(_patientList, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), SLOT(_patientItemSelected(QTreeWidgetItem*)));
     connect(_moveToList, SIGNAL(currentIndexChanged(QString)), SLOT(_moveToChanged(QString)));
+    connect(_moveToList, SIGNAL(currentIndexChanged(int)), SLOT(_moveToChanged(int)));
     connect(_submitButton, SIGNAL(clicked()), SLOT(_submitButtonClicked()));
     connect(_cancelButton, SIGNAL(clicked()), SLOT(_cancelButtonClicked()));
 
@@ -273,6 +280,11 @@ void MovePatientForm::_setupConnections()
 void MovePatientForm::_moveToChanged(QString moveTo)
 {
     emit patientMoved(moveTo);
+}
+
+void MovePatientForm::_moveToChanged(int index)
+{
+    emit patientMoved(index);
 }
 
 void MovePatientForm::_patientItemSelected(QTreeWidgetItem* item)

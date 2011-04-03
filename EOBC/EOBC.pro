@@ -7,6 +7,7 @@
 QT       += core gui
 QT       += xml
 QT       += network
+QT	 += testlib
 
 TARGET = EOBCapplication
 TEMPLATE = app
@@ -25,7 +26,9 @@ INCLUDEPATH +=\
     src/Model \
     src/Storage \
     src/Reporting \
-    src/Communication
+    src/Communication \
+    src/Send \
+    src/Receive
 
 DEPENDPATH += INCLUDEPATH
 
@@ -73,7 +76,8 @@ SOURCES +=\
     src/GetData/getdatadisplaymapinterface.cpp \
     src/GetData/getdatareportinginterface.cpp \
     src/Send/sendmessagecontrol.cpp \
-    src/Receive/ReceiveMessageControl.cpp
+    src/Receive/ReceiveMessageControl.cpp \
+    src/Communication/communicationsendinterface.cpp
 
 
 
@@ -121,7 +125,8 @@ HEADERS  += \
     src/GetData/getdatadisplaymapinterface.h \
     src/GetData/getdatareportinginterface.h \
     src/Send/sendmessagecontrol.h \
-    src/Receive/ReceiveMessageControl.h
+    src/Receive/ReceiveMessageControl.h \
+    src/Communication/communicationsendinterface.h
 
 
 RESOURCES += \

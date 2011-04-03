@@ -19,7 +19,10 @@ Area::Area(ID areaId)
 Area::Area(ID areaId, FacilityList& facilities)
     : _id(areaId), _facilities(facilities)
 {
-
+    foreach (Facility* facility, facilities)
+    {
+	facility->setAreaThisIsIn(this);
+    }
 }
 
 /**
@@ -44,7 +47,10 @@ Area::Area(ID areaId, WaitingList& waitingList)
 Area::Area(ID areaId, FacilityList& facilities, WaitingList& waitingList)
     : _id(areaId), _facilities(facilities), _waitingList(waitingList)
 {
-
+    foreach (Facility* facility, facilities)
+    {
+	facility->setAreaThisIsIn(this);
+    }
 }
 
 /**
@@ -71,6 +77,7 @@ bool Area::addFacility(Facility* inFacility)
     if (iter == _facilities.end())
     {
         _facilities.insert(key, inFacility);
+	inFacility->setAreaThisIsIn(this);
         return true;
     }
 
@@ -130,6 +137,10 @@ void Area::setFacilities(FacilityList& inFacilities)
     {
         _deleteFacilities();
         _facilities = inFacilities;
+	foreach (Facility* facility, _facilities)
+	{
+	    facility->setAreaThisIsIn(this);
+	}
     }
 }
 

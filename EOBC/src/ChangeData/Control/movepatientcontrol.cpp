@@ -1,5 +1,6 @@
 #include "movepatientcontrol.h"
 #include "convenience.h"
+#include "logger.h"
 
 MovePatientControl::MovePatientControl()
 {
@@ -23,27 +24,6 @@ MovePatientControl::MovePatientControl()
     bedOptions.push_back("LTC");
     _toBedForm->setMoveToItems(bedOptions);
 
-    /*
-    /// @todo remove this, get real patients somehow:
-    QMap<QString, QString> patients;
-    patients["Robbie Wolfe"] = "1233-123-123";
-    patients["JP Landry"] = "5535-234-123";
-    patients["Chuck Norris"] = "1233-323-154";
-    patients["Austin Chamney"] = "3213-999-123";
-
-    QMap<QString,QString> patientsToBed;
-    patientsToBed["1233-123-123"] = "CCC";
-    patientsToBed["5553-234-123"] = "LTC";
-    patientsToBed["3213-999-123"] = "AC";
-    patientsToBed["1233-323-154"] = "AC";
-    setPatientToBedMap(patientsToBed);
-
-    QStringList facilities;
-    facilities.push_back("Franklin General");
-    facilities.push_back("Cedar Sinar");
-    _toBedForm->setFacilityItems(facilities);
-    _toBedForm->setPatientItems(patients, patientsToBed);
-    */
     _setupConnections();
 }
 
@@ -54,6 +34,11 @@ MovePatientControl::~MovePatientControl()
     delete _addPatientControl;
 }
 
+/**
+ * Upon receiving the list of facilities, give it to whichever form needs it
+ *
+ * @param data a map of facility Id to their Name
+ */
 void MovePatientControl::setFacilitiesList(const QMap<ID, QString>& data)
 {
     QStringList facilities;
@@ -70,11 +55,12 @@ void MovePatientControl::setFacilitiesList(const QMap<ID, QString>& data)
             ++iter;
         }
     }
-    /// @todo implement
+
     if (_tfWaitingForFacilitiesList)
     {
         _tfWaitingForFacilitiesList = false;
         _toFacilityForm->setFacilityItems(facilities);
+	_toFacilityForm->setMoveToItems(facilities);
         _tfIndexToID = indexToFacilityId;
     }
 
@@ -87,6 +73,11 @@ void MovePatientControl::setFacilitiesList(const QMap<ID, QString>& data)
     }
 }
 
+/**
+ * Upon receiving the map of facilities to their patients, give it to whichever form needs it
+ *
+ * @param data map of facilities to their patients
+ */
 void MovePatientControl::setFacilitiesToPatients(const QMap<ID, QLinkedList<Patient*> >& data)
 {
     FacilityIDToPatientInfo facilitiesToPatientInfo;
@@ -133,16 +124,11 @@ void MovePatientControl::setFacilitiesToPatients(const QMap<ID, QLinkedList<Pati
     }
 }
 
-void MovePatientControl::setPatientToBedMap(QMap<QString,QString>& inMap)
-{
-    /// @todo implement
-}
-
 const QMap<QString, QString>& MovePatientControl::getBedChanges() const
 {
     return _bedMoveToChanges;
 }
-const QMap<QString, QString>& MovePatientControl::getFacilityChanges() const
+const QMap<QString, ID>& MovePatientControl::getFacilityChanges() const
 {
     return _facilityMoveToChanges;
 }
@@ -174,15 +160,15 @@ void MovePatientControl::showToBedForm()
     _bedMoveToChanges.clear();
     _toBedForm->show();
     /// @todo clear form gui?
-
 }
 
 void MovePatientControl::_setupConnections()
 {
     connect(_toBedForm, SIGNAL(patientMoved(QString)), SLOT(_toBedFormPatientMoved(QString)));
-    connect(_toFacilityForm, SIGNAL(patientMoved(QString)), SLOT(_toFacilityFormPatientMoved(QString)));
+    connect(_toFacilityForm, SIGNAL(patientMoved(int)), SLOT(_toFacilityFormPatientMoved(int)));
 
     connect(_toBedForm, SIGNAL(patientSelected(QString)), SLOT(_toBedFormPatientSelected(QString)));
+    connect(_toFacilityForm, SIGNAL(patientSelected(QString)), SLOT(_toFacilityFormPatientSelected()));
 
     connect(_toBedForm, SIGNAL(submitButtonClicked()), SLOT(_toBedFormSubmit()));
     connect(_toBedForm, SIGNAL(cancelButtonClicked()), SLOT(_toBedFormCancel()));
@@ -218,12 +204,20 @@ const QMap<QString,Patient>& MovePatientControl::getPatientsAdded() const
  *
  * @param moveTo where they were moved
  */
-void MovePatientControl::_toFacilityFormPatientMoved(QString moveTo)
+void MovePatientControl::_toFacilityFormPatientMoved(int index)
 {
     QString patientHCN;
     if (_toFacilityForm->getCurrentPatient(patientHCN))
     {
-        _facilityMoveToChanges[patientHCN] = moveTo;
+	if (_toFacilityForm->getCurrentMoveToIndex() != _tfcurrentFacilityIndex)
+	{
+	    QMap<int,ID>::const_iterator id =_tfIndexToID.find(index);
+	    if (id != _tfIndexToID.end())
+	    {
+		_facilityMoveToChanges[patientHCN] = id.value();
+		_toFacilityForm->removeSelectedPatientItem();
+	    }
+	}
     }
 }
 
@@ -291,6 +285,14 @@ void MovePatientControl::_toBedFormAddPatient()
     _addPatientControl->showForm();
 }
 
+/**
+ * Private slot for when a patient is removed.
+ * Checks if the patient was JUST added, if so simply remove it from
+ * the list of added patients.
+ * If the patient was already there, add them to a list of removed patients
+ *
+ * Remove the patient from the GUI
+ */
 void MovePatientControl::_toBedFormRemovePatient()
 {
     QString patientHCN;
@@ -311,6 +313,16 @@ void MovePatientControl::_toBedFormRemovePatient()
     }
 }
 
+/**
+ * When a patient is created, add them to the GUI and list of patients added
+ *
+ * @param firstName patient's first name
+ * @param lastName patient's last name
+ * @param hcn the patient's health card number
+ * @param requiredCare what kind of care they need
+ * @param dateAdded the date added to this facility
+ * @param occuringCare the kind of care they are getting
+ */
 void MovePatientControl::_patientCreated(QString firstName, QString lastName, QString hcn,
                                          QString requiredCare, QDate dateAdded, QString occuringCare)
 {
@@ -322,6 +334,11 @@ void MovePatientControl::_patientCreated(QString firstName, QString lastName, QS
         _patientsAdded.insert(hcn,patient);
         _toBedForm->addPatientItem(patient.getName(), hcn, occuringCare);
     }
+}
+
+void MovePatientControl::_toFacilityFormPatientSelected()
+{
+    _toFacilityForm->setCurrentMoveToItem(_tfcurrentFacilityIndex);
 }
 
 void MovePatientControl::_toFacilityFormSubmit()
@@ -338,9 +355,16 @@ void MovePatientControl::_toFacilityFormCancel()
 
 void MovePatientControl::_toFacilityFormFacilitySelected(int index)
 {
+    _patientsAdded.clear();
+    _patientsRemoved.clear();
+    _facilityMoveToChanges.clear();
+    _toFacilityForm->setCurrentMoveToItem(index);
     QMap<int, ID>::const_iterator find = _tfIndexToID.find(index);
     if (find != _tfIndexToID.end())
     {
+	// Store for later
+	_tfcurrentFacilityIndex = index;
+
         if (!_tfWaitingForFacilitiesPatients)
         {
             // If we have the map of facilities to patients
@@ -351,13 +375,9 @@ void MovePatientControl::_toFacilityFormFacilitySelected(int index)
             }
             else
             {
+		//Logger::errorMessage()
                 /// @todo log this I guess
             }
-        }
-        else
-        {
-            // Don't have the list of patients yet, store for when we get it
-            _tfcurrentFacilityIndex = index;
         }
     }
     else
@@ -368,6 +388,7 @@ void MovePatientControl::_toFacilityFormFacilitySelected(int index)
 
 void MovePatientControl::_toBedFormFacilitySelected(int index)
 {
+    _bedMoveToChanges.clear();
     QMap<int, ID>::const_iterator find = _tbIndexToID.find(index);
     if (find != _tbIndexToID.end())
     {
@@ -379,10 +400,10 @@ void MovePatientControl::_toBedFormFacilitySelected(int index)
             {
                 _toBedForm->setPatientItems(fInfo.value(), true);
             }
-            else
-            {
+	    else
+	    {
 
-            }
+	    }
         }
         else
         {

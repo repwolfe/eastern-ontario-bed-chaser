@@ -29,7 +29,7 @@ void ChannelIn::_readMessage()
     while (_socket->hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(_socket->pendingDatagramSize());
-        _socket->readDatagram(datagram.data(), datagram.size());
+	_socket->readDatagram(datagram.data(), datagram.size());
 
         _processTheDatagram(datagram);
     }

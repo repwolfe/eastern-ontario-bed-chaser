@@ -21,14 +21,17 @@ private:
     GenerateReportWindow rWind;
     ViewAllReportsWindow vWind;
     QVector<Report*> reports;
+    QMap<ID,QString>* __facils;
 signals:
-
+    void sendReportRequest(QDate, QDate, ID, QString);
 public slots:
     void showGenerateReportWindow();
     void showViewAllReportsWindow();
     void reportGenerated(Report*);
     void pressedSelect(int);
-    void receiveReport(QString);
+    void receiveReport(QDate, QDate, ID,QPair<QString,QLinkedList<int> >& data,QPair<QString,QLinkedList<int> >& data2);
+    void sendReportRequestSlot(QDate, QDate, ID, QString);
+    void receivedAllFacilitiesSlot(QMap<ID, QString> & data);
 
 };
 

@@ -392,6 +392,16 @@ void Facility::setLocation(QPoint& location)
     _location = location;
 }
 
+Area* Facility::getAreaThisIsIn() const
+{
+    return __inThisArea;
+}
+
+void Facility::setAreaThisIsIn(Area* inArea)
+{
+    __inThisArea = inArea;
+}
+
 /**
  * Internal function used to get pointers of the
  * containers and bed numbers for a particular caretype

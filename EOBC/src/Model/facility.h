@@ -19,6 +19,9 @@ typedef QHash<QString, Patient*> PatientContainer;
  *
  * This class is part of the Model subsystem described in D2.
  */
+
+class Area;
+
 class Facility
 {
 public:
@@ -55,9 +58,15 @@ public:
     const QPoint& getLocation() const;
     void setLocation(QPoint& location);
 
-protected:
+    Area* getAreaThisIsIn() const;
+    void setAreaThisIsIn(Area* inArea);
+
+private:
+    Facility(const Facility&);	// no implicit copy constructors
     inline bool _getPointersForType(CareType type, PatientContainer*& container, int*& numBeds);
     Patient* _getPatient(const QString& healthCardNum, PatientContainer*& outContainedIn) const;
+
+    Area* __inThisArea;
 
     PatientContainer _patientsAC;
     PatientContainer _patientsCCC;
@@ -74,9 +83,6 @@ protected:
     int _numLTCBeds;
 
     QPoint _location;
-
-private:
-    Facility(const Facility&);	// no implicit copy constructors
 };
 
 /// A list of Facilities

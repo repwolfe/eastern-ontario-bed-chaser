@@ -37,10 +37,12 @@ public:
 
 signals:
     void submitClicked();
+    void facilitySelected(int);
 
 private slots:
     void _submitClicked();
     void _cancelClicked();
+    void _facilitySelected(int);
 
 private:
     void _setupLayout();

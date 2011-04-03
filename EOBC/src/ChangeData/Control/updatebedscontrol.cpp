@@ -4,6 +4,9 @@ UpdateBedsControl::UpdateBedsControl()
 {
     _form = new UpdateBedsForm();
     _waitingForFacilitiesList = false;
+    _waitingForCurrentBeds = false;
+    _waitingForMinBeds = false;
+    connect(_form, SIGNAL(facilitySelected(int)), SLOT(_facilitySelected(int)));
     connect(_form, SIGNAL(submitClicked()), SLOT(_submitClicked()));
 }
 
@@ -15,6 +18,8 @@ UpdateBedsControl::~UpdateBedsControl()
 void UpdateBedsControl::waitingForData()
 {
     _waitingForFacilitiesList = true;
+    _waitingForCurrentBeds = true;
+    _waitingForMinBeds = true;
 }
 
 void UpdateBedsControl::showForm()
@@ -45,11 +50,21 @@ void UpdateBedsControl::setFacilitiesList(const QMap<ID, QString>& data)
 void UpdateBedsControl::setCurrentBedNumbers(const QMap<ID, QVector<int> >& data)
 {
     _currentBedNumbers = data;
+    _waitingForCurrentBeds = false;
+    if (!_waitingForMinBeds)
+    {
+	_facilitySelected(0);
+    }
 }
 
 void UpdateBedsControl::setMinimumBedNumbers(const QMap<ID, QVector<int> >& data)
 {
     _minimumBedNumbers = data;
+    _waitingForMinBeds = false;
+    if (!_waitingForCurrentBeds)
+    {
+	_facilitySelected(0);
+    }
 }
 
 void UpdateBedsControl::_facilitySelected(int index)
@@ -68,7 +83,7 @@ void UpdateBedsControl::_facilitySelected(int index)
 	QMap<ID, QVector<int> >::const_iterator min = _minimumBedNumbers.find(find.value());
 	if (min != _minimumBedNumbers.end())
 	{
-	    const QVector<int>& beds = cur.value();
+	    const QVector<int>& beds = min.value();
 	    _form->setMinimumAC(beds[0]);
 	    _form->setMinimumCCC(beds[1]);
 	    _form->setMinimumLTC(beds[2]);

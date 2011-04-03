@@ -257,6 +257,11 @@ Patient* Facility::_getPatient(const QString& healthCardNum, PatientContainer*& 
  */
 bool Facility::addBeds(unsigned num, CareType type)
 {
+    if (num == 0)
+    {
+	return true;	// Do nothing
+    }
+
     PatientContainer* patients;
     int *numBeds;
 
@@ -280,6 +285,10 @@ bool Facility::addBeds(unsigned num, CareType type)
  */
 bool Facility::decreaseBeds(unsigned num, CareType type)
 {
+    if (num == 0)
+    {
+	return true;	// Do nothing
+    }
     PatientContainer* patients;
     int *numBeds;
     if (!_getPointersForType(type, patients, numBeds))

@@ -10,9 +10,9 @@
 #include "changedatacontrol.h"
 #include "reportingcontrol.h"
 #include "channelin.h"
-#include "channelout.h"
-#include "Send/sendmessagecontrol.h"
-#include "Receive/ReceiveMessageControl.h"
+#include "communicationsendinterface.h"
+#include "sendmessagecontrol.h"
+#include "ReceiveMessageControl.h"
 
 int main(int argc, char *argv[])
 {
@@ -35,11 +35,14 @@ int main(int argc, char *argv[])
 
     SendMessageControl sendControl;
     ReceiveMessageControl receiveControl;
+
     /// @todo Should these be created here or something else which creates them?
+    CommunicationSendInterface commSendInterface(sendControl);
     ChannelIn channelIn;
-    ChannelOut channelOut;
+
+    Q_UNUSED(receiveControl);
+    Q_UNUSED(commSendInterface);
     Q_UNUSED(channelIn);
-    Q_UNUSED(channelOut);
 
 
     //

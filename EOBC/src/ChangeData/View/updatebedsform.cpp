@@ -79,6 +79,11 @@ void UpdateBedsForm::_submitClicked()
     emit submitClicked();
 }
 
+void UpdateBedsForm::_facilitySelected(int index)
+{
+    emit facilitySelected(index);
+}
+
 void UpdateBedsForm::_cancelClicked()
 {
     close();
@@ -100,6 +105,7 @@ void UpdateBedsForm::_setupLayout()
 
     connect(_submitButton, SIGNAL(clicked()), SLOT(_submitClicked()));
     connect(_cancelButton, SIGNAL(clicked()), SLOT(_cancelClicked()));
+    connect(_facilities, SIGNAL(currentIndexChanged(int)), SLOT(_facilitySelected(int)));
 
     QFormLayout* q = new QFormLayout();
     q->addRow("Facility", _facilities);

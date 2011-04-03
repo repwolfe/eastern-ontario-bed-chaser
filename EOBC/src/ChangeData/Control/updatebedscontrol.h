@@ -42,10 +42,8 @@ private:
     QMap<ID, QVector<int> > _minimumBedNumbers;
 
     bool _waitingForFacilitiesList;
-
-
-
-
+    bool _waitingForMinBeds;
+    bool _waitingForCurrentBeds;
 };
 
 #endif // UPDATEBEDSCONTROL_H

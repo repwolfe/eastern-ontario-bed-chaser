@@ -83,6 +83,7 @@ void ChangeDataControl::displayCreateUserForm()
 
 void ChangeDataControl::displayUpdateBedsForm()
 {
+    _updateBedsControl->waitingForData();
     _getData.requestAllFacilities();
     _getData.requestFacilitiesCurrentBedNumbers();
     _getData.requestFacilitiesMinimumBedNumbers();

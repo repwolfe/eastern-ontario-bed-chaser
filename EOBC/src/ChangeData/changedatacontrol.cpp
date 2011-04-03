@@ -108,7 +108,7 @@ void ChangeDataControl::movePatientsToBedSubmitted()
 
 void ChangeDataControl::movePatientsToFacilitySubmitted()
 {
-    const QMap<QString, QString>& changes   = _movePatientControl->getFacilityChanges();
+    const QMap<QString, int>& changes   = _movePatientControl->getFacilityChanges();
     /// @todo send changes to StorageWrite
     Q_UNUSED(changes);
 }

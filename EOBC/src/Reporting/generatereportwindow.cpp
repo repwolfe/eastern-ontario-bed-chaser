@@ -82,10 +82,11 @@ void GenerateReportWindow::pressedSubmit()
         int* barHeights = new int[4];
         barHeights[0]=rand()%(11+i)+10;
         barHeights[1]=rand()%(11+i)+10;
-        barHeights[2]=rand()%(11+i)+10;
-        barHeights[3]=100-(barHeights[0]+barHeights[1]+barHeights[2]);
+        barHeights[2]=0;//rand()%(11+i)+10;
+        barHeights[3]=0;//100-(barHeights[0]+barHeights[1]+barHeights[2]);
 
         QString* barTypes = new QString[4];
+
         barTypes[0]="CCC";
         barTypes[1]="AC";
         barTypes[2]="CCC Open";

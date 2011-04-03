@@ -8,6 +8,8 @@
 #include "../Common/logger.h"
 
 
+
+typedef QMap<int,Area*> areaList;
 /**
  * @brief Handles saving and loading of all persistant data
  *
@@ -16,7 +18,6 @@
  *
  * This class is part of the Storage subsystem described in D2.
  */
-typedef QMap<int,Area*> areaList;
 class StorageHandler
 {
 public:

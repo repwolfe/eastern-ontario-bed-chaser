@@ -85,7 +85,13 @@ void GenerateReportWindow::pressedSubmit()
         barHeights[2]=rand()%(11+i)+10;
         barHeights[3]=100-(barHeights[0]+barHeights[1]+barHeights[2]);
 
-        bars.push_back(new ReportBars(barHeights));
+        QString* barTypes = new QString[4];
+        barTypes[0]="CCC";
+        barTypes[1]="AC";
+        barTypes[2]="CCC Open";
+        barTypes[3]="AC Open";
+
+        bars.push_back(new ReportBars(barHeights,barTypes));
     }
     Report* rep = new Report(dateStartEntry->text() + "-"+dateEndEntry->text(),dateStartEntry->date(),bars,(int)Convenience::HOSPITAL,dateType);
 

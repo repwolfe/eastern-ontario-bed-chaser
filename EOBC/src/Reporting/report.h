@@ -27,6 +27,7 @@ public slots:
 private:
     void drawGrid(QPainter& g);
     void drawBars(QPainter& g);
+    void drawLegend(QPainter& g);
 private:
     QString date;
     QDate startDate;

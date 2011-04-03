@@ -9,13 +9,16 @@ class ReportBars : public QObject
 
     Q_OBJECT
 public:
-    explicit ReportBars(int* barHeights,QObject *parent = 0);
+    explicit ReportBars(int* barHeights,QString* bartypes, QObject *parent = 0);
     ~ReportBars();
     void draw(QPainter& g,int threeDness);
     int getHeight();
     void setPosition(QPoint p);
     void setSize(QPoint s);
     void setBarMax(int bm);
+    int* getAllHeights();
+    QColor* getAllColors();
+    QString* getAllBarTypes();
 
 signals:
 
@@ -25,6 +28,7 @@ private:
     QPoint size;
     int* barHeights;
     QColor* barColors;
+    QString* barTypes;
     QLinearGradient rg;
     int totalHeight;
     int barMax;

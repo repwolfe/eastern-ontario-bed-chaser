@@ -1,6 +1,6 @@
 #include "reportbars.h"
 
-ReportBars::ReportBars(int* barHeights,QObject *parent) :
+ReportBars::ReportBars(int* barHeights,QString* barTypes,QObject *parent) :
     QObject(parent)
 {
     barMax = 4;
@@ -9,6 +9,12 @@ ReportBars::ReportBars(int* barHeights,QObject *parent) :
     barColors[1] = Qt::red;
     barColors[2] = QColor(100,255,0);
     barColors[3] = QColor(0,255,100);
+
+    this->barTypes = new QString[4];
+    this->barTypes[0] = barTypes[0];
+    this->barTypes[1] = barTypes[1];
+    this->barTypes[2] = barTypes[2];
+    this->barTypes[3] = barTypes[3];
 
     this->barHeights = new int[4];
     this->barHeights[0] = barHeights[0];
@@ -72,6 +78,19 @@ int ReportBars::getHeight()
 {
     return totalHeight;
 }
+int* ReportBars::getAllHeights()
+{
+    return barHeights;
+}
+QColor* ReportBars::getAllColors()
+{
+    return barColors;
+}
+QString* ReportBars::getAllBarTypes()
+{
+    return barTypes;
+}
+
 void ReportBars::setPosition(QPoint p)
 {
     position = p;

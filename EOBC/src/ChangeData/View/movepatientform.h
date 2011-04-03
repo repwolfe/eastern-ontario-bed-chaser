@@ -27,8 +27,8 @@ public:
    MovePatientForm(QString title, bool displayBedType, QString moveTo, bool displayAddRemove, QWidget *parent = 0);
 
    void setFacilityItems(QStringList& items);
-   void setPatientItems(const QMap<QString,QString>& items);
-   void setPatientItems(const QMap<QString,QString>& nameToHcn, const QMap<QString,QString>& hcnToBed);
+   //void setPatientItems(const QMap<QString,QString>& items);
+   void setPatientItems(const QMap<QString,QPair<QString, QString> >& items, bool includeBeds = false);
    void setMoveToItems(QStringList& items);
 
    void removeFacilityItem(QString& item);
@@ -50,6 +50,7 @@ signals:
    void removePatientClicked();
    void submitButtonClicked();
    void cancelButtonClicked();
+   void facilitySelected(int);
 
 private slots:
    void _moveToChanged(QString moveTo);
@@ -58,6 +59,7 @@ private slots:
    void _removePatientClicked();
    void _submitButtonClicked();
    void _cancelButtonClicked();
+   void _facilitySelected(int index);
 
 private:
    void _setupLayout();

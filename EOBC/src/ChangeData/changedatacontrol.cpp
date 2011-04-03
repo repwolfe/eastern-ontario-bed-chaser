@@ -57,6 +57,7 @@ bool ChangeDataControl::changeData(QString &args, QString &data)
 void ChangeDataControl::displayMovePatientsToBedForm()
 {
     // Request data to populate form
+    _movePatientControl->toBedFormWaitingForInfo();
     _getData.requestAllFacilities();
     _getData.requestFacilitiesPatients();
     _movePatientControl->showToBedForm();
@@ -64,6 +65,7 @@ void ChangeDataControl::displayMovePatientsToBedForm()
 
 void ChangeDataControl::displayMovePatientsToFacilityForm()
 {
+    _movePatientControl->toFacilityFormWaitingForInfo();
     _getData.requestAllFacilities();
     _getData.requestFacilitiesPatients();
     _movePatientControl->showToFacilityForm();

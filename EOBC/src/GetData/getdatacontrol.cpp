@@ -121,7 +121,9 @@ void GetDataControl::requestReport(QDate fromDate, QDate toDate, ID facId, QStri
 
     QLinkedList<int> list1;
     QLinkedList<int> list2;
-    for (int i = 0; i <= barnum; ++i) { list1 << rand() % 20; list2 << rand() % 20; }
+    list1 << rand() % 20;
+    list2 << rand() % 20;
+    for (int i = 1; i <= barnum; ++i) { list1 << rand() % 10 -5; list2 << rand() % 10 - 5; }
     QPair<QString, QLinkedList<int> > data1 = qMakePair(tr("AC"), list1);
     QPair<QString, QLinkedList<int> > data2 = qMakePair(tr("AC"), list2);
     emit receivedReport(fromDate, toDate, facId, data1, data2);

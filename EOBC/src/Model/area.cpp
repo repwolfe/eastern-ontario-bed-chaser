@@ -192,6 +192,26 @@ bool Area::addPatientToWaitingList(QString hcn, QString first, QString last, QDa
 }
 
 /**
+ * Add a patient to the waiting list
+ *
+ * @param patient the Patient pointer to add, takes ownership
+ *
+ * @return True if it worked, False if this Patient is already in the WaitingList
+ */
+bool Area::addPatientToWaitingList(Patient* patient)
+{
+    WaitingList::const_iterator iter = _waitingList.find(patient->getHealthCardNumber());
+
+    if (iter != _waitingList.end())
+    {
+	_waitingList.insert(patient->getHealthCardNumber(), patient);
+	return true;
+    }
+
+    return false;
+}
+
+/**
  * Remove a Patient from the waiting list
  *
  * @param healthCardNum of the Patient to remove

@@ -40,6 +40,7 @@ public:
     Facility* getFacility(ID key);
 
     bool addPatientToWaitingList(QString hcn, QString first, QString last, QDate placedOnWL);
+    bool addPatientToWaitingList(Patient* patient);
     bool removePatientFromWaitingList(QString healthCardNum);
     void setWaitingList(WaitingList& inWaitingList);
     WaitingList& getWaitingList();

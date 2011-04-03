@@ -22,6 +22,12 @@ ReportBars::ReportBars(int* barHeights,QString* barTypes,QObject *parent) :
     this->barHeights[2] = barHeights[2];
     this->barHeights[3] = barHeights[3];
     this->totalHeight=barHeights[0]+barHeights[1]+barHeights[2]+barHeights[3];
+    barMax=0;
+    for(int i=0;i<4;i++)
+    {
+        if(barHeights[i]>0)
+            barMax++;
+    }
     //QLinearGradient rg(
      //   position+size/2,
        // QPoint(position.x(),position.y()+size.y()/2));
@@ -71,7 +77,7 @@ void ReportBars::draw(QPainter& g,int threeDness)
         g.drawRect(position.x()-threeDness,position.y()+ threeDness + lastHeight,size.x(),barHeights[i]*size.y()/totalHeight); ///Draw Other Faces
         lastHeight += barHeights[i]*size.y()/totalHeight;
         g.setPen(Qt::white);
-        g.drawText(position.x()+size.x()/2 - 15,position.y()+lastHeight/*+ lastHeight+size.y()*barHeights[i]/totalHeight / 2*/,QString::number(barHeights[i]));
+        g.drawText(position.x()+size.x()/2 - 15,position.y()+lastHeight,QString::number(barHeights[i]));
     }
 }
 int ReportBars::getHeight()

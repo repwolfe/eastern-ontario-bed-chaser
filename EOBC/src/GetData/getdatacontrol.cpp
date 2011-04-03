@@ -70,6 +70,15 @@ void GetDataControl::requestFacilitiesMinimumBedNumbers()
 void GetDataControl::requestReport(QDate fromDate, QDate toDate, ID facId, QString constraints)
 {
     /// @todo ask for report data
+
+    /// @todo remove
+    Q_UNUSED(contraints)
+    // QDate start, QDate end, ID facId, QPair<QString, QLinkedList<int> > &data, QPair<QString, QLinkedList<int> > &data2
+    QLinkedList<int> list1 = QLinkedList<int> () << rand() % 20 << rand() % 20 << rand() % 20 << rand() % 20;
+    QLinkedList<int> list2 = QLinkedList<int> () << rand() % 20 << rand() % 20 << rand() % 20 << rand() % 20;
+    QPair<QString, QLinkedList<int> > data1 = qMakePair(tr("AC"), list1);
+    QPair<QString, QLinkedList<int> > data2 = qMakePair(tr("AC"), list2);
+    emit receivedReport(fromDate, toDate, facId, data1, data2);
 }
 
 void GetDataControl::_receivedAllFacilities(const QMap<ID, QString> & data)

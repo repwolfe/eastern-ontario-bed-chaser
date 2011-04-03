@@ -12,7 +12,7 @@ class GenerateReportWindow : public QWidget
     Q_OBJECT
 public:
     explicit GenerateReportWindow(QWidget *parent = 0);
-    void updateFacilities(QMap<ID,QString>* facils);
+    void updateFacilities(const QMap<ID,QString>* facils);
 signals:
     ////FOR TESTING ONLY
     void reportGenerated(Report*);
@@ -21,6 +21,7 @@ signals:
 
 public slots:
     void pressedSubmit();
+    void pressedCancel();
 private:
 
 private:
@@ -28,7 +29,7 @@ private:
     QDateEdit* dateStartEntry;
     QDateEdit* dateEndEntry;
     QComboBox* facilities;
-    QMap<ID,QString>* __facils;
+    const QMap<ID,QString>* __facils;
     QMap<int,ID>* facilToRows;
     QComboBox* constraints;
 

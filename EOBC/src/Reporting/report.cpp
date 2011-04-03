@@ -4,7 +4,7 @@ int left = 120;
 int width = 300;
 int top = 70;
 int threeDness = 10;
-Report::Report(QString date, QDate startDate,QVector<ReportBars*>& bars,int facilityType, int dateType,QObject *parent) :
+Report::Report(QString date, QDate startDate,QVector<ReportBars*>& bars,int facilityType, int dateType,QString facility,QObject *parent) :
     QObject(parent)
 {
     this->bars = bars;
@@ -12,6 +12,7 @@ Report::Report(QString date, QDate startDate,QVector<ReportBars*>& bars,int faci
     this->dateType = dateType;
     this->facilityType = facilityType;
     this->startDate = startDate;
+    this->facility = facility;
     type = Report::OCCUPANCYRATESNUMBER;
     maxHeight = 0;
     for(int i=0;i<bars.count();i++)
@@ -38,7 +39,7 @@ void Report::draw(QPainter& g)
 {
     g.setBrush(Qt::white);
     g.setPen(Qt::black);
-    g.drawRect(0,0,500,500);
+    g.drawRect(0,0,width + 400,500);
 
     drawGrid(g);
     drawBars(g);
@@ -81,6 +82,8 @@ void Report::drawGrid(QPainter& g)
 
     drawLegend(g);
 
+
+
     //
     // DRAW TITLES
     //
@@ -89,10 +92,12 @@ void Report::drawGrid(QPainter& g)
     g.setBrush(Qt::black);
 
     g.setFont(QFont("Times New Roman",16,5));
-    g.drawText(100,20,"Report: " + date);
+    QFontMetrics qfm(QFont("Times New Roman",16,5));
+    g.drawText((width+200)/2-qfm.width(date)/2,20,"Report: " + date);
 
     g.setFont(QFont("Arial",14,5));
     g.drawText(width/2+left-30, height+top+threeDness + 60,"Time");
+    g.drawText(10,height+top+threeDness + 60,facility);
     if(dateType == Report::DAY)
         g.drawText(left-30, height+top+threeDness + 30,""+startDate.toString("MMM"));
     if(this->type == Report::OCCUPANCYRATESNUMBER)
@@ -105,6 +110,10 @@ void Report::drawGrid(QPainter& g)
         g.restore();
     }
     g.setFont(font); // restore old font
+
+    //
+    // DRAW TITLES
+    //
 }
 void Report::drawBars(QPainter& g)
 {
@@ -135,6 +144,15 @@ QString Report::getDate()
 {
     return date;
 }
+int Report::getBarNum()
+{
+    return bars.count();
+}
+void Report::setWidth(int w)
+{
+    width = w;
+}
+
 void Report::drawLegend(QPainter& g)
 {
     g.setFont(QFont("Arial",12,5));

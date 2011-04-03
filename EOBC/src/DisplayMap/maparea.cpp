@@ -80,7 +80,6 @@ void MapArea::paintEvent(QPaintEvent *)
     painter.drawRect(QRect(0,0,middle.x()*2,middle.y()*2));
     painter.setBrush(Qt::transparent);
     painter.setPen(Qt::black);
-    painter.drawRect(QRect(10,10, middle.x()*2-20, middle.y()*2-20));
     for(int i=0;i<this->vecs.count();i++)
     {
         painter.setPen(vecs.at(i)->getCol().darker());
@@ -111,7 +110,7 @@ void MapArea::paintEvent(QPaintEvent *)
     {
         painter.setPen(labelBoxColors[i].darker());
         painter.setBrush(labelBoxColors[i]);
-        painter.drawRect(QRect(middle.x()*2-20,280+i*30,20,20));
+        painter.drawRect(QRect(middle.x()*2-20,middle.y()/1.12+i*30 ,20,20));
     }
 
 }
@@ -334,6 +333,31 @@ void MapArea::loadIcon(Facility* f)
        FacilityIcon::makeCollisionIcons(icons.at(icons.count()-1),icons);
     }*/
     int* percents = new int[4];
+    foreach(FacilityIcon* ic , icons)
+    {
+        if(ic->getName() == f->getFacilityName())
+        {
+            if(f->getNumBeds(Convenience::intToCareType(0))==0)
+            {
+                percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::LTC));
+                percents[1] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::LTC));
+                percents[2] = 0;
+                percents[3] = 0;
+                ic->setPercents(percents);
+            }
+            else
+            {
+                percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::AC)); //ccc occ
+                percents[1] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::CCC));//ac occ
+                percents[2] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::AC));
+                percents[3] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::CCC));
+                ic->setPercents(percents);
+            }
+            return;
+        }
+    }
+
+
     int iconType = Convenience::HOSPITAL;
     if(f->getNumBeds(Convenience::intToCareType(0))==0)
     {

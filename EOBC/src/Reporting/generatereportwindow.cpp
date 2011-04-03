@@ -44,7 +44,8 @@ GenerateReportWindow::GenerateReportWindow(QWidget *parent) :
     layout.addWidget(submit,height++,2,Qt::AlignTop);
     QPushButton* cancel = new QPushButton("Cancel");
     layout.addWidget(cancel,height,2,Qt::AlignTop);
-    connect(cancel,SIGNAL(clicked()),this,SLOT(close()));
+
+    connect(cancel,SIGNAL(clicked()),this,SLOT(pressedCancel()));
 
     //layout.addWidget(new QLabel(),height++,0); ///////////SPACER
 
@@ -99,7 +100,7 @@ void GenerateReportWindow::pressedSubmit()
 
         bars.push_back(new ReportBars(barHeights,barTypes));
     }
-    Report* rep = new Report(dateStartEntry->text() + "-"+dateEndEntry->text(),dateStartEntry->date(),bars,(int)Convenience::HOSPITAL,dateType);
+    Report* rep = new Report(dateStartEntry->text() + "-"+dateEndEntry->text(),dateStartEntry->date(),bars,(int)Convenience::HOSPITAL,dateType,facilities->currentText());
 
     emit reportGenerated(rep);
     // FOR TESTING ONLY
@@ -121,17 +122,26 @@ void GenerateReportWindow::pressedSubmit()
     mb.exec();
 
     close();
+    // REAL CODE
+    // REAL CODE
+    // REAL CODE
 }
-void GenerateReportWindow::updateFacilities(QMap<ID,QString>* facils)
+void GenerateReportWindow::updateFacilities(const QMap<ID,QString>* facils)
 {
     __facils = facils;
-    facilities = new QComboBox();
+    facilities->clear();
     facilToRows = new QMap<int,ID>();
     foreach(ID i , facils->keys())
     {
-        facilities->addItem(facils->find(i).value());
+        QString data = facils->find(i).value();
+        facilities->addItem(data);
+        facilities->update();
         facilToRows->insert(facilities->count()-1,i);
     }
+}
+void GenerateReportWindow::pressedCancel()
+{
+    close();
 }
 
 

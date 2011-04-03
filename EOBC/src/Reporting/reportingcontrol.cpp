@@ -1,13 +1,18 @@
 #include "reportingcontrol.h"
 #include "QPair"
 
-ReportingControl::ReportingControl(GetDataReportingInterface& inter,QObject *parent) :
-    QObject(parent), rWind() ,vWind()
+ReportingControl::ReportingControl(GetDataReportingInterface& inter ,QObject *parent) :
+    QObject(parent), _inter(inter)
 {
-    Q_UNUSED(inter);
     connect(&rWind,SIGNAL(reportGenerated(Report*)),this,SLOT(reportGenerated(Report*)));
     connect(&vWind,SIGNAL(pressedSelect(int)),this,SLOT(pressedSelect(int)));
     connect(&rWind,SIGNAL(sendReportRequest(QDate,QDate,ID,QString)),this,SLOT(sendReportRequestSlot(QDate,QDate,ID,QString)));
+
+    ////INTERFACE CONNECTING
+    //connect(this,SIGNAL(sendReportRequest(QDate,QDate,ID,QString)),&inter,SLOT())
+    connect(&inter,SIGNAL(receivedAllFacilities(const QMap<ID,QString>&)),this,SLOT(receivedAllFacilitiesSlot(const QMap<ID,QString>&)));
+    connect(&inter,SIGNAL(receivedReport(QDate,QDate,ID,QPair<QString,QLinkedList<int> >&,QPair<QString,
+                                         QLinkedList<int> >&)),this,SLOT(receiveReport(QDate,QDate,ID,QPair<QString,QLinkedList<int> >&,QPair<QString,QLinkedList<int> >&)));
 
 }
 ReportingControl::~ReportingControl()
@@ -29,8 +34,9 @@ void ReportingControl::run()
 ///
 void ReportingControl::showGenerateReportWindow()
 {
-    //inter.getAllFacilities();
-
+   // _inter.re
+    _inter.requestAllFacilities();
+   // _inter.requestReport();
     //will emit a signal to get all facilities, once received, the window will pop up
 }
 void ReportingControl::showViewAllReportsWindow()
@@ -39,9 +45,6 @@ void ReportingControl::showViewAllReportsWindow()
 }
 void ReportingControl::receiveReport(QDate start, QDate end, ID facId,QPair<QString,QLinkedList<int> >& data,QPair<QString,QLinkedList<int> >& data2)
 {
-
-    Q_UNUSED(facId);
-
     QVector<ReportBars*> bars;
     int barnum = 0;
     int dateType = 0;
@@ -61,13 +64,33 @@ void ReportingControl::receiveReport(QDate start, QDate end, ID facId,QPair<QStr
     }
     QLinkedList<int>::iterator iterData1 = data.second.begin();
     QLinkedList<int>::iterator iterData2 = data2.second.begin();
+    int lastData1 = 0,lastData2 = 0;
+
     for(int i=0;i<data.second.count();i++)
     {
         int* barHeights = new int[4];
-        barHeights[0]=*iterData1;
-        barHeights[1]=*iterData2;
-        barHeights[2]=0;//rand()%(11+i)+10;
-        barHeights[3]=0;//100-(barHeights[0]+barHeights[1]+barHeights[2]);
+        if(i==0)
+        {
+            lastData1 = *iterData1;
+            lastData2 = *iterData2;
+            barHeights[0]=lastData1;
+            barHeights[1]=lastData2;
+            barHeights[2]=0;//rand()%(11+i)+10;
+            barHeights[3]=0;//100-(barHeights[0]+barHeights[1]+barHeights[2]);
+        }
+        else
+        {
+            lastData1 += *iterData1;
+            lastData2 += *iterData2;
+            if(lastData1<0)
+                lastData1 = 0;
+            if(lastData2<0)
+                lastData2 = 0;
+            barHeights[0]=lastData1;
+            barHeights[1]=lastData2;
+            barHeights[2]=0;//rand()%(11+i)+10;
+            barHeights[3]=0;//100-(barHeights[0]+barHeights[1]+barHeights[2]);
+        }
 
         QString* barTypes = new QString[4];
 
@@ -80,9 +103,9 @@ void ReportingControl::receiveReport(QDate start, QDate end, ID facId,QPair<QStr
         iterData2++;
         iterData1++;
     }
+    QString facilName = facils.value(facId);
 
-
-    Report* rep = new Report(start.toString("MMMddyyyy") + "-"+end.toString("MMMddyyyy"),start,bars,(int)Convenience::HOSPITAL,dateType);
+    Report* rep = new Report(start.toString("MMMM dd yyyy") + "-"+end.toString("MMMM dd yyyy"),start,bars,(int)Convenience::HOSPITAL,dateType,facilName);
     reportGenerated(rep);
 
 }
@@ -98,10 +121,13 @@ void ReportingControl::pressedSelect(int index)
 }
 void ReportingControl::sendReportRequestSlot(QDate start, QDate end, ID id, QString constraints)
 {
-    emit sendReportRequest(start,end,id,constraints);
+    //emit sendReportRequest(start,end,id,constraints);
+    _inter.requestReport(start,end,id,constraints);
 }
-void ReportingControl::receivedAllFacilitiesSlot(QMap<ID, QString>& data)
+void ReportingControl::receivedAllFacilitiesSlot(const QMap<ID, QString>& data)
 {
+   // __facils = new QMap<ID, QString>();
+    facils = data;
     rWind.updateFacilities(&data);
     rWind.show();
 }

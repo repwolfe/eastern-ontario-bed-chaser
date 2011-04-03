@@ -21,7 +21,8 @@ private:
     GenerateReportWindow rWind;
     ViewAllReportsWindow vWind;
     QVector<Report*> reports;
-    QMap<ID,QString>* __facils;
+    QMap<ID,QString> facils;
+    GetDataReportingInterface& _inter;
 signals:
     void sendReportRequest(QDate, QDate, ID, QString);
 public slots:
@@ -31,7 +32,7 @@ public slots:
     void pressedSelect(int);
     void receiveReport(QDate, QDate, ID,QPair<QString,QLinkedList<int> >& data,QPair<QString,QLinkedList<int> >& data2);
     void sendReportRequestSlot(QDate, QDate, ID, QString);
-    void receivedAllFacilitiesSlot(QMap<ID, QString> & data);
+    void receivedAllFacilitiesSlot(const QMap<ID, QString> & data);
 
 };
 

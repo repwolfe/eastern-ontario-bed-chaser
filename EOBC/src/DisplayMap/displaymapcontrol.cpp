@@ -13,7 +13,7 @@ DisplayMapControl::DisplayMapControl(GetDataDisplayMapInterface& inter,QObject* 
     //
     for(int i=0;i<9;i++)
     {
-        Facility* c = new Facility(1234,"Johnson Hospital",34,21,0,QPoint(200+rand()%800,350+rand()%100));
+        Facility* c = new Facility(1234,"Johnson Hospital"+QString::number(i),34,21,0,QPoint(200+rand()%800,350+rand()%100));
         for(int i=0;i<40;i++)
         {
             CareType ct = Convenience::intToCareType(rand()%2);
@@ -23,7 +23,7 @@ DisplayMapControl::DisplayMapControl(GetDataDisplayMapInterface& inter,QObject* 
     }
     for(int i=0;i<9;i++)
     {
-        Facility* c = new Facility(1234,"Johnson Hospital",0,0,rand()%40,QPoint(200+rand()%800,350+rand()%100));
+        Facility* c = new Facility(1234,"Johnson Hospital"+QString::number(i+9),0,0,rand()%40,QPoint(200+rand()%800,350+rand()%100));
         for(int i=0;i<10;i++)
             c->addPatientToBed(new Patient("111-111-11"+QString::number(i),"fdsaf","Fdsaf",Convenience::intToCareType(EOBC::LTC)),Convenience::intToCareType(2));
         this->addFacility(c);

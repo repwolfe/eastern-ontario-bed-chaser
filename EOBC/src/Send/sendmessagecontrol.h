@@ -8,6 +8,14 @@
 #include "../Common/logger.h"
 #include "../Common/convenience.h"
 
+
+/**
+ * @brief Creates messages to be sent to other EOBC nodes
+ *
+ * Turns model objects into XML tags
+ *
+ * This class is part of the Send subsystem described in D2.
+ */
 class SendMessageControl
 {
 public:

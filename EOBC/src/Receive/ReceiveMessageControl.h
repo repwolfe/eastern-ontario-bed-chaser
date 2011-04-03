@@ -7,6 +7,13 @@
 #include <QtXml/qdom.h>
 #include "../Common/logger.h"
 
+/**
+ * @brief Parses messages received from other processes
+ *
+ * Turns XML tags into model objects
+ *
+ * This class is part of the Receive subsystem described in D2.
+ */
 class ReceiveMessageControl
 {
 public:

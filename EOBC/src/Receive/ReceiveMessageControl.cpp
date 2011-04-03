@@ -1,5 +1,11 @@
 #include "ReceiveMessageControl.h"
 
+/**
+ * Used to parse all incoming messages
+ *
+ * @param qByte the byte received from another Facility
+ *
+ */
 void ReceiveMessageControl::parseMessage(QByteArray qByte){
     QDomElement e;
     QString str(qByte);
@@ -8,6 +14,12 @@ void ReceiveMessageControl::parseMessage(QByteArray qByte){
         parseAdd(e);
 }
 
+/**
+ * Helper function to parseMessage parses messages in the Add tag
+ *
+ * @param addTag the XML tag titled 'Add'
+ *
+ */
 void ReceiveMessageControl::parseAdd(QDomElement addTag){
  bool remote = false;
  if(addTag.attribute("remote", "false") == "true")

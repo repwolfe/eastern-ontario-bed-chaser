@@ -38,7 +38,7 @@ StorageHandler StorageHandler::_StorageHandler()
  *
  * @param filename is the name of the file
  *
- * @return > 0 if it worked, < 0 otherwise
+ * @return int > 0 if it worked, int < 0 otherwise
  */
 int StorageHandler::loadModel(QString fileName){
     QDomDocument doc;
@@ -122,24 +122,22 @@ void StorageHandler::parseWaitingList(Area* anArea,QDomNode* n){
         QString healthCardNumber = e.attribute( "healthCardNumber", "1111111111" );
         QString firstName = e.attribute( "firstName", "FirstName" );
         QString lastName = e.attribute( "lastName", "LastName" );
-        QDate dateAdded(12,12,12);
+        //parse date
+            QStringList dateList = e.attribute("dateAdded").split("-");
+            int year = QString(dateList.at(0)).toInt();
+            int month = QString(dateList.at(1)).toInt();
+            QString sDay = dateList.at(2);
+            sDay.truncate(2);
+            int day = sDay.toInt();
+            //remove the time from the date
+            QDate dateAdded(year, month, day);
         Logger::infoMessage("storageHandler","parseWaitingList", "Patient added to waiting list name= ", firstName);
         anArea->addPatientToWaitingList(healthCardNumber, firstName, lastName, dateAdded);
         node = e.nextSibling();
         n = &(node);
 
     }
-    /**
-        QStringList dateList = e->attribute("dateAdded").split("-");
-        /// @todo parse the date properly
-       // QString(dateList.at(0)).toInt();
-      //  QString(dateList.at(1)).toInt();
-      //  QString(dateList.at(2)).toInt();
-      //  QDate dateAdded(dateList.at(0));
-        QDate dateAdded(12,12,12);
-       /// @todo QRegExp exp() in date parsing
-//YYYY-MM-DDThh:mm:ss
-    */
+
 };
 /**
  * Helper function to loadModel
@@ -161,34 +159,36 @@ void StorageHandler::parseFacility(Facility* aFacility, QDomNode* n){
         QString lastName = e.attribute( "lastName", "noLastName" );
         int reqCare = e.attribute("reqCare", "0").toInt();
         int occCare = e.attribute("occCare", "0").toInt();
-        QDate dateAdded(12,12,12);
-        QDate dateAdmitted(1984,11,11);
+        //parse date
+            QStringList dateList = e.attribute("dateAdded","2000-02-02").split("-");
+            int year = QString(dateList.at(0)).toInt();
+            int month = QString(dateList.at(1)).toInt();
+            QString sDay = dateList.at(2);
+            sDay.truncate(2);//remove the time from the date
+            int day = sDay.toInt();
+            QDate dateAdmitted(year, month, day);
+        //parse date
         Logger::infoMessage("storageHandler","parseWaitingList", "Patient added to a facility pName= ", firstName);
 
         Patient* p = new Patient(healthCardNumber, firstName, lastName,  Convenience::intToCareType(reqCare));
         p->setAdmissionDate(dateAdmitted);
-	p->setDatePlacedOnWaitingList(dateAdded);
         aFacility->addPatientToBed(p, Convenience::intToCareType(occCare));
         node = e.nextSibling();
         n = &(node);
 
     }
-    /**
-        QStringList dateList = e->attribute("dateAdded").split("-");
-        /// @todo parse the date properly
-       // QString(dateList.at(0)).toInt();
-      //  QString(dateList.at(1)).toInt();
-      //  QString(dateList.at(2)).toInt();
-      //  QDate dateAdded(dateList.at(0));
-        QDate dateAdded(12,12,12);
-       /// @todo QRegExp exp() in date parsing
-//YYYY-MM-DDThh:mm:ss
-    */
+
 };
 
 StorageHandler::~StorageHandler(){
 
 }
+/**
+ * Helper function to saveModel the WaitingList in an XML format
+ *
+ * @param aWaitingList that will be transformend into XML tags
+ *
+ */
 QDomElement* saveWaitingList(WaitingList* aWaitingList){
     QDomElement* e = new QDomElement();
     e->setTagName("WaitingList");
@@ -201,14 +201,17 @@ QDomElement* saveWaitingList(WaitingList* aWaitingList){
         pat->setAttribute("firstName", p->getFirstName());
         pat->setAttribute("lastName", p->getLastName());
         pat->setAttribute("reqCare", int(p->getRequiredCare()));
-        //e->appendChild(pat);
-        /// @todo date parsing
-       // QDate dateAdded(12,12,12);
-       // QDate dateAdmitted(1984,11,11);
+        pat->setAttribute("dateAdded", Convenience::toXML(p->getDatePlacedOnWaitingList()));
+        e->appendChild(*pat);
     }
     return e;
 };
-
+/**
+ * Helper function to saveModel the WaitingList in an XML format
+ *
+ * @param aFacility that will be transformend into XML tags
+ *
+ */
 QDomElement* saveFacility(Facility* aFacility){
  QDomElement* e = new QDomElement();
  e->setTagName("Facility");
@@ -217,6 +220,12 @@ QDomElement* saveFacility(Facility* aFacility){
  return e;
 };
 
+/**
+ * Helper function to saveModel the WaitingList in an XML format
+ *
+ * @param aFacility that will be transformend into XML tags
+ *
+ */
 QDomElement* saveArea(Area* anArea){
     QDomElement* e = new QDomElement();
     e->setTagName("Area");

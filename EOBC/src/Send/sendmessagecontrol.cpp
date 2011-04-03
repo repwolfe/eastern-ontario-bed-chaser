@@ -3,7 +3,16 @@
 SendMessageControl::SendMessageControl()
 {
 }
-
+/**
+ * Helper function to the private methods, turns a Patient into an xml tag
+ *
+ * @param p the Patient that will be transformend into an XML tag
+ *
+ * @param e the element that patient will be returned in
+ *
+ * @param inpatient determines if the dateAdded or dateAdmitted attribut is set
+ *
+ */
 void SendMessageControl::toXML(QDomElement* e,Patient* p, bool inpatient){
     e->setTagName("Patient");
     e->setAttribute("healthCardNumber", p->getHealthCardNumber());
@@ -18,6 +27,18 @@ void SendMessageControl::toXML(QDomElement* e,Patient* p, bool inpatient){
     }
 };
 
+/**
+ * Helper function to the public methods, turns a Patient into an xml tag
+ *
+ * @param p the Patient that will be transformend into an XML tag
+ *
+ * @param e the element that Area will be returned in
+ *
+ * @param aFacility the Facility that will be turned into a tag within the Area tag
+ *
+ * @param anArea the Area that will be turned into an XML tag
+ *
+ */
 void SendMessageControl::toXML(QDomElement* area, Area* anArea, Facility* aFacility, Patient* p){
     QDomElement* fac = new QDomElement();
     fac->setTagName("Facility");
@@ -32,6 +53,16 @@ void SendMessageControl::toXML(QDomElement* area, Area* anArea, Facility* aFacil
     area->appendChild(*fac);
 
 };
+/**
+ * Helper function to the public methods, returns a complete view of a facility
+ *
+ * @param e the element that Area will be returned in
+ *
+ * @param aFacility the Facility that will be turned into a tag within the Area tag
+ *
+ * @param anArea the Area that will be turned into an XML tag
+ *
+ */
 void SendMessageControl::toXML(QDomElement* e, Area* anArea, Facility* aFacility){
     QDomElement* fac = new QDomElement();
     this->toXML(fac, aFacility);
@@ -40,6 +71,14 @@ void SendMessageControl::toXML(QDomElement* e, Area* anArea, Facility* aFacility
     e->appendChild(*fac);
 }
 
+/**
+ * Helper function to the private methods, returns a complete view of a facility
+ *
+ * @param fac the element that Area will be returned in
+ *
+ * @param aFacility the Facility that will be turned into an XML tag
+ *
+ */
 void SendMessageControl::toXML(QDomElement* fac, Facility* aFacility){
 
     fac->setTagName("Facility");

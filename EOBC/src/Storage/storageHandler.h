@@ -7,7 +7,10 @@
 #include <QtXml/qdom.h>
 #include "../Common/logger.h"
 
+
 /**
+ * @brief Handles saving and loading of all persistant data
+ *
  * StorageHandler has a collection of Areas and uses an xml file
  * for persistant storage
  *

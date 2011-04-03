@@ -72,7 +72,7 @@ void GetDataControl::requestReport(QDate fromDate, QDate toDate, ID facId, QStri
     /// @todo ask for report data
 
     /// @todo remove
-    Q_UNUSED(contraints)
+    Q_UNUSED(constraints)
     // QDate start, QDate end, ID facId, QPair<QString, QLinkedList<int> > &data, QPair<QString, QLinkedList<int> > &data2
     QLinkedList<int> list1 = QLinkedList<int> () << rand() % 20 << rand() % 20 << rand() % 20 << rand() % 20;
     QLinkedList<int> list2 = QLinkedList<int> () << rand() % 20 << rand() % 20 << rand() % 20 << rand() % 20;

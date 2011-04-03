@@ -1,5 +1,6 @@
 #include "movepatientcontrol.h"
 #include "convenience.h"
+#include "logger.h"
 
 MovePatientControl::MovePatientControl()
 {
@@ -33,6 +34,11 @@ MovePatientControl::~MovePatientControl()
     delete _addPatientControl;
 }
 
+/**
+ * Upon receiving the list of facilities, give it to whichever form needs it
+ *
+ * @param data a map of facility Id to their Name
+ */
 void MovePatientControl::setFacilitiesList(const QMap<ID, QString>& data)
 {
     QStringList facilities;
@@ -67,6 +73,11 @@ void MovePatientControl::setFacilitiesList(const QMap<ID, QString>& data)
     }
 }
 
+/**
+ * Upon receiving the map of facilities to their patients, give it to whichever form needs it
+ *
+ * @param data map of facilities to their patients
+ */
 void MovePatientControl::setFacilitiesToPatients(const QMap<ID, QLinkedList<Patient*> >& data)
 {
     FacilityIDToPatientInfo facilitiesToPatientInfo;
@@ -149,7 +160,6 @@ void MovePatientControl::showToBedForm()
     _bedMoveToChanges.clear();
     _toBedForm->show();
     /// @todo clear form gui?
-
 }
 
 void MovePatientControl::_setupConnections()
@@ -275,6 +285,14 @@ void MovePatientControl::_toBedFormAddPatient()
     _addPatientControl->showForm();
 }
 
+/**
+ * Private slot for when a patient is removed.
+ * Checks if the patient was JUST added, if so simply remove it from
+ * the list of added patients.
+ * If the patient was already there, add them to a list of removed patients
+ *
+ * Remove the patient from the GUI
+ */
 void MovePatientControl::_toBedFormRemovePatient()
 {
     QString patientHCN;
@@ -295,6 +313,16 @@ void MovePatientControl::_toBedFormRemovePatient()
     }
 }
 
+/**
+ * When a patient is created, add them to the GUI and list of patients added
+ *
+ * @param firstName patient's first name
+ * @param lastName patient's last name
+ * @param hcn the patient's health card number
+ * @param requiredCare what kind of care they need
+ * @param dateAdded the date added to this facility
+ * @param occuringCare the kind of care they are getting
+ */
 void MovePatientControl::_patientCreated(QString firstName, QString lastName, QString hcn,
                                          QString requiredCare, QDate dateAdded, QString occuringCare)
 {
@@ -347,12 +375,9 @@ void MovePatientControl::_toFacilityFormFacilitySelected(int index)
             }
             else
             {
+		//Logger::errorMessage()
                 /// @todo log this I guess
             }
-        }
-        else
-        {
-	    // Don't have the list of patients yet, do nothing
         }
     }
     else
@@ -375,10 +400,10 @@ void MovePatientControl::_toBedFormFacilitySelected(int index)
             {
                 _toBedForm->setPatientItems(fInfo.value(), true);
             }
-            else
-            {
+	    else
+	    {
 
-            }
+	    }
         }
         else
         {

@@ -8,6 +8,7 @@
 #include <QMap>
 #include <QLinkedList>
 
+typedef QMap<ID, QMap<QString, QPair<QString, QString> > > FacilityIDToPatientInfo;
 /**
  * @brief Controller for the MovePatientForm for Bed and Facility movement.
  *
@@ -24,7 +25,9 @@ public:
     MovePatientControl();
     ~MovePatientControl();
 
+    void toFacilityFormWaitingForInfo();
     void showToFacilityForm();
+    void toBedFormWaitingForInfo();
     void showToBedForm();
 
     void setFacilitiesList(const QMap<ID, QString>& data);
@@ -52,6 +55,8 @@ private slots:
     void _patientCreated(QString firstName, QString lastName, QString hcn, QString requiredCare, QDate dateAdded, QString occuringCare);
     void _toFacilityFormSubmit();
     void _toFacilityFormCancel();
+    void _toFacilityFormFacilitySelected(int);
+    void _toBedFormFacilitySelected(int);
 
 private:
     void _setupConnections();
@@ -73,6 +78,27 @@ private:
 
     /// A map of all the Patients to which Beds they're in
     QMap<QString, QString> _patientToBed;
+
+    // Facility Selection
+
+    // To Facility Form
+    QMap<int, ID>       _tfIndexToID;
+    int                 _tfcurrentFacilityIndex;
+    //QMap<ID, QLinkedList<Patient*> > _tfFacilitiesPatients;
+    FacilityIDToPatientInfo _tfFacilityToPatientsInfo;
+
+    // To Bed Form
+    QMap<int, ID>       _tbIndexToID;
+    int                 _tbcurrentFacilityIndex;
+    //QMap<ID, QLinkedList<Patient*> > _tbFacilitiesPatients;
+    FacilityIDToPatientInfo _tbFacilityToPatientsInfo;
+
+    // Waiting for information bools
+    bool _tfWaitingForFacilitiesList;
+    bool _tfWaitingForFacilitiesPatients;
+
+    bool _tbWaitingForFacilitiesList;
+    bool _tbWaitingForFacilitiesPatients;
 };
 
 #endif // MOVEPATIENTCONTROL_H

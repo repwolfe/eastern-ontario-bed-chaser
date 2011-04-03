@@ -56,25 +56,38 @@ void MovePatientForm::setMoveToItems(QStringList& items)
 
 /**
  * Set the items of the Patient list, removes the old ones
- * Used for rows containing Patient Name and Health Card Number
+ * Rows containing Patient Name and Health Card Number and optionally Bed Type
  *
- * @param inPatients map of Patient Name to Health Card Number
+ * @param patientItems map of patient's health card number to a pair of it's name and bed type (could be blank)
+ * @param includeBeds True if beds should be included, False otherwise
  */
-void MovePatientForm::setPatientItems(const QMap<QString, QString> &inPatients)
+void MovePatientForm::setPatientItems(const QMap<QString, QPair<QString, QString> > &patientItems, bool includeBeds)
 {
-    _setPatientItems(inPatients);
-}
-
-/**
- * Set the items of the Patient list, removes the old ones
- * Used for rows containing Patient Name, Health Card Number and Bed Type
- *
- * @param nameToHcn map of Patient Name to Health Card Number
- * @param hcnToBed map of Health Card Number to Bed
- */
-void MovePatientForm::setPatientItems(const QMap<QString,QString>& nameToHcn, const QMap<QString,QString>& hcnToBed)
-{
-    _setPatientItems(nameToHcn, &hcnToBed);
+    _patientList->clear();
+    if (patientItems.size() > 0)
+    {
+        QList<QTreeWidgetItem*> items;
+        QMap<QString, QPair<QString, QString> >::const_iterator iter = patientItems.begin();
+        while (iter != patientItems.end())
+        {
+            // Store the name first, then the hcn
+            QStringList info = QStringList() << iter.value().first << iter.key();
+            // Optionally store the bed type
+            if (includeBeds) { info << iter.value().second; }
+            items.append(new QTreeWidgetItem((QTreeWidget*)0, info));
+            ++iter;
+        }
+        _patientList->insertTopLevelItems(0, items);
+        if (!items.isEmpty())
+        {
+            _patientList->setCurrentItem(items.first());
+            _moveToList->setEnabled(true);
+        }
+    }
+    else
+    {
+        _moveToList->setEnabled(false);
+    }
 }
 
 /**
@@ -181,6 +194,7 @@ bool MovePatientForm::isPatientInList(QString hcn) const
 void MovePatientForm::_setupLayout()
 {
     _facilityList   = new QComboBox();
+    _facilityList->setFixedWidth(150);
     _moveToList     = new QComboBox();
 
     _patientList    = new QTreeWidget();
@@ -246,6 +260,8 @@ void MovePatientForm::_setupConnections()
     connect(_submitButton, SIGNAL(clicked()), SLOT(_submitButtonClicked()));
     connect(_cancelButton, SIGNAL(clicked()), SLOT(_cancelButtonClicked()));
 
+    connect(_facilityList, SIGNAL(currentIndexChanged(int)), SLOT(_facilitySelected(int)));
+
     if (_displayAddRemove)
     {
         connect(_addPatientButton, SIGNAL(clicked()), SLOT(_addPatientClicked()));
@@ -282,4 +298,9 @@ void MovePatientForm::_submitButtonClicked()
 void MovePatientForm::_cancelButtonClicked()
 {
     emit cancelButtonClicked();
+}
+
+void MovePatientForm::_facilitySelected(int index)
+{
+    emit facilitySelected(index);
 }

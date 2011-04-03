@@ -46,3 +46,5 @@ void ReceiveMessageControl::parseAdd(QDomElement addTag){
 
 
 }
+
+

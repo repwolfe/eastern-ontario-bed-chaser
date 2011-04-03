@@ -18,6 +18,7 @@ public:
     explicit GetDataReportingInterface(GetDataControl& getData);
 
     void requestReport(QDate fromDate, QDate toDate, ID facId, QString constraints);
+    void requestAllFacilities();
 
 signals:
     void receivedAllFacilities(const QMap<ID, QString>& data);

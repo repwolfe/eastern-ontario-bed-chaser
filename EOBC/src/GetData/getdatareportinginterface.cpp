@@ -13,6 +13,11 @@ void GetDataReportingInterface::requestReport(QDate fromDate, QDate toDate, ID f
     _getData.requestReport(fromDate, toDate, facId, constraints);
 }
 
+void GetDataReportingInterface::requestAllFacilities()
+{
+    _getData.requestAllFacilities();
+}
+
 void GetDataReportingInterface::_receivedAllFacilities(const QMap<ID, QString>& data)
 {
     emit receivedAllFacilities(data);

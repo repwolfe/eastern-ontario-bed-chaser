@@ -15,6 +15,9 @@ UpdateBedsControl::~UpdateBedsControl()
     delete _form;
 }
 
+/**
+ * Used to indicate that this control is waiting for data
+ */
 void UpdateBedsControl::waitingForData()
 {
     _waitingForFacilitiesList = true;
@@ -27,6 +30,9 @@ void UpdateBedsControl::showForm()
     _form->show();
 }
 
+/**
+ *
+ */
 void UpdateBedsControl::setFacilitiesList(const QMap<ID, QString>& data)
 {
     QStringList facilities;

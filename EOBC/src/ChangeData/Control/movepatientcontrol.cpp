@@ -133,6 +133,9 @@ const QMap<QString, ID>& MovePatientControl::getFacilityChanges() const
     return _facilityMoveToChanges;
 }
 
+/**
+ * Used to indicate that this form is waiting for data
+ */
 void MovePatientControl::toFacilityFormWaitingForInfo()
 {
     _tfWaitingForFacilitiesList = true;
@@ -149,6 +152,9 @@ void MovePatientControl::showToFacilityForm()
 
 }
 
+/**
+ * Used to indicate that this form is waiting for data
+ */
 void MovePatientControl::toBedFormWaitingForInfo()
 {
     _tbWaitingForFacilitiesList = true;
@@ -353,6 +359,11 @@ void MovePatientControl::_toFacilityFormCancel()
     _facilityMoveToChanges.clear();
 }
 
+/**
+ * When a facility is selected from the drop down box, find out
+ * its ID then use that to get the list of patients associated
+ * with that facility.
+ */
 void MovePatientControl::_toFacilityFormFacilitySelected(int index)
 {
     _patientsAdded.clear();
@@ -375,17 +386,23 @@ void MovePatientControl::_toFacilityFormFacilitySelected(int index)
             }
             else
             {
-		//Logger::errorMessage()
-                /// @todo log this I guess
+		Logger::errorMessage("MovePatientControl", "_toFacilityformFacilitySelected(int)", "Couldn't find facility with ID", QString::number(find.value()));
             }
         }
     }
     else
     {
-        /// @todo log this I guess
+	Logger::errorMessage("MovePatientControl", "_toFacilityformFacilitySelected(int)", "Couldn't find facility with index", QString::number(index));
     }
 }
 
+/**
+ * When a facility is selected from the drop down box, find out
+ * its ID then use that to get the list of patients associated
+ * with that facility.
+ *
+ * Slightly simpler implementation than for to facility form
+ */
 void MovePatientControl::_toBedFormFacilitySelected(int index)
 {
     _bedMoveToChanges.clear();
@@ -402,7 +419,7 @@ void MovePatientControl::_toBedFormFacilitySelected(int index)
             }
 	    else
 	    {
-
+		Logger::errorMessage("MovePatientControl", "_toBedFormFacilitySelected(int)", "Couldn't find facility with ID", QString::number(find.value()));
 	    }
         }
         else
@@ -413,6 +430,6 @@ void MovePatientControl::_toBedFormFacilitySelected(int index)
     }
     else
     {
-        /// @todo log this I guess
+	Logger::errorMessage("MovePatientControl", "_toBedFormFacilitySelected(int)", "Couldn't find facility with index", QString::number(index));
     }
 }

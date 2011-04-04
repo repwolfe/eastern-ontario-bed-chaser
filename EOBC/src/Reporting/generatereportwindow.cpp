@@ -7,43 +7,44 @@ GenerateReportWindow::GenerateReportWindow(QWidget *parent) :
     int height = 0;
     this->setWindowTitle("Generate Report");
     layout.addWidget(new QLabel("Facility"),height,0,Qt::AlignTop);
-    layout.addWidget(new QLabel("Date(s)"),height++,1,Qt::AlignTop);
+    layout.addWidget(new QLabel("Date(s)"),height++,2,Qt::AlignTop);
 
-    facilities = new QComboBox();
+    facilities = new QListWidget();
     facilToRows = new QMap<int,ID>();
 
 
-    layout.addWidget(facilities,height,0,Qt::AlignTop);
+    layout.addWidget(facilities,height,0,4,2,Qt::AlignTop);
 
      //////////////////////////////////////////////////////////DATES
 
     dateStartEntry = new QDateEdit();
     dateStartEntry->setDisplayFormat("MMMM d yyyy");
     dateStartEntry->setDate(QDate::currentDate());
-    layout.addWidget(dateStartEntry,height,1,Qt::AlignTop);
+    layout.addWidget(dateStartEntry,height++,2,Qt::AlignTop);
     dateEndEntry = new QDateEdit();
     dateEndEntry->setDisplayFormat("MMMM d yyyy");
     dateEndEntry->setDate(QDate::currentDate());
     layout.addWidget(dateEndEntry,height++,2,Qt::AlignTop);
-
-
-    layout.addWidget(new QLabel(),height++,0); ///////////SPACER
-
-    layout.addWidget(new QLabel("Constraints"),height++,0,Qt::AlignTop);
+    layout.addWidget(new QLabel("Constraints"),height++,2,Qt::AlignTop);
     constraints = new QComboBox();
     constraints->addItem("Waiting List");
     constraints->addItem("Occupancy Rates");
-    //layout.addWidget(new QLabel(),height+1,1,Qt::AlignTop);
-    layout.addWidget(constraints,height,0,1,1,Qt::AlignTop);
+    layout.addWidget(constraints,height++,2,Qt::AlignTop);
 
     //layout.addWidget(new QLabel(),height++,0); ///////////SPACER
-    layout.addWidget(new QLabel(),height,1); ///////////SPACER
+
+
+    //layout.addWidget(new QLabel(),height+1,1,Qt::AlignTop);
+
+
+    //layout.addWidget(new QLabel(),height++,0); ///////////SPACER
+  //  layout.addWidget(new QLabel(),height,1); ///////////SPACER
 
     QPushButton* submit = new QPushButton("Submit");
     connect(submit,SIGNAL(clicked()),this,SLOT(pressedSubmit()));
-    layout.addWidget(submit,height++,2,Qt::AlignTop);
+    layout.addWidget(submit,height,0,Qt::AlignTop);
     QPushButton* cancel = new QPushButton("Cancel");
-    layout.addWidget(cancel,height,2,Qt::AlignTop);
+    layout.addWidget(cancel,height,1,Qt::AlignTop);
 
     connect(cancel,SIGNAL(clicked()),this,SLOT(pressedCancel()));
 
@@ -51,14 +52,14 @@ GenerateReportWindow::GenerateReportWindow(QWidget *parent) :
 
     layout.setRowStretch(0,0);
     layout.setRowStretch(1,0);
-    layout.setRowStretch(2,110);
+    layout.setRowStretch(2,0);
     layout.setRowStretch(3,0);
-    layout.setRowStretch(4,0);
+    layout.setRowStretch(4,110);
     layout.setRowStretch(5,0);
     //layout.setRowMinimumHeight(3,100);
     layout.setContentsMargins(30,10,30,10);
-    setGeometry(Convenience::getCenterForSize(500,200));
-    this->setFixedSize(500,200);
+    setGeometry(Convenience::getCenterForSize(500,300));
+    this->setFixedSize(500,300);
     setLayout(&layout);
 }
 void GenerateReportWindow::pressedSubmit()
@@ -100,7 +101,13 @@ void GenerateReportWindow::pressedSubmit()
 
         bars.push_back(new ReportBars(barHeights,barTypes));
     }
-    Report* rep = new Report(dateStartEntry->text() + "-"+dateEndEntry->text(),dateStartEntry->date(),bars,(int)Convenience::HOSPITAL,dateType,facilities->currentText());
+    QList<QListWidgetItem*> items = facilities->selectedItems();
+    QVector<QString> facilNames;
+    for(int i =0;i<items.count();i++)
+    {
+        facilNames.push_back( items.at(i)->text());
+    }
+    Report* rep = new Report(dateStartEntry->text() + "-"+dateEndEntry->text(),dateStartEntry->date(),bars,(int)Convenience::HOSPITAL,dateType,facilNames);
 
     emit reportGenerated(rep);
     // FOR TESTING ONLY
@@ -112,7 +119,7 @@ void GenerateReportWindow::pressedSubmit()
     // REAL CODE
     emit sendReportRequest(dateStartEntry->date(),
                            dateEndEntry->date(),
-                           facilToRows->value(facilities->currentIndex()),
+                           facilToRows->value(facilities->currentRow()),
                            constraints->currentText());
 
     QMessageBox mb;
@@ -134,8 +141,10 @@ void GenerateReportWindow::updateFacilities(const QMap<ID,QString>* facils)
     foreach(ID i , facils->keys())
     {
         QString data = facils->find(i).value();
-        facilities->addItem(data);
+        QListWidgetItem* item = new QListWidgetItem(data);
+        facilities->addItem(item);
         facilities->update();
+        facilities->setSelectionMode(QAbstractItemView::MultiSelection);
         facilToRows->insert(facilities->count()-1,i);
     }
 }

@@ -376,7 +376,9 @@ void MapArea::loadIcon(Facility* f)
     }
     icons.push_back(new FacilityIcon(f->getLocation()-QPoint(MAPMIDDLEX,MAPMIDDLEY),f->getFacilityName(),"Out Of Area",iconType));
     icons.at(icons.count()-1)->setPercents(percents);
-    for(int i=0;i<vecs.count();i++)
+
+    /*
+    for(int i=0;i<vecs.count();i++) // IF THE FACILITY DOESNT KNOW WHAT AREA IT IS IN
     {
         QPolygonF p = vecs.at(i)->getPoly();
         p.translate(QPoint(MAPMIDDLEX,MAPMIDDLEY));
@@ -385,7 +387,11 @@ void MapArea::loadIcon(Facility* f)
         {
             icons.at(icons.count()-1)->setArea(vecs.at(i)->getRegion());
         }
-    }
+    }*/
+    icons.at(icons.count()-1)->setArea(Convenience::areaIDtoQString(f->getAreaThisIsIn()->getAreaId()));
+
+
+
     FacilityIcon::makeCollisionIcons(icons.at(icons.count()-1),icons);
 }
 void MapArea::loadWaitingList(ID id,int count)
@@ -442,6 +448,7 @@ void MapArea::loadLabels(QVector<QLabel*> labels)
  */
 void MapArea::updateLabels(SelectType st)
 {
+    Q_UNUSED(st);
     for(int i=0;i<labels.size();i++)
     {
         labels.at(i)->setText("");

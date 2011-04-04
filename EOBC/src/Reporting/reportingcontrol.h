@@ -23,6 +23,7 @@ private:
     QVector<Report*> reports;
     QMap<ID,QString> facils;
     GetDataReportingInterface& _inter;
+    bool openGenerateReport;
 signals:
     void sendReportRequest(QDate, QDate, ID, QString);
 public slots:

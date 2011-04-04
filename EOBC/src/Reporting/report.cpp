@@ -4,15 +4,15 @@ int left = 120;
 int width = 300;
 int top = 70;
 int threeDness = 10;
-Report::Report(QString date, QDate startDate,QVector<ReportBars*>& bars,int facilityType, int dateType,QString facility,QObject *parent) :
-    QObject(parent)
+Report::Report(QString date, QDate startDate,QVector<ReportBars*>& bars,int facilityType, int dateType,QVector<QString>& fac,QObject *parent) :
+    QObject(parent), facility(fac)
 {
     this->bars = bars;
     this->date = date;
     this->dateType = dateType;
     this->facilityType = facilityType;
     this->startDate = startDate;
-    this->facility = facility;
+   // this->facility = facility;
     type = Report::OCCUPANCYRATESNUMBER;
     maxHeight = 0;
     for(int i=0;i<bars.count();i++)
@@ -97,7 +97,10 @@ void Report::drawGrid(QPainter& g)
 
     g.setFont(QFont("Arial",14,5));
     g.drawText(width/2+left-30, height+top+threeDness + 60,"Time");
-    g.drawText(10,height+top+threeDness + 60,facility);
+    for (int i=0;i<facility.size();i++)
+    {
+        g.drawText(10,height+top+threeDness + 60,facility.at(i));
+    }
     if(dateType == Report::DAY)
         g.drawText(left-30, height+top+threeDness + 30,""+startDate.toString("MMM"));
     if(this->type == Report::OCCUPANCYRATESNUMBER)

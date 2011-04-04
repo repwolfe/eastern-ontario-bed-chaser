@@ -32,6 +32,7 @@ EOBC::CareType Convenience::intToCareType(int care)
     }
 }
 
+
 /**
  * Static convenience function that returns an EOBC::CareType for a given QString
  *

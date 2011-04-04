@@ -5,6 +5,7 @@
 #include <QtGui/qgridlayout.h>
 #include <QtGui>
 #include "report.h"
+
 #include "reportbars.h"
 #include <QtGui/QMessageBox>
 class GenerateReportWindow : public QWidget
@@ -28,7 +29,7 @@ private:
     QGridLayout layout;
     QDateEdit* dateStartEntry;
     QDateEdit* dateEndEntry;
-    QComboBox* facilities;
+    QListWidget* facilities;
     const QMap<ID,QString>* __facils;
     QMap<int,ID>* facilToRows;
     QComboBox* constraints;

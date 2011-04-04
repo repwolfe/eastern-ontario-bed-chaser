@@ -10,7 +10,7 @@
 #include "mapvectors.h"
 #include "facilityicon.h"
 #include "mapmarker.h"
-#include "facility.h"
+#include "area.h"
 
 /**
  * This class holds the widget in which the map is contained.

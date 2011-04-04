@@ -15,7 +15,7 @@ class Report : public QObject
     enum {OCCUPANCYRATESNUMBER,OCCUPANCYRATESPERCENT};
     enum {DAY,MONTH,YEAR};
 public:
-    explicit Report(QString date,QDate startDate,QVector<ReportBars*>& bars,int facilityType,int dateType,QString facility,QObject *parent = 0);
+    explicit Report(QString date,QDate startDate,QVector<ReportBars*>& bars,int facilityType,int dateType,QVector<QString>& facility,QObject *parent = 0);
     ~Report();
     void draw(QPainter& g);
     QString getDate();
@@ -41,7 +41,7 @@ private:
     int facilityType;
     int type;
     int dateType;
-    QString facility;
+    QVector<QString> facility;
 
 };
 

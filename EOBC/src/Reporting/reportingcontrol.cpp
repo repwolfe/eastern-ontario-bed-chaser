@@ -13,7 +13,7 @@ ReportingControl::ReportingControl(GetDataReportingInterface& inter ,QObject *pa
     connect(&inter,SIGNAL(receivedAllFacilities(const QMap<ID,QString>&)),this,SLOT(receivedAllFacilitiesSlot(const QMap<ID,QString>&)));
     connect(&inter,SIGNAL(receivedReport(QDate,QDate,ID,QPair<QString,QLinkedList<int> >&,QPair<QString,
                                          QLinkedList<int> >&)),this,SLOT(receiveReport(QDate,QDate,ID,QPair<QString,QLinkedList<int> >&,QPair<QString,QLinkedList<int> >&)));
-
+    openGenerateReport = false;
 }
 ReportingControl::~ReportingControl()
 {
@@ -35,7 +35,9 @@ void ReportingControl::run()
 void ReportingControl::showGenerateReportWindow()
 {
    // _inter.re
+    openGenerateReport = true;
     _inter.requestAllFacilities();
+
    // _inter.requestReport();
     //will emit a signal to get all facilities, once received, the window will pop up
 }
@@ -103,7 +105,8 @@ void ReportingControl::receiveReport(QDate start, QDate end, ID facId,QPair<QStr
         iterData2++;
         iterData1++;
     }
-    QString facilName = facils.value(facId);
+    QVector<QString> facilName;
+    facilName.push_back(facils.value(facId));
 
     Report* rep = new Report(start.toString("MMMM dd yyyy") + "-"+end.toString("MMMM dd yyyy"),start,bars,(int)Convenience::HOSPITAL,dateType,facilName);
     reportGenerated(rep);
@@ -129,7 +132,11 @@ void ReportingControl::receivedAllFacilitiesSlot(const QMap<ID, QString>& data)
    // __facils = new QMap<ID, QString>();
     facils = data;
     rWind.updateFacilities(&data);
-    rWind.show();
+    if(this->openGenerateReport)
+    {
+        rWind.show();
+        this->openGenerateReport = false;
+    }
 }
 
 //

@@ -32,6 +32,7 @@ public:
     static bool correctHealthCardNumber(QString hcn);
     static QString areaIDtoQString(ID id);
     static QString toXML(QDate date);
+    static QDate fromXML(QString date);
 private:
     Convenience();
 };

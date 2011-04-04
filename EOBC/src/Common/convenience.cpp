@@ -115,3 +115,12 @@ QString Convenience::toXML(QDate aDate){
     return str;
 
 };
+
+QDate Convenience::fromXML(QString date){
+    int year = date.section("-", 0, 0).toInt();
+    int month = date.section("-", 0, 0).toInt();
+    QString sDay =  date.section("-", 2, 2);
+    sDay.truncate(2);
+    int day = sDay.toInt();
+    return QDate(year,month,day);
+};

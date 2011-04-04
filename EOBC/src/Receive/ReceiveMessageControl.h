@@ -9,7 +9,7 @@
 #include "convenience.h"
 
 /**
- * @brief Parses messages received from other processes
+ * @brief Parses messages received from other EOBC nodes
  *
  * Turns XML tags into model objects
  *
@@ -21,13 +21,14 @@ class ReceiveMessageControl : public QObject
 public:
     void parseMessage(QByteArray qByte);
 signals:
-    void addBeds(EOBC::CareType, int numOfBeds);
+    void addBeds(ID sourceArea, ID sourceFacility, EOBC::CareType, int numOfBeds);
     void addPatient(ID areaID, ID facilityID, Patient* p);
     void deletePatient(ID areaID, ID facilityID,Patient* p);
+    void sendRebuild(ID sourceArea, ID sourceFacility);
 private:
     void parseAdd(QDomElement addTag);
     void parseDelete(QDomElement deleteTag);
-    void parseAddDelete(QDomElement tag, bool add);
+    void parseAddDeleteRebuild(QDomElement tag, bool add, bool rebuild);
     void parseResponse(QDomElement responseTag);
     void parseRequest(QDomElement RequestTag);
     void parseRebuild(QDomElement rebuildTag);

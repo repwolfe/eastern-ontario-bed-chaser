@@ -9,7 +9,7 @@
 
 
 
-typedef QMap<int,Area*> areaList;
+typedef QMap<ID,Area*> areaList;
 /**
  * @brief Handles saving and loading of all persistant data
  *
@@ -26,10 +26,17 @@ public:
     int loadModel(QString fileName);
     int saveModel(QString fileName, Area* anArea, int facilityID);
 
+    //read Methods
     Facility* getFacility(ID areaID, ID facilityID);
-    QList<Patient*> getWaitingList(ID areaID);
-    QList<Patient*> getPatients(ID areaID, ID facilityID, EOBC::CareType reqCare);
-    QList<Patient*> getPatients(ID areaID, ID facilityID);
+    WaitingList getWaitingList(ID areaID);
+    PatientContainer* getPatients(ID areaID, ID facilityID, EOBC::CareType reqCare);
+    PatientContainer* getPatients(ID areaID, ID facilityID);
+
+    //write Methods
+    void addPatient(ID areaID, ID facilityID, Patient* p);
+    void addPatient(ID areaID, Patient* p);
+    void deletePatient(ID areaID, ID facilityID, Patient* p);
+    void deletePatient(ID areaID, Patient* p);
 
 protected:
     Facility* _currentFacility;
@@ -38,6 +45,8 @@ protected:
 
 private:
    Area* _getArea(ID id);
+   Facility* _getFacility(ID areaID, ID facilityID);
+
    StorageHandler _StorageHandler();
    QLinkedList<Area*> _model;
    void parseWaitingList(Area* anArea,QDomNode* n);

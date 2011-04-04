@@ -21,7 +21,7 @@ void ReceiveMessageControl::parseMessage(QByteArray qByte){
  *
  */
 void ReceiveMessageControl::parseAdd(QDomElement addTag){
-    this->parseAddDelete(addTag,true);
+    this->parseAddDeleteRebuild(addTag,true, false);
 }
 
 /**
@@ -31,16 +31,17 @@ void ReceiveMessageControl::parseAdd(QDomElement addTag){
  *
  */
 void ReceiveMessageControl::parseDelete(QDomElement deleteTag){
-    this->parseAddDelete(deleteTag,false);
+    this->parseAddDeleteRebuild(deleteTag,false, false);
 }
 /**
  * Helper function to parse(add/delete)  parses messages in the Add/Delete tag
  *
  * @param tag the XML tag titled 'Add' or 'Delete'
  *
- * @param add if the tag isan add tag this is true else it is false
+ * @param add if the tag isan add tag this is true else it is false Rebuild defaults to false
  */
-void ReceiveMessageControl::parseAddDelete(QDomElement tag, bool add){
+void ReceiveMessageControl::parseAddDeleteRebuild(QDomElement tag, bool add, bool rebuild){
+
  bool remote = false;
  if(tag.attribute("remote", "false") == "true")
      remote = true;
@@ -63,9 +64,11 @@ void ReceiveMessageControl::parseAddDelete(QDomElement tag, bool add){
          QPoint coordinates(e.attribute("coordinateX", "0").toInt(), e.attribute("coordinateY", "0").toInt());
 
          e = e.childNodes().at(0).toElement();
-         emit addBeds(EOBC::LTC, LTC);
-         emit addBeds(EOBC::AC, AC);
-         emit addBeds(EOBC::CCC, CCC);
+         emit addBeds(areaID, facilityID, EOBC::LTC, LTC);
+         emit addBeds(areaID, facilityID, EOBC::AC, AC);
+         emit addBeds(areaID, facilityID, EOBC::CCC, CCC);
+         if(rebuild)
+            emit sendRebuild(areaID, facilityID);
 
      }
      if(e.tagName() == "Patient"){

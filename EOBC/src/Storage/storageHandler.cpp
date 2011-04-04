@@ -1,14 +1,12 @@
 #include "storageHandler.h"
 #include <QtXml/qdom.h>
 #include "logger.h"
-#include "qmessagebox.h"
 #include "convenience.h"
 #include <QList>
 /**
   * This constructor takes the name of a file to load the model
   * @param filename: The name of the file.
   *
-  * @todo implement a default constructor
   */
 StorageHandler::StorageHandler(QString fileName)
 {
@@ -31,7 +29,7 @@ StorageHandler StorageHandler::_StorageHandler()
 {
     StorageHandler tmp(QString(""));
     return tmp;
-};
+}
 
 /**
  * This loads the model from a file
@@ -103,7 +101,7 @@ int StorageHandler::loadModel(QString fileName){
 
     }
     return 0;
-};
+}
 /**
  * Helper function to loadModel
  *
@@ -122,15 +120,7 @@ void StorageHandler::parseWaitingList(Area* anArea,QDomNode* n){
         QString healthCardNumber = e.attribute( "healthCardNumber", "1111111111" );
         QString firstName = e.attribute( "firstName", "FirstName" );
         QString lastName = e.attribute( "lastName", "LastName" );
-        //parse date
-            QStringList dateList = e.attribute("dateAdded").split("-");
-            int year = QString(dateList.at(0)).toInt();
-            int month = QString(dateList.at(1)).toInt();
-            QString sDay = dateList.at(2);
-            sDay.truncate(2);
-            int day = sDay.toInt();
-            //remove the time from the date
-            QDate dateAdded(year, month, day);
+        QDate dateAdded  = Convenience::fromXML(e.attribute("dateAdded", "2000-02-02"));
         Logger::infoMessage("storageHandler","parseWaitingList", "Patient added to waiting list name= ", firstName);
         anArea->addPatientToWaitingList(healthCardNumber, firstName, lastName, dateAdded);
         node = e.nextSibling();
@@ -138,7 +128,7 @@ void StorageHandler::parseWaitingList(Area* anArea,QDomNode* n){
 
     }
 
-};
+}
 /**
  * Helper function to loadModel
  *
@@ -159,15 +149,7 @@ void StorageHandler::parseFacility(Facility* aFacility, QDomNode* n){
         QString lastName = e.attribute( "lastName", "noLastName" );
         int reqCare = e.attribute("reqCare", "0").toInt();
         int occCare = e.attribute("occCare", "0").toInt();
-        //parse date
-            QStringList dateList = e.attribute("dateAdded","2000-02-02").split("-");
-            int year = QString(dateList.at(0)).toInt();
-            int month = QString(dateList.at(1)).toInt();
-            QString sDay = dateList.at(2);
-            sDay.truncate(2);//remove the time from the date
-            int day = sDay.toInt();
-            QDate dateAdmitted(year, month, day);
-        //parse date
+        QDate dateAdmitted  = Convenience::fromXML(e.attribute("dateAdded", "2000-02-02"));
         Logger::infoMessage("storageHandler","parseWaitingList", "Patient added to a facility pName= ", firstName);
 
         Patient* p = new Patient(healthCardNumber, firstName, lastName,  Convenience::intToCareType(reqCare));
@@ -178,7 +160,7 @@ void StorageHandler::parseFacility(Facility* aFacility, QDomNode* n){
 
     }
 
-};
+}
 
 StorageHandler::~StorageHandler(){
 
@@ -205,7 +187,7 @@ QDomElement* saveWaitingList(WaitingList* aWaitingList){
         e->appendChild(*pat);
     }
     return e;
-};
+}
 /**
  * Helper function to saveModel the WaitingList in an XML format
  *
@@ -218,7 +200,7 @@ QDomElement* saveFacility(Facility* aFacility){
  aFacility->getFacilityId(); //to make robbie happy
 
  return e;
-};
+}
 
 /**
  * Helper function to saveModel the WaitingList in an XML format
@@ -232,7 +214,7 @@ QDomElement* saveArea(Area* anArea){
     e->setAttribute("ID", anArea->getAreaId());
 
     return e;
-};
+}
 /// @todo fix save model
 int StorageHandler::saveModel(QString fileName, Area* anArea, int facilityID){
     //QDomElement* wl;  //make robbie happy
@@ -249,30 +231,32 @@ int StorageHandler::saveModel(QString fileName, Area* anArea, int facilityID){
     if( !file.open(QIODevice::WriteOnly))
         return -1;
     return 0;
-};
+}
+
 Facility* StorageHandler::getFacility(ID areaID, ID facilityID){
   Area* anArea = this->_getArea(areaID);
   return anArea->getFacility(facilityID);
-};
+}
 
-/// @todo fix 3 get methods
-/*
-QList<Patient*> StorageHandler::getWaitingList(ID areaID){
-    return QList<Patient*> p(); // make robbie happy
-};
+WaitingList StorageHandler::getWaitingList(ID areaID){
+    Area* anArea = this->_areas.find(areaID).value();
+    return anArea->getWaitingList();
+}
 
-QList<Patient*> StorageHandler::getPatients(ID areaID, ID facilityID, int reqCare){
-    return QList<Patient*> p(); // make robbie happy
-};
+PatientContainer* StorageHandler::getPatients(ID areaID, ID facilityID, EOBC::CareType reqCare){
+    Area* anArea = this->_areas.find(areaID).value();
+    return anArea->getFacility(facilityID)->getPatientsForType(reqCare);
+}
 
-QList<Patient*> StorageHandler::getPatients(ID areaID, ID facilityID){
-    QList<Patient*> p(); // make robbie happy
-    return p;
-};
-*/
+/// @todo use robbie's new facility function that returns all patients
+PatientContainer* StorageHandler::getPatients(ID areaID, ID facilityID){
+    Area* anArea = this->_areas.find(areaID).value();
+    return anArea->getFacility(facilityID)->getPatientsForType(EOBC::AC);//replace
+}
+
 areaList StorageHandler::getAreas(){
     return _areas;
-};
+}
 
 Area* StorageHandler::_getArea(ID id){
     Area* anArea= this->getAreas().find(id).value();
@@ -280,4 +264,24 @@ Area* StorageHandler::_getArea(ID id){
         anArea = new Area(id);
     this->getAreas().insert(id, anArea);
     return anArea;
-};
+}
+void StorageHandler::addPatient(ID areaID, ID facilityID, Patient* p){
+    Area* area = this->_areas.find(areaID).value();
+    area->getFacility(facilityID)->addPatientToBed(p, p->getRequiredCare());
+}
+
+void StorageHandler::addPatient(ID areaID, Patient* p){
+    Area* area = this->_areas.find(areaID).value();
+    /// @todo add robbie's WaitingList.add(Patient* p)
+}
+
+void StorageHandler::deletePatient(ID areaID, ID facilityID, Patient* p){
+    Area* area = this->_areas.find(areaID).value();
+    area->getFacility(facilityID)->removePatient(p->getHealthCardNumber());
+}
+
+void StorageHandler::deletePatient(ID areaID, Patient* p){
+     Area* area = this->_areas.find(areaID).value();
+     area->removePatientFromWaitingList(p->getHealthCardNumber());
+}
+

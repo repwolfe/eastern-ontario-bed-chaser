@@ -175,6 +175,30 @@ void SendMessageControl::addPatients(bool remote, Area* anArea, Facility* aFacil
 void SendMessageControl::deletePatients(bool remote, Area* anArea, Facility* aFacility, QList<Patient*> p){
    this->doStuffToPatients("Delete",  remote, anArea, aFacility, p);
 }
+/**
+ * Sends a Rebuild message containing all facility information
+ *
+ * @param anArea the Area the patients will be added to
+ *
+ * @param aFacility the Facility the patients will be added to
+ *
+ */
+void SendMessageControl::rebuild(Area* anArea, Facility* aFacility){
+    QDomElement* e = new QDomElement();
+    this->toXML(e, anArea, aFacility);
+    QByteArray data = e->toDocument().toByteArray();
+    emit sendQByte(data);
+}
+/**
+ * Sends an empty Rebuild message
+ *
+ */
+void SendMessageControl::rebuild(){
+    QDomElement* e = new QDomElement();
+    e->setTagName("Rebuild");
+    QByteArray data = e->toDocument().toByteArray();
+    emit sendQByte(data);
+}
 
 /**
  * Private helper method, sends a message

@@ -118,7 +118,6 @@ void ChangeDataControl::movePatientsToBedSubmitted()
     const QLinkedList<QString>& removals    = _movePatientControl->getPatientsRemoved();
     ID currentFacility = _movePatientControl->getBedFormCurrentFacility();
 
-    _sendData.deletePatients();
     /// @todo send changes to StorageWrite
     Q_UNUSED(additions);
     Q_UNUSED(removals);

@@ -1,4 +1,5 @@
 #include "facility.h"
+#include "area.h"
 #include <stdlib.h>
 
 Facility::Facility(ID facilityId, QString facilityName, int numACBeds, int numCCCBeds, int numLTCBeds, QPoint location)

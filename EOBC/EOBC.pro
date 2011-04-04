@@ -77,7 +77,8 @@ SOURCES +=\
     src/GetData/getdatareportinginterface.cpp \
     src/Send/sendmessagecontrol.cpp \
     src/Receive/ReceiveMessageControl.cpp \
-    src/Communication/communicationsendinterface.cpp
+    src/Communication/communicationsendinterface.cpp \
+    src/Send/sendchangedatainterface.cpp
 
 
 
@@ -126,7 +127,8 @@ HEADERS  += \
     src/GetData/getdatareportinginterface.h \
     src/Send/sendmessagecontrol.h \
     src/Receive/ReceiveMessageControl.h \
-    src/Communication/communicationsendinterface.h
+    src/Communication/communicationsendinterface.h \
+    src/Send/sendchangedatainterface.h
 
 
 RESOURCES += \

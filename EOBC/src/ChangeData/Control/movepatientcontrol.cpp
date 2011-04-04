@@ -134,6 +134,36 @@ const QMap<QString, ID>& MovePatientControl::getFacilityChanges() const
 }
 
 /**
+ * Returns the currently selected facility id based off the index of the combobox
+ *
+ * @return currently selected facility id, or 0
+ */
+ID MovePatientControl::getBedFormCurrentFacility() const
+{
+    QMap<int, ID>::const_iterator id = _tbIndexToID.find(_tbcurrentFacilityIndex);
+    if (id != _tbIndexToID.end())
+    {
+	return id.value();
+    }
+    return 0;
+}
+
+/**
+ * Returns the currently selected facility id based off the index of the combobox
+ *
+ * @return currently selected facility id, or 0
+ */
+ID MovePatientControl::getFacilityFormCurrentFacility() const
+{
+    QMap<int, ID>::const_iterator id = _tfIndexToID.find(_tfcurrentFacilityIndex);
+    if (id != _tfIndexToID.end())
+    {
+	return id.value();
+    }
+    return 0;
+}
+
+/**
  * Used to indicate that this form is waiting for data
  */
 void MovePatientControl::toFacilityFormWaitingForInfo()
@@ -409,6 +439,9 @@ void MovePatientControl::_toBedFormFacilitySelected(int index)
     QMap<int, ID>::const_iterator find = _tbIndexToID.find(index);
     if (find != _tbIndexToID.end())
     {
+	// Store for later
+	_tbcurrentFacilityIndex = index;
+
         if (!_tbWaitingForFacilitiesPatients)
         {
             // If we have the map of facilities to patients
@@ -421,11 +454,6 @@ void MovePatientControl::_toBedFormFacilitySelected(int index)
 	    {
 		Logger::errorMessage("MovePatientControl", "_toBedFormFacilitySelected(int)", "Couldn't find facility with ID", QString::number(find.value()));
 	    }
-        }
-        else
-        {
-            // Don't have the list of patients yet, store for when we get it
-            _tbcurrentFacilityIndex = index;
         }
     }
     else

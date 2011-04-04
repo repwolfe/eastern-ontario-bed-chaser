@@ -11,7 +11,7 @@
 #include "reportingcontrol.h"
 #include "channelin.h"
 #include "communicationsendinterface.h"
-#include "sendmessagecontrol.h"
+#include "sendchangedatainterface.h"
 #include "ReceiveMessageControl.h"
 
 int main(int argc, char *argv[])
@@ -29,12 +29,14 @@ int main(int argc, char *argv[])
     DisplayMapControl mapControl(gdDisplayMapI);
     LogOnControl logControl;
     logControl.run();
-    ChangeDataControl changeDataControl(gdChangeDataI);
     ReportingControl rControl(gdReportingI);
     rControl.run();
 
     SendMessageControl sendControl;
+    SendChangeDataInterface sendChangeDataI(sendControl);
     ReceiveMessageControl receiveControl;
+
+    ChangeDataControl changeDataControl(gdChangeDataI, sendChangeDataI);
 
     /// @todo Should these be created here or something else which creates them?
     CommunicationSendInterface commSendInterface(sendControl);

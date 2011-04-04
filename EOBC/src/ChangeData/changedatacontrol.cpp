@@ -1,7 +1,7 @@
 #include "changedatacontrol.h"
 
-ChangeDataControl::ChangeDataControl(GetDataChangeDataInterface& getData)
-    : _getData(getData)
+ChangeDataControl::ChangeDataControl(GetDataChangeDataInterface &getData, SendChangeDataInterface &sendData)
+    : _getData(getData), _sendData(sendData)
 {
     _movePatientControl		= new MovePatientControl();
     _addFacilityControl		= new AddFacilityControl();
@@ -116,6 +116,9 @@ void ChangeDataControl::movePatientsToBedSubmitted()
     const QMap<QString, QString>& changes = _movePatientControl->getBedChanges();
     const QMap<QString, Patient>& additions = _movePatientControl->getPatientsAdded();
     const QLinkedList<QString>& removals    = _movePatientControl->getPatientsRemoved();
+    ID currentFacility = _movePatientControl->getBedFormCurrentFacility();
+
+    _sendData.deletePatients();
     /// @todo send changes to StorageWrite
     Q_UNUSED(additions);
     Q_UNUSED(removals);
@@ -125,6 +128,8 @@ void ChangeDataControl::movePatientsToBedSubmitted()
 void ChangeDataControl::movePatientsToFacilitySubmitted()
 {
     const QMap<QString, int>& changes   = _movePatientControl->getFacilityChanges();
+    ID currentFacility = _movePatientControl->getFacilityFormCurrentFacility();
+
     /// @todo send changes to StorageWrite
     Q_UNUSED(changes);
 }

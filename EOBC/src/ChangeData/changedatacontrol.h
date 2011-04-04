@@ -5,6 +5,7 @@
 #include <QObject>
 
 #include "getdatachangedatainterface.h"
+#include "sendchangedatainterface.h"
 #include "movepatientcontrol.h"
 #include "addfacilitycontrol.h"
 #include "createusercontrol.h"
@@ -13,7 +14,6 @@
 
 /// @todo remove these and include the classes when they're written
 class StorageWrite;
-class SendChangeDataRequest;
 
 /**
  * @brief Controller that controls other Controller objects.
@@ -29,7 +29,7 @@ class ChangeDataControl : public QObject
 {
     Q_OBJECT
 public:
-    ChangeDataControl(GetDataChangeDataInterface& getData);
+    ChangeDataControl(GetDataChangeDataInterface& getData, SendChangeDataInterface& sendData);
     ~ChangeDataControl();
 
     bool changeData(QString& args, QString& data);
@@ -69,9 +69,9 @@ private:
     void _changeRemote(QString& args, QString& data);
 
     StorageWrite* _storage;
-    SendChangeDataRequest* _sendData;
 
     GetDataChangeDataInterface& _getData;
+    SendChangeDataInterface& _sendData;
 
     // Child Control objects
     MovePatientControl*		_movePatientControl;

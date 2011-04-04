@@ -35,6 +35,8 @@ public:
 
     const QMap<QString, QString>& getBedChanges() const;
     const QMap<QString, ID>& getFacilityChanges() const;
+    ID getBedFormCurrentFacility() const;
+    ID getFacilityFormCurrentFacility() const;
 
     const QLinkedList<QString>& getPatientsRemoved() const;
     const QMap<QString,Patient>& getPatientsAdded() const;

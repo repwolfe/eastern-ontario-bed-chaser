@@ -5,6 +5,7 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QPushButton>
+#include <QLabel>
 
 /**
  * @brief Form to create new user
@@ -23,6 +24,7 @@ public:
     explicit CreateUserForm(QWidget *parent = 0);
 
     void clearContents();
+    void displayError();
 
     const QString getUserName() const;
     const QString getPassword() const;
@@ -38,9 +40,10 @@ public slots:
 private:
     void _setupLayout();
 
-    QLineEdit* _usernameBox;
-    QLineEdit* _passwordBox;
-    QComboBox* _priveledgeMenu;
+    QLineEdit*	_usernameBox;
+    QLineEdit*	_passwordBox;
+    QComboBox*	_priveledgeMenu;
+    QLabel*	_errorMessage;
     QPushButton* _submitButton;
     QPushButton* _cancelButton;
 };

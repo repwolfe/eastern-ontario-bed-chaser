@@ -48,7 +48,7 @@ void UpdateBedsControl::setFacilitiesList(const QMap<ID, Facility*>& data)
 	while (iter != data.end())
 	{
 	    facilities << iter.value()->getFacilityName();
-	    _indexToFacilityId[index] = iter.key();
+	    _indexToFacility[index] = iter.value();
 	    ++index;
 	    ++iter;
 	}
@@ -96,10 +96,10 @@ void UpdateBedsControl::setMinimumBedNumbers(const QMap<ID, QVector<int> >& data
  */
 void UpdateBedsControl::_facilitySelected(int index)
 {
-    QMap<int, ID>::const_iterator find = _indexToFacilityId.find(index);
-    if (find != _indexToFacilityId.end())
+    QMap<int, Facility*>::const_iterator find = _indexToFacility.find(index);
+    if (find != _indexToFacility.end())
     {
-	QMap<ID, QVector<int> >::const_iterator cur = _currentBedNumbers.find(find.value());
+	QMap<ID, QVector<int> >::const_iterator cur = _currentBedNumbers.find(find.value()->getFacilityId());
 	if (cur != _currentBedNumbers.end())
 	{
 	    const QVector<int>& beds = cur.value();
@@ -107,7 +107,7 @@ void UpdateBedsControl::_facilitySelected(int index)
 	    _form->setNumCCC(beds[1]);
 	    _form->setNumLTC(beds[2]);
 	}
-	QMap<ID, QVector<int> >::const_iterator min = _minimumBedNumbers.find(find.value());
+	QMap<ID, QVector<int> >::const_iterator min = _minimumBedNumbers.find(find.value()->getFacilityId());
 	if (min != _minimumBedNumbers.end())
 	{
 	    const QVector<int>& beds = min.value();
@@ -121,8 +121,8 @@ void UpdateBedsControl::_facilitySelected(int index)
 void UpdateBedsControl::_submitClicked()
 {
     int index = _form->getCurrentFacilityIndex();
-    QMap<int, ID>::const_iterator find = _indexToFacilityId.find(index);
-    if (find != _indexToFacilityId.end())
+    QMap<int, Facility*>::const_iterator find = _indexToFacility.find(index);
+    if (find != _indexToFacility.end())
     {
 	emit submitClicked(find.value(), _form->getNumAC(),
 			   _form->getNumCCC(), _form->getNumLTC());

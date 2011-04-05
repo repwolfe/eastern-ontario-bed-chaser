@@ -30,7 +30,7 @@ private slots:
     void _submitClicked();
 
 private:
-    AddFacilityForm* form;
+    AddFacilityForm* _form;
 
 };
 

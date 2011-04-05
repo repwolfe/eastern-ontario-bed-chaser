@@ -28,8 +28,8 @@ public:
     void setMinimumBedNumbers(const QMap<ID, QVector<int> >& data);
 
 signals:
-    /// Facility ID, Num AC Beds, Num CCC Beds, num LTC Beds
-    void submitClicked(ID, int, int, int);
+    /// Facility*, Num AC Beds, Num CCC Beds, num LTC Beds
+    void submitClicked(Facility*, int, int, int);
 
 private slots:
     void _facilitySelected(int);
@@ -37,7 +37,7 @@ private slots:
 
 private:
     UpdateBedsForm* _form;
-    QMap<int, ID> _indexToFacilityId;
+    QMap<int, Facility*> _indexToFacility;
     QMap<ID, QVector<int> > _currentBedNumbers;
     QMap<ID, QVector<int> > _minimumBedNumbers;
 

@@ -2,7 +2,7 @@
 
 /**
  * Constructor for Patient, not on a Waiting List or in a Facility
- * Constructs 0,0,0 date for date admitted and date placed on waiting list
+ * Constructs 0/0/0 date for date admitted and date placed on waiting list
  *
  * @param hcn the Health Card Number of the Patient
  * @param first the Patient's first name
@@ -18,7 +18,7 @@ Patient::Patient(QString hcn, QString first, QString last, CareType requiredCare
 
 /**
  * Constructor for Patient, on a Waiting List but not in a Facility
- * Constructs 0,0,0 date for date admitted
+ * Constructs 0/0/0 date for date admitted
  *
  * @param hcn the Health Card Number of the Patient
  * @param first the Patient's first name
@@ -34,7 +34,7 @@ Patient::Patient(QString hcn, QString first, QString last, CareType requiredCare
 
 /**
  * Constructor for Patient, not on a Waiting List but in a Facility
- * Contructs 0,0,0 date for date placed on waiting list
+ * Contructs 0/0/0 date for date placed on waiting list
  *
  * @param hcn the Health Card Number of the Patient
  * @param first the Patient's first name

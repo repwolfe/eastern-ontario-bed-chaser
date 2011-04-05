@@ -1,10 +1,8 @@
 #include "communicationsendinterface.h"
 
-CommunicationSendInterface::CommunicationSendInterface(SendMessageControl& sendMessage)
-    : _sendMessage(sendMessage)
+CommunicationSendInterface::CommunicationSendInterface()
 {
     _channelOut = new ChannelOut();
-    connect(&_sendMessage, SIGNAL(sendQByte(QByteArray&)), SLOT(sendMessage(QByteArray&)));
 }
 
 CommunicationSendInterface::~CommunicationSendInterface()

@@ -1,22 +1,17 @@
 #ifndef COMMUNICATIONSENDINTERFACE_H
 #define COMMUNICATIONSENDINTERFACE_H
 
-#include "sendmessagecontrol.h"
 #include "channelout.h"
 
-class CommunicationSendInterface : public QObject
+class CommunicationSendInterface
 {
-    Q_OBJECT
 public:
-    CommunicationSendInterface(SendMessageControl& sendMessage);
+    CommunicationSendInterface();
     ~CommunicationSendInterface();
 
-public slots:
     void sendMessage(QByteArray& data);
 
-
 private:
-    SendMessageControl& _sendMessage;
     ChannelOut* _channelOut;
 };
 

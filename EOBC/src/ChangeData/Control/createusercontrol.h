@@ -22,8 +22,8 @@ public:
     void showForm();
 
 signals:
-    /// UserName, Password, FirstName, LastName, Priveledge
-    void submitClicked(QString, QString, QString, QString, QString);
+    /// UserName, Password, Priveledge
+    void submitClicked(QString, QString, QString);
 
 private slots:
     void _submitClicked();

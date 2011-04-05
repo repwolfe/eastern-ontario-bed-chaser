@@ -20,7 +20,6 @@ void CreateUserControl::showForm()
 void CreateUserControl::_submitClicked()
 {
     /// @todo Check for empty submissions
-    emit submitClicked(form->getUserName(), form->getPassword(),
-		       form->getFirstName(), form->getLastName(), form->getPriveledge());
+    emit submitClicked(form->getUserName(), form->getPassword(), form->getPriveledge());
     form->close();
 }

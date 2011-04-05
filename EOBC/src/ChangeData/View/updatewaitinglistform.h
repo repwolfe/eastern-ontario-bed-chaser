@@ -5,6 +5,8 @@
 #include <QTreeWidget>
 #include <QComboBox>
 #include <QPushButton>
+#include "QLinkedList"
+#include "patient.h"
 
 /**
  * @brief A form to Update the Waiting list of a Facility.
@@ -29,7 +31,7 @@ public:
     bool isPatientInList(QString hcn) const;
 
     void setAreaItems(QStringList& items);
-    void setPatientItems(const QHash<QString,QString>& inPatients);
+    void setPatientItems(const QLinkedList<Patient*>& inPatients);
 
 signals:
     void addPatientClicked();

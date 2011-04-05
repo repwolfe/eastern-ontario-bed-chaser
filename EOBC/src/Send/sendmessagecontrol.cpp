@@ -144,37 +144,57 @@ void SendMessageControl::toXML(QDomElement* fac, Facility* aFacility){
         }
     }
 }
+
 /**
- * Sends an Add message
- *
- * @param p the list of Patients that will be transformend into an XML tag
- *
- * @param anArea the Area the patients will be added to
+ * Sends an Add message to add patients to a facility
  *
  * @param remote true if the facility that is being changed is this node of EOBC's facility
- *
+ * @param anArea the Area the patients will be added to
  * @param aFacility the Facility the patients will be added to
+ * @param p the list of Patients that will be transformend into an XML tag
  *
  */
-void SendMessageControl::addPatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p){
+void SendMessageControl::addPatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*>& p)
+{
     this->doStuffToPatients("Add",  remote, anArea, aFacility, p);
 }
 
 /**
- * Sends a Delete message
- *
- * @param p the list of Patients that will be transformend into an XML tag
- *
- * @param anArea the Area the patients will be added to
+ * Sends an Add message to add patients to a waiting list
  *
  * @param remote true if the facility that is being changed is this node of EOBC's facility
- *
- * @param aFacility the Facility the patients will be added to
- *
+ * @param anArea the Area with the waiting list the patients will be added to
+ * @param p the list of Patients that will be transformend into an XML tag
  */
-void SendMessageControl::deletePatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p){
+void SendMessageControl::addPatients(bool remote, Area* anArea, QLinkedList<Patient*>& p)
+{
+    /// @todo IMPLEMENT
+}
+
+/**
+ * Sends a Delete message to delete patients from a Facility
+ *
+ * @param remote true if the facility that is being changed is this node of EOBC's facility
+ * @param anArea the Area with the Facility that the patients will be added to
+ * @param aFacility the Facility the patients will be added to
+ * @param p the list of Patients that will be transformend into an XML tag
+ */
+void SendMessageControl::deletePatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*>& p)
+{
    this->doStuffToPatients("Delete",  remote, anArea, aFacility, p);
 }
+
+/**
+ * Sends a Delete message to delete patients from a waiting list
+ * @param remote true if the facility that is being changed is this node of EOBC's facility
+ * @param anArea the Area whose waiting list the patients will be added to
+ * @param p the list of Patients that will be transformend into an XML tag
+ */
+void SendMessageControl::deletePatients(bool remote, Area* anArea, QLinkedList<Patient*>& p)
+{
+   /// @todo IMPLEMENT
+}
+
 /**
  * Sends a Rebuild message containing all facility information
  *

@@ -51,13 +51,13 @@ private slots:
     void movePatientsToFacilitySubmitted();
     void addFacilitySubmitted(QString, QString, QString);
     void addPatientSubmitted(QString, QString, QString, QString);
-    void createUserSubmitted(QString, QString, QString, QString, QString);
+    void createUserSubmitted(QString, QString, QString);
     void updateBedsSubmitted(QString, int, int, int);
     void updateWaitingListSubmitted();
 
     // Received Data
     void _receivedAllFacilityPointers(const QMap<ID, Facility*>& data);
-    void _receivedAllAreas(const QMap<ID, QString>& data);
+    void _receivedAllAreas(const QMap<ID, Area*>& data);
     void _receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient*> >& data);
     void _receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data);
     void _receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >& data);

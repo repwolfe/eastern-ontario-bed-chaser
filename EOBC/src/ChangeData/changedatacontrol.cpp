@@ -27,8 +27,8 @@ void ChangeDataControl::_setupConnections()
     connect(_movePatientControl, SIGNAL(toFacilityFormSubmitClicked()), SLOT(movePatientsToFacilitySubmitted()));
     connect(_addFacilityControl, SIGNAL(submitClicked(QString,QString,QString)),
 	    SLOT(addFacilitySubmitted(QString,QString,QString)));
-    connect(_createUserControl, SIGNAL(submitClicked(QString,QString,QString, QString, QString)),
-	    SLOT(createUserSubmitted(QString,QString,QString,QString, QString)));
+    connect(_createUserControl, SIGNAL(submitClicked(QString,QString,QString)),
+	    SLOT(createUserSubmitted(QString,QString,QString)));
     connect(_updateWaitingListControl, SIGNAL(submitClicked()), SLOT(updateWaitingListSubmitted()));
 
     // GetData
@@ -154,6 +154,13 @@ void ChangeDataControl::movePatientsToBedSubmitted()
     /// @todo send changes to StorageWrite
 }
 
+/**
+ * When the Move patient to facility form is submitted,
+ * all the changes is stored in the database and
+ * sent to all other systems.
+ * -All moved patients are first removed, then readded to the new Facility
+ *  (as per the communication protocol)
+ */
 void ChangeDataControl::movePatientsToFacilitySubmitted()
 {
     QMap<Facility*, QLinkedList<Patient*> > toFacilityChanges = _movePatientControl->getFacilityChanges();
@@ -191,9 +198,9 @@ void ChangeDataControl::addPatientSubmitted(QString, QString, QString, QString)
     /// @todo send the firstname, lastname, healthcardnum and required care to StorageWrite
 }
 
-void ChangeDataControl::createUserSubmitted(QString, QString, QString, QString, QString)
+void ChangeDataControl::createUserSubmitted(QString, QString, QString)
 {
-    /// @todo send the username, password, firstname, lastname and priveledge to StorageWrite
+    /// @todo send the username, password, and priveledge to StorageWrite
     /// or log on control???
 }
 
@@ -204,10 +211,21 @@ void ChangeDataControl::updateBedsSubmitted(QString, int, int, int)
 
 void ChangeDataControl::updateWaitingListSubmitted()
 {
-    const QMap<QString,Patient>& patientsAdded  = _updateWaitingListControl->getPatientsAdded();
-    const QLinkedList<QString>& patientsRemoved = _updateWaitingListControl->getPatientsRemoved();
-    Q_UNUSED(patientsAdded);
-    Q_UNUSED(patientsRemoved);
+    QMap<QString,Patient> patientsAdded  = _updateWaitingListControl->getPatientsAdded();
+    QLinkedList<Patient*> removes = _updateWaitingListControl->getPatientsRemoved();
+
+    QLinkedList<Patient*> adds;
+
+    QMap<QString, Patient>::iterator patient = patientsAdded.begin();
+    while (patient != patientsAdded.end())
+    {
+	adds << &patient.value();
+	++patient;
+    }
+
+    /// @todo figure out remote
+    if (!adds.empty()) { _sendData.addPatients(true, (Area*)0, adds); }
+    if (!removes.empty()) { _sendData.deletePatients(true, (Area*)0, (Facility*)0, removes); }
 
     /// @todo send the patientsAdded and patientsRemoved to StorageWrite
 }
@@ -219,7 +237,7 @@ void ChangeDataControl::_receivedAllFacilityPointers(const QMap<ID, Facility*> &
     _updateBedsControl->setFacilitiesList(data);
 }
 
-void ChangeDataControl::_receivedAllAreas(const QMap<ID, QString> &data)
+void ChangeDataControl::_receivedAllAreas(const QMap<ID, Area*> &data)
 {
     _updateWaitingListControl->setAreasList(data);
 }

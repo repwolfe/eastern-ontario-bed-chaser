@@ -5,7 +5,7 @@
 
 #include "updatewaitinglistform.h"
 #include "addpatientcontrol.h"
-#include "patient.h"
+#include "area.h"
 #include "convenience.h"
 
 /**
@@ -27,11 +27,12 @@ public:
     void showForm();
     void waitingForData();
 
-    void setAreasList(const QMap<ID, QString>& data);
+    void setAreasList(const QMap<ID, Area*>& data);
     void setAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data);
 
-    const QLinkedList<QString>& getPatientsRemoved() const;
+    const QLinkedList<Patient*>& getPatientsRemoved() const;
     const QMap<QString, Patient>& getPatientsAdded() const;
+    Area* getCurrentlySelectedArea() const;
 
 signals:
     void submitClicked();
@@ -51,13 +52,14 @@ private:
     bool _waitingForWaitingList;
     int _currentAreaIndex;
 
-    QMap<int, ID> _indexToAreaId;
-    QMap<ID, QHash<QString,QString> > _areaToPatientInfo;
+    QHash<int, Area*> _indexToArea;
+    QMap<ID, QLinkedList<Patient*> > _areaToPatients;
+    QHash<QString, Patient*> _patients;
 
     /// Used to open a add patient form when adding a new patient to the waiting list
     AddPatientControl* _addPatientControl;
 
-    QLinkedList<QString> _patientsRemoved;
+    QLinkedList<Patient*> _patientsRemoved;
 
     QMap<QString, Patient> _patientsAdded;
 

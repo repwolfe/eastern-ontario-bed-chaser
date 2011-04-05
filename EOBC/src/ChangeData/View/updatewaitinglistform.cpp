@@ -78,21 +78,19 @@ void UpdateWaitingListForm::setAreaItems(QStringList& items)
  * Sets the list of patients in the GUI
  * Displays patients by Name, then health card number
  *
- * @param inPatients map of Patient health card number to name
+ * @param inPatients list of Patient objects
  */
-void UpdateWaitingListForm::setPatientItems(const QHash<QString,QString>& inPatients)
+void UpdateWaitingListForm::setPatientItems(const QLinkedList<Patient*>& inPatients)
 {
     _patientList->clear();
     if (inPatients.size() > 0)
     {
         QList<QTreeWidgetItem*> items;
-	QHash<QString,QString>::const_iterator iter = inPatients.begin();
-        while (iter != inPatients.end())
+	foreach (const Patient* patient, inPatients)
         {
-            QStringList info(iter.key());
-            info.push_back(iter.value());
+	    QStringList info(patient->getName());
+	    info.push_back(patient->getHealthCardNumber());
             items.append(new QTreeWidgetItem((QTreeWidget*)0, info));
-            ++iter;
         }
         _patientList->insertTopLevelItems(0, items);
     }

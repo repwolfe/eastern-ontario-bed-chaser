@@ -16,7 +16,9 @@ public:
     SendChangeDataInterface(SendMessageControl& sendMessage);
 
     void addPatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
+    void addPatients(bool remote, Area* anArea, QLinkedList<Patient*> p);
     void deletePatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
+    void deletePatients(bool remote, Area* anArea, QLinkedList<Patient*> p);
 
 signals:
 

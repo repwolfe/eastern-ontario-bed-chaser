@@ -22,8 +22,10 @@ class SendMessageControl
 public:
     SendMessageControl(CommunicationSendInterface& communication);
     //void addPatient(bool remote, Area* anArea, Facility* aFacility, Patient* p);
-    void addPatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
-    void deletePatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
+    void addPatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*>& p);
+    void addPatients(bool remote, Area* anArea, QLinkedList<Patient*>& p);
+    void deletePatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*>& p);
+    void deletePatients(bool remote, Area* anArea, QLinkedList<Patient*>& p);
     void rebuild(Area* anArea, Facility* aFacility);
     void rebuild();
     //occupancy

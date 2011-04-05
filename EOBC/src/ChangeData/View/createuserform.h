@@ -26,8 +26,6 @@ public:
 
     const QString getUserName() const;
     const QString getPassword() const;
-    const QString getFirstName() const;
-    const QString getLastName() const;
     const QString getPriveledge() const;
 
 signals:
@@ -42,10 +40,7 @@ private:
 
     QLineEdit* _usernameBox;
     QLineEdit* _passwordBox;
-    QLineEdit* _firstNameBox;
-    QLineEdit* _lastNameBox;
     QComboBox* _priveledgeMenu;
-    /// @todo Facility?
     QPushButton* _submitButton;
     QPushButton* _cancelButton;
 };

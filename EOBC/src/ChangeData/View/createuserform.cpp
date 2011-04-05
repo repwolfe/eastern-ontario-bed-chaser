@@ -8,7 +8,7 @@ CreateUserForm::CreateUserForm(QWidget *parent) :
     setWindowTitle("Add User Account");
 
     int width = 300;
-    int height = 320;
+    int height = 245;
 
     setGeometry(Convenience::getCenterForSize(width, height));
     setFixedSize(width, height);
@@ -20,8 +20,6 @@ void CreateUserForm::clearContents()
 {
     _usernameBox->clear();
     _passwordBox->clear();
-    _firstNameBox->clear();
-    _lastNameBox->clear();
     _priveledgeMenu->setCurrentIndex(0);
 }
 
@@ -33,16 +31,6 @@ const QString CreateUserForm::getUserName() const
 const QString CreateUserForm::getPassword() const
 {
     return _passwordBox->text();
-}
-
-const QString CreateUserForm::getFirstName() const
-{
-    return _firstNameBox->text();
-}
-
-const QString CreateUserForm::getLastName() const
-{
-    return _lastNameBox->text();
 }
 
 const QString CreateUserForm::getPriveledge() const
@@ -65,8 +53,6 @@ void CreateUserForm::_setupLayout()
 {
     _usernameBox    = new QLineEdit();
     _passwordBox    = new QLineEdit();
-    _firstNameBox   = new QLineEdit();
-    _lastNameBox    = new QLineEdit();
 
     _priveledgeMenu = new QComboBox();
     _priveledgeMenu->addItem("System Administrator");
@@ -87,8 +73,6 @@ void CreateUserForm::_setupLayout()
     q->setVerticalSpacing(20);
     q->addRow("User Name", _usernameBox);
     q->addRow("Password", _passwordBox);
-    q->addRow("First Name", _firstNameBox);
-    q->addRow("Last Name", _lastNameBox);
     q->addRow("Priveledge", _priveledgeMenu);
     q->addRow("", _submitButton);
     q->addRow("", _cancelButton);

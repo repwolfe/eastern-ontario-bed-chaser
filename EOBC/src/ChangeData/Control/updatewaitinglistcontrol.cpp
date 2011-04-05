@@ -31,19 +31,19 @@ void UpdateWaitingListControl::waitingForData()
     _waitingForWaitingList = true;
 }
 
-void UpdateWaitingListControl::setAreasList(const QMap<ID, QString>& data)
+void UpdateWaitingListControl::setAreasList(const QMap<ID, Area*>& data)
 {
     QStringList areas;
 
     if (_waitingForAreasList)
     {
 	_waitingForAreasList = false;
-	QMap<ID, QString>::const_iterator iter = data.begin();
+	QMap<ID, Area*>::const_iterator iter = data.begin();
 	int index = 0;
 	while (iter != data.end())
 	{
-	    areas << iter.value();
-	    _indexToAreaId[index] = iter.key();
+	    areas << Convenience::areaIDtoQString(iter.value()->getAreaId());
+	    _indexToArea[index] = iter.value();
 	    ++index;
 	    ++iter;
 	}
@@ -56,19 +56,18 @@ void UpdateWaitingListControl::setAreasWaitingList(const QMap<ID, QLinkedList<Pa
     if (_waitingForWaitingList)
     {
 	_waitingForWaitingList = false;
-	_areaToPatientInfo.clear();
 	QMap<ID, QLinkedList<Patient*> >::const_iterator iter = data.begin();
 	while (iter != data.end())
 	{
-	    QHash<QString,QString> patientInfo;
 	    const QLinkedList<Patient*>& patients = iter.value();
 	    foreach (Patient* patient, patients)
 	    {
-		patientInfo[patient->getHealthCardNumber()] = patient->getName();
+		_patients[patient->getHealthCardNumber()] = patient;
 	    }
-	    _areaToPatientInfo[iter.key()] = patientInfo;
+
 	    ++iter;
 	}
+	_areaToPatients = data;
 	if (!_waitingForAreasList)
 	{
 	    _areaSelected(_currentAreaIndex);
@@ -76,7 +75,7 @@ void UpdateWaitingListControl::setAreasWaitingList(const QMap<ID, QLinkedList<Pa
     }
 }
 
-const QLinkedList<QString>& UpdateWaitingListControl::getPatientsRemoved() const
+const QLinkedList<Patient*>& UpdateWaitingListControl::getPatientsRemoved() const
 {
     return _patientsRemoved;
 }
@@ -84,6 +83,11 @@ const QLinkedList<QString>& UpdateWaitingListControl::getPatientsRemoved() const
 const QMap<QString,Patient>& UpdateWaitingListControl::getPatientsAdded() const
 {
     return _patientsAdded;
+}
+
+Area* UpdateWaitingListControl::getCurrentlySelectedArea() const
+{
+    return 0;
 }
 
 void UpdateWaitingListControl::showForm()
@@ -130,8 +134,13 @@ void UpdateWaitingListControl::_removePatientClicked()
         QMap<QString, Patient>::iterator find = _patientsAdded.find(patientHCN);
         if (find == _patientsAdded.end())
         {
-            _patientsRemoved.push_back(patientHCN);
-            _form->removeSelectedPatientItem();
+	    // Find the Patient* with this health card number
+	    QHash<QString, Patient*>::const_iterator patient = _patients.find(patientHCN);
+	    if (patient != _patients.end())
+	    {
+		_patientsRemoved.push_back(patient.value());
+		_form->removeSelectedPatientItem();
+	    }
         }
         // If they were, simply remove them from the list of added patients
         else
@@ -170,21 +179,21 @@ void UpdateWaitingListControl::_areaSelected(int index)
 {
     _patientsAdded.clear();
     _patientsRemoved.clear();
-    QMap<int, ID>::const_iterator find = _indexToAreaId.find(index);
-    if (find != _indexToAreaId.end())
+    QHash<int, Area*>::const_iterator find = _indexToArea.find(index);
+    if (find != _indexToArea.end())
     {
 	_currentAreaIndex = index;
 	if (!_waitingForAreasList)
 	{
 	    // If we have the map of Areas to patients
-	    QMap<ID, QHash<QString,QString> >::const_iterator pInfo = _areaToPatientInfo.find(find.value());
-	    if (pInfo != _areaToPatientInfo.end())
+	    QMap<ID, QLinkedList<Patient*> >::const_iterator pInfo = _areaToPatients.find(find.value()->getAreaId());
+	    if (pInfo != _areaToPatients.end())
 	    {
 		_form->setPatientItems(pInfo.value());
 	    }
 	    else
 	    {
-		Logger::errorMessage("UpdateWaitingListControl", "_areaSelected(int)", "Couldn't find Area with ID", QString::number(find.value()));
+		Logger::errorMessage("UpdateWaitingListControl", "_areaSelected(int)", "Couldn't find Area with ID", QString::number(find.value()->getAreaId()));
 	    }
 	}
     }

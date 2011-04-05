@@ -9,6 +9,11 @@
 #include "viewreportwindow.h"
 #include "getdatareportinginterface.h"
 
+ /** @brief The ReportingControl class manages all forms to do with generating and viewing a report, along with the slots and signals that will be received between them
+   * It contains a QVector of all the reports that have been generated since the EOBC system started.
+   * all the slots and signals are connected to GetData, that will either give the forms facilities, or will be queried for a report.
+   */
+
 class ReportingControl : public QObject
 {
     Q_OBJECT

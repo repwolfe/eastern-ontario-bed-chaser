@@ -12,6 +12,14 @@
 #include <QFile>
 #include <QTextStream>
 #include <convenience.h>
+#include "qmessagebox.h"
+
+ /** @brief This class manages the logon window gui, and it also handles the checking for logging in.
+   * it contains not persistant information, but a file is loaded every time login is pressed
+   * the file is loaded, parsed, and checked with the current user input to see if it is valid to log in
+   * a signal is then sent to DisplayMap so it can start up, and set it permissions
+   */
+
 class LogOnWindow : public QMainWindow
 {
     Q_OBJECT

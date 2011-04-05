@@ -1,5 +1,9 @@
 #include "generatereportwindow.h"
 #include "convenience.h"
+ /** Constructor for GenerateReportWindow
+   * initializes buttons and widgets along with initializing empty lists for the facilities
+   * @param parent does nothing
+   */
 GenerateReportWindow::GenerateReportWindow(QWidget *parent) :
     QWidget(parent)
 {
@@ -13,7 +17,7 @@ GenerateReportWindow::GenerateReportWindow(QWidget *parent) :
     facilToRows = new QMap<int,ID>();
 
 
-    layout.addWidget(facilities,height,0,4,2,Qt::AlignTop);
+    layout.addWidget(facilities,height,0,5,2,Qt::AlignTop);
 
      //////////////////////////////////////////////////////////DATES
 
@@ -24,6 +28,7 @@ GenerateReportWindow::GenerateReportWindow(QWidget *parent) :
     dateEndEntry = new QDateEdit();
     dateEndEntry->setDisplayFormat("MMMM d yyyy");
     dateEndEntry->setDate(QDate::currentDate());
+    layout.addWidget(new QLabel("To"),height++,2,Qt::AlignTop);
     layout.addWidget(dateEndEntry,height++,2,Qt::AlignTop);
     layout.addWidget(new QLabel("Constraints"),height++,2,Qt::AlignTop);
     constraints = new QComboBox();
@@ -54,14 +59,25 @@ GenerateReportWindow::GenerateReportWindow(QWidget *parent) :
     layout.setRowStretch(1,0);
     layout.setRowStretch(2,0);
     layout.setRowStretch(3,0);
-    layout.setRowStretch(4,110);
-    layout.setRowStretch(5,0);
+    layout.setRowStretch(4,0);
+    layout.setRowStretch(5,110);
+    dateStartEntry->setMaximumDate(QDate::currentDate());
+    dateEndEntry->setMaximumDate(QDate::currentDate());
     //layout.setRowMinimumHeight(3,100);
     layout.setContentsMargins(30,10,30,10);
     setGeometry(Convenience::getCenterForSize(500,300));
     this->setFixedSize(500,300);
     setLayout(&layout);
 }
+ GenerateReportWindow::~GenerateReportWindow()
+{
+    delete facilToRows;
+}
+
+/** pressedSubmit is the submit button slot for GenerateReportWindow
+  * for testing, it generates a phony report while in reality it will just
+  * send a signal with the data from the widgets to reportingControl
+  */
 void GenerateReportWindow::pressedSubmit()
 {
     // FOR TESTING ONLY
@@ -70,6 +86,12 @@ void GenerateReportWindow::pressedSubmit()
     QVector<ReportBars*> bars;
     int barnum = 0;
     int dateType = 0;
+    QList<QListWidgetItem*> items = facilities->selectedItems();
+    QVector<QString> facilNames;
+    for(int i =0;i<items.count();i++)
+    {
+        facilNames.push_back( items.at(i)->text());
+    }
     if(dateEndEntry->date().month() - dateStartEntry->date().month() == 0)
     {
         barnum= dateEndEntry->date().day() - dateStartEntry->date().day();
@@ -86,27 +108,34 @@ void GenerateReportWindow::pressedSubmit()
     }
     for(int i=0;i<=barnum;i++)
     {
-        int* barHeights = new int[4];
-        barHeights[0]=rand()%(11+i)+10;
-        barHeights[1]=rand()%(11+i)+10;
-        barHeights[2]=0;//rand()%(11+i)+10;
-        barHeights[3]=0;//100-(barHeights[0]+barHeights[1]+barHeights[2]);
+        QVector<int> barHeights;
 
-        QString* barTypes = new QString[4];
+        //barHeights[2]=0;//rand()%(11+i)+10;
+        //barHeights[3]=0;//100-(barHeights[0]+barHeights[1]+barHeights[2]);
 
-        barTypes[0]="CCC";
-        barTypes[1]="AC";
-        barTypes[2]="CCC Open";
-        barTypes[3]="AC Open";
+        QVector<QString> barTypes;
+        if(facilNames.count()==1)
+        {
+
+            barTypes.push_back("CCC ");
+            barTypes.push_back("AC  ");
+            barTypes.push_back("CCCOpen");
+            barTypes.push_back("ACOpen");
+            barHeights.push_back(rand()%(11+i)+10);
+            barHeights.push_back(rand()%(11+i)+10);
+        }
+        else
+        {
+            for(int j=0;j<facilNames.count();j++)
+            {
+                barTypes.push_back(facilNames.at(j));
+                barHeights.push_back(rand()%(11+j)+10);
+            }
+        }
 
         bars.push_back(new ReportBars(barHeights,barTypes));
     }
-    QList<QListWidgetItem*> items = facilities->selectedItems();
-    QVector<QString> facilNames;
-    for(int i =0;i<items.count();i++)
-    {
-        facilNames.push_back( items.at(i)->text());
-    }
+
     Report* rep = new Report(dateStartEntry->text() + "-"+dateEndEntry->text(),dateStartEntry->date(),bars,(int)Convenience::HOSPITAL,dateType,facilNames);
 
     emit reportGenerated(rep);
@@ -133,6 +162,10 @@ void GenerateReportWindow::pressedSubmit()
     // REAL CODE
     // REAL CODE
 }
+/** updateFacilities is the slot that is called when a signal is recieved from GetData
+  * updates all facilities in the QListWidget, and the QMap that maps the Facil ID to the row
+  * @param facils the data received from GetData, contains all facil names
+  */
 void GenerateReportWindow::updateFacilities(const QMap<ID,QString>* facils)
 {
     __facils = facils;
@@ -147,7 +180,12 @@ void GenerateReportWindow::updateFacilities(const QMap<ID,QString>* facils)
         facilities->setSelectionMode(QAbstractItemView::MultiSelection);
         facilToRows->insert(facilities->count()-1,i);
     }
+    facilities->setCurrentIndex(facilities->indexAt(QPoint(0,0)));
 }
+/** pressedCancel is the slot thats called when the cancel button is pressed
+  * closes the window
+  *
+  */
 void GenerateReportWindow::pressedCancel()
 {
     close();

@@ -3,6 +3,12 @@
 
 #include "logonwindow.h"
 
+/** @brief LogOnControl is just a simple class that manages the LogOnWindow class
+  * it has listeners to the buttons in the window so that it can handle the event of
+  * the user logging in.
+  * This class just stores the information from the LogOnWindow QWidget
+  */
+
 class LogOnControl : public QObject
 {
     Q_OBJECT
@@ -14,7 +20,6 @@ private:
 
 public:
     LogOnControl(QObject* parent = 0);
-    ~LogOnControl();
     void run();
 private:
     LogOnWindow wind;

@@ -10,9 +10,14 @@
 class ViewReportWindow : public QWidget
 {
     Q_OBJECT
+    /** @brief a simple class that just asks the given report to draw itself
+      * contains a pointer to a report object given in the constructor
+      * has a paint event where the report is asked to draw itself
+      */
+
+
 public:
     explicit ViewReportWindow(Report* __report, QWidget *parent = 0);
-    ~ViewReportWindow();
     void paintEvent(QPaintEvent *);
 signals:
 

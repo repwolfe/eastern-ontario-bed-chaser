@@ -1,5 +1,11 @@
 #include "viewallreportswindow.h"
 
+ /** The constructor for ViewAllReportsWindow.
+   * initializes add buttons and widgets for the window, and connects the slots for the buttons
+   * @param parent just passed to the QWidget constructor
+   */
+
+
 ViewAllReportsWindow::ViewAllReportsWindow(QWidget *parent) :
     QWidget(parent)
 {
@@ -21,17 +27,11 @@ ViewAllReportsWindow::ViewAllReportsWindow(QWidget *parent) :
     layout->setContentsMargins(30,10,30,10);
     setGeometry(Convenience::getCenterForSize(400,350));
 
-    //
-    //DELETE THIS
-    //
-
-    //wind = new ViewReportWindow(new Report(bars));
-    //wind->show();
-}
-ViewAllReportsWindow::~ViewAllReportsWindow()
-{
 }
 
+  /** the pressedSelectSlot is the slot thats called when the select button has been pressed
+    * emits a signal to ReportingControl that tells the current row selected.
+    */
 void ViewAllReportsWindow::pressedSelectSlot()
 {
     emit pressedSelect(reportsBox->currentIndex().row());

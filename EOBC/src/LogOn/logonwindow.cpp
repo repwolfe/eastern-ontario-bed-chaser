@@ -1,5 +1,12 @@
 #include "logonwindow.h"
 #define ENTER 16777220
+#define HACK 1
+
+ /** This is the constructor for LogOnWindow
+   * it calls two helper functions to set up the layout and background
+   * @param parent just sent to the QMainWindow constructor
+   */
+
 
 LogOnWindow::LogOnWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -11,6 +18,9 @@ LogOnWindow::LogOnWindow(QWidget *parent) :
     loadLayout();
     permissions = -1;
 }
+/** This method is called from the constructor
+  * it loads a background image from the resource file, and paints it onto the background
+  */
 void LogOnWindow::loadBackground()
 {
     backgroundPic = new QLabel();
@@ -24,6 +34,9 @@ void LogOnWindow::loadBackground()
 
     setCentralWidget(backgroundPic);
 }
+/** This method sets up the GUI for the LogOnWindow
+  * it adds two input boxes so the user can enter their username and password and two buttons to submit or cancel
+  */
 void LogOnWindow::loadLayout()
 {
     QGridLayout *q = new QGridLayout();
@@ -50,12 +63,15 @@ void LogOnWindow::loadLayout()
     passBox->setEchoMode(QLineEdit::Password);
     backgroundPic->setLayout(q);
 
-
-    //
-   // passBox = new QLineEdit();
 }
+/** This method is called from the "log in" button slot
+  * it loads in the file that contains all the usernames and passwords, and compares them to the input from the user
+  * if it is valid, the window closes and the permissions are set
+  * otherwise, a popup window is shown yelling at the user for being stupid
+  */
 void LogOnWindow::logIn()
 {
+    bool correctInput = false;
     QFile file(":/logon/resources/accounts.txt");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QTextStream in(&file);
@@ -87,20 +103,35 @@ void LogOnWindow::logIn()
             {
                 permissions = curLine[index+1].toAscii() -48;
                 emit pressedEnter(permissions);
+                correctInput = true;
                 close();
             }
         }
         curLine = in.readLine();
     }
+    if(!correctInput && !HACK)
+    {
+        QMessageBox mb;
+        mb.setWindowTitle("Invalid Input");
+        mb.setIcon(QMessageBox::Critical);
+        mb.setText("Please enter in your username and password again");
+        mb.exec();
+    }
 
     //this->close();
 }
+/** This method is the listener to the key event of the window
+  * it listenes to the enter key, and if pressed, the logIn method is called.
+  */
 void LogOnWindow::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == ENTER)
     {
         logIn();
-        emit pressedEnter(2);
-        close();
+        if(HACK)
+        {
+            emit pressedEnter(2);
+            close();
+        }
     }
 }

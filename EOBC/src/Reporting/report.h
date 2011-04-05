@@ -8,6 +8,11 @@
 #include <reportbars.h>
 #include "convenience.h"
 
+/** @brief Report is the actual report object. It can render a graph that displays info to the user
+  * Report stores reportbars, facilities involved with the report, and the start and end dates of the report.
+  * The draw method has most of the intelligence, since the report knows how to draw itself on any widget.
+  */
+
 
 class Report : public QObject
 {
@@ -20,8 +25,9 @@ public:
     void draw(QPainter& g);
     QString getDate();
     int getBarNum();
+    int getFacilNum();
     void setWidth(int w);
-
+    void setHeight(int h);
 
 signals:
 

@@ -1,6 +1,6 @@
 #include "maparea.h"
 
-#define BASEZOOMSPEED 1.7
+#define BASEZOOMSPEED 1.3
 #define MOVESPEED 5
 QPoint MapArea::middle;
 #define MAPMIDDLEX 500

@@ -85,8 +85,18 @@ const QMap<QString,Patient>& UpdateWaitingListControl::getPatientsAdded() const
     return _patientsAdded;
 }
 
+/**
+ * Returns the currently selected Area based off the index of the combobox
+ *
+ * @return currently selected Area, or 0
+ */
 Area* UpdateWaitingListControl::getCurrentlySelectedArea() const
 {
+    QHash<int, Area*>::const_iterator area = _indexToArea.find(_currentAreaIndex);
+    if (area != _indexToArea.end())
+    {
+	return area.value();
+    }
     return 0;
 }
 

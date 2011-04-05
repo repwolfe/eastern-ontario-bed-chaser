@@ -34,8 +34,8 @@ void ChangeDataControl::_setupConnections()
     // GetData
     connect(&_getData, SIGNAL(receivedAllFacilityPointers(QMap<ID,Facility*>)),
 	    SLOT(_receivedAllFacilityPointers(QMap<ID,Facility*>)));
-    connect(&_getData, SIGNAL(receivedAllAreas(QMap<ID,QString>)),
-	    SLOT(_receivedAllAreas(QMap<ID,QString>)));
+    connect(&_getData, SIGNAL(receivedAllAreaPointers(QMap<ID,Area*>)),
+	    SLOT(_receivedAllAreaPointers(QMap<ID,Area*>)));
     connect(&_getData, SIGNAL(receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)),
             SLOT(_receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)));
     connect(&_getData, SIGNAL(receivedFacilitiesPatients(QMap<ID,QLinkedList<Patient*> >)),
@@ -106,7 +106,7 @@ void ChangeDataControl::displayUpdateBedsForm()
 void ChangeDataControl::displayUpdateWaitingList()
 {
     _updateWaitingListControl->waitingForData();
-    _getData.requestAllAreas();
+    _getData.requestAllAreaPointers();
     _getData.requestAreasWaitingList();
     _updateWaitingListControl->showForm();
 }
@@ -213,8 +213,8 @@ void ChangeDataControl::updateWaitingListSubmitted()
 {
     QMap<QString,Patient> patientsAdded  = _updateWaitingListControl->getPatientsAdded();
     QLinkedList<Patient*> removes = _updateWaitingListControl->getPatientsRemoved();
-
     QLinkedList<Patient*> adds;
+    Area* currentArea = _updateWaitingListControl->getCurrentlySelectedArea();
 
     QMap<QString, Patient>::iterator patient = patientsAdded.begin();
     while (patient != patientsAdded.end())
@@ -223,10 +223,12 @@ void ChangeDataControl::updateWaitingListSubmitted()
 	++patient;
     }
 
-    /// @todo figure out remote
-    if (!adds.empty()) { _sendData.addPatients(true, (Area*)0, adds); }
-    if (!removes.empty()) { _sendData.deletePatients(true, (Area*)0, (Facility*)0, removes); }
-
+    if (currentArea)
+    {
+	/// @todo figure out remote
+	if (!adds.empty()) { _sendData.addPatients(true, currentArea, adds); }
+	if (!removes.empty()) { _sendData.deletePatients(true, currentArea, removes); }
+    }
     /// @todo send the patientsAdded and patientsRemoved to StorageWrite
 }
 
@@ -237,7 +239,7 @@ void ChangeDataControl::_receivedAllFacilityPointers(const QMap<ID, Facility*> &
     _updateBedsControl->setFacilitiesList(data);
 }
 
-void ChangeDataControl::_receivedAllAreas(const QMap<ID, Area*> &data)
+void ChangeDataControl::_receivedAllAreaPointers(const QMap<ID, Area*> &data)
 {
     _updateWaitingListControl->setAreasList(data);
 }

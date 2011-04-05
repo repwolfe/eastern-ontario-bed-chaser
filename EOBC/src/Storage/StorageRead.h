@@ -14,7 +14,7 @@ class StorageRead
 public:
     QMap<ID, QString> getAllFacilityNames();
     QMap<ID, Facility*> getAllFacilities();
-    QMap<ID, QString> getAllAreas();
+    QMap<ID, Area*> getAllAreas();
     QMap<ID, QLinkedList<Patient*> > getAllPatients();
     QMap<ID, QLinkedList<Patient*> > areasWaitingList;
     QMap<ID, QVector<int> > totalBeds; //AC, CCC, LTC

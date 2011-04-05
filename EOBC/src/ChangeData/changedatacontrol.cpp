@@ -113,12 +113,32 @@ void ChangeDataControl::displayUpdateWaitingList()
 
 void ChangeDataControl::movePatientsToBedSubmitted()
 {
-    QMap<Patient*, QString>  _toBedChanges = _movePatientControl->getBedChanges();
-    QMap<QString, Patient>  _additions = _movePatientControl->getPatientsAdded();
-    QLinkedList<QString>    _removals = _movePatientControl->getPatientsRemoved();
+    QMap<Patient*, QString>  toBedChanges = _movePatientControl->getBedChanges();
+    QMap<QString, Patient>  additions = _movePatientControl->getPatientsAdded();
+    QLinkedList<Patient*>   removals = _movePatientControl->getPatientsRemoved();
+    Facility* currentFacility = movePatientControl->getBedFormCurrentFacility();
 
-    Facility* currentFacility = _movePatientControl->getBedFormCurrentFacility();
+    QLinkedList<Patient*> adds, removes, adds2, removes2;
+    foreach (Patient patient, additions)
+    {
+	adds << &patient;
+    }
 
+    QMap<Patient*,QString>::const_iterator bedChanges = toBedChanges.begin();
+    while (bedChanges != toBedChanges.end())
+    {
+	removes2 << bedChanges.key();
+	Patient* newPatient = bedChanges.key();
+	newPatient->setOccupiedCare(Convenience::qStringToCareType(bedChanges.value()));
+	adds2 << newPatient;
+	++bedChanges;
+    }
+
+    /// @todo figure out remote???
+    _sendData.addPatients(true, currentFacility->getAreaThisIsIn(), currentFacility, adds);
+    _sendData.deletePatients(true, currentFacility->getAreaThisIsIn(), currentFacility, removes);
+    _sendData.addPatients(true, currentFacility->getAreaThisIsIn(), currentFacility, adds2);
+    _sendData.deletePatients(true, currentFacility->getAreaThisIsIn(), currentFacility, removes2);
 
     /// @todo send changes to StorageWrite
 }
@@ -193,35 +213,6 @@ void ChangeDataControl::_receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVec
 void ChangeDataControl::_receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> > &data)
 {
     _updateBedsControl->setMinimumBedNumbers(data);
-}
-
-void ChangeDataControl::_sendMoveToBedsUpdate(Facility* fac)
-{
-    QMap<QString, QString>  _toBedChanges;
-    QMap<QString, Patient>  _additions;
-    QLinkedList<QString>    _removals;
-
-    QLinkedList<Patient*> adds, removes;
-    foreach (Patient patient, _additions)
-    {
-	adds << &patient;
-    }
-
-    foreach (QString hcn, _removals)
-    {
-	// Create temporary patients
-	removes << new Patient(hcn, "", "", EOBC::AC);
-    }
-
-    /// @todo figure out remote???
-    _sendData.addPatients(true, fac->getAreaThisIsIn(), fac, adds);
-    _sendData.deletePatients(true, fac->getAreaThisIsIn(), fac, removes);
-
-    // Clear up temporary patients
-    foreach (Patient* p, removes)
-    {
-	delete p;
-    }
 }
 
 void ChangeDataControl::_sendMoveToFacilityUpdate(Facility* fac)

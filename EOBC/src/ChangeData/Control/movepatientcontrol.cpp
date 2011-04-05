@@ -229,7 +229,7 @@ void MovePatientControl::_setupConnections()
     connect(_toBedForm, SIGNAL(facilitySelected(int)), SLOT(_toBedFormFacilitySelected(int)));
 }
 
-const QLinkedList<QString>& MovePatientControl::getPatientsRemoved() const
+const QLinkedList<Patient*>& MovePatientControl::getPatientsRemoved() const
 {
     return _patientsRemoved;
 }
@@ -359,10 +359,14 @@ void MovePatientControl::_toBedFormRemovePatient()
     if (_toBedForm->getCurrentPatient(patientHCN))
     {
         // See if this patient was also added to the facility
-        QMap<QString, Patient>::iterator find = _patientsAdded.find(patientHCN);
+	QMap<QString, Patient>::iterator find = _patientsAdded.find(patientHCN);
         if (find == _patientsAdded.end())
         {
-            _patientsRemoved.push_back(patientHCN);
+	    QHash<QString, Patient*>::const_iterator patient = _tbPatients.find(patientHCN);
+	    if (patient != _tbPatients.end())
+	    {
+		_patientsRemoved.push_back(patient.value());
+	    }
         }
         // If they were, simply remove them from the list of added patients
         else

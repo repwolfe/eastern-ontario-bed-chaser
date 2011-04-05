@@ -454,10 +454,10 @@ void MapArea::loadLabels(QVector<QLabel*> labels)
         labels.at(i)->setText("");
     }
 }
-/**
- * Resets the labels based on the current facility selected
+/** The method updateLabels in MapArea handles the labels created in Map
+ * It resets the labels based on the current facility or area selected
  *
- *
+ * @param st the current select type, can be box or point select type
  */
 void MapArea::updateLabels(SelectType st)
 {
@@ -503,8 +503,8 @@ void MapArea::updateLabels(SelectType st)
         {
             if(vecs[i]->isSelected())
             {
-                //labels.at(1)->setText(vecs[i]->getRegion());
-                //labels.at(7)->setText("Size: "+QString::number(vecs[i]->getWaitingListNum()));
+                labels.at(1)->setText(vecs[i]->getRegion());
+                labels.at(7)->setText("Size: "+QString::number(vecs[i]->getWaitingListNum()));
             }
         }
     }

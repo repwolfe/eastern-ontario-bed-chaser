@@ -31,5 +31,28 @@ void LogOnControl::getEnter(int per)
 {
     emit pressedEnter(per);
 }
+/** this method is a slot connected to ChangeData's Make User Account button
+  * when selected, it sends a signal to the DisplayMapControl's slot so it can
+  * load the user accounts file, and append it to the end.
+  * @param user The new username.
+  * @param pass The new password.
+  * @param ut The permission level of the user.
+  */
+void LogOnControl::receivedNewUserAccount(QString user, QString pass,Convenience::UserType ut)
+{
+    QFile file("../EOBC/resources/accounts.txt");
+    if(file.open(QIODevice::Append | QIODevice::Text))
+    {
+        QTextStream in(&file);
+        in<<user <<" "<<pass<<" "<< " "<<(int)ut;
+    }
+    else
+    {
+        qDebug("Sucks");
+    }
+
+    file.close();
+
+}
 
 

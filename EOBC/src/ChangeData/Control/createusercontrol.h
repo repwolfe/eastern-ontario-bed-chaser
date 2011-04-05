@@ -8,7 +8,7 @@
 /**
  * @brief Controller for the CreateUserForm
  *
- * Displays the form and handles submissions
+ * Displays the _form and handles submissions
  *
  * @todo traceability
  */
@@ -29,7 +29,7 @@ private slots:
     void _submitClicked();
 
 private:
-    CreateUserForm *form;
+    CreateUserForm* _form;
 
 };
 

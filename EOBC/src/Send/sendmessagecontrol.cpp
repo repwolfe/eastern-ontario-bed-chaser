@@ -87,7 +87,7 @@ void SendMessageControl::toXML(QDomDocument& doc,QDomElement* e, Area* anArea, F
  *
  */
 void SendMessageControl::toXML(QDomDocument& doc,QDomElement* e, Area* anArea, Facility* aFacility){
-    QDomElement fac = doc.createElement("");
+    QDomElement fac = doc.createElement("Facility");
     this->toXML(doc,&fac, aFacility);
     e->setTagName("Area");
     e->setAttribute("ID", anArea->getAreaId());
@@ -107,8 +107,8 @@ void SendMessageControl::toXML(QDomDocument& doc,QDomElement* fac, Facility* aFa
 
     fac->setTagName("Facility");
     fac->setAttribute("ID", aFacility->getFacilityId());
-    fac->setAttribute("CCC", aFacility->getNumBeds(EOBC::LTC));
-    fac->setAttribute("CCC", aFacility->getNumBeds(EOBC::AC));
+    fac->setAttribute("LTC", aFacility->getNumBeds(EOBC::LTC));
+    fac->setAttribute("AC", aFacility->getNumBeds(EOBC::AC));
     fac->setAttribute("CCC", aFacility->getNumBeds(EOBC::CCC));
     fac->setAttribute("name", aFacility->getFacilityName());
     fac->setAttribute("coordinateX", aFacility->getLocation().x());
@@ -122,7 +122,7 @@ void SendMessageControl::toXML(QDomDocument& doc,QDomElement* fac, Facility* aFa
         QDomElement pat;
         foreach(QString str, patients->keys()){
              p = patients->find(str).value();
-             pat = doc.createElement("");
+             pat = doc.createElement("Patient");
              this->toXML(doc,&pat,p, true);
              fac->appendChild(pat);
         }
@@ -145,7 +145,25 @@ void SendMessageControl::toXML(QDomDocument& doc,QDomElement* fac, Facility* aFa
         }
     }
 }
-
+/**
+ * Makes an Area XML tag that contains a facility tag to be used in a message to add beds to a facility
+ *
+ * @param newAC the delta of AC beds to be put
+ * @param aFacility the Facility the beds will be added to
+ * @param p the list of Patients that will be transformend into an XML tag
+ *
+ */
+void SendMessageControl::toXML(QDomDocument& doc,QDomElement* area, Facility* aFacility, int deltaAC, int deltaCCC, int deltaLTC){
+    QDomElement fac = doc.createElement("Facility");
+    fac.setTagName("Facility");
+    fac.setAttribute("ID", aFacility->getFacilityId());
+    fac.setAttribute("LTC", deltaLTC);
+    fac.setAttribute("AC", deltaAC);
+    fac.setAttribute("CCC", deltaCCC);
+    fac.setAttribute("name", aFacility->getFacilityName());
+    area->setAttribute("ID", aFacility->getAreaThisIsIn()->getAreaId());
+    area->appendChild(fac);
+}
 /**
  * Sends an Add message to add patients to a facility
  *
@@ -264,4 +282,26 @@ void SendMessageControl::doStuffToPatients(QString str, bool remote, Area* anAre
 void SendMessageControl::sendQByte(QByteArray &data)
 {
     _communication.sendMessage(data);
+}
+
+void SendMessageControl::addBeds(Facility* aFacility, int deltaACBeds, int deltaCCCBeds, int deltaLTCBeds){
+    QDomDocument doc;
+    QDomElement el = doc.createElement("Area");
+    this->toXML(doc,&el, aFacility,deltaACBeds, deltaCCCBeds, deltaLTCBeds);
+    doc.appendChild(el);
+    Logger::debugMessage("sendMessageControl", "addBeds", "OMG XML", doc.toString());
+    QByteArray data = doc.toByteArray();
+    sendQByte(data);
+}
+
+void SendMessageControl::removeBeds(Facility* aFacility, int deltaACBeds, int deltaCCCBeds, int deltaLTCBeds){
+    QDomDocument doc;
+    QDomElement del = doc.createElement("Delete");
+    QDomElement el = doc.createElement("Area");
+    this->toXML(doc,&el, aFacility,deltaACBeds, deltaCCCBeds, deltaLTCBeds);
+    del.appendChild(el);
+    doc.appendChild(del);
+    Logger::debugMessage("sendMessageControl", "addBeds", "OMG XML", doc.toString());
+    QByteArray data = doc.toByteArray();
+    sendQByte(data);
 }

@@ -15,8 +15,8 @@ class SendChangeDataInterface : public QObject
 public:
     SendChangeDataInterface(SendMessageControl& sendMessage);
 
-    void addPatients(bool remote, Area* anArea, Facility* aFacility, QList<Patient*> p);
-    void deletePatients(bool remote, Area* anArea, Facility* aFacility, QList<Patient*> p);
+    void addPatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
+    void deletePatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
 
 signals:
 

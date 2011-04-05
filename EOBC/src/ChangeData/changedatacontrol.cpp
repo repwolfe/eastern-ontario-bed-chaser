@@ -32,8 +32,8 @@ void ChangeDataControl::_setupConnections()
     connect(_updateWaitingListControl, SIGNAL(submitClicked()), SLOT(updateWaitingListSubmitted()));
 
     // GetData
-    connect(&_getData, SIGNAL(receivedAllFacilities(QMap<ID,QString>)),
-            SLOT(_receivedAllFacilities(QMap<ID,QString>)));
+    connect(&_getData, SIGNAL(receivedAllFacilityPointers(QMap<ID,Facility*>)),
+	    SLOT(_receivedAllFacilityPointers(QMap<ID,Facility*>)));
     connect(&_getData, SIGNAL(receivedAllAreas(QMap<ID,QString>)),
 	    SLOT(_receivedAllAreas(QMap<ID,QString>)));
     connect(&_getData, SIGNAL(receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)),
@@ -62,7 +62,7 @@ bool ChangeDataControl::changeData(QString &args, QString &data)
 void ChangeDataControl::displayMovePatientsToBedForm()
 {
     _movePatientControl->toBedFormWaitingForInfo();
-    _getData.requestAllFacilities();
+    _getData.requestAllFacilityPointers();
     _getData.requestFacilitiesPatients();
     _movePatientControl->showToBedForm();
 }
@@ -73,7 +73,7 @@ void ChangeDataControl::displayMovePatientsToBedForm()
 void ChangeDataControl::displayMovePatientsToFacilityForm()
 {
     _movePatientControl->toFacilityFormWaitingForInfo();
-    _getData.requestAllFacilities();
+    _getData.requestAllFacilityPointers();
     _getData.requestFacilitiesPatients();
     _movePatientControl->showToFacilityForm();
 }
@@ -94,7 +94,7 @@ void ChangeDataControl::displayCreateUserForm()
 void ChangeDataControl::displayUpdateBedsForm()
 {
     _updateBedsControl->waitingForData();
-    _getData.requestAllFacilities();
+    _getData.requestAllFacilityPointers();
     _getData.requestFacilitiesCurrentBedNumbers();
     _getData.requestFacilitiesMinimumBedNumbers();
     _updateBedsControl->showForm();
@@ -113,24 +113,23 @@ void ChangeDataControl::displayUpdateWaitingList()
 
 void ChangeDataControl::movePatientsToBedSubmitted()
 {
-    const QMap<QString, QString>& changes = _movePatientControl->getBedChanges();
-    const QMap<QString, Patient>& additions = _movePatientControl->getPatientsAdded();
-    const QLinkedList<QString>& removals    = _movePatientControl->getPatientsRemoved();
-    ID currentFacility = _movePatientControl->getBedFormCurrentFacility();
+    QMap<Patient*, QString>  _toBedChanges = _movePatientControl->getBedChanges();
+    QMap<QString, Patient>  _additions = _movePatientControl->getPatientsAdded();
+    QLinkedList<QString>    _removals = _movePatientControl->getPatientsRemoved();
+
+    Facility* currentFacility = _movePatientControl->getBedFormCurrentFacility();
+
 
     /// @todo send changes to StorageWrite
-    Q_UNUSED(additions);
-    Q_UNUSED(removals);
-    Q_UNUSED(changes);
 }
 
 void ChangeDataControl::movePatientsToFacilitySubmitted()
 {
-    const QMap<QString, int>& changes   = _movePatientControl->getFacilityChanges();
-    ID currentFacility = _movePatientControl->getFacilityFormCurrentFacility();
+    QMap<Patient*, Facility*> toFacilityChanges = _movePatientControl->getFacilityChanges();
+
+    Facility* currentFacility = _movePatientControl->getFacilityFormCurrentFacility();
 
     /// @todo send changes to StorageWrite
-    Q_UNUSED(changes);
 }
 
 void ChangeDataControl::addFacilitySubmitted(QString, QString, QString)
@@ -165,7 +164,7 @@ void ChangeDataControl::updateWaitingListSubmitted()
 }
 
 // Received Data
-void ChangeDataControl::_receivedAllFacilities(const QMap<ID, QString> &data)
+void ChangeDataControl::_receivedAllFacilityPointers(const QMap<ID, Facility*> &data)
 {
     _movePatientControl->setFacilitiesList(data);
     _updateBedsControl->setFacilitiesList(data);
@@ -194,4 +193,41 @@ void ChangeDataControl::_receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVec
 void ChangeDataControl::_receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> > &data)
 {
     _updateBedsControl->setMinimumBedNumbers(data);
+}
+
+void ChangeDataControl::_sendMoveToBedsUpdate(Facility* fac)
+{
+    QMap<QString, QString>  _toBedChanges;
+    QMap<QString, Patient>  _additions;
+    QLinkedList<QString>    _removals;
+
+    QLinkedList<Patient*> adds, removes;
+    foreach (Patient patient, _additions)
+    {
+	adds << &patient;
+    }
+
+    foreach (QString hcn, _removals)
+    {
+	// Create temporary patients
+	removes << new Patient(hcn, "", "", EOBC::AC);
+    }
+
+    /// @todo figure out remote???
+    _sendData.addPatients(true, fac->getAreaThisIsIn(), fac, adds);
+    _sendData.deletePatients(true, fac->getAreaThisIsIn(), fac, removes);
+
+    // Clear up temporary patients
+    foreach (Patient* p, removes)
+    {
+	delete p;
+    }
+}
+
+void ChangeDataControl::_sendMoveToFacilityUpdate(Facility* fac)
+{
+    QMap<QString, QString>  _toBedChanges;
+    QMap<QString, ID>	    _toFacilityChanges;
+    QMap<QString, Patient>  _additions;
+    QLinkedList<QString>    _removals;
 }

@@ -56,7 +56,7 @@ private slots:
     void updateWaitingListSubmitted();
 
     // Received Data
-    void _receivedAllFacilities(const QMap<ID, QString>& data);
+    void _receivedAllFacilityPointers(const QMap<ID, Facility*>& data);
     void _receivedAllAreas(const QMap<ID, QString>& data);
     void _receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient*> >& data);
     void _receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data);
@@ -64,6 +64,8 @@ private slots:
     void _receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> >& data);
 private:
     void _setupConnections();
+    void _sendMoveToBedsUpdate(Facility* fac);
+    void _sendMoveToFacilityUpdate(Facility* fac);
 
     void _changeLocal(QString& args, QString& data);
     void _changeRemote(QString& args, QString& data);

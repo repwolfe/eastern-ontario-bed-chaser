@@ -166,9 +166,6 @@ Facility* Area::getFacility(ID key)
     }
 }
 
-
-
-
 /**
  * Add a patient to the waiting list
  *

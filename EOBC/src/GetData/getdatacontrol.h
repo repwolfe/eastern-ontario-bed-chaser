@@ -3,7 +3,7 @@
 
 #include <QMap>
 #include <QVector>
-#include "facility.h"
+#include "area.h"
 
 /// @todo remove these
 class StorageRead;
@@ -27,15 +27,18 @@ public:
     GetDataControl();
 
     void requestAllFacilities();
+    void requestAllFacilityPointers();
     void requestAllAreas();
     void requestFacilitiesPatients();
     void requestAreasWaitingList();
     void requestFacilitiesCurrentBedNumbers();
     void requestFacilitiesMinimumBedNumbers();
     void requestReport(QDate fromDate, QDate toDate, ID facId, QString constraints);
+    void requestFacilityWithID(ID id);
 
 signals:
     void receivedAllFacilities(const QMap<ID, QString>&);
+    void receivedAllFacilityPointers(const QMap<ID, Facility*>&);
     void receivedAllAreas(const QMap<ID, QString>&);
     void receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient*> >&);
     void receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >&);
@@ -44,11 +47,13 @@ signals:
 
     void receivedUpdatedFacility(Facility*);
     void receivedUpdatedWaitingList(ID, WaitingList&);
+    void receivedFacilityWithID(Facility*);
 
     void receivedReport(QDate, QDate, ID,QPair<QString,QLinkedList<int> >&,QPair<QString,QLinkedList<int> >&);
 
 private slots:
     void _receivedAllFacilities(const QMap<ID, QString>& data);
+    void _receivedAllFacilityPointers(const QMap<ID, Facility*>&);
     void _receivedAllAreas(const QMap<ID, QString>& data);
     void _receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient*> >& data);
     void _receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data);
@@ -57,6 +62,7 @@ private slots:
 
     void _receivedUpdatedFacility(Facility* fac);
     void _receivedUpdatedWaitingList(ID id, WaitingList& wl);
+    void _receivedFacilityWithID(Facility*);
 
     void _receivedReport(QDate start, QDate end, ID facId,QPair<QString,QLinkedList<int> >& data,QPair<QString,QLinkedList<int> >& data2);
 

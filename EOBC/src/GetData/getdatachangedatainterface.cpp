@@ -3,8 +3,8 @@
 GetDataChangeDataInterface::GetDataChangeDataInterface(GetDataControl &getData) :
     _getData(getData)
 {
-    connect(&_getData, SIGNAL(receivedAllFacilities(QMap<ID,QString>)),
-            SLOT(_receivedAllFacilities(QMap<ID,QString>)));
+    connect(&_getData, SIGNAL(receivedAllFacilityPointers(QMap<ID,Facility*>)),
+	    SLOT(_receivedAllFacilityPointers(QMap<ID,Facility*>)));
     connect(&_getData, SIGNAL(receivedAllAreas(QMap<ID,QString>)),
 	    SLOT(_receivedAllAreas(QMap<ID,QString>)));
     connect(&_getData, SIGNAL(receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)),
@@ -15,11 +15,13 @@ GetDataChangeDataInterface::GetDataChangeDataInterface(GetDataControl &getData) 
             SLOT(_receivedFacilitiesCurrentBedNumbers(QMap<ID,QVector<int> >)));
     connect(&_getData, SIGNAL(receivedFacilitiesMinimumBedNumbers(QMap<ID,QVector<int> >)),
             SLOT(_receivedFacilitiesMinimumBedNumbers(QMap<ID,QVector<int> >)));
+    connect(&_getData, SIGNAL(receivedFacilityWithID(Facility*)),
+	    SLOT(_receivedFacilityWithID(Facility*)));
 }
 
-void GetDataChangeDataInterface::requestAllFacilities()
+void GetDataChangeDataInterface::requestAllFacilityPointers()
 {
-    _getData.requestAllFacilities();
+    _getData.requestAllFacilityPointers();
 }
 
 void GetDataChangeDataInterface::requestAllAreas()
@@ -47,13 +49,18 @@ void GetDataChangeDataInterface::requestFacilitiesMinimumBedNumbers()
     _getData.requestFacilitiesMinimumBedNumbers();
 }
 
+void GetDataChangeDataInterface::requestFacilityWithID(ID id)
+{
+    _getData.requestFacilityWithID(id);
+}
+
 /**
  * Slot for when received all the facilities
  * @param data map of Facility ID to Name
  */
-void GetDataChangeDataInterface::_receivedAllFacilities(const QMap<ID, QString> &data)
+void GetDataChangeDataInterface::_receivedAllFacilityPointers(const QMap<ID, Facility*>& data)
 {
-    emit receivedAllFacilities(data);
+    emit receivedAllFacilityPointers(data);
 }
 
 /**
@@ -99,4 +106,13 @@ void GetDataChangeDataInterface::_receivedFacilitiesCurrentBedNumbers(const QMap
 void GetDataChangeDataInterface::_receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> > &data)
 {
     emit receivedFacilitiesMinimumBedNumbers(data);
+}
+
+/**
+ * Slot for when a specific Facility which was requested is received
+ * @param fac Facility that was requested
+ */
+void GetDataChangeDataInterface::_receivedFacilityWithID(Facility *fac)
+{
+    emit receivedFacilityWithID(fac);
 }

@@ -5,7 +5,10 @@
 #include <QTreeWidget>
 #include <QComboBox>
 #include <QPushButton>
+#include <QLinkedList>
 #include <QMap>
+
+#include "patient.h"
 
 /**
  * @brief A form that Moves a patient.
@@ -27,8 +30,7 @@ public:
    MovePatientForm(QString title, bool displayBedType, QString moveTo, bool displayAddRemove, QWidget *parent = 0);
 
    void setFacilityItems(QStringList& items);
-   //void setPatientItems(const QMap<QString,QString>& items);
-   void setPatientItems(const QMap<QString,QPair<QString, QString> >& items, bool includeBeds = false);
+   void setPatientItems(const QLinkedList<Patient*>& items, bool includeBeds = false);
    void setMoveToItems(QStringList& items);
 
    void removeFacilityItem(QString& item);

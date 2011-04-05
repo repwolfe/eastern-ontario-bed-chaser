@@ -15,6 +15,18 @@ void GetDataControl::requestAllFacilities()
     emit receivedAllFacilities(facilities);
 }
 
+void GetDataControl::requestAllFacilityPointers()
+{
+    /// @todo ask storage for all facility pointers
+
+    /// @todo remove this
+    QMap<ID, Facility*> facilities;
+    facilities[1] = new Facility(1, "Peter D Clark", 0, 0, 0, QPoint(0,0)); facilities[1]->setAreaThisIsIn(new Area(1));
+    facilities[2] = new Facility(2, "Franklin General", 0, 0, 0, QPoint(0,0)); facilities[2]->setAreaThisIsIn(new Area(1));
+    facilities[3] = new Facility(3, "Wolfram and Hart Institute", 0, 0, 0, QPoint(0,0)); facilities[3]->setAreaThisIsIn(new Area(1));
+    emit receivedAllFacilityPointers(facilities);
+}
+
 void GetDataControl::requestAllAreas()
 {
     /// @todo ask storage for all facilities
@@ -129,6 +141,16 @@ void GetDataControl::requestReport(QDate fromDate, QDate toDate, ID facId, QStri
     emit receivedReport(fromDate, toDate, facId, data1, data2);
 }
 
+void GetDataControl::requestFacilityWithID(ID id)
+{
+    /// @todo ask for facility with id
+
+    /// @todo remove
+    Facility facility(id, "Franklin", 0, 0, 0, QPoint(0,0));
+
+    emit receivedFacilityWithID(&facility);
+}
+
 /**
  * Slot for when received all the facilities
  * @param data map of Facility ID to Name
@@ -136,6 +158,15 @@ void GetDataControl::requestReport(QDate fromDate, QDate toDate, ID facId, QStri
 void GetDataControl::_receivedAllFacilities(const QMap<ID, QString> & data)
 {
     emit receivedAllFacilities(data);
+}
+
+/**
+ * Slot for when received all the facility pointers
+ * @param data map of Facility ID to Pointer
+ */
+void GetDataControl::_receivedAllFacilityPointers(const QMap<ID, Facility*>& data)
+{
+    emit receivedAllFacilityPointers(data);
 }
 
 /**
@@ -205,5 +236,14 @@ void GetDataControl::_receivedUpdatedWaitingList(ID id, WaitingList& wl)
 void GetDataControl::_receivedReport(QDate start, QDate end, ID facId, QPair<QString, QLinkedList<int> > &data, QPair<QString, QLinkedList<int> > &data2)
 {
     emit receivedReport(start, end, facId, data, data2);
+}
+
+/**
+ * Slot for when a specific Facility which was requested is received
+ * @param fac Facility that was requested
+ */
+void GetDataControl::_receivedFacilityWithID(Facility* fac)
+{
+    emit receivedFacilityWithID(fac);
 }
 

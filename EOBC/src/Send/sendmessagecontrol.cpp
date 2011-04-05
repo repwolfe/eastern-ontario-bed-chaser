@@ -31,7 +31,7 @@ void SendMessageControl::toXML(QDomElement* e,Patient* p, bool inpatient){
     }
 }
 
-void SendMessageControl::toXML(QDomElement* e, Area* anArea, Facility* aFacility, QList<Patient*> pList){
+void SendMessageControl::toXML(QDomElement* e, Area* anArea, Facility* aFacility, QLinkedList<Patient*> pList){
     QDomElement* fac = new QDomElement();
     fac->setTagName("Facility");
     fac->setAttribute("ID", aFacility->getFacilityId());
@@ -156,7 +156,7 @@ void SendMessageControl::toXML(QDomElement* fac, Facility* aFacility){
  * @param aFacility the Facility the patients will be added to
  *
  */
-void SendMessageControl::addPatients(bool remote, Area* anArea, Facility* aFacility, QList<Patient*> p){
+void SendMessageControl::addPatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p){
     this->doStuffToPatients("Add",  remote, anArea, aFacility, p);
 }
 
@@ -172,7 +172,7 @@ void SendMessageControl::addPatients(bool remote, Area* anArea, Facility* aFacil
  * @param aFacility the Facility the patients will be added to
  *
  */
-void SendMessageControl::deletePatients(bool remote, Area* anArea, Facility* aFacility, QList<Patient*> p){
+void SendMessageControl::deletePatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p){
    this->doStuffToPatients("Delete",  remote, anArea, aFacility, p);
 }
 /**
@@ -214,7 +214,7 @@ void SendMessageControl::rebuild(){
  * @param aFacility the Facility the patients will be added to
  *
  */
-void SendMessageControl::doStuffToPatients(QString str, bool remote, Area* anArea, Facility* aFacility, QList<Patient*> p){
+void SendMessageControl::doStuffToPatients(QString str, bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p){
     QDomElement* el = new QDomElement();
     this->toXML(el,  anArea, aFacility,  p);
 

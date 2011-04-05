@@ -3,12 +3,11 @@
 
 #include "movepatientform.h"
 #include "addpatientcontrol.h"
-#include "patient.h"
+#include "facility.h"
 
 #include <QMap>
 #include <QLinkedList>
 
-typedef QMap<ID, QMap<QString, QPair<QString, QString> > > FacilityIDToPatientInfo;
 /**
  * @brief Controller for the MovePatientForm for Bed and Facility movement.
  *
@@ -30,13 +29,13 @@ public:
     void toBedFormWaitingForInfo();
     void showToBedForm();
 
-    void setFacilitiesList(const QMap<ID, QString>& data);
+    void setFacilitiesList(const QMap<ID, Facility*>& data);
     void setFacilitiesToPatients(const QMap<ID, QLinkedList<Patient*> >& data);
 
-    const QMap<QString, QString>& getBedChanges() const;
-    const QMap<QString, ID>& getFacilityChanges() const;
-    ID getBedFormCurrentFacility() const;
-    ID getFacilityFormCurrentFacility() const;
+    const QMap<Patient*, QString>& getBedChanges() const;
+    const QMap<Patient*, Facility*>& getFacilityChanges() const;
+    Facility* getBedFormCurrentFacility() const;
+    Facility* getFacilityFormCurrentFacility() const;
 
     const QLinkedList<QString>& getPatientsRemoved() const;
     const QMap<QString,Patient>& getPatientsAdded() const;
@@ -75,25 +74,28 @@ private:
     QMap<QString,Patient> _patientsAdded;
 
     /// A Map of all the changes done to each Patient for the Bed Form
-    QMap<QString, QString> _bedMoveToChanges;
+    QMap<Patient*, QString> _bedMoveToChanges;
 
     /// A Map of all the changes done to each Patient for the Facility Form
-    QMap<QString, ID> _facilityMoveToChanges;
+    QMap<Patient*, Facility*> _facilityMoveToChanges;
 
     /// A map of all the Patients to which Beds they're in
     QMap<QString, QString> _patientToBed;
 
     // Facility Selection
-
+    QMap<ID, Facility*>	    _tfFacilities;
+    QMap<ID, Facility*>	    _tbFacilities;
     // To Facility Form
-    QMap<int, ID>       _tfIndexToID;
-    int                 _tfcurrentFacilityIndex;
-    FacilityIDToPatientInfo _tfFacilityToPatientsInfo;
+    QHash<int, ID>	    _tfIndexToID;
+    int			    _tfcurrentFacilityIndex;
+    QHash<QString, Patient*>    _tfPatients;
+    QMap<ID, QLinkedList<Patient*> > _tfFacilitiesToPatients;
 
     // To Bed Form
-    QMap<int, ID>       _tbIndexToID;
-    int                 _tbcurrentFacilityIndex;
-    FacilityIDToPatientInfo _tbFacilityToPatientsInfo;
+    QHash<int, ID>	    _tbIndexToID;
+    int			    _tbcurrentFacilityIndex;
+    QHash<QString, Patient*>    _tbPatients;
+    QMap<ID, QLinkedList<Patient*> > _tbFacilitiesToPatients;
 
     // Waiting for information bools
     bool _tfWaitingForFacilitiesList;

@@ -13,7 +13,7 @@ SendChangeDataInterface::SendChangeDataInterface(SendMessageControl& sendMessage
  * @param aFacility the Facility the patients will be added to
  * @param p the list of Patients that will be transformend into an XML tag
  */
-void SendChangeDataInterface::addPatients(bool remote, Area* anArea, Facility* aFacility, QList<Patient*> p)
+void SendChangeDataInterface::addPatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p)
 {
     _sendMessage.addPatients(remote, anArea, aFacility, p);
 }
@@ -26,7 +26,7 @@ void SendChangeDataInterface::addPatients(bool remote, Area* anArea, Facility* a
  * @param aFacility the Facility the patients will be added to
  * @param p the list of Patients that will be transformend into an XML tag
  */
-void SendChangeDataInterface::deletePatients(bool remote, Area* anArea, Facility* aFacility, QList<Patient*> p)
+void SendChangeDataInterface::deletePatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p)
 {
     _sendMessage.deletePatients(remote, anArea, aFacility, p);
 }

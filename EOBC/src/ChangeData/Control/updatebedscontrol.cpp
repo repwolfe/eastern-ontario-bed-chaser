@@ -36,18 +36,18 @@ void UpdateBedsControl::showForm()
  *
  * @param data map of facility id to name
  */
-void UpdateBedsControl::setFacilitiesList(const QMap<ID, QString>& data)
+void UpdateBedsControl::setFacilitiesList(const QMap<ID, Facility*>& data)
 {
     QStringList facilities;
 
     if (_waitingForFacilitiesList)
     {
 	_waitingForFacilitiesList = false;
-	QMap<ID, QString>::const_iterator iter = data.begin();
+	QMap<ID, Facility*>::const_iterator iter = data.begin();
 	int index = 0;
 	while (iter != data.end())
 	{
-	    facilities << iter.value();
+	    facilities << iter.value()->getFacilityName();
 	    _indexToFacilityId[index] = iter.key();
 	    ++index;
 	    ++iter;

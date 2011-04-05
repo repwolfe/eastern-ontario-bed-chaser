@@ -22,8 +22,8 @@ class SendMessageControl : public QObject
 public:
     SendMessageControl();
     //void addPatient(bool remote, Area* anArea, Facility* aFacility, Patient* p);
-    void addPatients(bool remote, Area* anArea, Facility* aFacility, QList<Patient*> p);
-    void deletePatients(bool remote, Area* anArea, Facility* aFacility, QList<Patient*> p);
+    void addPatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
+    void deletePatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
     void rebuild(Area* anArea, Facility* aFacility);
     void rebuild();
     //occupancy
@@ -41,9 +41,9 @@ public:
 signals:
     void sendQByte(QByteArray &data);
 private:
-    void doStuffToPatients(QString str, bool remote, Area* anArea, Facility* aFacility, QList<Patient*> p);
+    void doStuffToPatients(QString str, bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
     void toXML(QDomElement* e, Area* anArea, Facility* aFacility, Patient* p);
-    void toXML(QDomElement* e, Area* anArea, Facility* aFacility, QList<Patient*> p);
+    void toXML(QDomElement* e, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
     void toXML(QDomElement* e, Area* anArea, Facility* aFacility);
     void toXML(QDomElement* e, Facility* aFacility);
     void toXML(QDomElement* e, Patient* p, bool inpatient);

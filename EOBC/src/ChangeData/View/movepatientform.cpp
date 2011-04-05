@@ -58,24 +58,22 @@ void MovePatientForm::setMoveToItems(QStringList& items)
  * Set the items of the Patient list, removes the old ones
  * Rows containing Patient Name and Health Card Number and optionally Bed Type
  *
- * @param patientItems map of patient's health card number to a pair of it's name and bed type (could be blank)
+ * @param patientItems map of patient's health card number to a Patient pointer
  * @param includeBeds True if beds should be included, False otherwise
  */
-void MovePatientForm::setPatientItems(const QMap<QString, QPair<QString, QString> > &patientItems, bool includeBeds)
+void MovePatientForm::setPatientItems(const QLinkedList<Patient*> &patientItems, bool includeBeds)
 {
     _patientList->clear();
     if (patientItems.size() > 0)
     {
         QList<QTreeWidgetItem*> items;
-        QMap<QString, QPair<QString, QString> >::const_iterator iter = patientItems.begin();
-        while (iter != patientItems.end())
-        {
+	foreach (Patient* patient, patientItems)
+	{
             // Store the name first, then the hcn
-            QStringList info = QStringList() << iter.value().first << iter.key();
+	    QStringList info = QStringList() << patient->getName() << patient->getHealthCardNumber();
             // Optionally store the bed type
-            if (includeBeds) { info << iter.value().second; }
+	    if (includeBeds) { info << Convenience::careTypeToQString(patient->getOccupiedCare()); }
             items.append(new QTreeWidgetItem((QTreeWidget*)0, info));
-            ++iter;
         }
         _patientList->insertTopLevelItems(0, items);
         if (!items.isEmpty())

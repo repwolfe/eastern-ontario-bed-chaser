@@ -54,6 +54,21 @@ void UpdateBedsForm::setMinimumLTC(int num)
     _LTCBeds->setMinimum(num);
 }
 
+void UpdateBedsForm::setMaximumAC(int num)
+{
+    _ACBeds->setMaximum(num);
+}
+
+void UpdateBedsForm::setMaximumCCC(int num)
+{
+    _CCCBeds->setMaximum(num);
+}
+
+void UpdateBedsForm::setMaximumLTC(int num)
+{
+    _LTCBeds->setMaximum(num);
+}
+
 int UpdateBedsForm::getNumAC() const
 {
     return _ACBeds->value();

@@ -19,6 +19,8 @@ public:
     void addPatients(bool remote, Area* anArea, QLinkedList<Patient*> p);
     void deletePatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
     void deletePatients(bool remote, Area* anArea, QLinkedList<Patient*> p);
+    void addBeds(bool remote, Facility* aFacility, int deltaACBeds, int deltaCCCBeds, int deltaLTCBeds);
+    void removeBeds(bool remote, Facility* aFacility, int deltaACBeds, int deltaCCCBeds, int deltaLTCBeds);
 
 signals:
 

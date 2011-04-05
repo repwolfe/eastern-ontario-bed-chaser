@@ -55,3 +55,30 @@ void SendChangeDataInterface::deletePatients(bool remote, Area* anArea, QLinkedL
     _sendMessage.deletePatients(remote, anArea, p);
 }
 
+/**
+ * Sends an addBed message
+ *
+ * @param remote true if the facility that is being changed is this node of EOBC's facility
+ * @param aFacility the Facility to add beds to
+ * @param deltaACBeds the amount of beds to add
+ * @param deltaCCCBeds the amount of beds to add
+ * @param deltaLTCBeds the amount of beds to add
+ */
+void SendChangeDataInterface::addBeds(bool remote, Facility* aFacility, int deltaACBeds, int deltaCCCBeds, int deltaLTCBeds)
+{
+    _sendMessage.addBeds(remote, aFacility, deltaACBeds, deltaCCCBeds, deltaLTCBeds);
+}
+
+/**
+ * Sends an removeBed message
+ *
+ * @param remote true if the facility that is being changed is this node of EOBC's facility
+ * @param aFacility the Facility to add beds to
+ * @param deltaACBeds the amount of beds to remove
+ * @param deltaCCCBeds the amount of beds to remove
+ * @param deltaLTCBeds the amount of beds to remove
+ */
+void SendChangeDataInterface::removeBeds(bool remote, Facility* aFacility, int deltaACBeds, int deltaCCCBeds, int deltaLTCBeds)
+{
+    _sendMessage.removeBeds(remote, aFacility, deltaACBeds, deltaCCCBeds, deltaLTCBeds);
+}

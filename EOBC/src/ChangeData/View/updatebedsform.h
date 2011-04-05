@@ -30,6 +30,10 @@ public:
     void setMinimumCCC(int num);
     void setMinimumLTC(int num);
 
+    void setMaximumAC(int num);
+    void setMaximumCCC(int num);
+    void setMaximumLTC(int num);
+
     int getNumAC() const;
     int getNumCCC() const;
     int getNumLTC() const;

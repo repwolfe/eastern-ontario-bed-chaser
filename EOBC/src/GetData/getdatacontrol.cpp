@@ -21,9 +21,9 @@ void GetDataControl::requestAllFacilityPointers()
 
     /// @todo remove this
     QMap<ID, Facility*> facilities;
-    facilities[1] = new Facility(1, "Peter D Clark", 0, 0, 0, QPoint(0,0)); facilities[1]->setAreaThisIsIn(new Area(1));
-    facilities[2] = new Facility(2, "Franklin General", 0, 0, 0, QPoint(0,0)); facilities[2]->setAreaThisIsIn(new Area(1));
-    facilities[3] = new Facility(3, "Wolfram and Hart Institute", 0, 0, 0, QPoint(0,0)); facilities[3]->setAreaThisIsIn(new Area(1));
+    facilities[1] = new Facility(1, "Peter D Clark", 20, 30, 0, QPoint(0,0)); facilities[1]->setAreaThisIsIn(new Area(1));
+    facilities[2] = new Facility(2, "Franklin General", 4, 17, 0, QPoint(0,0)); facilities[2]->setAreaThisIsIn(new Area(1));
+    facilities[3] = new Facility(3, "Wolfram and Hart Institute", 0, 0, 24, QPoint(0,0)); facilities[3]->setAreaThisIsIn(new Area(1));
     emit receivedAllFacilityPointers(facilities);
 }
 

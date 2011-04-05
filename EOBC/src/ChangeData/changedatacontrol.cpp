@@ -218,6 +218,7 @@ void ChangeDataControl::createUserSubmitted(QString, QString, QString)
  */
 void ChangeDataControl::updateBedsSubmitted(Facility* fac, int newAC, int newCCC, int newLTC)
 {
+    bool remote = !fac->isOurFacility();    // false if this is OUR facility
     int acDelta = newAC - fac->getNumBeds(EOBC::AC);
     int cccDelta = newCCC - fac->getNumBeds(EOBC::CCC);
     int ltcDelta = newLTC - fac->getNumBeds(EOBC::LTC);
@@ -228,12 +229,39 @@ void ChangeDataControl::updateBedsSubmitted(Facility* fac, int newAC, int newCCC
     // Do nothing if no changes were done
     if (acDelta == 0 && cccDelta == 0 && ltcDelta == 0) { return; }
 
-    if (acDelta) { posACDelta = acDelta; negACDelta = 0; }
-    else { posACDelta = 0; negACDelta = acDelta; }
-    if (cccDelta) { posCCCDelta = cccDelta; negCCCDelta = 0; }
-    else { posCCCDelta = 0; negCCCDelta = cccDelta; }
-    if (ltcDelta) { posLTCDelta = ltcDelta; negLTCDelta = 0; }
-    else { posLTCDelta = 0; negLTCDelta = ltcDelta; }
+    if (acDelta >= 0)
+    {
+	posACDelta = acDelta; negACDelta = 0;
+    }
+    else
+    {
+	posACDelta = 0; negACDelta = acDelta * -1;
+    }
+    if (cccDelta >= 0)
+    {
+	posCCCDelta = cccDelta; negCCCDelta = 0;
+    }
+    else
+    {
+	posCCCDelta = 0; negCCCDelta = cccDelta * -1;
+    }
+    if (ltcDelta >= 0)
+    {
+	posLTCDelta = ltcDelta; negLTCDelta = 0;
+    }
+    else
+    {
+	posLTCDelta = 0; negLTCDelta = ltcDelta * -1;
+    }
+
+    if (posACDelta || posCCCDelta || posLTCDelta)
+    {
+	_sendData.addBeds(remote, fac, posACDelta, posCCCDelta, posLTCDelta);
+    }
+    if (negACDelta || negCCCDelta || negLTCDelta)
+    {
+	_sendData.removeBeds(remote, fac, negACDelta, negCCCDelta, negLTCDelta);
+    }
 
     /// @todo send the facility, num ac beds, num ccc beds, num ltc beds to StorageWrite
 }
@@ -244,6 +272,7 @@ void ChangeDataControl::updateWaitingListSubmitted()
     QLinkedList<Patient*> removes = _updateWaitingListControl->getPatientsRemoved();
     QLinkedList<Patient*> adds;
     Area* currentArea = _updateWaitingListControl->getCurrentlySelectedArea();
+    bool remote = !currentArea->isOurArea();
 
     QMap<QString, Patient>::iterator patient = patientsAdded.begin();
     while (patient != patientsAdded.end())
@@ -255,8 +284,8 @@ void ChangeDataControl::updateWaitingListSubmitted()
     if (currentArea)
     {
 	/// @todo figure out remote
-	if (!adds.empty()) { _sendData.addPatients(true, currentArea, adds); }
-	if (!removes.empty()) { _sendData.deletePatients(true, currentArea, removes); }
+	if (!adds.empty()) { _sendData.addPatients(remote, currentArea, adds); }
+	if (!removes.empty()) { _sendData.deletePatients(remote, currentArea, removes); }
     }
     /// @todo send the patientsAdded and patientsRemoved to StorageWrite
 }

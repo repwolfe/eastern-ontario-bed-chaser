@@ -106,6 +106,20 @@ void UpdateBedsControl::_facilitySelected(int index)
 	    _form->setNumAC(beds[0]);
 	    _form->setNumCCC(beds[1]);
 	    _form->setNumLTC(beds[2]);
+
+	    const int maxBeds = 5000;
+	    if (beds[0] > 0 && beds[1] > 0)
+	    {
+		_form->setMaximumAC(maxBeds);
+		_form->setMaximumCCC(maxBeds);
+		_form->setMaximumLTC(0);
+	    }
+	    else if (beds[2] > 0)
+	    {
+		_form->setMaximumAC(0);
+		_form->setMaximumCCC(0);
+		_form->setMaximumLTC(maxBeds);
+	    }
 	}
 	QMap<ID, QVector<int> >::const_iterator min = _minimumBedNumbers.find(find.value()->getFacilityId());
 	if (min != _minimumBedNumbers.end())

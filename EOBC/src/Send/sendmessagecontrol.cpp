@@ -284,24 +284,38 @@ void SendMessageControl::sendQByte(QByteArray &data)
     _communication.sendMessage(data);
 }
 
-void SendMessageControl::addBeds(Facility* aFacility, int deltaACBeds, int deltaCCCBeds, int deltaLTCBeds){
+void SendMessageControl::addBeds(bool remote, Facility* aFacility, int deltaACBeds, int deltaCCCBeds, int deltaLTCBeds){
     QDomDocument doc;
+    QDomElement add = doc.createElement("Add");
+    if(remote){
+        add.setAttribute("remote", "true");
+    }else{
+        add.setAttribute("remote", "false");
+    }
     QDomElement el = doc.createElement("Area");
     this->toXML(doc,&el, aFacility,deltaACBeds, deltaCCCBeds, deltaLTCBeds);
-    doc.appendChild(el);
+    add.appendChild(el);
+    doc.appendChild(add);
     Logger::debugMessage("sendMessageControl", "addBeds", "OMG XML", doc.toString());
     QByteArray data = doc.toByteArray();
     sendQByte(data);
 }
 
-void SendMessageControl::removeBeds(Facility* aFacility, int deltaACBeds, int deltaCCCBeds, int deltaLTCBeds){
+void SendMessageControl::removeBeds(bool remote, Facility* aFacility, int deltaACBeds, int deltaCCCBeds, int deltaLTCBeds){
     QDomDocument doc;
     QDomElement del = doc.createElement("Delete");
+
+    if(remote){
+        del.setAttribute("remote", "true");
+    }else{
+        del.setAttribute("remote", "false");
+    }
+
     QDomElement el = doc.createElement("Area");
     this->toXML(doc,&el, aFacility,deltaACBeds, deltaCCCBeds, deltaLTCBeds);
     del.appendChild(el);
     doc.appendChild(del);
-    Logger::debugMessage("sendMessageControl", "addBeds", "OMG XML", doc.toString());
+    Logger::debugMessage("sendMessageControl", "removeBeds", "OMG XML", doc.toString());
     QByteArray data = doc.toByteArray();
     sendQByte(data);
 }

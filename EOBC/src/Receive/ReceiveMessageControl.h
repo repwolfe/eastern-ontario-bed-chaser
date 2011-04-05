@@ -24,6 +24,7 @@ public:
 
 signals:
     void addBeds(ID sourceArea, ID sourceFacility, EOBC::CareType, int numOfBeds);
+    void removeBeds(ID sourceArea, ID sourceFacility, EOBC::CareType, int numOfBeds);
     void addPatient(ID areaID, ID facilityID, Patient* p);
     void deletePatient(ID areaID, ID facilityID,Patient* p);
     void sendRebuild(ID sourceArea, ID sourceFacility);

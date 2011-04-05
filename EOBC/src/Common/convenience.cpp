@@ -112,7 +112,6 @@ QString Convenience::toXML(QDate aDate){
     str.append("-");
     str.append(QString::number(aDate.day()));
     str.append("T00:00:00"); // fake time
-    qDebug(str.toAscii());
     return str;
 
 };

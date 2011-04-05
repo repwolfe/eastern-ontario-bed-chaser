@@ -1,12 +1,17 @@
 #include "ReceiveMessageControl.h"
 
+ReceiveMessageControl::ReceiveMessageControl(CommunicationReceiveInterface &receiveData)
+{
+    connect(&receiveData, SIGNAL(processTheMessage(QByteArray&)), SLOT(_parseMessage(QByteArray&)));
+}
+
 /**
  * Used to parse all incoming messages
  *
  * @param qByte the byte received from another Facility
  *
  */
-void ReceiveMessageControl::parseMessage(QByteArray qByte){
+void ReceiveMessageControl::_parseMessage(QByteArray& qByte){
     QDomElement e;
     QString str(qByte);
     e.setNodeValue(str);

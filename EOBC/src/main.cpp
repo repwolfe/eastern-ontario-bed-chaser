@@ -9,7 +9,7 @@
 #include "storageHandler.h"
 #include "changedatacontrol.h"
 #include "reportingcontrol.h"
-#include "channelin.h"
+#include "communicationreceiveinterface.h"
 #include "communicationsendinterface.h"
 #include "sendchangedatainterface.h"
 #include "ReceiveMessageControl.h"
@@ -32,20 +32,13 @@ int main(int argc, char *argv[])
     ReportingControl rControl(gdReportingI);
     rControl.run();
 
-    SendMessageControl sendControl;
+    CommunicationSendInterface commSendI;
+    SendMessageControl sendControl(commSendI);
     SendChangeDataInterface sendChangeDataI(sendControl);
-    ReceiveMessageControl receiveControl;
+    CommunicationReceiveInterface commReceiveI;
+    ReceiveMessageControl receiveControl(commReceiveI);
 
     ChangeDataControl changeDataControl(gdChangeDataI, sendChangeDataI);
-
-    /// @todo Should these be created here or something else which creates them?
-    CommunicationSendInterface commSendInterface(sendControl);
-    ChannelIn channelIn;
-
-    Q_UNUSED(receiveControl);
-    Q_UNUSED(commSendInterface);
-    Q_UNUSED(channelIn);
-
 
     //
     //CONNECT SUBSYSTEMS

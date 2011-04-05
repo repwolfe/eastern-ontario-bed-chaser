@@ -116,7 +116,7 @@ void ChangeDataControl::movePatientsToBedSubmitted()
     QMap<Patient*, QString>  toBedChanges = _movePatientControl->getBedChanges();
     QMap<QString, Patient>  additions = _movePatientControl->getPatientsAdded();
     QLinkedList<Patient*>   removals = _movePatientControl->getPatientsRemoved();
-    Facility* currentFacility = movePatientControl->getBedFormCurrentFacility();
+    Facility* currentFacility = _movePatientControl->getBedFormCurrentFacility();
 
     QLinkedList<Patient*> adds, removes, adds2, removes2;
     foreach (Patient patient, additions)

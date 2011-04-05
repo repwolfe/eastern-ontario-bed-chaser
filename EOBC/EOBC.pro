@@ -78,7 +78,8 @@ SOURCES +=\
     src/Send/sendmessagecontrol.cpp \
     src/Receive/ReceiveMessageControl.cpp \
     src/Communication/communicationsendinterface.cpp \
-    src/Send/sendchangedatainterface.cpp
+    src/Send/sendchangedatainterface.cpp \
+    src/Communication/communicationreceiveinterface.cpp
 
 
 
@@ -128,7 +129,8 @@ HEADERS  += \
     src/Send/sendmessagecontrol.h \
     src/Receive/ReceiveMessageControl.h \
     src/Communication/communicationsendinterface.h \
-    src/Send/sendchangedatainterface.h
+    src/Send/sendchangedatainterface.h \
+    src/Communication/communicationreceiveinterface.h
 
 
 RESOURCES += \

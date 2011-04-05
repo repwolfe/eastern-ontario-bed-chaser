@@ -2,11 +2,12 @@
 #define RECEIVEMESSAGECONTROL_H
 
 #include "area.h"
-#include "QFile"
-#include "QLinkedList"
+//#include <QFile>
+#include <QLinkedList>
 #include <QtXml/qdom.h>
-#include "../Common/logger.h"
+#include "logger.h"
 #include "convenience.h"
+#include "communicationreceiveinterface.h"
 
 /**
  * @brief Parses messages received from other EOBC nodes
@@ -19,12 +20,17 @@ class ReceiveMessageControl : public QObject
 {
     Q_OBJECT
 public:
-    void parseMessage(QByteArray qByte);
+    ReceiveMessageControl(CommunicationReceiveInterface& receiveData);
+
 signals:
     void addBeds(ID sourceArea, ID sourceFacility, EOBC::CareType, int numOfBeds);
     void addPatient(ID areaID, ID facilityID, Patient* p);
     void deletePatient(ID areaID, ID facilityID,Patient* p);
     void sendRebuild(ID sourceArea, ID sourceFacility);
+
+private slots:
+    void _parseMessage(QByteArray& qByte);
+
 private:
     void parseAdd(QDomElement addTag);
     void parseDelete(QDomElement deleteTag);

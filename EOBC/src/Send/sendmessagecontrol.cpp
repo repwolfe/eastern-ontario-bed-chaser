@@ -101,6 +101,7 @@ void SendMessageControl::toXML(QDomElement* e, Area* anArea, Facility* aFacility
  * @param aFacility the Facility that will be turned into an XML tag
  *
  */
+/// @todo change toXML to be passed a document element
 void SendMessageControl::toXML(QDomElement* fac, Facility* aFacility){
 
     fac->setTagName("Facility");
@@ -228,8 +229,12 @@ void SendMessageControl::doStuffToPatients(QString str, bool remote, Area* anAre
     {
         e->setAttribute("remote", "false");
     }
+
     e->appendChild(el);
-    QByteArray data = e->toDocument().toByteArray();
+    /// @todo remove doc attributes
+    doc.appendChild(*e);
+     Logger::debugMessage("sendMessageControl", "doStuffToPatients", "OMG XML", doc.toString());
+    QByteArray data = doc.toByteArray();
     sendQByte(data);
 }
 

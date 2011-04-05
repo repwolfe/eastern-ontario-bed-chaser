@@ -57,7 +57,7 @@ private slots:
 
     // Received Data
     void _receivedAllFacilityPointers(const QMap<ID, Facility*>& data);
-    void _receivedAllAreas(const QMap<ID, Area*>& data);
+    void _receivedAllAreaPointers(const QMap<ID, Area*>& data);
     void _receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient*> >& data);
     void _receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data);
     void _receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >& data);

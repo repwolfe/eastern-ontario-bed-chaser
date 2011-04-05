@@ -28,7 +28,7 @@ public:
 
     void requestAllFacilities();
     void requestAllFacilityPointers();
-    void requestAllAreas();
+    void requestAllAreaPointers();
     void requestFacilitiesPatients();
     void requestAreasWaitingList();
     void requestFacilitiesCurrentBedNumbers();
@@ -39,7 +39,7 @@ public:
 signals:
     void receivedAllFacilities(const QMap<ID, QString>&);
     void receivedAllFacilityPointers(const QMap<ID, Facility*>&);
-    void receivedAllAreas(const QMap<ID, QString>&);
+    void receivedAllAreaPointers(const QMap<ID, Area*>&);
     void receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient*> >&);
     void receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >&);
     void receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >&);
@@ -54,7 +54,7 @@ signals:
 private slots:
     void _receivedAllFacilities(const QMap<ID, QString>& data);
     void _receivedAllFacilityPointers(const QMap<ID, Facility*>&);
-    void _receivedAllAreas(const QMap<ID, QString>& data);
+    void _receivedAllAreaPointers(const QMap<ID, Area*>& data);
     void _receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient*> >& data);
     void _receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data);
     void _receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >& data);

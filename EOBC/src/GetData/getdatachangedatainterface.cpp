@@ -5,8 +5,8 @@ GetDataChangeDataInterface::GetDataChangeDataInterface(GetDataControl &getData) 
 {
     connect(&_getData, SIGNAL(receivedAllFacilityPointers(QMap<ID,Facility*>)),
 	    SLOT(_receivedAllFacilityPointers(QMap<ID,Facility*>)));
-    connect(&_getData, SIGNAL(receivedAllAreas(QMap<ID,QString>)),
-	    SLOT(_receivedAllAreas(QMap<ID,QString>)));
+    connect(&_getData, SIGNAL(receivedAllAreaPointers(QMap<ID,Area*>)),
+	    SLOT(_receivedAllAreaPointers(QMap<ID,Area*>)));
     connect(&_getData, SIGNAL(receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)),
             SLOT(_receivedAreasWaitingList(QMap<ID,QLinkedList<Patient*> >)));
     connect(&_getData, SIGNAL(receivedFacilitiesPatients(QMap<ID,QLinkedList<Patient*> >)),
@@ -24,9 +24,9 @@ void GetDataChangeDataInterface::requestAllFacilityPointers()
     _getData.requestAllFacilityPointers();
 }
 
-void GetDataChangeDataInterface::requestAllAreas()
+void GetDataChangeDataInterface::requestAllAreaPointers()
 {
-    _getData.requestAllAreas();
+    _getData.requestAllAreaPointers();
 }
 
 void GetDataChangeDataInterface::requestFacilitiesPatients()
@@ -65,11 +65,11 @@ void GetDataChangeDataInterface::_receivedAllFacilityPointers(const QMap<ID, Fac
 
 /**
  * Slot for when received all the areas
- * @param data map of Area ID to Name
+ * @param data map of Area ID to Area*
  */
-void GetDataChangeDataInterface::_receivedAllAreas(const QMap<ID, QString> &data)
+void GetDataChangeDataInterface::_receivedAllAreaPointers(const QMap<ID, Area*> &data)
 {
-    emit receivedAllAreas(data);
+    emit receivedAllAreaPointers(data);
 }
 
 /**

@@ -27,16 +27,16 @@ void GetDataControl::requestAllFacilityPointers()
     emit receivedAllFacilityPointers(facilities);
 }
 
-void GetDataControl::requestAllAreas()
+void GetDataControl::requestAllAreaPointers()
 {
     /// @todo ask storage for all facilities
 
-    /// @todo remove this
-    QMap<ID, QString> facilities;
-    facilities[1] = "North Lanark";
-    facilities[2] = "Renfrew County";
-    facilities[3] = "Ottawa West";
-    emit receivedAllAreas(facilities);
+    /// @todo remove this, MEMORY LEAK
+    QMap<ID, Area*> facilities;
+    facilities[1] = new Area(1);
+    facilities[2] = new Area(2);
+    facilities[3] = new Area(3);
+    emit receivedAllAreaPointers(facilities);
 }
 
 void GetDataControl::requestFacilitiesPatients()
@@ -171,11 +171,11 @@ void GetDataControl::_receivedAllFacilityPointers(const QMap<ID, Facility*>& dat
 
 /**
  * Slot for when received all the areas
- * @param data map of Area ID to Name
+ * @param data map of Area ID to Area*
  */
-void GetDataControl::_receivedAllAreas(const QMap<ID, QString> & data)
+void GetDataControl::_receivedAllAreaPointers(const QMap<ID, Area*> & data)
 {
-    emit receivedAllAreas(data);
+    emit receivedAllAreaPointers(data);
 }
 
 /**

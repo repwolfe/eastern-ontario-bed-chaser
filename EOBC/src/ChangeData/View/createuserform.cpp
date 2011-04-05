@@ -8,7 +8,7 @@ CreateUserForm::CreateUserForm(QWidget *parent) :
     setWindowTitle("Add User Account");
 
     int width = 300;
-    int height = 245;
+    int height = 260;
 
     setGeometry(Convenience::getCenterForSize(width, height));
     setFixedSize(width, height);
@@ -21,6 +21,12 @@ void CreateUserForm::clearContents()
     _usernameBox->clear();
     _passwordBox->clear();
     _priveledgeMenu->setCurrentIndex(0);
+    _errorMessage->setText("");
+}
+
+void CreateUserForm::displayError()
+{
+    _errorMessage->setText("Incorrect values entered");
 }
 
 const QString CreateUserForm::getUserName() const
@@ -59,6 +65,9 @@ void CreateUserForm::_setupLayout()
     _priveledgeMenu->addItem("LHIN Administrator");
     _priveledgeMenu->addItem("Facility Staff");
 
+    _errorMessage	= new QLabel();
+    _errorMessage->setStyleSheet("QLabel { color : red; }");
+
     _submitButton   = new QPushButton("Submit");
     _cancelButton   = new QPushButton("Cancel");
 
@@ -70,10 +79,11 @@ void CreateUserForm::_setupLayout()
 
     QFormLayout* q = new QFormLayout();
     q->setContentsMargins(15, 10, 15, 10);
-    q->setVerticalSpacing(20);
+    q->setVerticalSpacing(15);
     q->addRow("User Name", _usernameBox);
     q->addRow("Password", _passwordBox);
     q->addRow("Priveledge", _priveledgeMenu);
+    q->addRow(_errorMessage);
     q->addRow("", _submitButton);
     q->addRow("", _cancelButton);
     setLayout(q);

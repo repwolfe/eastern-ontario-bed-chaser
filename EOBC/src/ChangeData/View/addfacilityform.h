@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QLabel>
 
 /**
  * @brief Form for adding a new Facility.
@@ -21,6 +22,7 @@ public:
     explicit AddFacilityForm(QWidget *parent = 0);
 
     void clearContents();
+    void displayError();
 
     const QString getXAxis() const;
     const QString getYAxis() const;
@@ -36,10 +38,10 @@ private slots:
 private:
     void _setupLayout();
 
-    /// @todo What about Facility type? (Hospital/LTC)
-    QLineEdit* _xAxisBox;
-    QLineEdit* _yAxisBox;
-    QLineEdit* _facilityNameBox;
+    QLineEdit*	_xAxisBox;
+    QLineEdit*	_yAxisBox;
+    QLineEdit*	_facilityNameBox;
+    QLabel*	_errorMessage;
     QPushButton* _submitButton;
     QPushButton* _cancelButton;
 

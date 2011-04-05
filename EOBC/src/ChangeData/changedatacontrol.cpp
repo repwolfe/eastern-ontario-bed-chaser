@@ -30,6 +30,7 @@ void ChangeDataControl::_setupConnections()
     connect(_createUserControl, SIGNAL(submitClicked(QString,QString,QString)),
 	    SLOT(createUserSubmitted(QString,QString,QString)));
     connect(_updateWaitingListControl, SIGNAL(submitClicked()), SLOT(updateWaitingListSubmitted()));
+    connect(_updateBedsControl, SIGNAL(submitClicked(Facility*,int,int,int)), SLOT(updateBedsSubmitted(Facility*,int,int,int)));
 
     // GetData
     connect(&_getData, SIGNAL(receivedAllFacilityPointers(QMap<ID,Facility*>)),
@@ -126,6 +127,7 @@ void ChangeDataControl::movePatientsToBedSubmitted()
     QMap<QString, Patient>  additions = _movePatientControl->getPatientsAdded();
     QLinkedList<Patient*>   removals = _movePatientControl->getPatientsRemoved();
     Facility* currentFacility = _movePatientControl->getBedFormCurrentFacility();
+    bool remote = !currentFacility->isOurFacility();	// false if this is OUR facility
 
     QLinkedList<Patient*> adds, adds2, removes;
     QMap<QString, Patient>::iterator patient = additions.begin();
@@ -146,10 +148,10 @@ void ChangeDataControl::movePatientsToBedSubmitted()
     }
 
     /// @todo figure out remote???
-    if (!adds.empty()) { _sendData.addPatients(true, currentFacility->getAreaThisIsIn(), currentFacility, adds); }
-    if (!removals.empty()) { _sendData.deletePatients(true, currentFacility->getAreaThisIsIn(), currentFacility, removals); }
-    if (!adds2.empty()) { _sendData.addPatients(true, currentFacility->getAreaThisIsIn(), currentFacility, adds2); }
-    if (!removes.empty()) { _sendData.deletePatients(true, currentFacility->getAreaThisIsIn(), currentFacility, removes); }
+    if (!adds.empty()) { _sendData.addPatients(remote, currentFacility->getAreaThisIsIn(), currentFacility, adds); }
+    if (!removals.empty()) { _sendData.deletePatients(remote, currentFacility->getAreaThisIsIn(), currentFacility, removals); }
+    if (!adds2.empty()) { _sendData.addPatients(remote, currentFacility->getAreaThisIsIn(), currentFacility, adds2); }
+    if (!removes.empty()) { _sendData.deletePatients(remote, currentFacility->getAreaThisIsIn(), currentFacility, removes); }
 
     /// @todo send changes to StorageWrite
 }
@@ -167,6 +169,7 @@ void ChangeDataControl::movePatientsToFacilitySubmitted()
     QLinkedList<Patient*> patientsRemoved = _movePatientControl->getFacilityMoveToPatientsRemoved();
 
     Facility* currentFacility = _movePatientControl->getFacilityFormCurrentFacility();
+    bool remote = !currentFacility->isOurFacility();	// false if this is OUR facility
 
     /// @todo figure out remote???
     if (!patientsRemoved.empty())
@@ -179,7 +182,7 @@ void ChangeDataControl::movePatientsToFacilitySubmitted()
 	{
 	    if (!patients.value().empty())
 	    {
-		_sendData.addPatients(true, patients.key()->getAreaThisIsIn(), patients.key(), patients.value());
+		_sendData.addPatients(remote, patients.key()->getAreaThisIsIn(), patients.key(), patients.value());
 	    }
 	    ++patients;
 	}
@@ -204,8 +207,34 @@ void ChangeDataControl::createUserSubmitted(QString, QString, QString)
     /// or log on control???
 }
 
-void ChangeDataControl::updateBedsSubmitted(QString, int, int, int)
+/**
+ * When the Update Beds form is submitted, send the changes to other systems
+ * and update the database
+ *
+ * @param fac the Facility that was updated
+ * @param newAC the new AC bed numbers
+ * @param newCCC the new CCC bed numbers
+ * @param newLTC the new LTC bed numbers
+ */
+void ChangeDataControl::updateBedsSubmitted(Facility* fac, int newAC, int newCCC, int newLTC)
 {
+    int acDelta = newAC - fac->getNumBeds(EOBC::AC);
+    int cccDelta = newCCC - fac->getNumBeds(EOBC::CCC);
+    int ltcDelta = newLTC - fac->getNumBeds(EOBC::LTC);
+
+    int posACDelta, posCCCDelta, posLTCDelta;
+    int negACDelta, negCCCDelta, negLTCDelta;
+
+    // Do nothing if no changes were done
+    if (acDelta == 0 && cccDelta == 0 && ltcDelta == 0) { return; }
+
+    if (acDelta) { posACDelta = acDelta; negACDelta = 0; }
+    else { posACDelta = 0; negACDelta = acDelta; }
+    if (cccDelta) { posCCCDelta = cccDelta; negCCCDelta = 0; }
+    else { posCCCDelta = 0; negCCCDelta = cccDelta; }
+    if (ltcDelta) { posLTCDelta = ltcDelta; negLTCDelta = 0; }
+    else { posLTCDelta = 0; negLTCDelta = ltcDelta; }
+
     /// @todo send the facility, num ac beds, num ccc beds, num ltc beds to StorageWrite
 }
 

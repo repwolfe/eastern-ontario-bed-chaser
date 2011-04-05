@@ -5,7 +5,7 @@
 Facility::Facility(ID facilityId, QString facilityName, int numACBeds, int numCCCBeds, int numLTCBeds, QPoint location)
     : _facilityId(facilityId), _facilityName(facilityName)
     , _numACBeds(numACBeds), _numCCCBeds(numCCCBeds), _numLTCBeds(numLTCBeds)
-    , _location(location)
+    , _location(location), _ourFacility(false)
 {
     // No LTC Beds but possibly AC or CCC, make it a Normal facility
     if (numACBeds >= 0 && numCCCBeds >= 0 && numLTCBeds == 0)
@@ -346,7 +346,7 @@ int Facility::getNumBeds(CareType type)
     // If they passed in the wrong bed type
     if (!_getPointersForType(type, temp, numBeds))
     {
-        Logger::errorMessage("Facility", "getNumBeds()", "Incorrect bed type passed in: ", QString::number(type));
+	// Simply return 0
         return 0;
     }
 
@@ -416,6 +416,19 @@ const QPoint& Facility::getLocation() const
 void Facility::setLocation(QPoint& location)
 {
     _location = location;
+}
+
+/**
+ * @return True if this Facility is the user of the system's Facility, False otherwise
+ */
+bool Facility::isOurFacility() const
+{
+    return _ourFacility;
+}
+
+void Facility::makeThisOurFacility()
+{
+    _ourFacility = true;
 }
 
 Area* Facility::getAreaThisIsIn() const

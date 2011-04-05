@@ -6,7 +6,7 @@
  * @param areaId the Area's unique ID
  */
 Area::Area(ID areaId)
-    : _id(areaId)
+    : _id(areaId), _isOurArea(false)
 {
 }
 
@@ -17,7 +17,7 @@ Area::Area(ID areaId)
  * @param facilities the list of facilities for this Area
  */
 Area::Area(ID areaId, FacilityList& facilities)
-    : _id(areaId), _facilities(facilities)
+    : _id(areaId), _facilities(facilities), _isOurArea(false)
 {
     foreach (Facility* facility, facilities)
     {
@@ -32,7 +32,7 @@ Area::Area(ID areaId, FacilityList& facilities)
  * @param waitingList the waiting list for this Area
  */
 Area::Area(ID areaId, WaitingList& waitingList)
-    : _id(areaId), _waitingList(waitingList)
+    : _id(areaId), _waitingList(waitingList), _isOurArea(false)
 {
 
 }
@@ -45,7 +45,7 @@ Area::Area(ID areaId, WaitingList& waitingList)
  * @param waitingList the waiting list for this Area
  */
 Area::Area(ID areaId, FacilityList& facilities, WaitingList& waitingList)
-    : _id(areaId), _facilities(facilities), _waitingList(waitingList)
+    : _id(areaId), _facilities(facilities), _waitingList(waitingList), _isOurArea(false)
 {
     foreach (Facility* facility, facilities)
     {
@@ -298,4 +298,17 @@ ID Area::getAreaId() const
 void Area::setAreaId(ID inId)
 {
     _id = inId;
+}
+
+/**
+ * @return True if this Area is the user of the system's Area, False otherwise
+ */
+bool Area::isOurArea() const
+{
+    return _isOurArea;
+}
+
+void Area::makeThisOurArea()
+{
+    _isOurArea = true;
 }

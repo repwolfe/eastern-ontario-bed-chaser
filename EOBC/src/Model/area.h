@@ -48,6 +48,9 @@ public:
     ID getAreaId() const;
     void setAreaId(ID inId);
 
+    bool isOurArea() const;
+    void makeThisOurArea();
+
 private:
     Area(const Area&);	// no implicit copy constructing
     void _deleteFacilities();
@@ -56,6 +59,8 @@ private:
     ID _id;
     FacilityList _facilities;
     WaitingList _waitingList;
+
+    bool _isOurArea;
 };
 
 #endif // AREA_H

@@ -62,6 +62,9 @@ public:
     Area* getAreaThisIsIn() const;
     void setAreaThisIsIn(Area* inArea);
 
+    bool isOurFacility() const;
+    void makeThisOurFacility();
+
 private:
     Facility(const Facility&);	// no implicit copy constructors
     inline bool _getPointersForType(CareType type, PatientContainer*& container, int*& numBeds);
@@ -84,6 +87,8 @@ private:
     int _numLTCBeds;
 
     QPoint _location;
+
+    bool _ourFacility;
 };
 
 /// A list of Facilities

@@ -129,9 +129,14 @@ const QMap<Patient*, QString>& MovePatientControl::getBedChanges() const
 {
     return _bedMoveToChanges;
 }
-const QMap<Patient*, Facility*>& MovePatientControl::getFacilityChanges() const
+const QMap<Facility*, QLinkedList<Patient*> >& MovePatientControl::getFacilityChanges() const
 {
     return _facilityMoveToChanges;
+}
+
+const QLinkedList<Patient*>& MovePatientControl::getFacilityMoveToPatientsRemoved() const
+{
+    return _facilityMoveToPatientsRemoved;
 }
 
 /**
@@ -245,9 +250,9 @@ const QMap<QString,Patient>& MovePatientControl::getPatientsAdded() const
 
 /**
  * Everytime a patient with a specific health card number is moved
- * anywhere, the change stored in the map
+ * anywhere, the change stored in the map. Also remove them from the GUI
  *
- * @param moveTo where they were moved
+ * @param int the index of the facility they are moved to
  */
 void MovePatientControl::_toFacilityFormPatientMoved(int index)
 {
@@ -256,16 +261,21 @@ void MovePatientControl::_toFacilityFormPatientMoved(int index)
     {
 	if (_toFacilityForm->getCurrentMoveToIndex() != _tfcurrentFacilityIndex)
 	{
+	    // Get the ID of the Facility they were moved to
 	    QHash<int,ID>::const_iterator newFacId =_tfIndexToID.find(index);
 	    if (newFacId != _tfIndexToID.end())
 	    {
+		// Find the Patient* for who was moved
 		QHash<QString, Patient*>::const_iterator p = _tfPatients.find(patientHCN);
 		if (p != _tfPatients.end())
 		{
+		    // Find the Facility* for where they were moved
 		    QMap<ID, Facility*>::const_iterator fac = _tfFacilities.find(newFacId.value());
 		    if (fac != _tfFacilities.end())
 		    {
-			_facilityMoveToChanges[p.value()] = fac.value();
+			_facilityMoveToChanges[fac.value()] << p.value();
+			_facilityMoveToPatientsRemoved << p.value();
+			_toFacilityForm->removeSelectedPatientItem();
 		    }
 		}
 	    }
@@ -275,7 +285,7 @@ void MovePatientControl::_toFacilityFormPatientMoved(int index)
 
 /**
  * Everytime a patient with a specific health card number is moved
- * anywhere, the change stored in the map
+ * anywhere, the change stored in the map.
  *
  * @param moveTo where they were moved
  */
@@ -424,9 +434,8 @@ void MovePatientControl::_toFacilityFormCancel()
  */
 void MovePatientControl::_toFacilityFormFacilitySelected(int index)
 {
-    _patientsAdded.clear();
-    _patientsRemoved.clear();
     _facilityMoveToChanges.clear();
+    _facilityMoveToPatientsRemoved.clear();
     _toFacilityForm->setCurrentMoveToItem(index);
     QHash<int, ID>::const_iterator find = _tfIndexToID.find(index);
     if (find != _tfIndexToID.end())
@@ -463,6 +472,8 @@ void MovePatientControl::_toFacilityFormFacilitySelected(int index)
  */
 void MovePatientControl::_toBedFormFacilitySelected(int index)
 {
+    _patientsAdded.clear();
+    _patientsRemoved.clear();
     _bedMoveToChanges.clear();
     QHash<int, ID>::const_iterator find = _tbIndexToID.find(index);
     if (find != _tbIndexToID.end())

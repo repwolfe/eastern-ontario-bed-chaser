@@ -33,7 +33,8 @@ public:
     void setFacilitiesToPatients(const QMap<ID, QLinkedList<Patient*> >& data);
 
     const QMap<Patient*, QString>& getBedChanges() const;
-    const QMap<Patient*, Facility*>& getFacilityChanges() const;
+    const QMap<Facility*, QLinkedList<Patient*> >& getFacilityChanges() const;
+    const QLinkedList<Patient*>& getFacilityMoveToPatientsRemoved() const;
     Facility* getBedFormCurrentFacility() const;
     Facility* getFacilityFormCurrentFacility() const;
 
@@ -76,8 +77,11 @@ private:
     /// A Map of all the changes done to each Patient for the Bed Form
     QMap<Patient*, QString> _bedMoveToChanges;
 
-    /// A Map of all the changes done to each Patient for the Facility Form
-    QMap<Patient*, Facility*> _facilityMoveToChanges;
+    /// A Map of all the changes done to each Patient for the Facility Form, maps Facilities to their new patients
+    QMap<Facility*, QLinkedList<Patient*> > _facilityMoveToChanges;
+
+    /// A list of all the patients that were moved, regardless of where
+    QLinkedList<Patient*> _facilityMoveToPatientsRemoved;
 
     /// A map of all the Patients to which Beds they're in
     QMap<QString, QString> _patientToBed;

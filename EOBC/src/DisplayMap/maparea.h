@@ -31,11 +31,12 @@ public:
     QVector<MapVectors*>& getVecs();
     void addVecs(QString reg,QVector<QPoint>* points, QColor col);
     void resize(QPoint p,SelectType st);
-    static void setMiddle(QPoint& middle);
+    void setMiddle(QPoint& middle);
     void loadIcon(Facility* f);
     void loadWaitingList(ID,int);
     void loadLabels(QVector<QLabel*> labels);
     void startTimer();
+    void resizeEvent(QResizeEvent *);
 
 signals:
 
@@ -65,6 +66,8 @@ private:
    QPoint curMousePos;
    QVector<QLabel*> labels;
    QColor* labelBoxColors;
+   QPixmap offimage;
+
 };
 
 #endif // MAPAREA_H

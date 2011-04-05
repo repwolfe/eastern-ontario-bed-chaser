@@ -27,6 +27,8 @@ MapArea::MapArea(QObject *parent) :
     {
         labelBoxColors[i] = QColor(Qt::transparent);
     }
+    setGeometry(0,0,MAPMIDDLEX*2,MAPMIDDLEY*2);
+    //this->setFixedSize(1700,1000);
    //
    // FOR TESTING, PLEASE REMOVE
    //
@@ -70,49 +72,52 @@ QVector<MapVectors*>& MapArea::getVecs()
  */
 void MapArea::paintEvent(QPaintEvent *)
 {
-    setGeometry(0,0,middle.x()*2,middle.y()*2);
-    QPainter painter(this);
+    //this->paintEvent(pe);
+    QPainter g(this);
+    if(geometry().height() < 400)
+        setGeometry(0,0,middle.x()*2,middle.y()*2);
     //Draw Background
-    //painter.setViewport(0,0,middle.x()*2,middle.y()*2);
+    //g.setViewport(0,0,middle.x()*2,middle.y()*2);
 
-    painter.setPen(Qt::white);
-    painter.setBrush(Qt::white);
-    painter.drawRect(QRect(0,0,middle.x()*2,middle.y()*2));
-    painter.setBrush(Qt::transparent);
-    painter.setPen(Qt::black);
+    g.setPen(Qt::white);
+    g.setBrush(Qt::white);
+    g.drawRect(QRect(0,0,middle.x()*2,middle.y()*2));
+    g.setBrush(Qt::transparent);
+    g.setPen(Qt::black);
     for(int i=0;i<this->vecs.count();i++)
     {
-        painter.setPen(vecs.at(i)->getCol().darker());
-        painter.setBrush(vecs.at(i)->getCol().lighter(130));
-        painter.drawPolygon(vecs.at(i)->getPoly());
-        //painter.drawEllipse(vecs.at(i)->getRealPosition() + mapPos,10,10);
+        g.setPen(vecs.at(i)->getCol().darker());
+        g.setBrush(vecs.at(i)->getCol().lighter(130));
+        g.drawPolygon(vecs.at(i)->getPoly());
+        //g.drawEllipse(vecs.at(i)->getRealPosition() + mapPos,10,10);
     }
     for(int i=0;i<icons.count();i++)
     {
-        icons.at(i)->draw(painter);
+        icons.at(i)->draw(g);
     }
-    mapX->draw(painter);
+    mapX->draw(g);
     if(mouseDown)
     {
-        //painter.setBackgroundMode(Qt::TransparentMode);
-        painter.setBrush(QColor(100,100,255,100));
-        painter.drawRect(QRect(lastMousePos,curMousePos));
+        //g.setBackgroundMode(Qt::TransparentMode);
+        g.setBrush(QColor(100,100,255,100));
+        g.drawRect(QRect(lastMousePos,curMousePos));
     }
     QPoint lastMousePos = this->lastMousePos;
     lastMousePos += QPoint(MAPMIDDLEX,MAPMIDDLEY);
     lastMousePos -= mapPos;
-    painter.drawText(15,middle.y()*2 - 40,"X: " + QString::number(lastMousePos.x()) + " Y: " + QString::number(lastMousePos.y()));
+    g.drawText(15,middle.y()*2 - 40,"X: " + QString::number(lastMousePos.x()) + " Y: " + QString::number(lastMousePos.y()));
 
-    painter.setPen(Qt::black);
-    painter.setBrush(Qt::transparent);
-    painter.drawRect(QRect(0,0, middle.x()*2-1, middle.y()*2-4));
+    g.setPen(Qt::black);
+    g.setBrush(Qt::transparent);
+    g.drawRect(QRect(0,0, middle.x()*2-1, middle.y()*2-4));
     for (int i=0;i<4;i++)
     {
-        painter.setPen(labelBoxColors[i].darker());
-        painter.setBrush(labelBoxColors[i]);
-        painter.drawRect(QRect(middle.x()*2-20,middle.y()/1.12+i*30 ,20,20));
+        g.setPen(labelBoxColors[i].darker());
+        g.setBrush(labelBoxColors[i]);
+        g.drawRect(QRect(middle.x()*2-20,middle.y()/1.12+i*30 ,20,20));
     }
-
+   // QPainter painter(this);
+    //painter.drawPixmap(0,0,offimage);
 }
 /**
  * Adds a mapvector to the map. A mapvector is a specific series of points that resembles a reigon on the map
@@ -147,6 +152,7 @@ void MapArea::timerEvent()
     }
     mapX->update(lastMousePos);
     moveMap();
+    setGeometry(0,0,middle.x()*2,middle.y()*2);
     repaint();
 }
 /**
@@ -196,9 +202,10 @@ void MapArea::resize(QPoint p, SelectType st)
 
     }
     mapX->resizePoints(p,scale);
+
     viter = vecs.begin();
     fiter = icons.begin();
-    while(viter != vecs.end())
+   while(viter != vecs.end())
     {
         (*viter)->checkSetSelected(p);
         viter++;
@@ -233,7 +240,11 @@ void MapArea::mousePressEvent(QMouseEvent *event)
 
 void MapArea::mouseReleaseEvent(QMouseEvent *)
 {
+
     QPoint xpos = (curMousePos + lastMousePos)/2;
+    QPoint middle;
+    middle.setX(this->middle.x());
+    middle.setY(this->middle.y());
     if((curMousePos - lastMousePos).manhattanLength()>4)
     {
 
@@ -245,6 +256,7 @@ void MapArea::mouseReleaseEvent(QMouseEvent *)
         resize(xpos,POINTSELECT);
         updateLabels(POINTSELECT);
     }
+    setGeometry(0,0,MAPMIDDLEX*2,MAPMIDDLEY*2);
     mouseDown = false;
 }
 
@@ -260,7 +272,7 @@ void MapArea::setMiddle(QPoint& middle)
     MapVectors::setMiddle(middle);
     FacilityIcon::setMiddle(middle);
     MapMarker::setMiddle(middle);
-
+    setGeometry(0,0,middle.x()*2,middle.y()*2);
 }
 /**
  * Finds the ideal position for the map to be in and moves it towards that location
@@ -270,6 +282,7 @@ void MapArea::setMiddle(QPoint& middle)
 void MapArea::moveMap()
 {
     //mapPos = middle;
+
     QPoint middle(this->middle.x(),this->middle.y()+70);
     MapVectors* selectedArea = 0;
     for(int i=0;i<vecs.size();i++)
@@ -449,6 +462,7 @@ void MapArea::loadLabels(QVector<QLabel*> labels)
 void MapArea::updateLabels(SelectType st)
 {
     Q_UNUSED(st);
+
     for(int i=0;i<labels.size();i++)
     {
         labels.at(i)->setText("");
@@ -489,12 +503,18 @@ void MapArea::updateLabels(SelectType st)
         {
             if(vecs[i]->isSelected())
             {
-                labels.at(1)->setText(vecs[i]->getRegion());
-                labels.at(7)->setText("Size: "+QString::number(vecs[i]->getWaitingListNum()));
+                //labels.at(1)->setText(vecs[i]->getRegion());
+                //labels.at(7)->setText("Size: "+QString::number(vecs[i]->getWaitingListNum()));
             }
         }
     }
+
 }
+void MapArea::resizeEvent(QResizeEvent *)
+{
+    setGeometry(0,0,middle.x()*2,middle.y()*2);
+}
+
 void MapArea::startTimer()
 {
     resizeTimer.start(10);

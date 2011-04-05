@@ -106,13 +106,13 @@ QString Convenience::areaIDtoQString(ID id)
 
 QString Convenience::toXML(QDate aDate){
     QString str;
-    str.append(aDate.year());
+    str.append(QString::number(aDate.year()));
     str.append("-");
-    str.append(aDate.month());
+    str.append(QString::number(aDate.month()));
     str.append("-");
-    str.append(aDate.day());
+    str.append(QString::number(aDate.day()));
     str.append("T00:00:00"); // fake time
-
+    qDebug(str.toAscii());
     return str;
 
 };

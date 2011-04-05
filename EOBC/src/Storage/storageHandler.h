@@ -27,6 +27,7 @@ public:
     int saveModel(QString fileName, Area* anArea, int facilityID);
 
     //read Methods
+    QMap<ID, Area*> getModel();
     Facility* getFacility(ID areaID, ID facilityID);
     WaitingList getWaitingList(ID areaID);
     PatientContainer* getPatients(ID areaID, ID facilityID, EOBC::CareType reqCare);

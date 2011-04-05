@@ -119,9 +119,11 @@ void ChangeDataControl::movePatientsToBedSubmitted()
     Facility* currentFacility = _movePatientControl->getBedFormCurrentFacility();
 
     QLinkedList<Patient*> adds, removes, adds2, removes2;
-    foreach (Patient patient, additions)
+    QMap<QString, Patient>::iterator patient = additions.begin();
+    while (patient != additions.end())
     {
-	adds << &patient;
+	adds << &patient.value();
+	++patient;
     }
 
     QMap<Patient*,QString>::const_iterator bedChanges = toBedChanges.begin();
@@ -135,10 +137,10 @@ void ChangeDataControl::movePatientsToBedSubmitted()
     }
 
     /// @todo figure out remote???
-    _sendData.addPatients(true, currentFacility->getAreaThisIsIn(), currentFacility, adds);
-    _sendData.deletePatients(true, currentFacility->getAreaThisIsIn(), currentFacility, removes);
-    _sendData.addPatients(true, currentFacility->getAreaThisIsIn(), currentFacility, adds2);
-    _sendData.deletePatients(true, currentFacility->getAreaThisIsIn(), currentFacility, removes2);
+    if (!adds.empty()) { _sendData.addPatients(true, currentFacility->getAreaThisIsIn(), currentFacility, adds); }
+    if (!removes.empty()) { _sendData.deletePatients(true, currentFacility->getAreaThisIsIn(), currentFacility, removes); }
+    if (!adds2.empty()) { _sendData.addPatients(true, currentFacility->getAreaThisIsIn(), currentFacility, adds2); }
+    if (!removes2.empty()) { _sendData.deletePatients(true, currentFacility->getAreaThisIsIn(), currentFacility, removes2); }
 
     /// @todo send changes to StorageWrite
 }

@@ -95,6 +95,11 @@ void UpdateBedsForm::_setupLayout()
     _CCCBeds    = new QSpinBox();
     _LTCBeds    = new QSpinBox();
 
+    const int maxBeds = 5000;
+    _ACBeds->setMaximum(maxBeds);
+    _CCCBeds->setMaximum(maxBeds);
+    _LTCBeds->setMaximum(maxBeds);
+
     _facilities = new QComboBox();
 
     _submitButton = new QPushButton("Update");

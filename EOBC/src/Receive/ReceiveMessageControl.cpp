@@ -69,9 +69,17 @@ void ReceiveMessageControl::parseAddDeleteRebuild(QDomElement tag, bool add, boo
          QPoint coordinates(e.attribute("coordinateX", "0").toInt(), e.attribute("coordinateY", "0").toInt());
 
          e = e.childNodes().at(0).toElement();
-         emit addBeds(areaID, facilityID, EOBC::LTC, LTC);
-         emit addBeds(areaID, facilityID, EOBC::AC, AC);
-         emit addBeds(areaID, facilityID, EOBC::CCC, CCC);
+         if(add)
+         {
+             emit addBeds(areaID, facilityID, EOBC::LTC, LTC);
+             emit addBeds(areaID, facilityID, EOBC::AC, AC);
+             emit addBeds(areaID, facilityID, EOBC::CCC, CCC);
+        }else
+         {
+            emit removeBeds(areaID, facilityID, EOBC::LTC, LTC);
+            emit removeBeds(areaID, facilityID, EOBC::AC, AC);
+            emit removeBeds(areaID, facilityID, EOBC::CCC, CCC);
+        }
          if(rebuild)
             emit sendRebuild(areaID, facilityID);
 

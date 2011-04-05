@@ -19,7 +19,6 @@
  *
  * This class is part of the map requirements (i.e. FR.MAP.01)
  */
-
 class MapArea : public QWidget
 {
     Q_OBJECT

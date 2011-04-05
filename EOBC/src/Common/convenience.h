@@ -22,6 +22,11 @@ public:
         HOSPITAL        = 0,
         LONGTERMCARE    = 1
     };
+    enum UserType {
+        FACILITYSTAFF        = 0,
+        LHINSTAFF            = 1,
+        ADMINISTRATOR        = 2
+    };
 
     static QRect getCenterForSize(int width, int height);
 

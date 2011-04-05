@@ -157,7 +157,7 @@ void Map::loadAreas()
     labels.push_back(fWList);
     for (int i=0;i<labels.count();i++)
     {
-        labels.at(i)->setFixedWidth(120);
+        labels.at(i)->setFixedWidth(130);
     }
     tempArea->loadLabels(labels);
     //

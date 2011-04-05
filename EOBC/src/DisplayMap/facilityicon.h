@@ -14,7 +14,6 @@
   *
   * This class fufills the requirement of showing graphically to the users the occupancy rate of the facilities.
   */
-
 class FacilityIcon : public MapItem
 {
 

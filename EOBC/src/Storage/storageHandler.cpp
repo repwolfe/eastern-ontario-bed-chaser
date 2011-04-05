@@ -285,3 +285,12 @@ void StorageHandler::deletePatient(ID areaID, Patient* p){
      area->removePatientFromWaitingList(p->getHealthCardNumber());
 }
 
+QMap<ID, Area*> StorageHandler::getModel(){
+    QMap<ID, Area*> map;
+    while(!this->_model.isEmpty())
+    {
+        Area* anArea = this->_model.takeFirst();
+        map.insert(anArea->getAreaId(), anArea);
+    }
+    return map;
+}

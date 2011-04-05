@@ -24,6 +24,10 @@ public:
     //void addPatient(bool remote, Area* anArea, Facility* aFacility, Patient* p);
     void addPatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*>& p);
     void addPatients(bool remote, Area* anArea, QLinkedList<Patient*>& p);
+
+    void addBeds(Facility* aFacility, int deltaACBeds, int deltaCCCBeds, int deltaLTCBeds);
+    void removeBeds(Facility* aFacility, int deltaACBeds, int deltaCCCBeds, int deltaLTCBeds);
+
     void deletePatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*>& p);
     void deletePatients(bool remote, Area* anArea, QLinkedList<Patient*>& p);
     void rebuild(Area* anArea, Facility* aFacility);
@@ -49,6 +53,8 @@ private:
     void toXML(QDomDocument& doc,QDomElement* e, Area* anArea, Facility* aFacility);
     void toXML(QDomDocument& doc,QDomElement* e, Facility* aFacility);
     void toXML(QDomDocument& doc,QDomElement* e, Patient* p, bool inpatient);
+    /// add beds to a facility
+    void toXML(QDomDocument& doc,QDomElement* fac, Facility* aFacility, int deltaAC, int deltaCCC, int deltaLTC);
 
     CommunicationSendInterface& _communication;
 };

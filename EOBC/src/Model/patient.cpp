@@ -2,6 +2,7 @@
 
 /**
  * Constructor for Patient, not on a Waiting List or in a Facility
+ * Constructs 0,0,0 date for date admitted and date placed on waiting list
  *
  * @param hcn the Health Card Number of the Patient
  * @param first the Patient's first name
@@ -9,13 +10,15 @@
  * @param requiredCare the type of care required by the patient
  */
 Patient::Patient(QString hcn, QString first, QString last, CareType requiredCare)
-    : _healthCardNumber(hcn), _firstName(first), _lastName(last), _requiredCare(requiredCare), _inpatient(false)
+    : _healthCardNumber(hcn), _firstName(first), _lastName(last), _requiredCare(requiredCare)
+    , _placedOnWL(QDate(0,0,0)), _admitted(QDate(0,0,0)),  _inpatient(false)
 {
 
 }
 
 /**
  * Constructor for Patient, on a Waiting List but not in a Facility
+ * Constructs 0,0,0 date for date admitted
  *
  * @param hcn the Health Card Number of the Patient
  * @param first the Patient's first name
@@ -24,13 +27,14 @@ Patient::Patient(QString hcn, QString first, QString last, CareType requiredCare
  * @param placedOnWL date placed on a waiting list
  */
 Patient::Patient(QString hcn, QString first, QString last, CareType requiredCare, QDate placedOnWL)
-    : _healthCardNumber(hcn), _firstName(first), _lastName(last), _requiredCare(requiredCare), _placedOnWL(placedOnWL), _inpatient(false)
+    : _healthCardNumber(hcn), _firstName(first), _lastName(last), _requiredCare(requiredCare), _placedOnWL(placedOnWL), _admitted(QDate(0,0,0)), _inpatient(false)
 {
 
 }
 
 /**
  * Constructor for Patient, not on a Waiting List but in a Facility
+ * Contructs 0,0,0 date for date placed on waiting list
  *
  * @param hcn the Health Card Number of the Patient
  * @param first the Patient's first name
@@ -41,7 +45,7 @@ Patient::Patient(QString hcn, QString first, QString last, CareType requiredCare
  */
 Patient::Patient(QString hcn, QString first, QString last, CareType requiredCare, CareType occupiedCare, QDate admitted)
     : _healthCardNumber(hcn), _firstName(first), _lastName(last), _requiredCare(requiredCare), _occupiedCare(occupiedCare)
-    , _admitted(admitted), _inpatient(true)
+    , _placedOnWL(QDate(0,0,0)), _admitted(admitted), _inpatient(true)
 {
 
 }

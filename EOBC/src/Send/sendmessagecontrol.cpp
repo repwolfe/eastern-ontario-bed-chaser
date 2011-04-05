@@ -214,10 +214,12 @@ void SendMessageControl::rebuild(){
  *
  */
 void SendMessageControl::doStuffToPatients(QString str, bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p){
-    QDomElement* el = new QDomElement();
-    this->toXML(el,  anArea, aFacility,  p);
+    QDomDocument doc;
+    QDomElement el = doc.createElement("Area");
+    this->toXML(&el,  anArea, aFacility,  p);
 
-    QDomElement* e = new QDomElement();
+    QDomElement tempE = doc.createElement(str);
+    QDomElement* e = &tempE;
     e->setTagName(str);
     if(remote)
     {
@@ -226,7 +228,7 @@ void SendMessageControl::doStuffToPatients(QString str, bool remote, Area* anAre
     {
         e->setAttribute("remote", "false");
     }
-    e->appendChild(*el);
+    e->appendChild(el);
     QByteArray data = e->toDocument().toByteArray();
     sendQByte(data);
 }

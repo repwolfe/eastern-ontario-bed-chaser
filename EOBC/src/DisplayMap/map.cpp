@@ -155,6 +155,10 @@ void Map::loadAreas()
     labels.push_back(fOpenRates);
     labels.push_back(fCoord);
     labels.push_back(fWList);
+    for (int i=0;i<labels.count();i++)
+    {
+        labels.at(i)->setFixedWidth(120);
+    }
     tempArea->loadLabels(labels);
     //
     //
@@ -162,7 +166,7 @@ void Map::loadAreas()
     // LOAD AREAS //
     // LOAD AREAS //
     QPoint middle(tempArea->width()/2,tempArea->height()/2);
-    MapArea::setMiddle(middle);
+    tempArea->setMiddle(middle);
     tempArea->addVecs("Eastern Counties",loadFile(":/mapFiles/resources/PurpleArea.txt"),QColor::fromRgb(255,0,255));
     tempArea->addVecs("North Lanark",loadFile(":/mapFiles/resources/GreenArea.txt"), Qt::green);
     tempArea->addVecs("Renfrew County",loadFile(":/mapFiles/resources/BlueArea.txt"),Qt::blue);
@@ -187,7 +191,7 @@ void Map::loadAreas()
     tempArea->addVecs(loadFile(":/mapFiles/resources/area14.txt"),QColor::fromRgb(255,0,255));*/
     area = tempArea;
     middle = QPoint(tempArea->geometry().width()/2,tempArea->geometry().height()/2);
-    MapArea::setMiddle(middle);
+    area->setMiddle(middle);
 
 }
  /** loadFile uses QTextStream to read data files for the map

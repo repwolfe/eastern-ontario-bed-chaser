@@ -44,11 +44,11 @@ public:
     void sendQByte(QByteArray &data);
 private:
     void doStuffToPatients(QString str, bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
-    void toXML(QDomElement* e, Area* anArea, Facility* aFacility, Patient* p);
-    void toXML(QDomElement* e, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
-    void toXML(QDomElement* e, Area* anArea, Facility* aFacility);
-    void toXML(QDomElement* e, Facility* aFacility);
-    void toXML(QDomElement* e, Patient* p, bool inpatient);
+    void toXML(QDomDocument& doc,QDomElement* e, Area* anArea, Facility* aFacility, Patient* p);
+    void toXML(QDomDocument& doc,QDomElement* e, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
+    void toXML(QDomDocument& doc,QDomElement* e, Area* anArea, Facility* aFacility);
+    void toXML(QDomDocument& doc,QDomElement* e, Facility* aFacility);
+    void toXML(QDomDocument& doc,QDomElement* e, Patient* p, bool inpatient);
 
     CommunicationSendInterface& _communication;
 };

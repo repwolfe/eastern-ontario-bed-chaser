@@ -16,7 +16,8 @@ SendMessageControl::SendMessageControl(CommunicationSendInterface& communication
  * @param inpatient determines if the dateAdded or dateAdmitted attribut is set
  *
  */
-void SendMessageControl::toXML(QDomElement* e,Patient* p, bool inpatient){
+void SendMessageControl::toXML(QDomDocument& doc,QDomElement* e,Patient* p, bool inpatient){
+    Q_UNUSED(doc);
     e->setTagName("Patient");
     e->setAttribute("healthCardNumber", p->getHealthCardNumber());
     e->setAttribute("firstName", p->getFirstName());
@@ -30,15 +31,15 @@ void SendMessageControl::toXML(QDomElement* e,Patient* p, bool inpatient){
     }
 }
 
-void SendMessageControl::toXML(QDomElement* e, Area* anArea, Facility* aFacility, QLinkedList<Patient*> pList){
-    QDomElement* fac = new QDomElement();
-    fac->setTagName("Facility");
-    fac->setAttribute("ID", aFacility->getFacilityId());
+void SendMessageControl::toXML(QDomDocument& doc,QDomElement* e, Area* anArea, Facility* aFacility, QLinkedList<Patient*> pList){
+    QDomElement fac = doc.createElement("Facility");
+   // fac.setTagName("Facility");
+    fac.setAttribute("ID", aFacility->getFacilityId());
 
     foreach(Patient* patInList, pList ){
-        QDomElement* pat = new QDomElement();
-        this->toXML(pat, patInList, true);
-        fac->appendChild(*pat);
+        QDomElement pat = doc.createElement("Patient");
+        this->toXML(doc,&pat, patInList, true);
+        fac.appendChild(pat);
     }
 
 
@@ -46,7 +47,7 @@ void SendMessageControl::toXML(QDomElement* e, Area* anArea, Facility* aFacility
     e->setTagName("Area");
     e->setAttribute("ID", anArea->getAreaId());
 
-    e->appendChild(*fac);
+    e->appendChild(fac);
 }
 
 /**
@@ -61,18 +62,18 @@ void SendMessageControl::toXML(QDomElement* e, Area* anArea, Facility* aFacility
  * @param anArea the Area that will be turned into an XML tag
  *
  */
-void SendMessageControl::toXML(QDomElement* e, Area* anArea, Facility* aFacility, Patient* p){
-    QDomElement* fac = new QDomElement();
-    fac->setTagName("Facility");
-    fac->setAttribute("ID", aFacility->getFacilityId());
-    QDomElement* pat = new QDomElement();
-    this->toXML(pat, p, true);
-    fac->appendChild(*pat);
+void SendMessageControl::toXML(QDomDocument& doc,QDomElement* e, Area* anArea, Facility* aFacility, Patient* p){
+    QDomElement fac = doc.createElement("");
+    fac.setTagName("Facility");
+    fac.setAttribute("ID", aFacility->getFacilityId());
+    QDomElement pat = doc.createElement("");
+    this->toXML(doc,&pat, p, true);
+    fac.appendChild(pat);
 
     e->setTagName("Area");
     e->setAttribute("ID", anArea->getAreaId());
 
-    e->appendChild(*fac);
+    e->appendChild(fac);
 
 }
 /**
@@ -85,12 +86,12 @@ void SendMessageControl::toXML(QDomElement* e, Area* anArea, Facility* aFacility
  * @param anArea the Area that will be turned into an XML tag
  *
  */
-void SendMessageControl::toXML(QDomElement* e, Area* anArea, Facility* aFacility){
-    QDomElement* fac = new QDomElement();
-    this->toXML(fac, aFacility);
+void SendMessageControl::toXML(QDomDocument& doc,QDomElement* e, Area* anArea, Facility* aFacility){
+    QDomElement fac = doc.createElement("");
+    this->toXML(doc,&fac, aFacility);
     e->setTagName("Area");
     e->setAttribute("ID", anArea->getAreaId());
-    e->appendChild(*fac);
+    e->appendChild(fac);
 }
 
 /**
@@ -102,7 +103,7 @@ void SendMessageControl::toXML(QDomElement* e, Area* anArea, Facility* aFacility
  *
  */
 /// @todo change toXML to be passed a document element
-void SendMessageControl::toXML(QDomElement* fac, Facility* aFacility){
+void SendMessageControl::toXML(QDomDocument& doc,QDomElement* fac, Facility* aFacility){
 
     fac->setTagName("Facility");
     fac->setAttribute("ID", aFacility->getFacilityId());
@@ -118,29 +119,29 @@ void SendMessageControl::toXML(QDomElement* fac, Facility* aFacility){
     {
         patients = aFacility->getPatientsForType(EOBC::AC);
         Patient* p;
-        QDomElement* pat;
+        QDomElement pat;
         foreach(QString str, patients->keys()){
              p = patients->find(str).value();
-             pat = new QDomElement();
-             this->toXML(pat,p, true);
-             fac->appendChild(*pat);
+             pat = doc.createElement("");
+             this->toXML(doc,&pat,p, true);
+             fac->appendChild(pat);
         }
 
         patients = aFacility->getPatientsForType(EOBC::CCC);
         foreach(QString str, patients->keys()){
              p = patients->find(str).value();
-             pat = new QDomElement();
-             this->toXML(pat,p, true);
-             fac->appendChild(*pat);
+             pat = doc.createElement("");
+             this->toXML(doc,&pat,p, true);
+             fac->appendChild(pat);
         }
     }else {
         Patient* p;
-        QDomElement* pat;
+        QDomElement pat;
         foreach(QString str, patients->keys()){
              p = patients->find(str).value();
-             pat = new QDomElement();
-             this->toXML(pat,p, true);
-             fac->appendChild(*pat);
+             pat = doc.createElement("");
+             this->toXML(doc, &pat,p, true);
+             fac->appendChild(pat);
         }
     }
 }
@@ -204,9 +205,10 @@ void SendMessageControl::deletePatients(bool remote, Area* anArea, QLinkedList<P
  *
  */
 void SendMessageControl::rebuild(Area* anArea, Facility* aFacility){
-    QDomElement* e = new QDomElement();
-    this->toXML(e, anArea, aFacility);
-    QByteArray data = e->toDocument().toByteArray();
+    QDomDocument doc;
+    QDomElement e = doc.createElement("");
+    this->toXML(doc,&e, anArea, aFacility);
+    QByteArray data = doc.toByteArray();
     sendQByte(data);
 }
 /**
@@ -214,9 +216,10 @@ void SendMessageControl::rebuild(Area* anArea, Facility* aFacility){
  *
  */
 void SendMessageControl::rebuild(){
-    QDomElement* e = new QDomElement();
-    e->setTagName("Rebuild");
-    QByteArray data = e->toDocument().toByteArray();
+    QDomDocument doc;
+    QDomElement e = doc.createElement("");
+    e.setTagName("Rebuild");
+    QByteArray data = doc.toByteArray();
     sendQByte(data);
 }
 
@@ -237,7 +240,7 @@ void SendMessageControl::rebuild(){
 void SendMessageControl::doStuffToPatients(QString str, bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p){
     QDomDocument doc;
     QDomElement el = doc.createElement("Area");
-    this->toXML(&el,  anArea, aFacility,  p);
+    this->toXML(doc,&el,  anArea, aFacility,  p);
 
     QDomElement tempE = doc.createElement(str);
     QDomElement* e = &tempE;

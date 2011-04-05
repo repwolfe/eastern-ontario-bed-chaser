@@ -37,7 +37,7 @@ public:
     Facility* getBedFormCurrentFacility() const;
     Facility* getFacilityFormCurrentFacility() const;
 
-    const QLinkedList<QString>& getPatientsRemoved() const;
+    const QLinkedList<Patient*>& getPatientsRemoved() const;
     const QMap<QString,Patient>& getPatientsAdded() const;
 
 signals:
@@ -70,7 +70,7 @@ private:
     /// Used to open a add patient form when adding a new patient to the waiting list
     AddPatientControl* _addPatientControl;
 
-    QLinkedList<QString> _patientsRemoved;
+    QLinkedList<Patient*> _patientsRemoved;
     QMap<QString,Patient> _patientsAdded;
 
     /// A Map of all the changes done to each Patient for the Bed Form

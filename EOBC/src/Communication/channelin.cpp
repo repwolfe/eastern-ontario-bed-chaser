@@ -31,12 +31,6 @@ void ChannelIn::_readMessage()
         datagram.resize(_socket->pendingDatagramSize());
 	_socket->readDatagram(datagram.data(), datagram.size());
 
-        _processTheDatagram(datagram);
+	emit processTheMessage(datagram);
     }
-}
-
-void ChannelIn::_processTheDatagram(QByteArray& datagram)
-{
-    /// @todo process it somehow
-    Q_UNUSED(datagram);
 }

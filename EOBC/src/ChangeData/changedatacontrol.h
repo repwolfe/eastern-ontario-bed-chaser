@@ -64,7 +64,6 @@ private slots:
     void _receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> >& data);
 private:
     void _setupConnections();
-    void _sendMoveToBedsUpdate(Facility* fac);
     void _sendMoveToFacilityUpdate(Facility* fac);
 
     void _changeLocal(QString& args, QString& data);

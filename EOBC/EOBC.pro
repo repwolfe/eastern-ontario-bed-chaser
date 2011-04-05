@@ -79,7 +79,8 @@ SOURCES +=\
     src/Receive/ReceiveMessageControl.cpp \
     src/Communication/communicationsendinterface.cpp \
     src/Send/sendchangedatainterface.cpp \
-    src/Storage/StorageRead.cpp
+    src/Storage/StorageRead.cpp \
+    src/Communication/communicationreceiveinterface.cpp
 
 
 
@@ -130,7 +131,9 @@ HEADERS  += \
     src/Receive/ReceiveMessageControl.h \
     src/Communication/communicationsendinterface.h \
     src/Send/sendchangedatainterface.h \
-    src/Storage/StorageRead.h
+    src/Storage/StorageRead.h \
+    src/Communication/communicationreceiveinterface.h 
+
 
 
 RESOURCES += \

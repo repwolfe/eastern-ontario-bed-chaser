@@ -5,8 +5,9 @@
 #include <QFile>
 #include <QLinkedList>
 #include <QtXml/qdom.h>
-#include "../Common/logger.h"
-#include "../Common/convenience.h"
+#include "logger.h"
+#include "convenience.h"
+#include "communicationsendinterface.h"
 
 
 /**
@@ -16,11 +17,10 @@
  *
  * This class is part of the Send subsystem described in D2.
  */
-class SendMessageControl : public QObject
+class SendMessageControl
 {
-    Q_OBJECT
 public:
-    SendMessageControl();
+    SendMessageControl(CommunicationSendInterface& communication);
     //void addPatient(bool remote, Area* anArea, Facility* aFacility, Patient* p);
     void addPatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
     void deletePatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
@@ -38,7 +38,7 @@ public:
     //waiting list
     void response(Area* requestArea, QDate start, QDate finish );
     void response(Area* requestArea, QDate start);
-signals:
+
     void sendQByte(QByteArray &data);
 private:
     void doStuffToPatients(QString str, bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
@@ -48,6 +48,7 @@ private:
     void toXML(QDomElement* e, Facility* aFacility);
     void toXML(QDomElement* e, Patient* p, bool inpatient);
 
+    CommunicationSendInterface& _communication;
 };
 
 #endif // SENDMESSAGECONTROL_H

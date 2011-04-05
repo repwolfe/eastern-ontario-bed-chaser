@@ -1,9 +1,8 @@
 #include "sendmessagecontrol.h"
-/**
-  * Empy contructor, code blows up without it... damn C++
-  *
-  */
-SendMessageControl::SendMessageControl(){
+
+SendMessageControl::SendMessageControl(CommunicationSendInterface& communication)
+    : _communication(communication)
+{
 
 }
 
@@ -187,7 +186,7 @@ void SendMessageControl::rebuild(Area* anArea, Facility* aFacility){
     QDomElement* e = new QDomElement();
     this->toXML(e, anArea, aFacility);
     QByteArray data = e->toDocument().toByteArray();
-    emit sendQByte(data);
+    sendQByte(data);
 }
 /**
  * Sends an empty Rebuild message
@@ -197,7 +196,7 @@ void SendMessageControl::rebuild(){
     QDomElement* e = new QDomElement();
     e->setTagName("Rebuild");
     QByteArray data = e->toDocument().toByteArray();
-    emit sendQByte(data);
+    sendQByte(data);
 }
 
 /**
@@ -229,5 +228,10 @@ void SendMessageControl::doStuffToPatients(QString str, bool remote, Area* anAre
     }
     e->appendChild(*el);
     QByteArray data = e->toDocument().toByteArray();
-    emit sendQByte(data);
+    sendQByte(data);
+}
+
+void SendMessageControl::sendQByte(QByteArray &data)
+{
+    _communication.sendMessage(data);
 }

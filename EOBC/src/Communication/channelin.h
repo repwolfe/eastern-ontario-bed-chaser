@@ -18,11 +18,13 @@ public:
     ChannelIn();
     ~ChannelIn();
 
+signals:
+    void processTheMessage(QByteArray& datagram);
+
 private slots:
     void _readMessage();
 
 private:
-    void _processTheDatagram(QByteArray& datagram);
     QUdpSocket* _socket;
 };
 

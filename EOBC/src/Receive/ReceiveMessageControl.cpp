@@ -16,7 +16,15 @@ void ReceiveMessageControl::_parseMessage(QByteArray& qByte){
     QString str(qByte);
     e.setNodeValue(str);
     if(e.tagName() == "Add")
+    {
         parseAdd(e);
+    }else if (e.tagName() == "Delete")
+    {
+        parseDelete(e);
+    }else if (e.tagName() == "Rebuild")
+    {
+        parseRebuild(e);
+    }
 }
 
 /**
@@ -32,12 +40,24 @@ void ReceiveMessageControl::parseAdd(QDomElement addTag){
 /**
  * Helper function to parseMessage parses messages in the Delete tag
  *
- * @param addTag the XML tag titled 'Delete'
+ * @param deleteTag the XML tag titled 'Delete'
  *
  */
 void ReceiveMessageControl::parseDelete(QDomElement deleteTag){
     this->parseAddDeleteRebuild(deleteTag,false, false);
 }
+
+/**
+ * Helper function to parseMessage parses messages in the Delete tag
+ *
+ * @param rebuildTag the XML tag titled 'Rebuild'
+ *
+ */
+void parseRebuild(QDomElement rebuildTag){
+    this->parseAddDeleteRebuild(rebuildTag,true, true);
+    //rebuildTag, (Add everything in rebuild?), Rebuild?
+}
+
 /**
  * Helper function to parse(add/delete)  parses messages in the Add/Delete tag
  *

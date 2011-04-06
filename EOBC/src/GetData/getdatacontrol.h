@@ -34,7 +34,6 @@ public:
     void requestAreasWaitingList();
     void requestFacilitiesCurrentBedNumbers();
     void requestFacilitiesMinimumBedNumbers();
-    void requestThisFacility();
     void requestReport(QDate fromDate, QDate toDate, ID facId, QString constraints);
     void requestFacilityWithID(ID id);
 
@@ -46,6 +45,7 @@ signals:
     void receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >&);
     void receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >&);
     void receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> >&);
+
 
     void sendFacilityUpdate(Facility* f);
 
@@ -70,8 +70,10 @@ private slots:
     void _receivedFacilityWithID(Facility*);
 
     void _receivedReport(QDate start, QDate end, ID facId,QPair<QString,QLinkedList<int> >& data,QPair<QString,QLinkedList<int> >& data2);
+
 public slots:
     void receivedFacilityRequest();
+
 private:
     StorageRead& _storage;
     SendGetDataInterface& _sendGetDataI;

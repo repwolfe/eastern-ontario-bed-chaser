@@ -7,122 +7,54 @@ GetDataControl::GetDataControl(StorageRead& sr, SendGetDataInterface& sendGetDat
 
 void GetDataControl::requestAllFacilities()
 {
-    /// @todo ask storage for all facilities
-
-    /// @todo remove this
-    QMap<ID, QString> facilities;
-    facilities[1] = "Peter D Clark";
-    facilities[2] = "Franklin General";
-    facilities[3] = "Wolfram and Hart Institute";
+    const QMap<ID, QString>& facilities = _storage.getAllFacilityNames();
     emit receivedAllFacilities(facilities);
 }
 
 void GetDataControl::requestAllFacilityPointers()
 {
-    /// @todo ask storage for all facility pointers
-
-    /// @todo remove this
-    QMap<ID, Facility*> facilities;
-    facilities[1] = new Facility(1, "Peter D Clark", 20, 30, 0, QPoint(0,0)); facilities[1]->setAreaThisIsIn(new Area(1));
-    facilities[2] = new Facility(2, "Franklin General", 4, 17, 0, QPoint(0,0)); facilities[2]->setAreaThisIsIn(new Area(1));
-    facilities[3] = new Facility(3, "Wolfram and Hart Institute", 0, 0, 24, QPoint(0,0)); facilities[3]->setAreaThisIsIn(new Area(1));
+    const QMap<ID, Facility*>& facilities = _storage.getAllFacilityPointers();
     emit receivedAllFacilityPointers(facilities);
-}
-void GetDataControl::requestThisFacility()
-{
-    _storage;
 }
 
 void GetDataControl::requestAllAreaPointers()
 {
-    /// @todo ask storage for all facilities
-
-    /// @todo remove this, MEMORY LEAK
-    QMap<ID, Area*> facilities;
-    facilities[1] = new Area(1);
-    facilities[2] = new Area(2);
-    facilities[3] = new Area(3);
+    const QMap<ID, Area*>& facilities = _storage.getAllAreas();
     emit receivedAllAreaPointers(facilities);
 }
 
 void GetDataControl::requestFacilitiesPatients()
 {
-    /// @todo ask storage for all facilities' patients
-
-    /// @todo remove this, MEMORY LEAK
-    QMap<ID, QLinkedList<Patient*> > facilitiesPatients;
-    QLinkedList<Patient*> list1;
-    list1 << new Patient("1111-123-123", "Robbie", "Wolfe", EOBC::AC);
-    list1 << new Patient("2222-123-123", "Austin", "Chamney", EOBC::LTC);
-    list1 << new Patient("3333-123-123", "JP", "Landry", EOBC::CCC);
-    facilitiesPatients[1] = list1;
-    QLinkedList<Patient*> list2;
-    list2 << new Patient("4444-123-123", "Ichigo", "Kurosaki", EOBC::CCC);
-    list2 << new Patient("5555-123-123", "Naruto", "Uzumaki", EOBC::AC);
-    facilitiesPatients[2] = list2;
-    QLinkedList<Patient*> list3;
-    list3 << new Patient("7777-123-123", "Lelouche", "Vi Britannia", EOBC::AC);
-    list3 << new Patient("8888-123-123", "Luffy D.", "Monkey", EOBC::CCC);
-    list3 << new Patient("9999-123-123", "Light", "Yagami", EOBC::CCC);
-    facilitiesPatients[3] = list3;
+    const QMap<ID, QLinkedList<Patient*> >& facilitiesPatients = _storage.getAllPatients();
     emit receivedFacilitiesPatients(facilitiesPatients);
 }
 
 void GetDataControl::requestAreasWaitingList()
 {
-    /// @todo ask storage for all facilities' waiting list
-
-    /// @todo remove this, MEMORY LEAK
-
-    QMap<ID, QLinkedList<Patient*> > areasWaitingList;
-    QLinkedList<Patient*> list1;
-    list1 << new Patient("1111-123-123", "Robbie", "Wolfe", EOBC::AC);
-    list1 << new Patient("2222-123-123", "Austin", "Chamney", EOBC::LTC);
-    list1 << new Patient("3333-123-123", "JP", "Landry", EOBC::CCC);
-    areasWaitingList[1] = list1;
-    QLinkedList<Patient*> list2;
-    list2 << new Patient("4444-123-123", "Ichigo", "Kurosaki", EOBC::CCC);
-    list2 << new Patient("5555-123-123", "Naruto", "Uzumaki", EOBC::AC);
-    areasWaitingList[2] = list2;
-    QLinkedList<Patient*> list3;
-    list3 << new Patient("7777-123-123", "Lelouche", "Vi Britannia", EOBC::AC);
-    list3 << new Patient("8888-123-123", "Luffy D.", "Monkey", EOBC::CCC);
-    list3 << new Patient("9999-123-123", "Light", "Yagami", EOBC::CCC);
-    areasWaitingList[3] = list3;
-
+    const QMap<ID, QLinkedList<Patient*> >& areasWaitingList = _storage.getAllAreasWaitingList();
     emit receivedAreasWaitingList(areasWaitingList);
 }
 
 void GetDataControl::requestFacilitiesCurrentBedNumbers()
 {
-    /// @todo ask all facilities' for their current bed numbers
-
-    /// @todo remove this
-    QMap<ID, QVector<int> > beds;
-    beds[1] = QVector<int>() << 20 << 30 << 0;
-    beds[2] = QVector<int>() << 4 << 17 << 0;
-    beds[3] = QVector<int>() << 0 << 0 << 24;
+    const QMap<ID, QVector<int> >& beds = _storage.getTotalBeds();
     emit receivedFacilitiesCurrentBedNumbers(beds);
 }
 
 void GetDataControl::requestFacilitiesMinimumBedNumbers()
 {
-    /// @todo ask all facilities' for their minimum bed numbers
-
-    /// @todo remove this
-    QMap<ID, QVector<int> > beds;
-    beds[1] = QVector<int>() << 13 << 12 << 0;
-    beds[2] = QVector<int>() << 1 << 10 << 0;
-    beds[3] = QVector<int>() << 0 << 0 << 20;
+    const QMap<ID, QVector<int> >& beds = _storage.getOccupiedBeds();
     emit receivedFacilitiesMinimumBedNumbers(beds);
 }
 
 void GetDataControl::requestReport(QDate fromDate, QDate toDate, ID facId, QString constraints)
 {
-    /// @todo ask for report data
+    /// @todo ask for real report data
 
     /// @todo remove
     Q_UNUSED(constraints)
+
+    // Fake data for reports
     int barnum = 0;
     if(toDate.month() - fromDate.month() == 0)
     {
@@ -149,12 +81,8 @@ void GetDataControl::requestReport(QDate fromDate, QDate toDate, ID facId, QStri
 
 void GetDataControl::requestFacilityWithID(ID id)
 {
-    /// @todo ask for facility with id
-
-    /// @todo remove
-    Facility facility(id, "Franklin", 0, 0, 0, QPoint(0,0));
-
-    emit receivedFacilityWithID(&facility);
+    Facility* facility = _storage.getFacility(id);
+    emit receivedFacilityWithID(facility);
 }
 
 /**

@@ -234,6 +234,22 @@ PatientContainer Facility::getAllPatients()
 }
 
 /**
+ * Gets all Patients in this Facility, regardless of bed type
+ *
+ * @return QLinkedList with all the patients
+ */
+QLinkedList<Patient*> Facility::getAllPatientsList()
+{
+    QLinkedList<Patient*> patients;
+    const PatientContainer& allPatients = getAllPatients();
+    foreach (Patient* patient, allPatients)
+    {
+	patients << patient;
+    }
+    return patients;
+}
+
+/**
  * Gets the Patient pointer with the given health card num, as well as which bed their in.
  *
  * @param healthCardNum of patient being request

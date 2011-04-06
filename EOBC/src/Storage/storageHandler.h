@@ -2,9 +2,10 @@
 #define STORAGEHANDLER_H
 
 #include "area.h"
-#include "QFile"
-#include "QLinkedList"
+#include <QFile>
+#include <QLinkedList>
 #include <QtXml/qdom.h>
+#include <QVector>
 #include "../Common/logger.h"
 
 
@@ -32,11 +33,18 @@ public:
     Facility* getFacility(ID areaID, ID facilityID);
     QMap<ID, QString> getFacilityNames();
     QMap<ID, Facility*> getFacilityPointers();
+    QMap<ID, Area*> getAllAreas();
+    QMap<ID, QLinkedList<Patient*> > getAllPatients();
+    QMap<ID, QLinkedList<Patient*> > getAllAreasWaitingList();
+    QMap<ID, QVector<int> > getTotalBeds(); //AC, CCC, LTC
+    QMap<ID, QVector<int> > getOccupiedBeds();
+    Facility* getFacility(ID facID);
 
+    /*
     WaitingList getWaitingList(ID areaID);
     PatientContainer* getPatients(ID areaID, ID facilityID, EOBC::CareType reqCare);
     PatientContainer* getPatients(ID areaID, ID facilityID);
-
+    */
     //write Methods
     QString getFileName();
     void addPatient(ID areaID, ID facilityID, Patient* p);
@@ -57,8 +65,6 @@ private:
    Area* _getArea(ID id);
    Facility* _getFacility(ID areaID, ID facilityID);
 
-
-   QLinkedList<Area*> _model;
    QString _filename;
    void parseWaitingList(Area* anArea,QDomNode* n);
    void parseFacility(Facility* aFacility,QDomNode* n);

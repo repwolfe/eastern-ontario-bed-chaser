@@ -11,6 +11,7 @@
 StorageHandler::StorageHandler(QString fileName)
 {
     _filename = fileName;
+    /*
     int error;// =  this->loadModel(fileName);
     switch(error){
     case -1: Logger::errorMessage("storageHandler", "loadModel","Could not open storage file");
@@ -21,6 +22,7 @@ StorageHandler::StorageHandler(QString fileName)
         break;
     default: break;
     }
+    */
 }
 
 /**
@@ -87,8 +89,13 @@ int StorageHandler::loadModel(QString fileName){
                 //set up facility
 
                 this->parseFacility(aFacility, &n);
+		_areas.insert(anArea->getAreaId(), anArea);
                 anArea->addFacility(aFacility);
-                addFacility(aFacility->getAreaThisIsIn()->getAreaId(),aFacility,false);
+//<<<<<<< HEAD
+ //               addFacility(aFacility->getAreaThisIsIn()->getAreaId(),aFacility,false);
+//=======
+                emit facilityAdded(anArea->getAreaId(),aFacility,false);
+//>>>>>>> ae11ea962668d16e5591a4189ceb751d63860748
             }
 
             rootChild = rootChild.nextSibling();
@@ -261,6 +268,98 @@ QMap<ID, Facility*> StorageHandler::getFacilityPointers()
     return map;
 }
 
+QMap<ID, Area*> StorageHandler::getAllAreas()
+{
+    QMap<ID, Area*> map;
+    foreach (Area* area, _areas)
+    {
+	map[area->getAreaId()] = area;
+    }
+    return map;
+}
+
+QMap<ID, QLinkedList<Patient*> > StorageHandler::getAllPatients()
+{
+    QMap<ID, QLinkedList<Patient*> > map;
+    foreach (Area* area, _areas)
+    {
+	FacilityList& facs = area->getFacilities();
+	foreach (Facility* fac, facs)
+	{
+	    map[fac->getFacilityId()] = fac->getAllPatientsList();
+	}
+    }
+    return map;
+}
+
+QMap<ID, QLinkedList<Patient*> > StorageHandler::getAllAreasWaitingList()
+{
+    QMap<ID, QLinkedList<Patient*> > map;
+    foreach (Area* area, _areas)
+    {
+	map[area->getAreaId()] = area->getWaitingListAsList();
+    }
+    return map;
+}
+
+/// @todo reuse code to avoid duplication
+QMap<ID, QVector<int> > StorageHandler::getTotalBeds() //AC, CCC, LT
+{
+    QMap<ID, QVector<int> > map;
+    foreach (Area* area, _areas)
+    {
+	FacilityList& facs = area->getFacilities();
+	foreach (Facility* fac, facs)
+	{
+	    QVector<int> beds(3);
+	    beds[0] = fac->getNumBeds(EOBC::AC);
+	    beds[1] = fac->getNumBeds(EOBC::CCC);
+	    beds[2] = fac->getNumBeds(EOBC::LTC);
+	    map[fac->getFacilityId()] = beds;
+	}
+    }
+    return map;
+}
+
+/// @todo reuse code to avoid duplication
+QMap<ID, QVector<int> > StorageHandler::getOccupiedBeds()
+{
+    QMap<ID, QVector<int> > map;
+    foreach (Area* area, _areas)
+    {
+	FacilityList& facs = area->getFacilities();
+	foreach (Facility* fac, facs)
+	{
+	    QVector<int> beds(3);
+	    beds[0] = fac->getNumBedsOccupied(EOBC::AC);
+	    beds[1] = fac->getNumBedsOccupied(EOBC::CCC);
+	    beds[2] = fac->getNumBedsOccupied(EOBC::LTC);
+	    map[fac->getFacilityId()] = beds;
+	}
+    }
+    return map;
+}
+
+/**
+ * @return Facility with ID or NULL
+ */
+Facility* StorageHandler::getFacility(ID facID)
+{
+    Facility* fac = 0;
+    foreach (Area* area, _areas)
+    {
+	FacilityList& facs = area->getFacilities();
+	FacilityList::const_iterator iter = facs.find(facID);
+	if (iter != facs.end())
+	{
+	    fac = iter.value();
+	    break;
+	}
+    }
+    return fac;
+}
+
+/*
 WaitingList StorageHandler::getWaitingList(ID areaID){
     Area* anArea = this->_areas.find(areaID).value();
     return anArea->getWaitingList();
@@ -272,10 +371,12 @@ PatientContainer* StorageHandler::getPatients(ID areaID, ID facilityID, EOBC::Ca
 }
 
 /// @todo use robbie's new facility function that returns all patients
-PatientContainer* StorageHandler::getPatients(ID areaID, ID facilityID){
+PatientContainer* StorageHandler::getPatients(ID areaID, ID facilityID)
+{
     Area* anArea = this->_areas.find(areaID).value();
     return anArea->getFacility(facilityID)->getPatientsForType(EOBC::AC);//replace
 }
+*/
 
 areaList StorageHandler::getAreas(){
     return _areas;
@@ -316,7 +417,7 @@ void StorageHandler::addFacility(ID areaID, Facility* f,bool remote){
 
 void StorageHandler::addPatient(ID areaID, Patient* p){
     Area* area = _getArea(areaID);
-    /// @todo add robbie's WaitingList.add(Patient* p)
+    area->addPatientToWaitingList(p);
 }
 
 void StorageHandler::deletePatient(ID areaID, ID facilityID, Patient* p){
@@ -329,14 +430,6 @@ void StorageHandler::deletePatient(ID areaID, Patient* p){
      area->removePatientFromWaitingList(p->getHealthCardNumber());
 }
 
-QMap<ID, Area*> StorageHandler::getModel(){
-    QMap<ID, Area*> map;
-    foreach (Area* area, _model)
-    {
-        map.insert(area->getAreaId(), area);
-    }
-    return map;
-}
 Facility* StorageHandler::getCurrentFacility()
 {
     return this->_currentFacility;

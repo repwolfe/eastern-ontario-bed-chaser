@@ -190,7 +190,7 @@ bool Area::addPatientToWaitingList(QString hcn, QString first, QString last, QDa
 {
     WaitingList::const_iterator iter = _waitingList.find(hcn);
 
-    if (iter != _waitingList.end())
+    if (iter == _waitingList.end())
     {
 	// Only Patients requiring Long Term Care can be added to a waiting list
 	// Requirement FR.PATIENTS.04
@@ -212,7 +212,7 @@ bool Area::addPatientToWaitingList(Patient* patient)
 {
     WaitingList::const_iterator iter = _waitingList.find(patient->getHealthCardNumber());
 
-    if (iter != _waitingList.end())
+    if (iter == _waitingList.end())
     {
 	_waitingList.insert(patient->getHealthCardNumber(), patient);
 	return true;
@@ -264,6 +264,21 @@ void Area::setWaitingList(WaitingList& inWaitingList)
 WaitingList& Area::getWaitingList()
 {
     return _waitingList;
+}
+
+/**
+ * Returns the WaitingList as a LinkedList
+ *
+ * @return the Waiting List
+ */
+QLinkedList<Patient*> Area::getWaitingListAsList()
+{
+    QLinkedList<Patient*> list;
+    foreach (Patient* pat, _waitingList)
+    {
+	list << pat;
+    }
+    return list;
 }
 
 /**

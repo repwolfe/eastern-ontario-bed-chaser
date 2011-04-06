@@ -281,7 +281,7 @@ void StorageHandler::addFacility(ID areaID, Facility* f){
     // Facility already in Area, delete
     else
     {
-	delete f;
+        //delete f;
     }
 
 }

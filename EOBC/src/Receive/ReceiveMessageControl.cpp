@@ -105,7 +105,7 @@ void ReceiveMessageControl::parseAddDeleteRebuild(QDomElement tag, bool add, boo
             emit removeBeds(areaID, facilityID, EOBC::CCC, CCC);
         }
          if(rebuild)
-            emit sendRebuild(areaID, facilityID);
+           emit sendRebuild(areaID, facilityID);
 
      }
      if(e.tagName() == "Patient"){
@@ -125,6 +125,7 @@ void ReceiveMessageControl::parseAddDeleteRebuild(QDomElement tag, bool add, boo
                  //remove the time from the date
                  QDate dateAdmitted(year, month, day);
                  p = new Patient(healthCardNumber, firstName, lastName, reqCare, occCare, dateAdmitted);
+                 e = e.nextSiblingElement();
                  if(add)
                  {
                        emit addPatient(areaID, facilityID, p);

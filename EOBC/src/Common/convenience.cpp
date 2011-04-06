@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QRegExpValidator>
 
+const int Convenience::NUM_AREAS = 6;
 /**
  * Static convenience function that returns a QRect with size width and height at center of screen.
  *

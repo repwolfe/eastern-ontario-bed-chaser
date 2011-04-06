@@ -5,6 +5,8 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QLabel>
+#include <QComboBox>
+#include "convenience.h"
 
 /**
  * @brief Form for adding a new Facility.
@@ -26,7 +28,8 @@ public:
 
     const QString getXAxis() const;
     const QString getYAxis() const;
-    const QString getFacilityName() const;
+    const QString getFacilityName() const;    
+    int getCurrentAreaIndex() const;
 
 signals:
     void submitClicked();
@@ -41,6 +44,7 @@ private:
     QLineEdit*	_xAxisBox;
     QLineEdit*	_yAxisBox;
     QLineEdit*	_facilityNameBox;
+    QComboBox* _areas;
     QLabel*	_errorMessage;
     QPushButton* _submitButton;
     QPushButton* _cancelButton;

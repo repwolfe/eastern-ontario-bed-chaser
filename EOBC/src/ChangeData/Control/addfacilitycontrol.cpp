@@ -23,10 +23,17 @@ void AddFacilityControl::_submitClicked()
     const QString& name	    = _form->getFacilityName().trimmed();
     const QString& xAxis    = _form->getXAxis().trimmed();
     const QString& yAxis    = _form->getYAxis().trimmed();
+    const int area	    = _form->getCurrentAreaIndex();
 
-    if (!name.isEmpty() && !xAxis.isEmpty() && !yAxis.isEmpty())
+    bool xOk = true;
+    bool yOk = true;
+    int xAsInt = xAxis.toInt(&xOk);
+    int yAsInt = yAxis.toInt(&yOk);
+
+    if (!name.isEmpty() && !xAxis.isEmpty() && !yAxis.isEmpty() &&
+	xOk && yOk && xAsInt >= 0 && yAsInt >= 0)
     {
-	emit submitClicked(name, xAxis, yAxis);
+	emit submitClicked(name, area, xAxis, yAxis);
 	_form->close();
     }
     else

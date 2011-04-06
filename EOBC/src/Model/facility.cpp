@@ -267,7 +267,8 @@ Patient* Facility::_getPatient(const QString& healthCardNum, PatientContainer*& 
 
 /**
  * Increases the number of beds this facility has
- * of a particular type
+ * of a particular type. Potentially changes the type
+ * of the Facility to either LTC or Normal (Hospital)
  *
  * @param num the num to increase by
  * @param type which bed to increase in number
@@ -281,6 +282,25 @@ bool Facility::addBeds(unsigned num, CareType type)
 
     PatientContainer* patients;
     int *numBeds;
+
+    // Special case: This facility has no beds
+    if (!_numACBeds && !_numCCCBeds && !_numLTCBeds)
+    {
+	_getPointersForType(type, patients, numBeds);
+
+	// Make it an LTC facility
+	if (type == EOBC::LTC)
+	{
+	    _type = Facility::LTC;
+	}
+	// Make it a normal facility
+	else
+	{
+	    _type = Facility::Normal;
+	}
+	*numBeds += num;
+	return true;
+    }
 
     // Only if the correct caretype was passed in
     if (_getPointersForType(type, patients, numBeds))
@@ -368,7 +388,7 @@ int Facility::getNumBedsOccupied(CareType type)
     // If they passed in the wrong bed type
     if (!_getPointersForType(type, patientsInBeds, temp))
     {
-        Logger::errorMessage("Facility", "getNumBedsOccupied()", "Incorrect bed type passed in: ", QString::number(type));
+	// Simply return 0
         return 0;
     }
 
@@ -456,19 +476,27 @@ inline bool Facility::_getPointersForType(CareType type, PatientContainer* &cont
     container = 0;
     numBeds = 0;
 
+    if (type == EOBC::AC)
+    {
+	container = &_patientsAC;
+	numBeds = &_numACBeds;
+    }
+    else if (type == EOBC::CCC)
+    {
+	container = &_patientsCCC;
+	numBeds = &_numCCCBeds;
+    }
+    else if (type == EOBC::LTC)
+    {
+	container = &_patientsLTC;
+	numBeds = &_numLTCBeds;
+    }
+
     if (_type == Facility::Normal)
     {
         // AC or CC should be passed in
-        if (type == EOBC::AC)
+	if (type == EOBC::AC || type == EOBC::CCC)
         {
-            container = &_patientsAC;
-            numBeds = &_numACBeds;
-            return true;
-        }
-        else if (type == EOBC::CCC)
-        {
-            container = &_patientsCCC;
-            numBeds = &_numCCCBeds;
             return true;
         }
     }
@@ -478,8 +506,6 @@ inline bool Facility::_getPointersForType(CareType type, PatientContainer* &cont
         // Only LTC should be passed in
         if (type == EOBC::LTC)
         {
-            container = &_patientsLTC;
-            numBeds = &_numLTCBeds;
             return true;
         }
     }

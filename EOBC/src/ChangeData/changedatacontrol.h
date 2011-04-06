@@ -49,7 +49,7 @@ private slots:
     // Submissions
     void movePatientsToBedSubmitted();
     void movePatientsToFacilitySubmitted();
-    void addFacilitySubmitted(QString, QString, QString);
+    void addFacilitySubmitted(QString, ID, QString, QString);
     void addPatientSubmitted(QString, QString, QString, QString);
     void createUserSubmitted(QString, QString, QString);
     void updateBedsSubmitted(Facility*, int, int, int);

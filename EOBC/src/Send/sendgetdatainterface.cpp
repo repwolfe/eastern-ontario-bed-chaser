@@ -8,5 +8,5 @@ SendGetDataInterface::SendGetDataInterface(SendMessageControl& sendMsgControl,QO
 
 void SendGetDataInterface::sendFacility(Facility* f)
 {
-    _sendMsgControl.addFacilities(false,f->getFacilityId(),f);
+    _sendMsgControl.addFacilities(false,f->getAreaThisIsIn()->getAreaId(),f);
 }

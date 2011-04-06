@@ -17,7 +17,6 @@ ChannelOut::~ChannelOut()
 /**
  * Sends a message to all the ip addresses in the text file.
  *
- * @todo Do we send messages to everyone? AKA do we need to know facility names
  */
 void ChannelOut::sendMessage(const QByteArray &datagram)
 {

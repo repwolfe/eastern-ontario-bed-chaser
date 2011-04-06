@@ -19,7 +19,6 @@ void AddFacilityControl::showForm()
 
 void AddFacilityControl::_submitClicked()
 {
-    /// @todo Check for empty submissions
     const QString& name	    = _form->getFacilityName().trimmed();
     const QString& xAxis    = _form->getXAxis().trimmed();
     const QString& yAxis    = _form->getYAxis().trimmed();

@@ -43,7 +43,7 @@ public:
     void setDatePlacedOnWaitingList(QDate date);
     void setAdmissionDate(QDate date);
 
-    void makeInpatient(QDate admissionDate, CareType occupiedCare);	/// @todo make sure this function is right
+    void makeInpatient(QDate admissionDate, CareType occupiedCare);
     bool isInpatient() const;
 
     const QString toString() const;

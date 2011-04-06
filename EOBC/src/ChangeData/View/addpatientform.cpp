@@ -112,7 +112,6 @@ void AddPatientForm::_setupLayout()
     _dateAdded          = new QDateEdit();
     _dateAdded->setDisplayFormat("MMMM dd yyyy");
     _dateAdded->setDate(QDate::currentDate());
-    /// @todo can you add a patient in the future?
     _dateAdded->setDateRange(QDate(1900,1,1), QDate::currentDate());
 
     QFormLayout* q = new QFormLayout();

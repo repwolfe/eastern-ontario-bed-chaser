@@ -12,9 +12,6 @@
 #include "updatebedscontrol.h"
 #include "updatewaitinglistcontrol.h"
 
-/// @todo remove these and include the classes when they're written
-class StorageWrite;
-
 /**
  * @brief Controller that controls other Controller objects.
  *
@@ -32,8 +29,6 @@ public:
     ChangeDataControl(GetDataChangeDataInterface& getData, SendChangeDataInterface& sendData);
     ~ChangeDataControl();
 
-    bool changeData(QString& args, QString& data);
-
 signals:
 
 public slots:
@@ -50,7 +45,6 @@ private slots:
     void movePatientsToBedSubmitted();
     void movePatientsToFacilitySubmitted();
     void addFacilitySubmitted(QString, ID, QString, QString);
-    void addPatientSubmitted(QString, QString, QString, QString);
     void createUserSubmitted(QString, QString, QString);
     void updateBedsSubmitted(Facility*, int, int, int);
     void updateWaitingListSubmitted();
@@ -65,11 +59,6 @@ private slots:
 private:
     void _setupConnections();
     void _sendMoveToFacilityUpdate(Facility* fac);
-
-    void _changeLocal(QString& args, QString& data);
-    void _changeRemote(QString& args, QString& data);
-
-    StorageWrite* _storage;
 
     GetDataChangeDataInterface& _getData;
     SendChangeDataInterface& _sendData;

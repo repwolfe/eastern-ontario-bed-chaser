@@ -102,7 +102,6 @@ Area* UpdateWaitingListControl::getCurrentlySelectedArea() const
 
 void UpdateWaitingListControl::showForm()
 {
-    /// @todo populate with real data! :)
     _form->show();
 }
 

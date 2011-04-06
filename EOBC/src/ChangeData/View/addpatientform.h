@@ -11,7 +11,7 @@
 /**
  * @brief Form to add a new Patient
  *
- * This form allows you to add a patient to a waiting list or @todo facility??
+ * This form allows you to add a Patient to a waiting list or a Facility??
  *
  * This class is part of the ChangeData subsystem described in D2
  */

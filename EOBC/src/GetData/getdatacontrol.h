@@ -7,10 +7,6 @@
 #include "storageread.h"
 #include "sendgetdatainterface.h"
 
-/// @todo remove these
-class SendRequestForData;
-class SendDataResponse;
-
 /**
  * @brief Handles passing data from the database to subsystems
  *
@@ -77,8 +73,6 @@ public slots:
 private:
     StorageRead& _storage;
     SendGetDataInterface& _sendGetDataI;
-    SendRequestForData* _sendRequest;
-    SendDataResponse* _sendResponse;
 };
 
 #endif // GETDATACONTROL_H

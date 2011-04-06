@@ -102,17 +102,11 @@ CareType Patient::getOccupiedCare() const
     return _occupiedCare;
 }
 
-/**
- * @todo What if they are not on a waiting list? Or placed on a new one? Or second one?
- */
 const QDate& Patient::getDatePlacedOnWaitingList() const
 {
     return _placedOnWL;
 }
 
-/**
- * @todo What if they are not in a Facility, or placed in a new one?
- */
 const QDate& Patient::getAdmissionDate() const
 {
     return _admitted;
@@ -143,8 +137,6 @@ void Patient::setAdmissionDate(QDate date)
  *
  * @param admissionDate the date they were admitted to a Facility
  * @param occupiedCare the type of care they are getting
- *
- * @todo make sure this function is right
  */
 void Patient::makeInpatient(QDate admissionDate, CareType occupiedCare)
 {

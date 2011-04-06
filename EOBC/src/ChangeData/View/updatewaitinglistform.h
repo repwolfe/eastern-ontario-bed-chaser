@@ -13,7 +13,6 @@
  *
  * A form that updates the waiting list of a particular
  * facility. You can add and remove patients from it
- * @todo Check if this is only LTC facilities
  *
  * This class is part of the ChangeData subsystem described in D2.
  */

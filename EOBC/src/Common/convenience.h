@@ -28,6 +28,7 @@ public:
         ADMINISTRATOR        = 2
     };
 
+    static const int NUM_AREAS;
     static QRect getCenterForSize(int width, int height);
 
     static EOBC::CareType intToCareType(int care);

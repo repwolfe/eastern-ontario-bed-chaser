@@ -23,8 +23,8 @@ public:
     void showForm();
 
 signals:
-    /// FacilityName; X-Axis; Y-Axis
-    void submitClicked(QString, QString, QString);
+    /// FacilityName; AreaId; X-Axis; Y-Axis
+    void submitClicked(QString, ID, QString, QString);
 
 private slots:
     void _submitClicked();

@@ -25,8 +25,8 @@ void ChangeDataControl::_setupConnections()
 {
     connect(_movePatientControl, SIGNAL(toBedFormSubmitClicked()), SLOT(movePatientsToBedSubmitted()));
     connect(_movePatientControl, SIGNAL(toFacilityFormSubmitClicked()), SLOT(movePatientsToFacilitySubmitted()));
-    connect(_addFacilityControl, SIGNAL(submitClicked(QString,QString,QString)),
-	    SLOT(addFacilitySubmitted(QString,QString,QString)));
+    connect(_addFacilityControl, SIGNAL(submitClicked(QString,ID,QString,QString)),
+	    SLOT(addFacilitySubmitted(QString, ID, QString,QString)));
     connect(_createUserControl, SIGNAL(submitClicked(QString,QString,QString)),
 	    SLOT(createUserSubmitted(QString,QString,QString)));
     connect(_updateWaitingListControl, SIGNAL(submitClicked()), SLOT(updateWaitingListSubmitted()));
@@ -191,7 +191,7 @@ void ChangeDataControl::movePatientsToFacilitySubmitted()
     /// @todo send changes to StorageWrite
 }
 
-void ChangeDataControl::addFacilitySubmitted(QString, QString, QString)
+void ChangeDataControl::addFacilitySubmitted(QString, ID, QString, QString)
 {
     /// @todo send the facilityname, x-axis and y-axis to StorageWrite
 }

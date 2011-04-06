@@ -6,3 +6,4 @@ qrc_*
 EOBCapplication
 Makefile
 logfile.log
+storage.xml

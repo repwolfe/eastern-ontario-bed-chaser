@@ -30,6 +30,9 @@ public:
     //read Methods
     QMap<ID, Area*> getModel();
     Facility* getFacility(ID areaID, ID facilityID);
+    QMap<ID, QString> getFacilityNames();
+    QMap<ID, Facility*> getFacilityPointers();
+
     WaitingList getWaitingList(ID areaID);
     PatientContainer* getPatients(ID areaID, ID facilityID, EOBC::CareType reqCare);
     PatientContainer* getPatients(ID areaID, ID facilityID);

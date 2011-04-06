@@ -13,14 +13,15 @@ class StorageRead : public QObject
     Q_OBJECT
 public:
     StorageRead(StorageHandler* handle);
-    //QMap<ID, QString> getAllFacilityNames();
-    //QMap<ID, Facility*> getAllFacilities();
+    QMap<ID, QString> getAllFacilityNames();
+    QMap<ID, Facility*> getAllFacilityPointers();
     //QMap<ID, Area*> getAllAreas();
     //QMap<ID, QLinkedList<Patient*> > getAllPatients();
     //QMap<ID, QLinkedList<Patient*> > areasWaitingList;
     //QMap<ID, QVector<int> > totalBeds; //AC, CCC, LTC
     //QMap<ID, QVector<int> > occupiedBeds;
     //Facility getFacility(ID facID);
+    Facility* getCurrentFacility();
 
     //report Data
 private slots:

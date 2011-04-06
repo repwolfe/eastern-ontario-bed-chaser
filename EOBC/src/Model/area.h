@@ -32,6 +32,7 @@ public:
     bool removeFacility(ID key);
     void setFacilities(FacilityList& inFacilities);
     Facility* getFacility(ID key);
+    FacilityList& getFacilities();
 
     bool addPatientToWaitingList(QString hcn, QString first, QString last, QDate placedOnWL);
     bool addPatientToWaitingList(Patient* patient);

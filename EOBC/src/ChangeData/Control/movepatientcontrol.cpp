@@ -20,7 +20,6 @@ MovePatientControl::MovePatientControl()
     QStringList bedOptions;
     bedOptions.push_back("AC");
     bedOptions.push_back("CCC");
-    /// @todo what to do about this
     bedOptions.push_back("LTC");
     _toBedForm->setMoveToItems(bedOptions);
 
@@ -65,7 +64,6 @@ void MovePatientControl::setFacilitiesList(const QMap<ID, Facility*>& data)
         _tfIndexToID = indexToFacilityId;
     }
 
-    /// @todo decide if this should be a else if
     if (_tbWaitingForFacilitiesList)
     {
         _tbWaitingForFacilitiesList = false;
@@ -110,7 +108,6 @@ void MovePatientControl::setFacilitiesToPatients(const QMap<ID, QLinkedList<Pati
         }
     }
 
-    /// @todo decide if this should be a else if
     if (_tbWaitingForFacilitiesPatients)
     {
         _tbWaitingForFacilitiesPatients = false;
@@ -192,8 +189,6 @@ void MovePatientControl::showToFacilityForm()
     _patientsAdded.clear();
     _patientsRemoved.clear();
     _toFacilityForm->show();
-    /// @todo clear form gui?
-
 }
 
 /**
@@ -209,7 +204,6 @@ void MovePatientControl::showToBedForm()
 {
     _bedMoveToChanges.clear();
     _toBedForm->show();
-    /// @todo clear form gui?
 }
 
 void MovePatientControl::_setupConnections()

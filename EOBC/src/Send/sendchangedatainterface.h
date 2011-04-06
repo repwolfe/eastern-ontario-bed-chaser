@@ -5,9 +5,12 @@
 #include "sendmessagecontrol.h"
 
 /**
- * @todo description
+ * @brief Interface between the Send and ChangeData subsystems
  *
- * @todo traceability
+ * Provides link necessary to allow ChangeData to send out messages
+ * of the changes
+ *
+ * This class is part of the Send subsystem described in D2.
  */
 class SendChangeDataInterface : public QObject
 {

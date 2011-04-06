@@ -53,7 +53,6 @@ private:
 
     QSpinBox* _ACBeds;
     QSpinBox* _CCCBeds;
-    /// @todo What to do about this
     QSpinBox* _LTCBeds;
 
     QComboBox* _facilities;

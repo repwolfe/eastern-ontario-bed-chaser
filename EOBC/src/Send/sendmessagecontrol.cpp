@@ -105,7 +105,6 @@ void SendMessageControl::toXML(QDomDocument& doc,QDomElement* e, Area* anArea, F
  * @param aFacility the Facility that will be turned into an XML tag
  *
  */
-/// @todo change toXML to be passed a document element
 void SendMessageControl::toXML(QDomDocument& doc,QDomElement* fac, Facility* aFacility){
 
     fac->setTagName("Facility");

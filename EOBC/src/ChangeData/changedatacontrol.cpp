@@ -47,12 +47,6 @@ void ChangeDataControl::_setupConnections()
 	    SLOT(_receivedFacilitiesMinimumBedNumbers(QMap<ID,QVector<int> >)));
 }
 
-/// @todo implement this
-bool ChangeDataControl::changeData(QString &args, QString &data)
-{
-    return true;
-}
-
 /****************************************
  *                SLOTS                 *
  ****************************************/
@@ -148,13 +142,10 @@ void ChangeDataControl::movePatientsToBedSubmitted()
 	++bedChanges;
     }
 
-    /// @todo figure out remote???
     if (!adds.empty()) { _sendData.addPatients(remote, currentFacility->getAreaThisIsIn(), currentFacility, adds); }
     if (!removals.empty()) { _sendData.deletePatients(remote, currentFacility->getAreaThisIsIn(), currentFacility, removals); }
     if (!adds2.empty()) { _sendData.addPatients(remote, currentFacility->getAreaThisIsIn(), currentFacility, adds2); }
     if (!removes.empty()) { _sendData.deletePatients(remote, currentFacility->getAreaThisIsIn(), currentFacility, removes); }
-
-    /// @todo send changes to StorageWrite
 }
 
 /**
@@ -172,7 +163,6 @@ void ChangeDataControl::movePatientsToFacilitySubmitted()
     Facility* currentFacility = _movePatientControl->getFacilityFormCurrentFacility();
     bool remote = !currentFacility->isOurFacility();	// false if this is OUR facility
 
-    /// @todo figure out remote???
     if (!patientsRemoved.empty())
     {
 	_sendData.deletePatients(true, currentFacility->getAreaThisIsIn(), currentFacility, patientsRemoved);
@@ -188,8 +178,6 @@ void ChangeDataControl::movePatientsToFacilitySubmitted()
 	    ++patients;
 	}
     }
-
-    /// @todo send changes to StorageWrite
 }
 
 
@@ -211,15 +199,9 @@ void ChangeDataControl::addFacilitySubmitted(QString name,ID id, QString x, QStr
     _sendData.addFacilities(true,id,&f);
 }
 
-void ChangeDataControl::addPatientSubmitted(QString, QString, QString, QString)
-{
-    /// @todo send the firstname, lastname, healthcardnum and required care to StorageWrite
-}
-
 void ChangeDataControl::createUserSubmitted(QString, QString, QString)
 {
-    /// @todo send the username, password, and priveledge to StorageWrite
-    /// or log on control???
+    /// @todo send signal the username, password, and priveledge which LoginControl has a slot for
 }
 
 /**
@@ -277,8 +259,6 @@ void ChangeDataControl::updateBedsSubmitted(Facility* fac, int newAC, int newCCC
     {
 	_sendData.removeBeds(remote, fac, negACDelta, negCCCDelta, negLTCDelta);
     }
-
-    /// @todo send the facility, num ac beds, num ccc beds, num ltc beds to StorageWrite
 }
 
 void ChangeDataControl::updateWaitingListSubmitted()
@@ -298,11 +278,9 @@ void ChangeDataControl::updateWaitingListSubmitted()
 
     if (currentArea)
     {
-	/// @todo figure out remote
 	if (!adds.empty()) { _sendData.addPatients(remote, currentArea, adds); }
 	if (!removes.empty()) { _sendData.deletePatients(remote, currentArea, removes); }
     }
-    /// @todo send the patientsAdded and patientsRemoved to StorageWrite
 }
 
 // Received Data

@@ -1,7 +1,5 @@
 #include "displaymapcontrol.h"
-/** @todo remove testing
-  *
-  */
+
 DisplayMapControl::DisplayMapControl(GetDataDisplayMapInterface& inter,QObject* parent) : QObject(parent)
 {
     map = new Map();
@@ -17,11 +15,11 @@ DisplayMapControl::DisplayMapControl(GetDataDisplayMapInterface& inter,QObject* 
 
         Facility* c = new Facility(1234,"Johnson Hospital"+QString::number(i),0,0,0,QPoint(200+rand()%800,350+rand()%100));
         a->addFacility(c);
-        /*for(int i=0;i<40;i++)
+        for(int i=0;i<40;i++)
         {
             CareType ct = Convenience::intToCareType(rand()%2);
             c->addPatientToBed(new Patient("111-111-11"+QString::number(i),"fdsaf","Fdsaf",ct),ct);
-        }/* /*
+        }
         this->addFacility(c);
         delete a;
     }

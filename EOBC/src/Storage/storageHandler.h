@@ -49,7 +49,7 @@ public:
     QString getFileName();
     void addPatient(ID areaID, ID facilityID, Patient* p);
     void addPatient(ID areaID, Patient* p);
-    void addFacility(ID areaID, Facility* f);
+    void addFacility(ID areaID, Facility* f,bool remote);
     void deletePatient(ID areaID, ID facilityID, Patient* p);
     void deletePatient(ID areaID, Patient* p);
 
@@ -75,7 +75,7 @@ private:
    QDomElement* saveArea(Area* area);
 
 signals:
-   void facilityAdded(ID areaID, Facility* f);
+   void facilityAdded(ID areaID, Facility* f,bool);
 
 };
 

@@ -14,7 +14,7 @@ public:
     void addPatient(ID areaID, ID facilityID, Patient* p);
     void deletePatient(ID areaID, ID facilityID,Patient* p);
     void sendRebuild(ID sourceArea, ID sourceFacility);
-    void addFacility(ID sourceArea, Facility* f);
+    void addFacility(ID sourceArea, Facility* f,bool remote);
 signals:
 
 public slots:

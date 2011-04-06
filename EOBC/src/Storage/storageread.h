@@ -25,9 +25,9 @@ public:
 
     //report Data
 private slots:
-       void _addFacility(ID sourceArea, Facility* f);
+       void _addFacility(ID sourceArea, Facility* f,bool remote);
 signals:
-        void addFacility(Facility* f);
+        void addFacility(Facility* f,bool remote);
 private:
     StorageHandler* _storageHandler;
 };

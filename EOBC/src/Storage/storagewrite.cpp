@@ -38,7 +38,7 @@ void StorageWrite::sendRebuild(ID sourceArea, ID sourceFacility)
   //  _sHandler->sendRebuild();
 }
 
-void StorageWrite::addFacility(ID sourceArea, Facility* f)
+void StorageWrite::addFacility(ID sourceArea, Facility* f,bool remote)
 {
-    _sHandler->addFacility(sourceArea, f);
+    _sHandler->addFacility(sourceArea, f,remote);
 }

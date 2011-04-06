@@ -21,7 +21,7 @@ private slots:
     void _addPatient(ID areaID, ID facilityID, Patient* p);
     void _deletePatient(ID areaID, ID facilityID,Patient* p);
     void _sendRebuild(ID sourceArea, ID sourceFacility);
-    void _addFacility(ID sourceArea, Facility* f);
+    void _addFacility(ID sourceArea, Facility* f,bool);
 private:
     StorageWrite& _sw;
 

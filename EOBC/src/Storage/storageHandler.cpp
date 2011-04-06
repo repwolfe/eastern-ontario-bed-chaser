@@ -91,7 +91,11 @@ int StorageHandler::loadModel(QString fileName){
                 this->parseFacility(aFacility, &n);
 		_areas.insert(anArea->getAreaId(), anArea);
                 anArea->addFacility(aFacility);
-		emit facilityAdded(anArea->getAreaId(),aFacility);
+//<<<<<<< HEAD
+ //               addFacility(aFacility->getAreaThisIsIn()->getAreaId(),aFacility,false);
+//=======
+                emit facilityAdded(anArea->getAreaId(),aFacility,false);
+//>>>>>>> ae11ea962668d16e5591a4189ceb751d63860748
             }
 
             rootChild = rootChild.nextSibling();
@@ -397,11 +401,11 @@ void StorageHandler::addPatient(ID areaID, ID facilityID, Patient* p){
     }
 
 }
-void StorageHandler::addFacility(ID areaID, Facility* f){
+void StorageHandler::addFacility(ID areaID, Facility* f,bool remote){
     Area* area = _getArea(areaID);
     if (area->addFacility(f))
     {
-	emit facilityAdded(areaID,f);
+        emit this->facilityAdded(areaID,f,remote);
     }
     // Facility already in Area, delete
     else

@@ -4,7 +4,7 @@ ChangeDataReceiveInterface::ChangeDataReceiveInterface(StorageWrite& sw, Receive
            _sw(sw)
 {
     connect(&rc,SIGNAL(addBeds(ID,ID,EOBC::CareType,int)),this,SLOT(_addBeds(ID,ID,EOBC::CareType,int)));
-    connect(&rc,SIGNAL(addFacility(ID,Facility*)),this,SLOT(_addFacility(ID,Facility*)));
+    connect(&rc,SIGNAL(addFacility(ID,Facility*,bool)),this,SLOT(_addFacility(ID,Facility*,bool)));
     connect(&rc,SIGNAL(addPatient(ID,ID,Patient*)),this,SLOT(_addPatient(ID,ID,Patient*)));
     connect(&rc,SIGNAL(removeBeds(ID,ID,EOBC::CareType,int)),this,SLOT(_removeBeds(ID,ID,EOBC::CareType,int)));
 
@@ -39,7 +39,7 @@ void ChangeDataReceiveInterface::_sendRebuild(ID sourceArea, ID sourceFacility)
    _sw.sendRebuild(sourceArea, sourceFacility);
 }
 
-void ChangeDataReceiveInterface::_addFacility(ID sourceArea, Facility* f)
+void ChangeDataReceiveInterface::_addFacility(ID sourceArea, Facility* f,bool remote)
 {
-    _sw.addFacility(sourceArea,f);
+    _sw.addFacility(sourceArea,f,remote);
 }

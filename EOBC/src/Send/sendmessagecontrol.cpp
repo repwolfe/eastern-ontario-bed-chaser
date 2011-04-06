@@ -333,7 +333,7 @@ void SendMessageControl::addFacilities(bool remote,ID id, Facility* aFacility){
     QDomElement are = doc.createElement("Area");
     are.setAttribute("ID", id);
     QDomElement el = doc.createElement("Facility");
-    toXMLEmptyFacility(doc,&el, aFacility);
+    toXML(doc,&el, aFacility);
     are.appendChild(el);
     add.appendChild(are);
     doc.appendChild(add);

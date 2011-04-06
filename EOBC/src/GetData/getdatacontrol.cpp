@@ -1,5 +1,5 @@
 #include "getdatacontrol.h"
-GetDataControl::GetDataControl(StorageRead& sr, SendGetDataInterface& sendGetDataI) : _storage(sr)
+GetDataControl::GetDataControl(StorageRead& sr, SendGetDataInterface& sendGetDataI) : _storage(sr), _sendGetDataI(sendGetDataI)
 {
     connect(&sr,SIGNAL(addFacility(Facility*)),this,SLOT(_receivedUpdatedFacility(Facility*)));
 
@@ -231,7 +231,7 @@ void GetDataControl::_receivedUpdatedFacility(Facility* fac)
 
 void GetDataControl::receivedFacilityRequest()
 {
-   // emit receivedFacilityRequest();
+    _sendGetDataI.sendFacility(_storage.getCurrentFacility());
 }
 
 /**

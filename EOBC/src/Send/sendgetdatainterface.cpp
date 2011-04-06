@@ -5,3 +5,8 @@ SendGetDataInterface::SendGetDataInterface(SendMessageControl& sendMsgControl,QO
 {
     Q_UNUSED(sendMsgControl);
 }
+
+void SendGetDataInterface::sendFacility(Facility* f)
+{
+
+}

@@ -74,6 +74,7 @@ public slots:
     void receivedFacilityRequest();
 private:
     StorageRead& _storage;
+    SendGetDataInterface& _sendGetDataI;
     SendRequestForData* _sendRequest;
     SendDataResponse* _sendResponse;
 };

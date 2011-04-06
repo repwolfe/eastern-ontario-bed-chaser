@@ -5,14 +5,22 @@ StorageWrite::StorageWrite(StorageHandler* sh)
     _sHandler = sh;
 }
 
-void StorageWrite::addBeds(ID sourceArea, ID sourceFacility, EOBC::CareType, int numOfBeds)
+void StorageWrite::addBeds(ID sourceArea, ID sourceFacility, EOBC::CareType type, int numOfBeds)
 {
-    //_sHandler->addbeds();
+    Facility* facility = _sHandler->getFacility(sourceArea, sourceFacility);
+    if (facility)
+    {
+	facility->addBeds(numOfBeds, type);
+    }
 }
 
-void StorageWrite::removeBeds(ID sourceArea, ID sourceFacility, EOBC::CareType, int numOfBeds)
+void StorageWrite::removeBeds(ID sourceArea, ID sourceFacility, EOBC::CareType type, int numOfBeds)
 {
-   //_sHandler->removeBeds();
+    Facility* facility = _sHandler->getFacility(sourceArea, sourceFacility);
+    if (facility)
+    {
+	facility->decreaseBeds(numOfBeds, type);
+    }
 }
 
 void StorageWrite::addPatient(ID areaID, ID facilityID, Patient* p)

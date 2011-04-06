@@ -56,15 +56,6 @@ signals:
     void receivedReport(QDate, QDate, ID,QPair<QString,QLinkedList<int> >&,QPair<QString,QLinkedList<int> >&);
 
 private slots:
-    void _receivedAllFacilities(const QMap<ID, QString>& data);
-    void _receivedAllFacilityPointers(const QMap<ID, Facility*>&);
-    void _receivedAllAreaPointers(const QMap<ID, Area*>& data);
-
-    void _receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient*> >& data);
-    void _receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data);
-    void _receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >& data);
-    void _receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> >& data);
-
     void _receivedUpdatedFacility(Facility* fac,bool remote);
     void _receivedUpdatedWaitingList(ID id, WaitingList& wl);
     void _receivedFacilityWithID(Facility*);

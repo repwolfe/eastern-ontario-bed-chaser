@@ -94,7 +94,6 @@ void ReceiveMessageControl::parseAddDeleteRebuild(QDomElement tag, bool add, boo
          e = e.childNodes().at(0).toElement();
          if(add)
          {
-
              Facility* f= new Facility(facilityID,name,AC,CCC,LTC,coordinates);
              //if(rebuild)
                 emit addFacility(areaID,f,remote);
@@ -112,31 +111,31 @@ void ReceiveMessageControl::parseAddDeleteRebuild(QDomElement tag, bool add, boo
            emit receivedFacilityRequest();
 
      }
-     if(e.tagName() == "Patient"){
-
-             QString healthCardNumber = e.attribute( "healthCardNumber", "1111111111" );
-             QString firstName = e.attribute( "firstName", "FirstName" );
-             QString lastName = e.attribute( "lastName", "LastName" );
-             EOBC::CareType reqCare = Convenience::intToCareType( e.attribute("reqCare", "1").toInt());
-             EOBC::CareType occCare = Convenience::intToCareType( e.attribute("occCare", "1").toInt());
-             //parse date
-                 QString date = e.attribute("dateAdmitted");
-                 int year = date.section("-",0,0).toInt();
-                 int month = date.section("-",1,1).toInt();
-                 QString sDay = date.section("-",2,2);
-                 sDay.truncate(2);
-                 int day = sDay.toInt();
-                 //remove the time from the date
-                 QDate dateAdmitted(year, month, day);
-                 p = new Patient(healthCardNumber, firstName, lastName, reqCare, occCare, dateAdmitted);
-                 e = e.nextSiblingElement();
-                 if(add)
-                 {
-                       emit addPatient(areaID, facilityID, p);
-                    }else
-                 {
-                        emit deletePatient(areaID, facilityID, p);
-                    }
+     if(e.tagName() == "Patient")
+     {
+         QString healthCardNumber = e.attribute( "healthCardNumber", "1111111111" );
+         QString firstName = e.attribute( "firstName", "FirstName" );
+         QString lastName = e.attribute( "lastName", "LastName" );
+         EOBC::CareType reqCare = Convenience::intToCareType( e.attribute("reqCare", "1").toInt());
+         EOBC::CareType occCare = Convenience::intToCareType( e.attribute("occCare", "1").toInt());
+         //parse date
+         QString date = e.attribute("dateAdmitted");
+         int year = date.section("-",0,0).toInt();
+         int month = date.section("-",1,1).toInt();
+         QString sDay = date.section("-",2,2);
+         sDay.truncate(2);
+         int day = sDay.toInt();
+         //remove the time from the date
+         QDate dateAdmitted(year, month, day);
+         p = new Patient(healthCardNumber, firstName, lastName, reqCare, occCare, dateAdmitted);
+         e = e.nextSiblingElement();
+         if(add)
+         {
+               emit addPatient(areaID, facilityID, p);
+            }else
+         {
+                emit deletePatient(areaID, facilityID, p);
+            }
      }
  }
 

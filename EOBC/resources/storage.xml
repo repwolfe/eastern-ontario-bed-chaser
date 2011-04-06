@@ -33,7 +33,7 @@
 <Patient firstName="XTreme" lastName="Doe" healthCardNumber="4442333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="1" careOcc="2"/>
 </WaitingList>
 <Facility ID="8008135" LTC="0" CCC="4" AC="4" name="Franklin General" coordinateX="400" coordinateY="400">
-<Patient firstName="Jon11" lastName="Doe" healthCardNumber="4444333422" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="1" careOcc="1"/>
+<Patient firstName="Jon11" lastName="Doe" healthCardNumber="4444333422" dateAdded="1900-12-1" dateAdmitted="1900-12-7" reqCare="1" careOcc="1"/>
 <Patient firstName="Jon12" lastName="Doe" healthCardNumber="4444333511" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="1" careOcc="2"/>
 </Facility>
 </Area>

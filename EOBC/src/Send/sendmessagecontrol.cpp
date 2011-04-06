@@ -87,11 +87,14 @@ void SendMessageControl::toXML(QDomDocument& doc,QDomElement* e, Area* anArea, F
  *
  */
 void SendMessageControl::toXML(QDomDocument& doc,QDomElement* e, Area* anArea, Facility* aFacility){
+    e->setTagName("Area");
     QDomElement fac = doc.createElement("Facility");
     this->toXML(doc,&fac, aFacility);
-    e->setTagName("Area");
+
     e->setAttribute("ID", anArea->getAreaId());
+    qDebug(fac.toDocument().toString().toAscii());
     e->appendChild(fac);
+    doc.appendChild(*e);
 }
 
 /**
@@ -237,9 +240,11 @@ void SendMessageControl::deletePatients(bool remote, Area* anArea, QLinkedList<P
  */
 void SendMessageControl::rebuild(Area* anArea, Facility* aFacility){
     QDomDocument doc;
-    QDomElement e = doc.createElement("");
+    QDomElement e = doc.createElement("Area");
     this->toXML(doc,&e, anArea, aFacility);
+   // doc.appendChild(e);
     QByteArray data = doc.toByteArray();
+    qDebug(doc.toString().toAscii());
     sendQByte(data);
 }
 /**

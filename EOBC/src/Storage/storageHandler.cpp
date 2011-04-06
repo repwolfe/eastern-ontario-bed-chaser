@@ -10,7 +10,8 @@
   */
 StorageHandler::StorageHandler(QString fileName)
 {
-    int error =  this->loadModel(fileName);
+    _filename = fileName;
+    int error;// =  this->loadModel(fileName);
     switch(error){
     case -1: Logger::errorMessage("storageHandler", "loadModel","Could not open storage file");
         break;
@@ -82,10 +83,12 @@ int StorageHandler::loadModel(QString fileName){
                 QPoint coordinates(e.attribute("coordinateX", "0").toInt(), e.attribute("coordinateY", "0").toInt());
                 Facility* aFacility = new Facility(ID.toInt(),name,AC,CCC,LTC,coordinates);
                 _currentFacility = aFacility;
+
                 //set up facility
 
                 this->parseFacility(aFacility, &n);
                 anArea->addFacility(aFacility);
+                addFacility(aFacility->getAreaThisIsIn()->getAreaId(),aFacility);
             }
 
             rootChild = rootChild.nextSibling();
@@ -305,4 +308,17 @@ QMap<ID, Area*> StorageHandler::getModel(){
         map.insert(area->getAreaId(), area);
     }
     return map;
+}
+Facility* StorageHandler::getCurrentFacility()
+{
+    return this->_currentFacility;
+}
+
+Area* StorageHandler::getCurrentArea()
+{
+    return this->_currentArea;
+}
+QString StorageHandler::getFileName()
+{
+    return _filename;
 }

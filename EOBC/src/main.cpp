@@ -49,6 +49,8 @@ int main(int argc, char *argv[])
     //
     //CONNECT SUBSYSTEMS
     //
+    handler.loadModel(handler.getFileName());
+    sendControl.rebuild(handler.getCurrentArea(),handler.getCurrentFacility());
 
     QObject::connect(&logControl,SIGNAL(pressedEnter(int)),&mapControl,SLOT(getLoggedOn(int)));
     QObject::connect(&mapControl,SIGNAL(pressedAddBeds()),&changeDataControl,SLOT(displayUpdateBedsForm()));
@@ -60,5 +62,6 @@ int main(int argc, char *argv[])
     QObject::connect(&mapControl,SIGNAL(pressedViewAllReports()),&rControl,SLOT(showViewAllReportsWindow()));
     QObject::connect(&mapControl,SIGNAL(pressedUpdateWaitingList()),&changeDataControl,SLOT(displayUpdateWaitingList()));
     return a.exec();
+
 }
 

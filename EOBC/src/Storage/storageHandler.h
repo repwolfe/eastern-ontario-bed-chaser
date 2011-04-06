@@ -35,11 +35,15 @@ public:
     PatientContainer* getPatients(ID areaID, ID facilityID);
 
     //write Methods
+    QString getFileName();
     void addPatient(ID areaID, ID facilityID, Patient* p);
     void addPatient(ID areaID, Patient* p);
     void addFacility(ID areaID, Facility* f);
     void deletePatient(ID areaID, ID facilityID, Patient* p);
     void deletePatient(ID areaID, Patient* p);
+
+    Facility* getCurrentFacility();
+    Area* getCurrentArea();
 
 protected:
     Facility* _currentFacility;
@@ -52,6 +56,7 @@ private:
 
 
    QLinkedList<Area*> _model;
+   QString _filename;
    void parseWaitingList(Area* anArea,QDomNode* n);
    void parseFacility(Facility* aFacility,QDomNode* n);
    areaList getAreas();

@@ -11,7 +11,7 @@ DisplayMapControl::DisplayMapControl(GetDataDisplayMapInterface& inter,QObject* 
     //
     ///FOR TESTING ONLY, REMOVE
     //
-    for(int i=0;i<9;i++)
+    /*for(int i=0;i<9;i++)
     {
         Area * a = new Area(i);
 
@@ -21,7 +21,7 @@ DisplayMapControl::DisplayMapControl(GetDataDisplayMapInterface& inter,QObject* 
         {
             CareType ct = Convenience::intToCareType(rand()%2);
             c->addPatientToBed(new Patient("111-111-11"+QString::number(i),"fdsaf","Fdsaf",ct),ct);
-        }*/
+        }/* /*
         this->addFacility(c);
         delete a;
     }
@@ -34,7 +34,7 @@ DisplayMapControl::DisplayMapControl(GetDataDisplayMapInterface& inter,QObject* 
             c->addPatientToBed(new Patient("111-111-11"+QString::number(i),"fdsaf","Fdsaf",Convenience::intToCareType(EOBC::LTC)),Convenience::intToCareType(2));
         this->addFacility(c);
         delete a;
-    }
+    }*/
 }
 DisplayMapControl::~DisplayMapControl()
 {

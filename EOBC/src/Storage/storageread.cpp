@@ -2,12 +2,12 @@
 StorageRead::StorageRead(StorageHandler* handle)
 {
     this->_storageHandler = handle;
-    connect(handle,SIGNAL(facilityAdded(ID,Facility*)),this, SLOT(_addFacility(ID,Facility*)));
+    connect(handle,SIGNAL(facilityAdded(ID,Facility*,bool)),this, SLOT(_addFacility(ID,Facility*,bool)));
 }
-void StorageRead::_addFacility(ID sourceArea, Facility* f)
+void StorageRead::_addFacility(ID sourceArea, Facility* f,bool remote)
 {
     Q_UNUSED(sourceArea);
-    emit this->addFacility(f);
+    emit this->addFacility(f,remote);
 }
 
 QMap<ID, QString> StorageRead::getAllFacilityNames()

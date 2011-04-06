@@ -3,7 +3,7 @@
 GetDataDisplayMapInterface::GetDataDisplayMapInterface(GetDataControl &getData) :
     _getData(getData)
 {
-    connect(&_getData, SIGNAL(receivedUpdatedFacility(Facility*)),
+    connect(&_getData, SIGNAL(receivedUpdatedFacility(Facility*,bool)),
             SLOT(_receivedUpdatedFacility(Facility*)));
     connect(&_getData, SIGNAL(receivedUpdatedWaitingList(ID,WaitingList&)),
             SLOT(_receivedUpdatedWaitingList(ID,WaitingList&)));

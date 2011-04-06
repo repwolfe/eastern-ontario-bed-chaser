@@ -49,7 +49,7 @@ signals:
 
     void sendFacilityUpdate(Facility* f);
 
-    void receivedUpdatedFacility(Facility*);
+    void receivedUpdatedFacility(Facility*f,bool remote);
     void receivedUpdatedWaitingList(ID, WaitingList&);
     void receivedFacilityWithID(Facility*);
 
@@ -65,7 +65,7 @@ private slots:
     void _receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >& data);
     void _receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> >& data);
 
-    void _receivedUpdatedFacility(Facility* fac);
+    void _receivedUpdatedFacility(Facility* fac,bool remote);
     void _receivedUpdatedWaitingList(ID id, WaitingList& wl);
     void _receivedFacilityWithID(Facility*);
 

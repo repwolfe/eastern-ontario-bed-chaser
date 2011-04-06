@@ -32,8 +32,8 @@
 <Patient firstName="Zischa4" lastName="Doe" healthCardNumber="4444999222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="2" careOcc="1"/>
 <Patient firstName="XTreme" lastName="Doe" healthCardNumber="4442333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="1" careOcc="2"/>
 </WaitingList>
-<Facility ID="1337" LTC="0" CCC="4" AC="4" name="Wootville Pacific" coordinateX="500" coordinateY="300">
-<Patient firstName="Jon11" lastName="Doe" healthCardNumber="4444333222" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="1" careOcc="1"/>
-<Patient firstName="Jon12" lastName="Doe" healthCardNumber="4444333111" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="1" careOcc="2"/>
+<Facility ID="8008135" LTC="0" CCC="4" AC="4" name="Franklin General" coordinateX="400" coordinateY="400">
+<Patient firstName="Jon11" lastName="Doe" healthCardNumber="4444333422" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="1" careOcc="1"/>
+<Patient firstName="Jon12" lastName="Doe" healthCardNumber="4444333511" dateAdded="1900-12-1" dateAdmitted="1900-12-7" careReq="1" careOcc="2"/>
 </Facility>
 </Area>

@@ -94,8 +94,10 @@ void ReceiveMessageControl::parseAddDeleteRebuild(QDomElement tag, bool add, boo
          e = e.childNodes().at(0).toElement();
          if(add)
          {
-             Facility f(facilityID,name,AC,CCC,LTC,coordinates);
-             emit addFacility(areaID,&f);
+
+             Facility* f= new Facility(facilityID,name,AC,CCC,LTC,coordinates);
+             //if(rebuild)
+                emit addFacility(areaID,f,remote);
              emit addBeds(areaID, facilityID, EOBC::LTC, LTC);
              emit addBeds(areaID, facilityID, EOBC::AC, AC);
              emit addBeds(areaID, facilityID, EOBC::CCC, CCC);

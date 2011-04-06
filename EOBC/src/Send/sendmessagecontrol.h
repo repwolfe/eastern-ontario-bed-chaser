@@ -31,7 +31,7 @@ public:
     void deletePatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*>& p);
     void deletePatients(bool remote, Area* anArea, QLinkedList<Patient*>& p);
 
-    void addFacilities(bool remote, Facility* aFacility);
+    void addFacilities(bool remote,ID id, Facility* aFacility);
 
     void rebuild(Area* anArea, Facility* aFacility);
     void rebuild();

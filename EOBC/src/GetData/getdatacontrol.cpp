@@ -1,6 +1,7 @@
 #include "getdatacontrol.h"
-GetDataControl::GetDataControl()
+GetDataControl::GetDataControl(StorageRead& sr) : _storage(sr)
 {
+    connect(&sr,SIGNAL(addFacility(Facility*)),this,SLOT(_receivedUpdatedFacility(Facility*)));
 }
 
 void GetDataControl::requestAllFacilities()

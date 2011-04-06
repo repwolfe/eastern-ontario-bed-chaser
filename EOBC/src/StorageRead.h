@@ -8,9 +8,11 @@
  *
  * This class is part of the Storage subsystem described in D2.
  */
-class StorageRead
+class StorageRead : public QObject
 {
+    Q_OBJECT
 public:
+    StorageRead();
     QMap<ID, QString> getAllFacilityNames();
     QMap<ID, Facility*> getAllFacilities();
     QMap<ID, Area*> getAllAreas();

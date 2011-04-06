@@ -4,9 +4,9 @@
 #include <QMap>
 #include <QVector>
 #include "area.h"
+#include "storageread.h"
 
 /// @todo remove these
-class StorageRead;
 class SendRequestForData;
 class SendDataResponse;
 
@@ -24,7 +24,7 @@ class GetDataControl : public QObject
 {
     Q_OBJECT
 public:
-    GetDataControl();
+    GetDataControl(StorageRead& sr);
 
     void requestAllFacilities();
     void requestAllFacilityPointers();
@@ -67,7 +67,7 @@ private slots:
     void _receivedReport(QDate start, QDate end, ID facId,QPair<QString,QLinkedList<int> >& data,QPair<QString,QLinkedList<int> >& data2);
 
 private:
-    StorageRead* _storage;
+    StorageRead& _storage;
     SendRequestForData* _sendRequest;
     SendDataResponse* _sendResponse;
 };

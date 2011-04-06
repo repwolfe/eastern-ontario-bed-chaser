@@ -147,6 +147,7 @@ void SendMessageControl::toXML(QDomDocument& doc,QDomElement* fac, Facility* aFa
 }
 void SendMessageControl::toXMLEmptyFacility(QDomDocument& doc,QDomElement* fac, Facility* aFacility)
 {
+
     fac->setTagName("Facility");
     fac->setAttribute("ID", aFacility->getFacilityId());
     fac->setAttribute("LTC", aFacility->getNumBeds(EOBC::LTC));
@@ -312,7 +313,7 @@ void SendMessageControl::addBeds(bool remote, Facility* aFacility, int deltaACBe
     QByteArray data = doc.toByteArray();
     sendQByte(data);
 }
-void SendMessageControl::addFacilities(bool remote, Facility* aFacility){
+void SendMessageControl::addFacilities(bool remote,ID id, Facility* aFacility){
     QDomDocument doc;
     QDomElement add = doc.createElement("Add");
     if(remote){
@@ -320,9 +321,12 @@ void SendMessageControl::addFacilities(bool remote, Facility* aFacility){
     }else{
         add.setAttribute("remote", "false");
     }
-    QDomElement el = doc.createElement("Area");
-    this->toXMLEmptyFacility(doc,&el, aFacility);
-    add.appendChild(el);
+    QDomElement are = doc.createElement("Area");
+    are.setAttribute("ID", id);
+    QDomElement el = doc.createElement("Facility");
+    toXMLEmptyFacility(doc,&el, aFacility);
+    are.appendChild(el);
+    add.appendChild(are);
     doc.appendChild(add);
     Logger::debugMessage("sendMessageControl", "addFacil", "OMG XML", doc.toString());
     QByteArray data = doc.toByteArray();

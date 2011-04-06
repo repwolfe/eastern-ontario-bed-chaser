@@ -18,8 +18,9 @@ typedef QMap<ID,Area*> areaList;
  *
  * This class is part of the Storage subsystem described in D2.
  */
-class StorageHandler
+class StorageHandler : public QObject
 {
+    Q_OBJECT
 public:
     StorageHandler(QString fileName);
     virtual ~StorageHandler();
@@ -36,6 +37,7 @@ public:
     //write Methods
     void addPatient(ID areaID, ID facilityID, Patient* p);
     void addPatient(ID areaID, Patient* p);
+    void addFacility(ID areaID, Facility* f);
     void deletePatient(ID areaID, ID facilityID, Patient* p);
     void deletePatient(ID areaID, Patient* p);
 
@@ -48,7 +50,7 @@ private:
    Area* _getArea(ID id);
    Facility* _getFacility(ID areaID, ID facilityID);
 
-   StorageHandler _StorageHandler();
+
    QLinkedList<Area*> _model;
    void parseWaitingList(Area* anArea,QDomNode* n);
    void parseFacility(Facility* aFacility,QDomNode* n);
@@ -57,6 +59,9 @@ private:
    QDomElement* saveWaitingList(Area* anArea);
    QDomElement* saveFacility(Facility* facility);
    QDomElement* saveArea(Area* area);
+
+signals:
+   void facilityAdded(ID areaID, Facility* f);
 
 };
 

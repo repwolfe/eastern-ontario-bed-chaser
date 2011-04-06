@@ -15,15 +15,17 @@
 #include "ReceiveMessageControl.h"
 #include "storagewrite.h"
 #include "changedatareceiveinterface.h"
+#include "storageread.h"
 
 int main(int argc, char *argv[])
 {
     StorageHandler handler (QString(":/storage/resources/storage.xml"));
     StorageWrite storageWrite(&handler);
+    StorageRead storageRead(&handler);
     QApplication a(argc, argv);
 
     // Get Data and its interfaces
-    GetDataControl getDataControl;
+    GetDataControl getDataControl(storageRead);
     GetDataChangeDataInterface gdChangeDataI(getDataControl);
     GetDataDisplayMapInterface gdDisplayMapI(getDataControl);
     GetDataReportingInterface gdReportingI(getDataControl);

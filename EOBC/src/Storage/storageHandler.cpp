@@ -23,15 +23,6 @@ StorageHandler::StorageHandler(QString fileName)
 }
 
 /**
-  This is the Private empty constructor for StorageHandler
- */
-StorageHandler StorageHandler::_StorageHandler()
-{
-    StorageHandler tmp(QString(""));
-    return tmp;
-}
-
-/**
  * This loads the model from a file
  *
  * @param filename is the name of the file
@@ -64,6 +55,7 @@ int StorageHandler::loadModel(QString fileName){
         //parse the xml into objsects
         Area* anArea = new Area((root.attribute("ID").toInt()));
         _currentArea = anArea;
+        anArea->makeThisOurArea();
 
         QDomNode rootChild = root.firstChild();
         QDomNode n;
@@ -259,38 +251,50 @@ areaList StorageHandler::getAreas(){
 }
 
 Area* StorageHandler::_getArea(ID id){
-    Area* anArea= this->getAreas().find(id).value();
-    if(!anArea)
+    areaList::iterator area = _areas.find(id);
+    Area* anArea = 0;
+    if (area == _areas.end())
+    {
         anArea = new Area(id);
-    this->getAreas().insert(id, anArea);
+        _areas.insert(id, anArea);
+    }
+    else { anArea = area.value(); }
     return anArea;
 }
 void StorageHandler::addPatient(ID areaID, ID facilityID, Patient* p){
-    Area* area = this->_areas.find(areaID).value();
-    area->getFacility(facilityID)->addPatientToBed(p, p->getRequiredCare());
+    areaList::iterator area = _areas.find(areaID);
+    if (area != _areas.end())
+    {
+        area.value()->getFacility(facilityID)->addPatientToBed(p, p->getRequiredCare());
+    }
+
+}
+void StorageHandler::addFacility(ID areaID, Facility* f){
+    Area* area = _getArea(areaID);
+    area->addFacility(f);
+    emit this->facilityAdded(areaID,f);
 }
 
 void StorageHandler::addPatient(ID areaID, Patient* p){
-    Area* area = this->_areas.find(areaID).value();
+    Area* area = _getArea(areaID);
     /// @todo add robbie's WaitingList.add(Patient* p)
 }
 
 void StorageHandler::deletePatient(ID areaID, ID facilityID, Patient* p){
-    Area* area = this->_areas.find(areaID).value();
+    Area* area = _getArea(areaID);
     area->getFacility(facilityID)->removePatient(p->getHealthCardNumber());
 }
 
 void StorageHandler::deletePatient(ID areaID, Patient* p){
-     Area* area = this->_areas.find(areaID).value();
+     Area* area = _getArea(areaID);
      area->removePatientFromWaitingList(p->getHealthCardNumber());
 }
 
 QMap<ID, Area*> StorageHandler::getModel(){
     QMap<ID, Area*> map;
-    while(!this->_model.isEmpty())
+    foreach (Area* area, _model)
     {
-        Area* anArea = this->_model.takeFirst();
-        map.insert(anArea->getAreaId(), anArea);
+        map.insert(area->getAreaId(), area);
     }
     return map;
 }

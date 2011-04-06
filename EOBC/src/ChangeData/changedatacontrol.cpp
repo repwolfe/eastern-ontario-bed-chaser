@@ -206,7 +206,8 @@ void ChangeDataControl::addFacilitySubmitted(QString name,ID id, QString x, QStr
         }
     }
     Facility f(randId,name,0,0,0,QPoint(x.toInt(),y.toInt()));
-    _sendData.addFacilities(true,&f);
+
+    _sendData.addFacilities(true,id,&f);
 }
 
 void ChangeDataControl::addPatientSubmitted(QString, QString, QString, QString)

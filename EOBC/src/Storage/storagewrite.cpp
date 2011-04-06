@@ -32,5 +32,5 @@ void StorageWrite::sendRebuild(ID sourceArea, ID sourceFacility)
 
 void StorageWrite::addFacility(ID sourceArea, Facility* f)
 {
-
+    _sHandler->addFacility(sourceArea, f);
 }

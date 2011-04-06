@@ -79,10 +79,10 @@ SOURCES +=\
     src/Receive/ReceiveMessageControl.cpp \
     src/Communication/communicationsendinterface.cpp \
     src/Send/sendchangedatainterface.cpp \
-    src/Storage/StorageRead.cpp \
     src/Communication/communicationreceiveinterface.cpp \
     src/ChangeData/changedatareceiveinterface.cpp \
-    src/Storage/storagewrite.cpp
+    src/Storage/storagewrite.cpp \
+    src/Storage/storageread.cpp
 
 
 
@@ -133,10 +133,10 @@ HEADERS  += \
     src/Receive/ReceiveMessageControl.h \
     src/Communication/communicationsendinterface.h \
     src/Send/sendchangedatainterface.h \
-    src/Storage/StorageRead.h \
     src/Communication/communicationreceiveinterface.h \ 
     src/ChangeData/changedatareceiveinterface.h \
-    src/Storage/storagewrite.h
+    src/Storage/storagewrite.h \
+    src/Storage/storageread.h
 
 
 

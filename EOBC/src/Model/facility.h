@@ -40,6 +40,7 @@ public:
     Patient* getPatient(QString healthCardNum) const;
     PatientContainer* getPatientsForType(CareType type);
     PatientContainer getAllPatients();
+    QLinkedList<Patient*> getAllPatientsList();
 
     bool removePatient(Patient* patient);
     bool removePatient(QString healthCardNumber);

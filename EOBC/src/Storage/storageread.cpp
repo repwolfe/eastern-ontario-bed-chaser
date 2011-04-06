@@ -20,27 +20,35 @@ QMap<ID, Facility*> StorageRead::getAllFacilityPointers()
     return _storageHandler->getFacilityPointers();
 }
 
-/*QMap<ID, Area*> StorageRead::getAllAreas()
+QMap<ID, Area*> StorageRead::getAllAreas()
 {
-    return _storageHandler->getModel();
+    return _storageHandler->getAllAreas();
 }
 
-QMap<ID, QString> StorageRead::getAllFacilityNames()
+QMap<ID, QLinkedList<Patient*> > StorageRead::getAllPatients()
 {
-    return _storageHandler->getFacility()
-}
-Facility StorageRead::getFacility(ID facID)
-{
-
+    return _storageHandler->getAllPatients();
 }
 
-QMap<ID, Facility*> StorageRead::getAllFacilities()
+QMap<ID, QLinkedList<Patient*> > StorageRead::getAllAreasWaitingList()
 {
-
+    return _storageHandler->getAllAreasWaitingList();
 }
 
-QMap<ID, QLinkedList<Patient*> > StorageRead::getAllPatients();
-*/
+QMap<ID, QVector<int> > StorageRead::getTotalBeds() //AC, CCC, LTC
+{
+    return _storageHandler->getTotalBeds();
+}
+
+QMap<ID, QVector<int> > StorageRead::getOccupiedBeds()
+{
+    return _storageHandler->getOccupiedBeds();
+}
+
+Facility* StorageRead::getFacility(ID facID)
+{
+    return _storageHandler->getFacility(facID);
+}
 
 Facility* StorageRead::getCurrentFacility()
 {

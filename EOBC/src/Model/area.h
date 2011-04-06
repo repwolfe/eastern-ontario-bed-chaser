@@ -39,6 +39,7 @@ public:
     bool removePatientFromWaitingList(QString healthCardNum);
     void setWaitingList(WaitingList& inWaitingList);
     WaitingList& getWaitingList();
+    QLinkedList<Patient*> getWaitingListAsList();
 
     ID getAreaId() const;
     void setAreaId(ID inId);

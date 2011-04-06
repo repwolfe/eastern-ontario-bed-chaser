@@ -13,9 +13,8 @@
  *
  * Handles changes and submissions, and populates the forms with data.
  *
- * @todo Handle changing facility
- * @todo Know what beds are available to move to?
- * @todo Traceability
+ *
+ * This class is part of the ChangeData subsystem described in D2
  */
 class MovePatientControl : public QObject
 {

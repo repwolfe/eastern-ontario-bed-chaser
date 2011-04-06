@@ -13,7 +13,7 @@
  * to help the developers avoid code repetition for
  * simple, generic tasks.
  *
- * @todo Traceability?
+ * This class implements common functions and provides services to all classes that require e.g. casting operators
  */
 class Convenience
 {

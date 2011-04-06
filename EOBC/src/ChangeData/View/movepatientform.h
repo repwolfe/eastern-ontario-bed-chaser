@@ -21,7 +21,7 @@
  * contain bed types or facilities, and this is what the
  * selected patient can be moved to.
  *
- * @todo Traceability/Add to D2
+ * This class is part of the ChangeData subsystem described in D2@todo Traceability/Add to D2
  */
 class MovePatientForm : public QWidget
 {

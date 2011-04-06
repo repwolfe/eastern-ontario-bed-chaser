@@ -11,7 +11,7 @@
  * Used to display the form
  * and handle submission
  *
- * @todo traceability
+ * This class is part of the ChangeData subsystem described in D2
  */
 class AddFacilityControl : public QObject
 {

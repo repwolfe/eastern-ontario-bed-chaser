@@ -10,7 +10,7 @@
  * Easy to use, static functions to output to a log file.
  * It has different message priorities, ERROR, DEBUG and INFO
  *
- * @todo what to do about traceability
+ * This class is used to log error states, useful information, and Debuging messages
  */
 class Logger
 {

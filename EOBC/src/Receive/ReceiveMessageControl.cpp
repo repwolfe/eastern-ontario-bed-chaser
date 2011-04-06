@@ -53,7 +53,7 @@ void ReceiveMessageControl::parseDelete(QDomElement deleteTag){
  * @param rebuildTag the XML tag titled 'Rebuild'
  *
  */
-void parseRebuild(QDomElement rebuildTag){
+void ReceiveMessageControl::parseRebuild(QDomElement rebuildTag){
     this->parseAddDeleteRebuild(rebuildTag,true, true);
     //rebuildTag, (Add everything in rebuild?), Rebuild?
 }

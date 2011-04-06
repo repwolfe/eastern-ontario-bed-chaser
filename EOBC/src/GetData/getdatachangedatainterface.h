@@ -9,7 +9,7 @@
  * Provides data needed by ChangeData forms to the subsystem without
  * revealing the internals of the database
  *
- * @todo traceability
+ * This class is part of the GetData subsystem described in D2.
  */
 class GetDataChangeDataInterface : public QObject
 {

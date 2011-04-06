@@ -5,6 +5,14 @@
 #include "ReceiveMessageControl.h"
 #include "storagewrite.h"
 
+/**
+ * @brief Interface between the ChangeData and Receive subsystems
+ *
+ * Provides data needed by ChangeData forms to the subsystem without
+ * revealing the internals of the database
+ *
+ * This class is part of the ChangeData subsystem described in D2.
+ */
 class ChangeDataReceiveInterface : public QObject
 {
     Q_OBJECT

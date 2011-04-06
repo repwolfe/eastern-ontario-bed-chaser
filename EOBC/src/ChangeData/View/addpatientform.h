@@ -13,7 +13,7 @@
  *
  * This form allows you to add a patient to a waiting list or @todo facility??
  *
- * @todo Add this to D2
+ * This class is part of the ChangeData subsystem described in D2
  */
 class AddPatientForm : public QWidget
 {

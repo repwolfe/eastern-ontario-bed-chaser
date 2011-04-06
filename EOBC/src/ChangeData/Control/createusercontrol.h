@@ -10,7 +10,7 @@
  *
  * Displays the _form and handles submissions
  *
- * @todo traceability
+ * This class is part of the ChangeData subsystem described in D2
  */
 class CreateUserControl : public QObject
 {

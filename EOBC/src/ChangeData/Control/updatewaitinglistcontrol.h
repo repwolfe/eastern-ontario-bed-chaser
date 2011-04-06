@@ -15,7 +15,7 @@
  * the AddPatientControl and AddPatientForm.
  * Also allows you to remove a Patient from a waiting list.
  *
- * @todo Traceability
+ * This class is part of the ChangeData subsystem described in D2
  */
 class UpdateWaitingListControl : public QObject
 {

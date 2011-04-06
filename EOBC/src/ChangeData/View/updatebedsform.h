@@ -12,7 +12,7 @@
  * A form that allows you to update the number of beds
  * of each type for a particular facility.
  *
- * @todo Add to D2
+ * This class is part of the ChangeData subsystem described in D2
  */
 class UpdateBedsForm : public QWidget
 {

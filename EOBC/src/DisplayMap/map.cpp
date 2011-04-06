@@ -278,16 +278,6 @@ void Map::setPermissions(int permissions)
         actions.at(ADDFACILITY)->setEnabled(true);
         actions.at(ADDUSER)->setEnabled(true);
     }
-
-
-    /* FOR TESTING ONLY, DELETE FOR FINAL RELEASE */
-    /* FOR TESTING ONLY, DELETE FOR FINAL RELEASE */
-    for(int i=0;i<actions.size();i++)
-    {
-        actions.at(i)->setEnabled(true);
-    }
-    /* FOR TESTING ONLY, DELETE FOR FINAL RELEASE */
-    /* FOR TESTING ONLY, DELETE FOR FINAL RELEASE */
 }
 void Map::startTimer()
 {

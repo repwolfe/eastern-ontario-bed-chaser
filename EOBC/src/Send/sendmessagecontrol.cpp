@@ -121,10 +121,9 @@ void SendMessageControl::toXML(QDomDocument& doc,QDomElement* fac, Facility* aFa
     {
         patients = aFacility->getPatientsForType(EOBC::AC);
         Patient* p;
-        QDomElement pat;
         foreach(QString str, patients->keys()){
              p = patients->find(str).value();
-             pat = doc.createElement("Patient");
+	     QDomElement pat = doc.createElement("Patient");
              this->toXML(doc,&pat,p, true);
              fac->appendChild(pat);
         }
@@ -132,7 +131,7 @@ void SendMessageControl::toXML(QDomDocument& doc,QDomElement* fac, Facility* aFa
         patients = aFacility->getPatientsForType(EOBC::CCC);
         foreach(QString str, patients->keys()){
              p = patients->find(str).value();
-             pat = doc.createElement("");
+	     QDomElement pat = doc.createElement("Patient");
              this->toXML(doc,&pat,p, true);
              fac->appendChild(pat);
         }

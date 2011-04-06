@@ -1,6 +1,6 @@
 #include "logonwindow.h"
 #define ENTER 16777220
-#define HACK 1
+#define HACK 0
 
  /** This is the constructor for LogOnWindow
    * it calls two helper functions to set up the layout and background

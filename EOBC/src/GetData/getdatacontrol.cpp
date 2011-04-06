@@ -28,6 +28,10 @@ void GetDataControl::requestAllFacilityPointers()
     facilities[3] = new Facility(3, "Wolfram and Hart Institute", 0, 0, 24, QPoint(0,0)); facilities[3]->setAreaThisIsIn(new Area(1));
     emit receivedAllFacilityPointers(facilities);
 }
+void GetDataControl::requestThisFacility()
+{
+    _storage;
+}
 
 void GetDataControl::requestAllAreaPointers()
 {
@@ -225,9 +229,9 @@ void GetDataControl::_receivedUpdatedFacility(Facility* fac)
     emit receivedUpdatedFacility(fac);
 }
 
-void GetDataControl::_receivedFacilityRequest()
+void GetDataControl::receivedFacilityRequest()
 {
-    emit receivedFacilityRequest();
+   // emit receivedFacilityRequest();
 }
 
 /**

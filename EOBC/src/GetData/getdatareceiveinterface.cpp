@@ -13,7 +13,7 @@ GetDataReceiveInterface::GetDataReceiveInterface(GetDataControl &getData) :
  */
 void GetDataReceiveInterface::_receivedFacilityRequest()
 {
-    emit receivedFacilityRequest();
+    _getData.receivedFacilityRequest();
 }
 
 

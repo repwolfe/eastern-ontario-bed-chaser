@@ -6,7 +6,18 @@ StorageRead::StorageRead(StorageHandler* handle)
 }
 void StorageRead::_addFacility(ID sourceArea, Facility* f)
 {
+    Q_UNUSED(sourceArea);
     emit this->addFacility(f);
+}
+
+QMap<ID, QString> StorageRead::getAllFacilityNames()
+{
+    return _storageHandler->getFacilityNames();
+}
+
+QMap<ID, Facility*> StorageRead::getAllFacilityPointers()
+{
+    return _storageHandler->getFacilityPointers();
 }
 
 /*QMap<ID, Area*> StorageRead::getAllAreas()
@@ -30,3 +41,8 @@ QMap<ID, Facility*> StorageRead::getAllFacilities()
 
 QMap<ID, QLinkedList<Patient*> > StorageRead::getAllPatients();
 */
+
+Facility* StorageRead::getCurrentFacility()
+{
+    return _storageHandler->getCurrentFacility();
+}

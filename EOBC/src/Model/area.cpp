@@ -167,6 +167,16 @@ Facility* Area::getFacility(ID key)
 }
 
 /**
+ * Returns all the Facility objects in this Area
+ *
+ * @return all the Facility objects
+ */
+FacilityList& Area::getFacilities()
+{
+    return _facilities;
+}
+
+/**
  * Add a patient to the waiting list
  *
  * @param hcn the Health Card Number of the Patient

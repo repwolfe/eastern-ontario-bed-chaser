@@ -233,6 +233,34 @@ Facility* StorageHandler::getFacility(ID areaID, ID facilityID){
   return anArea->getFacility(facilityID);
 }
 
+QMap<ID, QString> StorageHandler::getFacilityNames()
+{
+    QMap<ID, QString> map;
+    foreach (Area* area, _areas)
+    {
+	FacilityList& facilities = area->getFacilities();
+	foreach (Facility* fac, facilities)
+	{
+	    map[fac->getFacilityId()] = fac->getFacilityName();
+	}
+    }
+    return map;
+}
+
+QMap<ID, Facility*> StorageHandler::getFacilityPointers()
+{
+    QMap<ID, Facility*> map;
+    foreach (Area* area, _areas)
+    {
+	FacilityList& facilities = area->getFacilities();
+	foreach (Facility* fac, facilities)
+	{
+	    map[fac->getFacilityId()] = fac;
+	}
+    }
+    return map;
+}
+
 WaitingList StorageHandler::getWaitingList(ID areaID){
     Area* anArea = this->_areas.find(areaID).value();
     return anArea->getWaitingList();

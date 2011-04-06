@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 Facility::Facility(ID facilityId, QString facilityName, int numACBeds, int numCCCBeds, int numLTCBeds, QPoint location)
-    : _facilityId(facilityId), _facilityName(facilityName)
+    : __inThisArea(0), _facilityId(facilityId), _facilityName(facilityName)
     , _numACBeds(numACBeds), _numCCCBeds(numCCCBeds), _numLTCBeds(numLTCBeds)
     , _location(location), _ourFacility(false)
 {

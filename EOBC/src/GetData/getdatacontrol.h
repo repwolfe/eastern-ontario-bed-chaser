@@ -5,6 +5,7 @@
 #include <QVector>
 #include "area.h"
 #include "storageread.h"
+#include "sendgetdatainterface.h"
 
 /// @todo remove these
 class SendRequestForData;
@@ -24,7 +25,7 @@ class GetDataControl : public QObject
 {
     Q_OBJECT
 public:
-    GetDataControl(StorageRead& sr);
+    GetDataControl(StorageRead& sr,SendGetDataInterface& sgd);
 
     void requestAllFacilities();
     void requestAllFacilityPointers();
@@ -45,6 +46,8 @@ signals:
     void receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >&);
     void receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector<int> >&);
 
+    void receivedFacilityRequest();
+
     void receivedUpdatedFacility(Facility*);
     void receivedUpdatedWaitingList(ID, WaitingList&);
     void receivedFacilityWithID(Facility*);
@@ -55,6 +58,7 @@ private slots:
     void _receivedAllFacilities(const QMap<ID, QString>& data);
     void _receivedAllFacilityPointers(const QMap<ID, Facility*>&);
     void _receivedAllAreaPointers(const QMap<ID, Area*>& data);
+    void _receivedFacilityRequest();
     void _receivedFacilitiesPatients(const QMap<ID, QLinkedList<Patient*> >& data);
     void _receivedAreasWaitingList(const QMap<ID, QLinkedList<Patient*> >& data);
     void _receivedFacilitiesCurrentBedNumbers(const QMap<ID, QVector<int> >& data);

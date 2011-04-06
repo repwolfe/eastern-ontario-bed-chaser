@@ -1,8 +1,10 @@
 #include "ReceiveMessageControl.h"
 
-ReceiveMessageControl::ReceiveMessageControl(CommunicationReceiveInterface &receiveData)
+ReceiveMessageControl::ReceiveMessageControl(CommunicationReceiveInterface &receiveData, GetDataReceiveInterface& recInter)
 {
     connect(&receiveData, SIGNAL(processTheMessage(QByteArray&)), SLOT(_parseMessage(QByteArray&)));
+    //
+    connect(this, SIGNAL(receivedFacilityRequest()),&recInter, SLOT(_receivedFacilityRequest()));
 }
 
 /**
@@ -105,7 +107,7 @@ void ReceiveMessageControl::parseAddDeleteRebuild(QDomElement tag, bool add, boo
             emit removeBeds(areaID, facilityID, EOBC::CCC, CCC);
         }
          if(rebuild)
-           emit sendRebuild(areaID, facilityID);
+           emit receivedFacilityRequest();
 
      }
      if(e.tagName() == "Patient"){

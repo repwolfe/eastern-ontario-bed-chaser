@@ -40,6 +40,7 @@ public:
     void setArea(QString area);
     void setCollided(bool col);
     void setPercents(int* per);
+    int getMaximum();
 
 signals:
 
@@ -48,12 +49,14 @@ public slots:
 private:
     QPoint mapPos;
     float *piePercent;
+    int* pieData;
     QColor *pieColor;
     QString name;
     QString area;
     int type;
     static int iconNum;
     bool collidedIcon;
+    int maximum;
 
 
 };

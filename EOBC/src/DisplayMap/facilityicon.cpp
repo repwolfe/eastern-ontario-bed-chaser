@@ -11,6 +11,7 @@ FacilityIcon::FacilityIcon(QPoint pos,QString name, QString area, int type,QObje
     position = pos;
     this->type = type;
     piePercent = new float[4];
+    pieData = new int[4];
     pieColor = new QColor[4];
     collidedIcon = false;
     if(type == Convenience::HOSPITAL)
@@ -200,15 +201,15 @@ QString FacilityIcon::getName()
 }
 float FacilityIcon::getLTC()
 {
-    return round(piePercent[0]);
+    return round(pieData[0]);
 }
 float FacilityIcon::getCCC()
 {
-   return round(piePercent[1]);
+   return round(pieData[1]);
 }
 float FacilityIcon::getAC()
 {
-   return round(piePercent[0]);
+   return round(pieData[0]);
 
 }
 int FacilityIcon::getType()
@@ -217,16 +218,16 @@ int FacilityIcon::getType()
 }
 float FacilityIcon::getLTCOpen()
 {
-    return round(piePercent[1]);
+    return round(pieData[1]);
 }
 
 float FacilityIcon::getCCCOpen()
 {
-   return round(piePercent[3]);
+   return round(pieData[3]);
 }
 float FacilityIcon::getACOpen()
 {
-   return round(piePercent[2]);
+   return round(pieData[2]);
 }
 void FacilityIcon::setCollided(bool col)
 {
@@ -240,15 +241,22 @@ QColor* FacilityIcon::getColors()
 {
     return pieColor;
 }
+int FacilityIcon::getMaximum()
+{
+    return maximum;
+}
 
 void FacilityIcon::setPercents(int* per)
 {
     int max = 0;
+
     for(int i=0;i<4;i++)
     {
+        pieData[i] = per[i];
         piePercent[i]=per[i];
         max += per[i];
     }
+    maximum = max;
     for(int i=0;i<4;i++)
     {
         piePercent[i] = piePercent[i]*100/max;

@@ -7,7 +7,7 @@ ChangeDataReceiveInterface::ChangeDataReceiveInterface(StorageWrite& sw, Receive
     connect(&rc,SIGNAL(addFacility(ID,Facility*)),this,SLOT(_addFacility(ID,Facility*)));
     connect(&rc,SIGNAL(addPatient(ID,ID,Patient*)),this,SLOT(_addPatient(ID,ID,Patient*)));
     connect(&rc,SIGNAL(removeBeds(ID,ID,EOBC::CareType,int)),this,SLOT(_removeBeds(ID,ID,EOBC::CareType,int)));
-    connect(&rc,SIGNAL(sendRebuild(ID,ID)),this,SLOT(_sendRebuild(ID,ID)));
+
 }
 
 

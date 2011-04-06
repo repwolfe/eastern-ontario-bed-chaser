@@ -66,6 +66,7 @@ private:
    QVector<QLabel*> labels;
    QColor* labelBoxColors;
    QPixmap offimage;
+   int maximum;
 
 };
 

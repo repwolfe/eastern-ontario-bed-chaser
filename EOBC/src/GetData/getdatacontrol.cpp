@@ -1,7 +1,8 @@
 #include "getdatacontrol.h"
-GetDataControl::GetDataControl(StorageRead& sr) : _storage(sr)
+GetDataControl::GetDataControl(StorageRead& sr, SendGetDataInterface& sendGetDataI) : _storage(sr)
 {
     connect(&sr,SIGNAL(addFacility(Facility*)),this,SLOT(_receivedUpdatedFacility(Facility*)));
+
 }
 
 void GetDataControl::requestAllFacilities()
@@ -222,6 +223,11 @@ void GetDataControl::_receivedFacilitiesMinimumBedNumbers(const QMap<ID, QVector
 void GetDataControl::_receivedUpdatedFacility(Facility* fac)
 {
     emit receivedUpdatedFacility(fac);
+}
+
+void GetDataControl::_receivedFacilityRequest()
+{
+    emit receivedFacilityRequest();
 }
 
 /**

@@ -482,16 +482,16 @@ void MapArea::updateLabels(SelectType st)
             labels.at(1)->setText(icons.at(i)->getArea());
             if(icons.at(i)->getType()== Convenience::HOSPITAL)
             {
-                labels.at(2)->setText("AC: " + QString::number(icons.at(i)->getAC())+"%");
-                labels.at(3)->setText("CCC: " + QString::number(icons.at(i)->getCCC())+"%");
-                labels.at(4)->setText("Open AC Beds: " + QString::number(icons.at(i)->getACOpen())+"%");
-                labels.at(5)->setText("Open CCC Beds: " + QString::number(icons.at(i)->getCCCOpen())+"%");
+                labels.at(2)->setText("AC: " + QString::number(icons.at(i)->getAC())+"/"+QString::number(icons.at(i)->getMaximum()));
+                labels.at(3)->setText("CCC: " + QString::number(icons.at(i)->getCCC())+"/"+QString::number(icons.at(i)->getMaximum()));
+                labels.at(4)->setText("Open AC Beds: " + QString::number(icons.at(i)->getACOpen())+"/"+QString::number(icons.at(i)->getMaximum()));
+                labels.at(5)->setText("Open CCC Beds: " + QString::number(icons.at(i)->getCCCOpen())+"/"+QString::number(icons.at(i)->getMaximum()));
 
             }
             if(icons.at(i)->getType()== Convenience::LONGTERMCARE)
             {
-                labels.at(2)->setText("LTC: " + QString::number(icons.at(i)->getLTC())+"%");
-                labels.at(3)->setText("Open Beds: " + QString::number(icons.at(i)->getLTCOpen())+"%");
+                labels.at(2)->setText("LTC: " + QString::number(icons.at(i)->getLTC())+"/"+QString::number(icons.at(i)->getMaximum()));
+                labels.at(3)->setText("Open Beds: " + QString::number(icons.at(i)->getLTCOpen())+"/"+QString::number(icons.at(i)->getMaximum()));
                 labels.at(4)->setText("");
                 labels.at(5)->setText("");
             }

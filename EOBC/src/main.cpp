@@ -3,6 +3,7 @@
 #include "getdatacontrol.h"
 #include "getdatadisplaymapinterface.h"
 #include "getdatareportinginterface.h"
+#include "getdatareceiveinterface.h"
 
 #include "displaymapcontrol.h"
 #include "logoncontrol.h"
@@ -12,6 +13,7 @@
 #include "communicationreceiveinterface.h"
 #include "communicationsendinterface.h"
 #include "sendchangedatainterface.h"
+#include "sendgetdatainterface.h"
 #include "ReceiveMessageControl.h"
 #include "storagewrite.h"
 #include "changedatareceiveinterface.h"
@@ -24,11 +26,18 @@ int main(int argc, char *argv[])
     StorageRead storageRead(&handler);
     QApplication a(argc, argv);
 
+    CommunicationSendInterface commSendI;
+    SendMessageControl sendControl(commSendI);
+    SendChangeDataInterface sendChangeDataI(sendControl);
+    SendGetDataInterface sendGetDataI(sendControl);
+    CommunicationReceiveInterface commReceiveI;
+
     // Get Data and its interfaces
-    GetDataControl getDataControl(storageRead);
+    GetDataControl getDataControl(storageRead,sendGetDataI);
     GetDataChangeDataInterface gdChangeDataI(getDataControl);
     GetDataDisplayMapInterface gdDisplayMapI(getDataControl);
     GetDataReportingInterface gdReportingI(getDataControl);
+    GetDataReceiveInterface gdReceiveI(getDataControl);
 
     DisplayMapControl mapControl(gdDisplayMapI);
     LogOnControl logControl;
@@ -36,11 +45,8 @@ int main(int argc, char *argv[])
     ReportingControl rControl(gdReportingI);
     rControl.run();
 
-    CommunicationSendInterface commSendI;
-    SendMessageControl sendControl(commSendI);
-    SendChangeDataInterface sendChangeDataI(sendControl);
-    CommunicationReceiveInterface commReceiveI;
-    ReceiveMessageControl receiveControl(commReceiveI);
+
+    ReceiveMessageControl receiveControl(commReceiveI, gdReceiveI);
 
     ChangeDataControl changeDataControl(gdChangeDataI, sendChangeDataI);
 

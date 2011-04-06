@@ -7,6 +7,7 @@
 #include "logger.h"
 #include "convenience.h"
 #include "communicationreceiveinterface.h"
+#include "getdatareceiveinterface.h"
 
 /**
  * @brief Parses messages received from other EOBC nodes
@@ -19,7 +20,7 @@ class ReceiveMessageControl : public QObject
 {
     Q_OBJECT
 public:
-    ReceiveMessageControl(CommunicationReceiveInterface& receiveData);
+    ReceiveMessageControl(CommunicationReceiveInterface& receiveData, GetDataReceiveInterface& recInter);
 
 signals:
     void addBeds(ID sourceArea, ID sourceFacility, EOBC::CareType, int numOfBeds);
@@ -28,6 +29,7 @@ signals:
     void deletePatient(ID areaID, ID facilityID,Patient* p);
     void sendRebuild(ID sourceArea, ID sourceFacility);
     void addFacility(ID sourceArea, Facility* f);
+    void receivedFacilityRequest();
 
 private slots:
     void _parseMessage(QByteArray& qByte);

@@ -1,6 +1,7 @@
 #ifndef MODELCOMMON_H
 #define MODELCOMMON_H
 
+/// Key for Areas, Facilities
 typedef int ID;
 
 namespace EOBC

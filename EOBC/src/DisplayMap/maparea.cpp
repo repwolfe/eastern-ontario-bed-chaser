@@ -340,73 +340,76 @@ void MapArea::moveMap()
    */
 void MapArea::loadIcon(Facility* f)
 {
-   /* for(int i=0;i<17;i++)
+    if(f->getAreaThisIsIn())
     {
-       icons.push_back(new FacilityIcon(QPoint(rand()%700 - 250,rand()%150 - 50),"General Hospital","Renfrew County"));
-       FacilityIcon::makeCollisionIcons(icons.at(icons.count()-1),icons);
-    }*/
-    int* percents = new int[4];
-    foreach(FacilityIcon* ic , icons)
-    {
-        if(ic->getName() == f->getFacilityName())
+       /* for(int i=0;i<17;i++)
         {
-            int numLTCbeds = f->getNumBeds(Convenience::intToCareType(EOBC::LTC));
-            if(numLTCbeds==0)
-            {
-                percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::AC)); //ccc occ
-                percents[1] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::CCC));//ac occ
-                percents[2] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::AC));
-                percents[3] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::CCC));
-                ic->setPercents(percents);
-            }
-            else
-            {
-                percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::LTC));
-                percents[1] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::LTC));
-                percents[2] = 0;
-                percents[3] = 0;
-                ic->setPercents(percents);
-            }
-            return;
-        }
-    }
-
-
-    int iconType = Convenience::HOSPITAL;
-    if(f->getNumBeds(Convenience::intToCareType(EOBC::LTC))==0)
-    {
-        percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::AC)); //ccc occ
-        percents[1] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::CCC));//ac occ
-        percents[2] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::AC));
-        percents[3] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::CCC));
-    }
-    else
-    {
-        iconType = Convenience::LONGTERMCARE;
-        percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::LTC));
-        percents[1] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::LTC));
-        percents[2] = 0;
-        percents[3] = 0;
-    }
-    icons.push_back(new FacilityIcon(f->getLocation()-QPoint(MAPMIDDLEX,MAPMIDDLEY),f->getFacilityName(),"Out Of Area",iconType));
-    icons.at(icons.count()-1)->setPercents(percents);
-
-    /*
-    for(int i=0;i<vecs.count();i++) // IF THE FACILITY DOESNT KNOW WHAT AREA IT IS IN
-    {
-        QPolygonF p = vecs.at(i)->getPoly();
-        p.translate(QPoint(MAPMIDDLEX,MAPMIDDLEY));
-        QPoint Ipos = icons.at(icons.count()-1)->getPosition();
-        if(p.containsPoint(Ipos,Qt::OddEvenFill))
+           icons.push_back(new FacilityIcon(QPoint(rand()%700 - 250,rand()%150 - 50),"General Hospital","Renfrew County"));
+           FacilityIcon::makeCollisionIcons(icons.at(icons.count()-1),icons);
+        }*/
+        int* percents = new int[4];
+        foreach(FacilityIcon* ic , icons)
         {
-            icons.at(icons.count()-1)->setArea(vecs.at(i)->getRegion());
+            if(ic->getName() == f->getFacilityName())
+            {
+                int numLTCbeds = f->getNumBeds(Convenience::intToCareType(EOBC::LTC));
+                if(numLTCbeds==0)
+                {
+                    percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::AC)); //ccc occ
+                    percents[1] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::CCC));//ac occ
+                    percents[2] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::AC));
+                    percents[3] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::CCC));
+                    ic->setPercents(percents);
+                }
+                else
+                {
+                    percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::LTC));
+                    percents[1] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::LTC));
+                    percents[2] = 0;
+                    percents[3] = 0;
+                    ic->setPercents(percents);
+                }
+                return;
+            }
         }
-    }*/
-    icons.at(icons.count()-1)->setArea(Convenience::areaIDtoQString(f->getAreaThisIsIn()->getAreaId()));
+
+
+        int iconType = Convenience::HOSPITAL;
+        if(f->getNumBeds(Convenience::intToCareType(EOBC::LTC))==0)
+        {
+            percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::AC)); //ccc occ
+            percents[1] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::CCC));//ac occ
+            percents[2] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::AC));
+            percents[3] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::CCC));
+        }
+        else
+        {
+            iconType = Convenience::LONGTERMCARE;
+            percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::LTC));
+            percents[1] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::LTC));
+            percents[2] = 0;
+            percents[3] = 0;
+        }
+        icons.push_back(new FacilityIcon(f->getLocation()-QPoint(MAPMIDDLEX,MAPMIDDLEY),f->getFacilityName(),"Out Of Area",iconType));
+        icons.at(icons.count()-1)->setPercents(percents);
+
+        /*
+        for(int i=0;i<vecs.count();i++) // IF THE FACILITY DOESNT KNOW WHAT AREA IT IS IN
+        {
+            QPolygonF p = vecs.at(i)->getPoly();
+            p.translate(QPoint(MAPMIDDLEX,MAPMIDDLEY));
+            QPoint Ipos = icons.at(icons.count()-1)->getPosition();
+            if(p.containsPoint(Ipos,Qt::OddEvenFill))
+            {
+                icons.at(icons.count()-1)->setArea(vecs.at(i)->getRegion());
+            }
+        }*/
+        icons.at(icons.count()-1)->setArea(Convenience::areaIDtoQString(f->getAreaThisIsIn()->getAreaId()));
 
 
 
-    FacilityIcon::makeCollisionIcons(icons.at(icons.count()-1),icons);
+        FacilityIcon::makeCollisionIcons(icons.at(icons.count()-1),icons);
+    }
 }
 void MapArea::loadWaitingList(ID id,int count)
 {

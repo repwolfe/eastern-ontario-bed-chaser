@@ -81,6 +81,7 @@ void ChangeDataControl::displayMovePatientsToFacilityForm()
 
 void ChangeDataControl::displayAddFacilityForm()
 {
+    _getData.requestAllFacilityPointers();
     _addFacilityControl->showForm();
 }
 

@@ -350,20 +350,21 @@ void MapArea::loadIcon(Facility* f)
     {
         if(ic->getName() == f->getFacilityName())
         {
-            if(f->getNumBeds(Convenience::intToCareType(0))==0)
-            {
-                percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::LTC));
-                percents[1] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::LTC));
-                percents[2] = 0;
-                percents[3] = 0;
-                ic->setPercents(percents);
-            }
-            else
+            int numLTCbeds = f->getNumBeds(Convenience::intToCareType(EOBC::LTC));
+            if(numLTCbeds==0)
             {
                 percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::AC)); //ccc occ
                 percents[1] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::CCC));//ac occ
                 percents[2] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::AC));
                 percents[3] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::CCC));
+                ic->setPercents(percents);
+            }
+            else
+            {
+                percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::LTC));
+                percents[1] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::LTC));
+                percents[2] = 0;
+                percents[3] = 0;
                 ic->setPercents(percents);
             }
             return;
@@ -372,20 +373,20 @@ void MapArea::loadIcon(Facility* f)
 
 
     int iconType = Convenience::HOSPITAL;
-    if(f->getNumBeds(Convenience::intToCareType(0))==0)
+    if(f->getNumBeds(Convenience::intToCareType(EOBC::LTC))==0)
+    {
+        percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::AC)); //ccc occ
+        percents[1] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::CCC));//ac occ
+        percents[2] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::AC));
+        percents[3] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::CCC));
+    }
+    else
     {
         iconType = Convenience::LONGTERMCARE;
         percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::LTC));
         percents[1] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::LTC));
         percents[2] = 0;
         percents[3] = 0;
-    }
-    else
-    {
-        percents[0] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::AC)); //ccc occ
-        percents[1] = f->getNumBedsOccupied(Convenience::intToCareType(EOBC::CCC));//ac occ
-        percents[2] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::AC));
-        percents[3] = f->getNumBedsAvailable(Convenience::intToCareType(EOBC::CCC));
     }
     icons.push_back(new FacilityIcon(f->getLocation()-QPoint(MAPMIDDLEX,MAPMIDDLEY),f->getFacilityName(),"Out Of Area",iconType));
     icons.at(icons.count()-1)->setPercents(percents);

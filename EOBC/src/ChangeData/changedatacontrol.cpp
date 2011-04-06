@@ -191,9 +191,21 @@ void ChangeDataControl::movePatientsToFacilitySubmitted()
     /// @todo send changes to StorageWrite
 }
 
-void ChangeDataControl::addFacilitySubmitted(QString, QString, QString)
+void ChangeDataControl::addFacilitySubmitted(QString name, QString x, QString y)
 {
-    /// @todo send the facilityname, x-axis and y-axis to StorageWrite
+    int randId = 0;
+    bool safeId = false;
+    while(!safeId)
+    {
+        safeId = true;
+        if(_facilIds.contains(randId))
+        {
+            safeId = false;
+            randId = rand()%(_facilIds.count()*10);
+        }
+    }
+    Facility f(randId,name,0,0,0,QPoint(x.toInt(),y.toInt()));
+    _sendData.addFacilities(true,&f);
 }
 
 void ChangeDataControl::addPatientSubmitted(QString, QString, QString, QString)
@@ -295,6 +307,11 @@ void ChangeDataControl::_receivedAllFacilityPointers(const QMap<ID, Facility*> &
 {
     _movePatientControl->setFacilitiesList(data);
     _updateBedsControl->setFacilitiesList(data);
+    _facilIds.clear();
+    foreach(ID id, data.keys())
+    {
+        _facilIds.insert(id);
+    }
 }
 
 void ChangeDataControl::_receivedAllAreaPointers(const QMap<ID, Area*> &data)

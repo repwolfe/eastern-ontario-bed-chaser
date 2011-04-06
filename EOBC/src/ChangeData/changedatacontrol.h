@@ -80,6 +80,9 @@ private:
     CreateUserControl*		_createUserControl;
     UpdateBedsControl*		_updateBedsControl;
     UpdateWaitingListControl*	_updateWaitingListControl;
+
+    //set of all facilities
+    QSet<ID> _facilIds;
 };
 
 #endif // CHANGEDATACONTROL_H

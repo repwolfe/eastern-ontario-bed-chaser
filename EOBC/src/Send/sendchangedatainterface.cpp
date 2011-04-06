@@ -82,3 +82,7 @@ void SendChangeDataInterface::removeBeds(bool remote, Facility* aFacility, int d
 {
     _sendMessage.removeBeds(remote, aFacility, deltaACBeds, deltaCCCBeds, deltaLTCBeds);
 }
+void SendChangeDataInterface::addFacilities(bool remote, Facility* aFacility)
+{
+    _sendMessage.addFacilities(remote,aFacility);
+}

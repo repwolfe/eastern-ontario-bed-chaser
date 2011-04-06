@@ -13,11 +13,13 @@
 #include "communicationsendinterface.h"
 #include "sendchangedatainterface.h"
 #include "ReceiveMessageControl.h"
+#include "storagewrite.h"
+#include "changedatareceiveinterface.h"
 
 int main(int argc, char *argv[])
 {
     StorageHandler handler (QString(":/storage/resources/storage.xml"));
-
+    StorageWrite storageWrite(&handler);
     QApplication a(argc, argv);
 
     // Get Data and its interfaces
@@ -40,6 +42,8 @@ int main(int argc, char *argv[])
 
     ChangeDataControl changeDataControl(gdChangeDataI, sendChangeDataI);
 
+    ChangeDataReceiveInterface changeDataReceiveInterface(storageWrite,receiveControl);
+    Q_UNUSED(changeDataReceiveInterface);
     //
     //CONNECT SUBSYSTEMS
     //

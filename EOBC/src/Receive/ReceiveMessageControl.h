@@ -2,7 +2,6 @@
 #define RECEIVEMESSAGECONTROL_H
 
 #include "area.h"
-//#include <QFile>
 #include <QLinkedList>
 #include <QtXml/qdom.h>
 #include "logger.h"
@@ -28,6 +27,7 @@ signals:
     void addPatient(ID areaID, ID facilityID, Patient* p);
     void deletePatient(ID areaID, ID facilityID,Patient* p);
     void sendRebuild(ID sourceArea, ID sourceFacility);
+    void addFacility(ID sourceArea, Facility* f);
 
 private slots:
     void _parseMessage(QByteArray& qByte);

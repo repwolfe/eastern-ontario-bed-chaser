@@ -2,7 +2,6 @@
 #define STORAGEREAD_H
 
 #include "storageHandler.h"
-#include <QMap>
 #include "convenience.h"
 /**
  * @brief Interface that handles getting information
@@ -23,6 +22,7 @@ public:
 
     void setStorageHandler(StorageHandler* aStorageHandler);
     //report Data
+
 private:
     StorageHandler* _storageHandler;
 };

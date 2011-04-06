@@ -30,6 +30,9 @@ public:
 
     void deletePatients(bool remote, Area* anArea, Facility* aFacility, QLinkedList<Patient*>& p);
     void deletePatients(bool remote, Area* anArea, QLinkedList<Patient*>& p);
+
+    void addFacilities(bool remote, Facility* aFacility);
+
     void rebuild(Area* anArea, Facility* aFacility);
     void rebuild();
     //occupancy
@@ -51,6 +54,7 @@ private:
     void toXML(QDomDocument& doc,QDomElement* e, Area* anArea, Facility* aFacility, Patient* p);
     void toXML(QDomDocument& doc,QDomElement* e, Area* anArea, Facility* aFacility, QLinkedList<Patient*> p);
     void toXML(QDomDocument& doc,QDomElement* e, Area* anArea, Facility* aFacility);
+    void toXMLEmptyFacility(QDomDocument& doc,QDomElement* fac, Facility* aFacility); //Jp can change the name of this if he wants, doesnt fit his convention
     void toXML(QDomDocument& doc,QDomElement* e, Facility* aFacility);
     void toXML(QDomDocument& doc,QDomElement* e, Patient* p, bool inpatient);
     /// add beds to a facility

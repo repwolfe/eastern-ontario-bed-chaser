@@ -12,9 +12,10 @@ ReceiveMessageControl::ReceiveMessageControl(CommunicationReceiveInterface &rece
  *
  */
 void ReceiveMessageControl::_parseMessage(QByteArray& qByte){
-    QDomElement e;
-    QString str(qByte);
-    e.setNodeValue(str);
+    QDomDocument doc;
+    doc.setContent(qByte);
+     QDomNode n = doc.firstChild();
+     QDomElement e = n.toElement();
     if(e.tagName() == "Add")
     {
         parseAdd(e);
@@ -91,9 +92,12 @@ void ReceiveMessageControl::parseAddDeleteRebuild(QDomElement tag, bool add, boo
          e = e.childNodes().at(0).toElement();
          if(add)
          {
+             Facility f(facilityID,name,AC,CCC,LTC,coordinates);
+             emit addFacility(areaID,&f);
              emit addBeds(areaID, facilityID, EOBC::LTC, LTC);
              emit addBeds(areaID, facilityID, EOBC::AC, AC);
              emit addBeds(areaID, facilityID, EOBC::CCC, CCC);
+
         }else
          {
             emit removeBeds(areaID, facilityID, EOBC::LTC, LTC);

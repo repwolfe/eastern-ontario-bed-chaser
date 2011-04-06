@@ -145,6 +145,18 @@ void SendMessageControl::toXML(QDomDocument& doc,QDomElement* fac, Facility* aFa
         }
     }
 }
+void SendMessageControl::toXMLEmptyFacility(QDomDocument& doc,QDomElement* fac, Facility* aFacility)
+{
+    fac->setTagName("Facility");
+    fac->setAttribute("ID", aFacility->getFacilityId());
+    fac->setAttribute("LTC", aFacility->getNumBeds(EOBC::LTC));
+    fac->setAttribute("AC", aFacility->getNumBeds(EOBC::AC));
+    fac->setAttribute("CCC", aFacility->getNumBeds(EOBC::CCC));
+    fac->setAttribute("name", aFacility->getFacilityName());
+    fac->setAttribute("coordinateX", aFacility->getLocation().x());
+    fac->setAttribute("coordinateY", aFacility->getLocation().y());
+}
+
 /**
  * Makes an Area XML tag that contains a facility tag to be used in a message to add beds to a facility
  *
@@ -298,6 +310,23 @@ void SendMessageControl::addBeds(bool remote, Facility* aFacility, int deltaACBe
     doc.appendChild(add);
     Logger::debugMessage("sendMessageControl", "addBeds", "OMG XML", doc.toString());
     QByteArray data = doc.toByteArray();
+    sendQByte(data);
+}
+void SendMessageControl::addFacilities(bool remote, Facility* aFacility){
+    QDomDocument doc;
+    QDomElement add = doc.createElement("Add");
+    if(remote){
+        add.setAttribute("remote", "true");
+    }else{
+        add.setAttribute("remote", "false");
+    }
+    QDomElement el = doc.createElement("Area");
+    this->toXMLEmptyFacility(doc,&el, aFacility);
+    add.appendChild(el);
+    doc.appendChild(add);
+    Logger::debugMessage("sendMessageControl", "addFacil", "OMG XML", doc.toString());
+    QByteArray data = doc.toByteArray();
+    qDebug(doc.toString().toAscii());
     sendQByte(data);
 }
 

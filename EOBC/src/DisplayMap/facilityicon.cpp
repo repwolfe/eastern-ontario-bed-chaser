@@ -43,11 +43,23 @@ FacilityIcon::FacilityIcon(QPoint pos,QString name, QString area, int type,QObje
 void FacilityIcon::draw(QPainter& g)
 {
     MapItem::draw(g);
+
     g.setPen(Qt::black);
-    g.setBrush(Qt::blue);
+
     //g.drawEllipse(realPosition + mapPos,ICONSIZE*scale,ICONSIZE*scale);
     if(iconNum < (scale) * MAXPIEMODENUM && (collidedIcon == false|| selected == true))
     {
+        int max = 0;
+        for(int i=0;i<4;i++)
+        {
+            max += piePercent[i];
+        }
+        if(max ==0)
+        {
+            g.setBrush(Qt::green);
+            g.drawEllipse(realPosition+mapPos,ICONRADIUS,ICONRADIUS);
+        }
+        g.setBrush(Qt::blue);
         QRect rect(realPosition+mapPos-QPoint(ICONRADIUS,ICONRADIUS),realPosition + mapPos +QPoint(ICONRADIUS,ICONRADIUS));
         float lastRot=359*16;
         for(int i=0;i<4;i++)
@@ -240,6 +252,8 @@ void FacilityIcon::setPercents(int* per)
     for(int i=0;i<4;i++)
     {
         piePercent[i] = piePercent[i]*100/max;
+        if (max == 0)
+                piePercent[i]=0;
     }
 }
 

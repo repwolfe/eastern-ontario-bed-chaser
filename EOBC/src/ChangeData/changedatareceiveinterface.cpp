@@ -1,5 +1,5 @@
 #include "changedatareceiveinterface.h"
-
+#include <QTest>
 ChangeDataReceiveInterface::ChangeDataReceiveInterface(StorageWrite& sw, ReceiveMessageControl& rc ) :
            _sw(sw)
 {

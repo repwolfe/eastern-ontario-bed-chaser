@@ -271,8 +271,16 @@ void StorageHandler::addPatient(ID areaID, ID facilityID, Patient* p){
 }
 void StorageHandler::addFacility(ID areaID, Facility* f){
     Area* area = _getArea(areaID);
-    area->addFacility(f);
-    emit this->facilityAdded(areaID,f);
+    if (area->addFacility(f))
+    {
+	emit this->facilityAdded(areaID,f);
+    }
+    // Facility already in Area, delete
+    else
+    {
+	delete f;
+    }
+
 }
 
 void StorageHandler::addPatient(ID areaID, Patient* p){

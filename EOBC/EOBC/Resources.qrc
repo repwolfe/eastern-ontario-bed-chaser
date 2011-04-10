@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/mapFiles">
+        <file>resources/BlueArea.txt</file>
+        <file>resources/GreenArea.txt</file>
+        <file>resources/LightBlueArea.txt</file>
+        <file>resources/otherGreenArea.txt</file>
+        <file>resources/PurpleArea.txt</file>
+        <file>resources/RedArea.txt</file>
+        <file>resources/YellowArea.txt</file>
+        <file>resources/area1.txt</file>
+        <file>resources/area2.txt</file>
+        <file>resources/area3.txt</file>
+        <file>resources/area4.txt</file>
+        <file>resources/area5.txt</file>
+        <file>resources/area6.txt</file>
+        <file>resources/area7.txt</file>
+        <file>resources/area8.txt</file>
+        <file>resources/area9.txt</file>
+        <file>resources/area10.txt</file>
+        <file>resources/area11.txt</file>
+        <file>resources/area12.txt</file>
+        <file>resources/area13.txt</file>
+        <file>resources/area14.txt</file>
+    </qresource>
+    <qresource prefix="/pics">
+        <file>resources/LHINLogo2.png</file>
+    </qresource>
+    <qresource prefix="/logon">
+        <file>resources/accounts.txt</file>
+    </qresource>
+    <qresource prefix="/storage">
+        <file>resources/storage.xml</file>
+    </qresource>
+    <qresource prefix="/comms">
+        <file>resources/comsConfig.txt</file>
+    </qresource>
+</RCC>

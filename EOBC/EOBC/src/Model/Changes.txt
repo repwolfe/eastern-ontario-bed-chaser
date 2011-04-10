@@ -1,0 +1,10 @@
+ADD:
+ModelCommon.h
+
+REMOVE:
+Bed.h/Bed.cpp
+Inpatient.h/cpp
+WaitingList.h/cpp
+
+FIX:
+Facility now points directly Patient (not bed)

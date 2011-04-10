@@ -67,6 +67,7 @@ private:
    QColor* labelBoxColors;
    QPixmap offimage;
    int maximum;
+   float scale;
 
 };
 

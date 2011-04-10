@@ -52,6 +52,7 @@ public:
     void addFacility(ID areaID, Facility* f,bool remote);
     void deletePatient(ID areaID, ID facilityID, Patient* p);
     void deletePatient(ID areaID, Patient* p);
+    void updateBeds(ID sourceArea,ID sourceFacility);
 
     Facility* getCurrentFacility();
     Area* getCurrentArea();

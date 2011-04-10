@@ -40,6 +40,7 @@ public:
     void setArea(QString area);
     void setCollided(bool col);
     void setPercents(int* per);
+    void setScale(float);
     int getMaximum();
 
 signals:

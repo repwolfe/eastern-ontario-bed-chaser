@@ -122,4 +122,8 @@ void GetDataControl::_receivedFacilityWithID(Facility* fac)
 {
     emit receivedFacilityWithID(fac);
 }
+void GetDataControl::recievedUserAcct()
+{
+
+}
 

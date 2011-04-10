@@ -396,6 +396,7 @@ void StorageHandler::addPatient(ID areaID, ID facilityID, Patient* p){
     if (area != _areas.end())
     {
         area.value()->getFacility(facilityID)->addPatientToBed(p, p->getRequiredCare());
+        emit facilityAdded(areaID,area.value()->getFacility(facilityID),false);
     }
 
 }
@@ -426,6 +427,14 @@ void StorageHandler::deletePatient(ID areaID, ID facilityID, Patient* p){
 void StorageHandler::deletePatient(ID areaID, Patient* p){
      Area* area = _getArea(areaID);
      area->removePatientFromWaitingList(p->getHealthCardNumber());
+}
+void StorageHandler::updateBeds(ID sourceArea,ID sourceFacility)
+{
+    areaList::iterator area = _areas.find(sourceArea);
+    if (area != _areas.end())
+    {
+        emit facilityAdded(sourceArea,area.value()->getFacility(sourceFacility),false);
+    }
 }
 
 Facility* StorageHandler::getCurrentFacility()

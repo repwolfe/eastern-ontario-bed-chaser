@@ -11,6 +11,7 @@ void StorageWrite::addBeds(ID sourceArea, ID sourceFacility, EOBC::CareType type
     if (facility)
     {
 	facility->addBeds(numOfBeds, type);
+        _sHandler->updateBeds(sourceArea,sourceFacility);
     }
 }
 
@@ -20,6 +21,7 @@ void StorageWrite::removeBeds(ID sourceArea, ID sourceFacility, EOBC::CareType t
     if (facility)
     {
 	facility->decreaseBeds(numOfBeds, type);
+        _sHandler->updateBeds(sourceArea,sourceFacility);
     }
 }
 

@@ -264,4 +264,8 @@ void FacilityIcon::setPercents(int* per)
                 piePercent[i]=0;
     }
 }
+void FacilityIcon::setScale(float scale)
+{
+    this->scale = scale;
+}
 

@@ -60,6 +60,7 @@ private slots:
 
 public slots:
     void receivedFacilityRequest();
+    void recievedUserAcct();
 
 private:
     StorageRead& _storage;

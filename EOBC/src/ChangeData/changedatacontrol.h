@@ -39,13 +39,14 @@ public slots:
     void displayCreateUserForm();
     void displayUpdateBedsForm();
     void displayUpdateWaitingList();
+    void createUserSubmitted(QString, QString, QString);
 
 private slots:
     // Submissions
     void movePatientsToBedSubmitted();
     void movePatientsToFacilitySubmitted();
     void addFacilitySubmitted(QString, ID, QString, QString);
-    void createUserSubmitted(QString, QString, QString);
+
     void updateBedsSubmitted(Facility*, int, int, int);
     void updateWaitingListSubmitted();
 
@@ -59,7 +60,7 @@ private slots:
 private:
     void _setupConnections();
     void _sendMoveToFacilityUpdate(Facility* fac);
-
+    void _createUserSubmitted(QString, QString, QString);
     GetDataChangeDataInterface& _getData;
     SendChangeDataInterface& _sendData;
 

@@ -294,7 +294,8 @@ void SendMessageControl::doStuffToPatients(QString str, bool remote, Area* anAre
     e->appendChild(el);
     /// @todo remove doc attributes
     doc.appendChild(*e);
-     Logger::debugMessage("sendMessageControl", "doStuffToPatients", "OMG XML", doc.toString());
+    Logger::debugMessage("sendMessageControl", "doStuffToPatients", "OMG XML", doc.toString());
+    qDebug(doc.toString().toAscii());
     QByteArray data = doc.toByteArray();
     sendQByte(data);
 }
@@ -318,6 +319,7 @@ void SendMessageControl::addBeds(bool remote, Facility* aFacility, int deltaACBe
     doc.appendChild(add);
     Logger::debugMessage("sendMessageControl", "addBeds", "OMG XML", doc.toString());
     QByteArray data = doc.toByteArray();
+    qDebug(doc.toString().toAscii());
     sendQByte(data);
 }
 void SendMessageControl::addFacilities(bool remote,ID id, Facility* aFacility){

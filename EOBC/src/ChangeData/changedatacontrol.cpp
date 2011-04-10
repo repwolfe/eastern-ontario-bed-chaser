@@ -28,7 +28,7 @@ void ChangeDataControl::_setupConnections()
     connect(_addFacilityControl, SIGNAL(submitClicked(QString,ID,QString,QString)),
 	    SLOT(addFacilitySubmitted(QString, ID, QString,QString)));
     connect(_createUserControl, SIGNAL(submitClicked(QString,QString,QString)),
-	    SLOT(createUserSubmitted(QString,QString,QString)));
+            SLOT(_createUserSubmitted(QString,QString,QString)));
     connect(_updateWaitingListControl, SIGNAL(submitClicked()), SLOT(updateWaitingListSubmitted()));
     connect(_updateBedsControl, SIGNAL(submitClicked(Facility*,int,int,int)), SLOT(updateBedsSubmitted(Facility*,int,int,int)));
 
@@ -199,9 +199,10 @@ void ChangeDataControl::addFacilitySubmitted(QString name,ID id, QString x, QStr
     _sendData.addFacilities(true,id,&f);
 }
 
-void ChangeDataControl::createUserSubmitted(QString, QString, QString)
+void ChangeDataControl::createUserSubmitted(QString usr, QString pass , QString permissions)
 {
     /// @todo send signal the username, password, and priveledge which LoginControl has a slot for
+    emit createUserSubmitted(usr, pass, permissions);
 }
 
 /**

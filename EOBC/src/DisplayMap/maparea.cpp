@@ -15,6 +15,7 @@ MapArea::MapArea(QObject *parent) :
     QWidget() , vecs(), resizeTimer()
 {
     zoomed = false;
+    scale = 1;
     connect(&resizeTimer,SIGNAL(timeout()),this,SLOT(timerEvent()));
     mapPos = QPoint(400,300);
     this->setMouseTracking(true);
@@ -167,7 +168,7 @@ void MapArea::resize(QPoint p, SelectType st)
     QVector<MapVectors*>::iterator viter = vecs.begin();
     QVector<FacilityIcon*>::iterator fiter = icons.begin();
    // zoomSpeed = middle.manhattanLength() *BASEZOOMSPEED / QPoint(500,400).manhattanLength();
-    float scale = 1;
+    scale = 1;
     if(zoomed)
     {
         if(MapVectors::checkZoomOut(vecs, p))
@@ -392,6 +393,8 @@ void MapArea::loadIcon(Facility* f)
         }
         icons.push_back(new FacilityIcon(f->getLocation()-QPoint(MAPMIDDLEX,MAPMIDDLEY),f->getFacilityName(),"Out Of Area",iconType));
         icons.at(icons.count()-1)->setPercents(percents);
+        icons.at(icons.count()-1)->setScale(scale);
+        icons.at(icons.count()-1)->resizePoints(middle,scale);
 
         /*
         for(int i=0;i<vecs.count();i++) // IF THE FACILITY DOESNT KNOW WHAT AREA IT IS IN

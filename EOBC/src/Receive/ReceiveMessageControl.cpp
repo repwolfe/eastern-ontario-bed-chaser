@@ -16,8 +16,8 @@ ReceiveMessageControl::ReceiveMessageControl(CommunicationReceiveInterface &rece
 void ReceiveMessageControl::_parseMessage(QByteArray& qByte){
     QDomDocument doc;
     doc.setContent(qByte);
-     QDomNode n = doc.firstChild();
-     QDomElement e = n.toElement();
+    QDomNode n = doc.firstChild();
+    QDomElement e = n.toElement();
     if(e.tagName() == "Add")
     {
         parseAdd(e);

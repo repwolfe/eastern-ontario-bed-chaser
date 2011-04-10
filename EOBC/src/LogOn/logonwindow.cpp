@@ -1,7 +1,6 @@
 #include "logonwindow.h"
 #define ENTER 16777220
-#define HACK 0
-
+#define HACK 1
  /** This is the constructor for LogOnWindow
    * it calls two helper functions to set up the layout and background
    * @param parent just sent to the QMainWindow constructor

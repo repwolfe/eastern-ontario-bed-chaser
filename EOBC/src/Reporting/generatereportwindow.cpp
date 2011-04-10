@@ -123,6 +123,8 @@ void GenerateReportWindow::pressedSubmit()
             barTypes.push_back("ACOpen");
             barHeights.push_back(rand()%(11+i)+10);
             barHeights.push_back(rand()%(11+i)+10);
+            barHeights.push_back(rand()%(11+i)+10);
+            barHeights.push_back(rand()%(11+i)+10);
         }
         else
         {
